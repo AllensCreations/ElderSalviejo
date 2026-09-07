@@ -22,7 +22,7 @@ const CONFIG = {
   INGEST_SECRET: PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || 'gdv_sec_7f9c2d81a4b53e89c0e211ab9',
   
   // Gmail search query to locate new diary submissions in the dummy account
-  GMAIL_QUERY: PropertiesService.getScriptProperties().getProperty('GMAIL_QUERY') || 'subject:"Weekly Reflection" -label:diary-processed',
+  GMAIL_QUERY: PropertiesService.getScriptProperties().getProperty('GMAIL_QUERY') || '(subject:Reflection OR subject:Journal OR from:2ndsalviejomark2019@gmail.com OR from:salviejomark2019@gmail.com) -label:diary-processed',
   
   // Label applied to thread once successfully ingested
   PROCESSED_LABEL: PropertiesService.getScriptProperties().getProperty('PROCESSED_LABEL') || 'diary-processed',
