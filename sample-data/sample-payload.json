@@ -1,53 +1,53 @@
 {
-  "slug": "2026-09-01-autumn-kickoff-week",
-  "title": "Autumn Kickoff & Daily Adventures",
-  "publishedAt": "2026-09-01T20:00:00.000Z",
-  "rawSubject": "Weekly Reflection: Autumn Kickoff",
-  "sender": "adventurer@example.com",
+  "slug": "week-1-dumaguete-city-negros-oriental",
+  "title": "Week 1: Settling in Dumaguete & Finding Faith by the Coast",
+  "publishedAt": "2026-09-07T08:00:00.000Z",
+  "rawSubject": "Weekly Reflection: Week 1 in Dumaguete",
+  "sender": "Elder Salviejo <elder.salviejo@missionary.org>",
   "totalEntries": 7,
   "imageCount": 7,
   "entries": [
     {
       "day": "Monday",
-      "text": "Started the week with a 5-mile sunrise trail run through the ridge trail. The crisp autumn air felt amazing, and I wrapped up the morning with a pour-over coffee while reviewing quarterly goals.",
-      "image": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450' viewBox='0 0 600 450'><rect width='600' height='450' fill='%23f6ad55'/><circle cx='300' cy='220' r='100' fill='%23ed8936'/><path d='M0 350 L200 240 L350 320 L500 210 L600 350 L600 450 L0 450 Z' fill='%237b341e'/><text x='50%25' y='88%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%23ffffff' font-weight='bold'>Monday: Sunrise Mountain Run</text></svg>",
-      "imageFilename": "monday_sunrise.jpg"
+      "text": "Preparation Day! Started the morning emailing family and loved ones, washing barongs and shirts, and buying fresh mangoes at the public market. In the afternoon, we played basketball with the district elders under the coconut palms. Grateful for this fresh start in Dumaguete.",
+      "image": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"450\" viewBox=\"0 0 600 450\"><rect width=\"600\" height=\"450\" fill=\"%23f6ad55\"/><circle cx=\"300\" cy=\"200\" r=\"90\" fill=\"%23dd6b20\"/><path d=\"M120 450 Q300 350 480 450 Z\" fill=\"%232b6cb0\"/><text x=\"50%25\" y=\"88%25\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-family=\"sans-serif\" font-size=\"22\" fill=\"%23ffffff\" font-weight=\"bold\">Monday: P-Day & Seaside Basketball</text></svg>",
+      "imageFilename": "monday_pday_dumaguete.jpg"
     },
     {
       "day": "Tuesday",
-      "text": "Spent the afternoon at the downtown public library deep-working on system architecture. Tried the local bakery's cardamom buns afterwards — easily a 10/10.",
-      "image": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450' viewBox='0 0 600 450'><rect width='600' height='450' fill='%2368d391'/><rect x='80' y='60' width='440' height='300' rx='16' fill='%232f855a'/><line x1='120' y1='120' x2='480' y2='120' stroke='%23e2e8f0' stroke-width='12' stroke-linecap='round'/><line x1='120' y1='170' x2='400' y2='170' stroke='%23e2e8f0' stroke-width='12' stroke-linecap='round'/><line x1='120' y1='220' x2='450' y2='220' stroke='%23e2e8f0' stroke-width='12' stroke-linecap='round'/><text x='50%25' y='88%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%23ffffff' font-weight='bold'>Tuesday: Library & Cardamom Buns</text></svg>",
-      "imageFilename": "tuesday_library.jpg"
+      "text": "Morning companionship study was centered on Alma 26:12 — \"Yea, I know that I am nothing; as to my strength I am weak; therefore I will not boast of myself, but I will boast of my God.\" Spent the afternoon finding new investigators in Sibulan. The people here truly live up to Dumaguete being the \"City of Gentle People.\"",
+      "image": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"450\" viewBox=\"0 0 600 450\"><rect width=\"600\" height=\"450\" fill=\"%2348bb78\"/><rect x=\"80\" y=\"60\" width=\"440\" height=\"300\" rx=\"16\" fill=\"%2322543d\"/><line x1=\"120\" y1=\"120\" x2=\"480\" y2=\"120\" stroke=\"%23e2e8f0\" stroke-width=\"10\" stroke-linecap=\"round\"/><line x1=\"120\" y1=\"170\" x2=\"420\" y2=\"170\" stroke=\"%23e2e8f0\" stroke-width=\"10\" stroke-linecap=\"round\"/><line x1=\"120\" y1=\"220\" x2=\"460\" y2=\"220\" stroke=\"%23e2e8f0\" stroke-width=\"10\" stroke-linecap=\"round\"/><text x=\"50%25\" y=\"88%25\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-family=\"sans-serif\" font-size=\"22\" fill=\"%23ffffff\" font-weight=\"bold\">Tuesday: Scripture Study in Alma 26</text></svg>",
+      "imageFilename": "tuesday_alma26_study.jpg"
     },
     {
       "day": "Wednesday",
-      "text": "Mid-week milestone: shipped the v1 prototype of the data pipeline! Team celebrated over hot ramen during an evening thunderstorm.",
-      "image": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450' viewBox='0 0 600 450'><rect width='600' height='450' fill='%2363b3ed'/><circle cx='300' cy='200' r='120' fill='%232b6cb0'/><path d='M220 200 Q300 320 380 200 Z' fill='%23c53030'/><circle cx='280' cy='190' r='20' fill='%23ecc94b'/><text x='50%25' y='88%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%23ffffff' font-weight='bold'>Wednesday: Milestone Ramen</text></svg>",
-      "imageFilename": "wednesday_ramen.jpg"
+      "text": "Taught the Bautista family Lesson 1 on the Restoration of the Gospel of Jesus Christ. We read 3 Nephi 11 together and felt such a peaceful spirit fill their home. Afterwards, they shared chilled buko juice with us. We invited them to be baptized on October 10th and they accepted!",
+      "image": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"450\" viewBox=\"0 0 600 450\"><rect width=\"600\" height=\"450\" fill=\"%234299e1\"/><circle cx=\"300\" cy=\"180\" r=\"100\" fill=\"%232b6cb0\"/><path d=\"M220 200 Q300 320 380 200 Z\" fill=\"%23e2e8f0\"/><text x=\"50%25\" y=\"88%25\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-family=\"sans-serif\" font-size=\"22\" fill=\"%23ffffff\" font-weight=\"bold\">Wednesday: Teaching the Bautista Family</text></svg>",
+      "imageFilename": "wednesday_teaching_bautista.jpg"
     },
     {
       "day": "Thursday",
-      "text": "Quiet garden day. Harvested heirloom cherry tomatoes and prepared fresh basil pesto from scratch. The smell in the kitchen was pure bliss.",
-      "image": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450' viewBox='0 0 600 450'><rect width='600' height='450' fill='%23f6e05e'/><circle cx='260' cy='210' r='50' fill='%23e53e3e'/><circle cx='340' cy='230' r='45' fill='%23dd6b20'/><circle cx='300' cy='160' r='40' fill='%23e53e3e'/><path d='M290 120 Q300 90 310 120' stroke='%2338a169' stroke-width='8' fill='none'/><text x='50%25' y='88%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%232d3748' font-weight='bold'>Thursday: Heirloom Tomato Harvest</text></svg>",
-      "imageFilename": "thursday_harvest.jpg"
+      "text": "Attended our weekly District Council meeting in Dumaguete. Practiced Cebuano language roleplays and discussed how to help returning members feel welcome. It is humbling to see the dedication of all the elders and sisters serving across Negros Oriental.",
+      "image": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"450\" viewBox=\"0 0 600 450\"><rect width=\"600\" height=\"450\" fill=\"%23ecc94b\"/><circle cx=\"260\" cy=\"210\" r=\"50\" fill=\"%23d69e2e\"/><circle cx=\"340\" cy=\"210\" r=\"50\" fill=\"%23b7791f\"/><text x=\"50%25\" y=\"88%25\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-family=\"sans-serif\" font-size=\"22\" fill=\"%232d3748\" font-weight=\"bold\">Thursday: Dumaguete District Council</text></svg>",
+      "imageFilename": "thursday_district_council.jpg"
     },
     {
       "day": "Friday",
-      "text": "Friday movie night under the backyard string lights. Watched an old classic with popcorn and spiced apple cider as the temperatures dropped.",
-      "image": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450' viewBox='0 0 600 450'><rect width='600' height='450' fill='%234a5568'/><rect x='100' y='80' width='400' height='220' rx='10' fill='%231a202c'/><circle cx='160' cy='60' r='10' fill='%23ecc94b'/><circle cx='250' cy='50' r='10' fill='%23ecc94b'/><circle cx='350' cy='55' r='10' fill='%23ecc94b'/><circle cx='440' cy='60' r='10' fill='%23ecc94b'/><text x='50%25' y='88%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%23ffffff' font-weight='bold'>Friday: Backyard Movie Night</text></svg>",
-      "imageFilename": "friday_movienight.jpg"
+      "text": "Community service day! We helped Nanay Elena repair her bamboo gate and weeded her garden after the recent afternoon tropical downpour. Sweat soaked through our shirts, but her smile of gratitude made every single minute worth it. Service brings pure joy.",
+      "image": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"450\" viewBox=\"0 0 600 450\"><rect width=\"600\" height=\"450\" fill=\"%234fd1c5\"/><rect x=\"120\" y=\"80\" width=\"360\" height=\"240\" rx=\"10\" fill=\"%23234e52\"/><text x=\"50%25\" y=\"88%25\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-family=\"sans-serif\" font-size=\"22\" fill=\"%23ffffff\" font-weight=\"bold\">Friday: Service in Valencia</text></svg>",
+      "imageFilename": "friday_community_service.jpg"
     },
     {
       "day": "Saturday",
-      "text": "Road trip up to the lake overlook. The autumn foliage is turning vibrant reds and golds. Sketched by the lakeshore for nearly two hours.",
-      "image": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450' viewBox='0 0 600 450'><rect width='600' height='450' fill='%239b2c2c'/><rect x='0' y='280' width='600' height='170' fill='%233182ce'/><polygon points='150,120 70,280 230,280' fill='%23dd6b20'/><polygon points='300,100 200,280 400,280' fill='%23d69e2e'/><polygon points='450,130 380,280 520,280' fill='%23c53030'/><text x='50%25' y='88%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%23ffffff' font-weight='bold'>Saturday: Lake Foliage</text></svg>",
-      "imageFilename": "saturday_lake.jpg"
+      "text": "Finding by the coastal boulevard! Walking along Rizal Boulevard just as the sun was setting over the sea, we struck up a conversation with two university students from Silliman University. They asked thoughtful questions about faith and the Book of Mormon. Handed them a copy with our personal testimonies inscribed inside.",
+      "image": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"450\" viewBox=\"0 0 600 450\"><rect width=\"600\" height=\"450\" fill=\"%23ed64a6\"/><circle cx=\"300\" cy=\"180\" r=\"80\" fill=\"%23b83280\"/><path d=\"M0 320 L600 320 L600 450 L0 450 Z\" fill=\"%233182ce\"/><text x=\"50%25\" y=\"88%25\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-family=\"sans-serif\" font-size=\"22\" fill=\"%23ffffff\" font-weight=\"bold\">Saturday: Sunset at Rizal Boulevard</text></svg>",
+      "imageFilename": "saturday_rizal_blvd.jpg"
     },
     {
       "day": "Sunday",
-      "text": "Sunday reset: planned the upcoming week, baked fresh sourdough loaves, and sent off this weekly reflection email to the family vault!",
-      "image": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450' viewBox='0 0 600 450'><rect width='600' height='450' fill='%23b7791f'/><ellipse cx='300' cy='220' rx='160' ry='100' fill='%23d69e2e'/><path d='M200 200 Q260 170 320 200' stroke='%23744210' stroke-width='6' fill='none'/><path d='M260 230 Q320 200 380 230' stroke='%23744210' stroke-width='6' fill='none'/><text x='50%25' y='88%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%23ffffff' font-weight='bold'>Sunday: Warm Sourdough Reset</text></svg>",
-      "imageFilename": "sunday_bread.jpg"
+      "text": "Sunday Sabbath in the Dumaguete 1st Ward. Brother Bautista and his daughter came to church for the first time! The talks during Sacrament meeting were so spiritual and centered on Jesus Christ as the Prince of Peace. Finished the evening reviewing our week and preparing this email to send to the dummy Gmail inbox for tomorrow morning's P-Day!",
+      "image": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"450\" viewBox=\"0 0 600 450\"><rect width=\"600\" height=\"450\" fill=\"%239f7aea\"/><ellipse cx=\"300\" cy=\"220\" rx=\"160\" ry=\"100\" fill=\"%236b46c1\"/><text x=\"50%25\" y=\"88%25\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-family=\"sans-serif\" font-size=\"22\" fill=\"%23ffffff\" font-weight=\"bold\">Sunday: Sabbath in Dumaguete Ward</text></svg>",
+      "imageFilename": "sunday_dumaguete_ward.jpg"
     }
   ]
 }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Weekly Diary Viewer | Dynamic Journal</title>
+  <title>Elder Salviejo • Weekly Journal Vault | Philippines Dumaguete Mission</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Inter, Playfair Display & Caveat handwriting -->
@@ -83,7 +83,7 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
-        Back to Vault Directory
+        Back to Elder Salviejo's Journal Vault
       </a>
 
       <div class="flex items-center space-x-2">
@@ -140,20 +140,24 @@
       <!-- Week Header Paper Banner -->
       <section class="relative bg-[#fdfbf7] border border-[#e5dfd3] rounded-2xl p-6 sm:p-10 shadow-lg text-center overflow-hidden">
         <!-- Top Tape -->
-        <div class="tape absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 w-36 h-7 rotate-[-1deg]"></div>
+        <div class="tape absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 w-52 h-7 rotate-[-1deg] text-center text-[10px] font-sans uppercase font-bold text-amber-900/70 pt-1 tracking-widest">
+          Philippines Dumaguete Mission
+        </div>
         
         <div class="space-y-3 pt-2">
           <div class="inline-flex items-center gap-2 text-xs font-semibold tracking-widest text-amber-800 uppercase px-3 py-1 rounded-full bg-amber-100/70 border border-amber-200">
-            <span>📅</span>
-            <span id="weekDateStamp">Weekly Archive</span>
+            <span>🌴</span>
+            <span id="weekDateStamp">Weekly P-Day Archive</span>
           </div>
 
           <h1 id="weekTitle" class="font-serif text-3xl sm:text-5xl font-bold text-stone-900 tracking-tight leading-tight">
-            Weekly Diary
+            Weekly Missionary Journal
           </h1>
 
           <div class="flex flex-wrap items-center justify-center gap-4 text-xs sm:text-sm text-stone-500 font-medium pt-2">
-            <span id="weekSender">👤 Delivered via Gmail</span>
+            <span id="weekSender" class="font-semibold text-stone-800">Elder Salviejo</span>
+            <span>•</span>
+            <span class="text-amber-800 font-semibold">Philippines Dumaguete Mission</span>
             <span>•</span>
             <span id="entryCountBadge">📸 7 Daily Routine Photos</span>
             <span>•</span>
@@ -167,11 +171,21 @@
         <!-- Injected dynamically via JS -->
       </div>
 
-      <!-- Diary Conclusion / Sign-off Stamp -->
-      <section class="text-center pt-8 pb-12">
-        <div class="inline-block p-4 border-2 border-dashed border-stone-400/80 rounded-xl bg-amber-50/50 transform rotate-1">
-          <p class="font-hand text-2xl text-stone-700 font-bold">End of Week Reflection</p>
-          <p class="text-xs text-stone-500 font-sans mt-0.5">Stored permanently in Turso Cloud SQLite</p>
+      <!-- Missionary Sign-Off & Testimony -->
+      <section class="text-center pt-8 pb-12 max-w-xl mx-auto">
+        <div class="p-7 bg-white/90 rounded-2xl border border-stone-300/80 shadow-sm text-center">
+          <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center mx-auto text-amber-800 text-lg mb-3">
+            📖
+          </div>
+          <p class="font-serif italic text-stone-700 text-sm sm:text-base leading-relaxed">
+            "Wherefore, be of good cheer, and do not fear, for I the Lord am with you, and will stand by you; and you shall bear record of me, even Jesus Christ, that I am the Son of the living God..."
+          </p>
+          <p class="text-xs text-stone-500 mt-2 font-mono">— Doctrine and Covenants 68:6</p>
+          <div class="mt-5 font-hand text-2xl text-amber-900 font-bold">
+            With love and testimony,<br>
+            Elder Salviejo
+          </div>
+          <p class="text-xs text-stone-500 mt-1 uppercase tracking-widest font-semibold">Philippines Dumaguete Mission</p>
         </div>
       </section>
 
@@ -182,7 +196,7 @@
   <!-- Footer -->
   <footer class="no-print mt-auto border-t border-stone-300/60 bg-stone-900 text-stone-400 py-6 text-center text-xs">
     <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-      <p>Decoupled Event-Driven Pipeline • Vercel Edge & Turso DB</p>
+      <p>Elder Salviejo • Philippines Dumaguete Mission • Negros Oriental • "The City of Gentle People"</p>
       <a href="/" class="text-amber-400 hover:underline">Vault Directory</a>
     </div>
   </footer>
@@ -324,8 +338,8 @@
       document.getElementById('errorState').classList.add('hidden');
       document.getElementById('diaryContent').classList.remove('hidden');
 
-      document.title = `${week.title || 'Weekly Diary'} | Journal Vault`;
-      document.getElementById('weekTitle').innerText = week.title || 'Weekly Diary';
+      document.title = `${week.title || 'Weekly Missionary Journal'} | Elder Salviejo • Philippines Dumaguete Mission`;
+      document.getElementById('weekTitle').innerText = week.title || 'Weekly Missionary Journal';
 
       const pubDate = new Date(week.publishedAt || Date.now());
       document.getElementById('weekDateStamp').innerText = pubDate.toLocaleDateString('en-US', {
@@ -335,9 +349,7 @@
         year: 'numeric'
       });
 
-      if (week.sender) {
-        document.getElementById('weekSender').innerText = `👤 Sent by ${week.sender}`;
-      }
+      document.getElementById('weekSender').innerText = '👤 Elder Salviejo';
 
       const entries = Array.isArray(week.entries) ? week.entries : [];
       document.getElementById('entryCountBadge').innerText = `📸 ${entries.length} Daily Reflections & Photos`;

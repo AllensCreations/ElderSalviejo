@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Journal Vault | Weekly Diary Directory</title>
+  <title>Elder Salviejo • Weekly Journal Vault | Philippines Dumaguete Mission</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Inter & Playfair Display & Kalam for handwriting -->
@@ -47,15 +47,17 @@
   <header class="border-b border-stone-300/80 bg-stone-900 text-stone-100 shadow-md sticky top-0 z-30">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       <div class="flex items-center space-x-3">
-        <span class="text-2xl">📬</span>
+        <div class="w-10 h-10 rounded-lg bg-stone-800 border border-stone-700 flex items-center justify-center text-amber-400 text-lg shadow-inner">
+          🌴
+        </div>
         <div>
           <h1 class="font-serif text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
-            Weekly Journal Vault
-            <span class="text-xs font-sans font-medium px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
-              Live Inbox
+            Elder Salviejo
+            <span class="text-[11px] font-sans font-medium px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+              Weekly Journal Vault
             </span>
           </h1>
-          <p class="text-xs text-stone-400 hidden sm:block">Automated Gmail Pipeline • Base64 Immutable Archive</p>
+          <p class="text-xs text-stone-400 hidden sm:block">Philippines Dumaguete Mission • Weekly P-Day Archive</p>
         </div>
       </div>
 
@@ -67,7 +69,7 @@
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
           </svg>
-          Refresh Inbox
+          Refresh Letters
         </button>
       </div>
     </div>
@@ -76,43 +78,59 @@
   <!-- Main Container -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full">
 
-    <!-- Overview Banner -->
-    <div class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-5 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm backdrop-blur-sm">
-      <div class="flex items-start gap-4">
-        <div class="p-3 bg-amber-100 rounded-lg text-amber-800 shrink-0">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-          </svg>
-        </div>
-        <div>
-          <h2 class="font-serif text-lg font-bold text-stone-900">Archive Directory & Weekly Feed</h2>
-          <p class="text-sm text-stone-600 mt-0.5">
-            Every Sunday, your Gmail client delivers reflections and 7 daily routine photos. Entries are converted to Base64 blobs and archived in Turso SQLite.
-          </p>
-        </div>
-      </div>
+    <!-- Mission & Elder Salviejo Banner Card -->
+    <div class="bg-gradient-to-br from-[#fefbf6] to-[#f8f3e8] border border-amber-200/90 rounded-2xl p-6 sm:p-7 mb-8 shadow-sm">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        
+        <!-- Left: Badge & Mission Info -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+          <!-- Authentic Missionary Nametag Design -->
+          <div class="bg-neutral-950 text-white rounded-md p-3.5 px-4 border border-neutral-700 shadow-md min-w-[210px] text-center shrink-0 border-t-2 border-t-neutral-500">
+            <div class="text-[8px] uppercase tracking-widest text-neutral-400 font-medium">The Church of</div>
+            <div class="text-[9.5px] uppercase tracking-wider text-neutral-200 font-semibold leading-tight">Jesus Christ</div>
+            <div class="text-[8px] uppercase tracking-widest text-neutral-400 font-medium">of Latter-day Saints</div>
+            <div class="h-px bg-neutral-800 my-1.5 w-4/5 mx-auto"></div>
+            <div class="text-base font-bold font-serif tracking-wide text-white">ELDER SALVIEJO</div>
+          </div>
 
-      <div class="flex items-center gap-2 sm:gap-4 shrink-0 border-t md:border-t-0 pt-3 md:pt-0 border-amber-200">
-        <div class="text-center px-3 py-1 bg-white/80 rounded-lg border border-amber-200">
-          <span id="totalWeeksCount" class="block text-xl font-bold text-amber-900">0</span>
-          <span class="text-[11px] font-medium text-stone-500 uppercase tracking-wider">Archived Weeks</span>
+          <!-- Description Text -->
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-100 border border-amber-200 text-amber-800 text-xs font-semibold uppercase tracking-wider mb-1.5">
+              <span>📍</span> Philippines Dumaguete Mission
+            </div>
+            <h2 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 leading-tight">
+              Weekly Missionary Letters & Photo Vault
+            </h2>
+            <p class="text-xs sm:text-sm text-stone-600 mt-1.5 leading-relaxed max-w-2xl">
+              Every Monday (Preparation Day), Elder Salviejo emails weekly missionary reflections, scripture study insights, teaching experiences, and 7 daily routine photos from the field. All letters are permanently archived here for family, friends, and supporters.
+            </p>
+          </div>
         </div>
-        <div class="text-center px-3 py-1 bg-white/80 rounded-lg border border-amber-200">
-          <span class="block text-xl font-bold text-emerald-700">Online</span>
-          <span class="text-[11px] font-medium text-stone-500 uppercase tracking-wider">Turso Cloud</span>
+
+        <!-- Right: Stats & Mission Badge -->
+        <div class="flex items-center gap-3 shrink-0 border-t lg:border-t-0 pt-4 lg:pt-0 border-amber-200/60">
+          <div class="text-center px-4 py-2 bg-white/90 rounded-xl border border-amber-200 shadow-sm min-w-[100px]">
+            <span id="totalWeeksCount" class="block text-2xl font-bold text-amber-900">0</span>
+            <span class="text-[11px] font-semibold text-stone-500 uppercase tracking-wider">Archived Letters</span>
+          </div>
+          <div class="text-center px-4 py-2 bg-white/90 rounded-xl border border-amber-200 shadow-sm min-w-[100px]">
+            <span class="block text-2xl font-bold text-emerald-700">Online</span>
+            <span class="text-[11px] font-semibold text-stone-500 uppercase tracking-wider">Turso Cloud</span>
+          </div>
         </div>
+
       </div>
     </div>
 
     <!-- Insert Email / Subscriber Card -->
     <div class="bg-white rounded-xl border border-stone-200/90 p-5 mb-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div class="flex items-center gap-3.5">
-        <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-800 text-lg shrink-0">
+        <div class="w-11 h-11 rounded-full bg-amber-100 flex items-center justify-center text-amber-800 text-xl shrink-0">
           💌
         </div>
         <div>
-          <h3 class="font-serif font-bold text-stone-900 text-sm sm:text-base">Get Notified on New Updates</h3>
-          <p class="text-xs text-stone-500 mt-0.5">Insert your email below to receive an update whenever a new Monday journal is published.</p>
+          <h3 class="font-serif font-bold text-stone-900 text-sm sm:text-base">Stay Connected with Elder Salviejo</h3>
+          <p class="text-xs text-stone-500 mt-0.5">Insert your email below to automatically receive an update every Monday (P-Day) whenever a new weekly journal is published.</p>
         </div>
       </div>
 
@@ -145,8 +163,8 @@
           type="text"
           id="searchInput"
           oninput="filterWeeks()"
-          placeholder="Search by title, subject or date..."
-          class="w-full text-sm pl-9 pr-4 py-2 rounded-lg border border-stone-300 bg-white/90 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 shadow-sm"
+          placeholder="Search missionary letters by title, lesson, or date..."
+          class="w-full text-xs sm:text-sm pl-9 pr-4 py-2 rounded-lg border border-stone-300 bg-white/90 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 shadow-sm"
         />
         <svg class="w-4 h-4 absolute left-3 top-2.5 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -154,7 +172,7 @@
       </div>
 
       <div class="text-xs text-stone-500 self-end sm:self-center font-medium">
-        Showing <span id="displayedCount" class="font-bold text-stone-800">0</span> entries
+        Showing <span id="displayedCount" class="font-bold text-stone-800">0</span> missionary letters
       </div>
     </div>
 
@@ -162,10 +180,10 @@
     <div class="bg-white rounded-xl shadow border border-stone-300/80 overflow-hidden">
       <!-- Inbox Header -->
       <div class="bg-stone-100 border-b border-stone-200 px-5 py-3 grid grid-cols-12 text-xs font-semibold text-stone-600 uppercase tracking-wider">
-        <div class="col-span-1 hidden sm:block">Status</div>
-        <div class="col-span-12 sm:col-span-4">Week Subject</div>
-        <div class="col-span-7 sm:col-span-4 hidden md:block">Snippet & Highlights</div>
-        <div class="col-span-5 sm:col-span-2 text-right sm:text-left">Date Ingested</div>
+        <div class="col-span-1 hidden sm:block">Photos</div>
+        <div class="col-span-12 sm:col-span-4">Week Subject & Title</div>
+        <div class="col-span-7 sm:col-span-4 hidden md:block">Mission Highlights</div>
+        <div class="col-span-5 sm:col-span-2 text-right sm:text-left">P-Day Sent</div>
         <div class="col-span-7 sm:col-span-1 text-right">Gallery</div>
       </div>
 
@@ -185,13 +203,13 @@
   </main>
 
   <!-- Footer -->
-  <footer class="mt-auto border-t border-stone-300/60 bg-white/60 py-6 text-center text-xs text-stone-500">
+  <footer class="mt-auto border-t border-stone-300/60 bg-white/70 py-6 text-center text-xs text-stone-500">
     <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-      <p>Serverless Decoupled Pipeline • Gmail → Apps Script → Vercel API → Turso SQLite</p>
+      <p>Elder Salviejo • Philippines Dumaguete Mission • Negros Oriental • "The City of Gentle People"</p>
       <div class="flex items-center gap-4">
         <a href="/api/weeks" class="hover:text-amber-700 underline underline-offset-2">Raw JSON API</a>
         <span>•</span>
-        <a href="https://github.com" target="_blank" class="hover:text-amber-700">Repository</a>
+        <a href="https://github.com/AllensCreations/gmail-diary-vault" target="_blank" class="hover:text-amber-700">GitHub Vault</a>
       </div>
     </div>
   </footer>
@@ -207,7 +225,7 @@
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
           </svg>
-          <p class="font-medium text-sm">Loading archive directory...</p>
+          <p class="font-medium text-sm">Loading Elder Salviejo's missionary letters...</p>
         </div>
       `;
 
@@ -224,13 +242,13 @@
         container.innerHTML = `
           <div class="py-12 px-6 text-center">
             <span class="text-3xl">📭</span>
-            <h3 class="font-serif font-bold text-stone-800 text-lg mt-2">No Weeks Found or Database Unreachable</h3>
+            <h3 class="font-serif font-bold text-stone-800 text-lg mt-2">No Letters Found or Database Unreachable</h3>
             <p class="text-sm text-stone-500 max-w-md mx-auto mt-1">
               Ensure Turso database credentials are set in .env / Vercel, or ingest your first week using the sample test script.
             </p>
             <div class="mt-5 flex justify-center gap-3">
               <a href="/week/sample" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-lg shadow">
-                View Pre-loaded Sample Diary
+                View Demo Missionary Week
               </a>
               <button onclick="fetchWeeks()" class="px-4 py-2 border border-stone-300 hover:bg-stone-50 text-stone-700 text-xs font-semibold rounded-lg shadow-sm">
                 Try Again
@@ -248,14 +266,14 @@
       if (weeks.length === 0) {
         container.innerHTML = `
           <div class="py-12 px-6 text-center">
-            <span class="text-3xl">📭</span>
-            <h3 class="font-serif font-bold text-stone-800 text-lg mt-2">The Inbox Vault is Empty</h3>
+            <span class="text-3xl">🌴</span>
+            <h3 class="font-serif font-bold text-stone-800 text-lg mt-2">The Missionary Vault is Empty</h3>
             <p class="text-sm text-stone-500 max-w-md mx-auto mt-1">
-              No weekly emails have been ingested yet. Send an email with your 7 reflections & photos to initiate the automated pipeline!
+              No weekly emails have been ingested yet. When Elder Salviejo sends his Monday P-Day email with 7 daily routine photos, it will automatically appear here!
             </p>
             <div class="mt-5">
               <a href="/week/sample" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-lg shadow inline-block">
-                View Demo Diary Page
+                View Demo Missionary Journal
               </a>
             </div>
           </div>
@@ -277,10 +295,10 @@
           <a href="${targetUrl}" class="inbox-row block px-5 py-4 transition duration-150 group">
             <div class="grid grid-cols-12 items-center gap-3">
               
-              <!-- Status Icon -->
+              <!-- Status / Photo Count Badge -->
               <div class="col-span-1 hidden sm:flex items-center">
-                <span class="w-7 h-7 rounded-full bg-amber-100 group-hover:bg-amber-200 text-amber-800 flex items-center justify-center text-xs font-bold transition">
-                  ${w.imageCount || 7}
+                <span class="w-8 h-8 rounded-full bg-amber-100 group-hover:bg-amber-200 text-amber-900 flex items-center justify-center text-xs font-bold transition">
+                  📸 ${w.imageCount || 7}
                 </span>
               </div>
 
@@ -288,18 +306,18 @@
               <div class="col-span-12 sm:col-span-4">
                 <div class="flex items-center gap-2">
                   <h3 class="font-semibold text-stone-900 text-sm group-hover:text-amber-800 transition line-clamp-1">
-                    ${escapeHtml(w.title || 'Weekly Diary')}
+                    ${escapeHtml(w.title || 'Weekly Missionary Journal')}
                   </h3>
-                  ${index === 0 ? '<span class="text-[10px] uppercase font-bold bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded">Latest</span>' : ''}
+                  ${index === 0 ? '<span class="text-[10px] uppercase font-bold bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded border border-amber-300">Latest</span>' : ''}
                 </div>
                 <p class="text-xs text-stone-400 mt-0.5 line-clamp-1">
-                  From: ${escapeHtml(w.sender || 'Gmail Client')}
+                  Elder Salviejo • ${escapeHtml(w.sender || 'Philippines Dumaguete Mission')}
                 </p>
               </div>
 
               <!-- Snippet / Preview -->
               <div class="col-span-7 sm:col-span-4 hidden md:block text-xs text-stone-600 line-clamp-2 pr-2">
-                ${escapeHtml(w.snippet || 'Click to view this week\'s sticky-note reflections and daily routine photos...')}
+                ${escapeHtml(w.snippet || 'Click to read daily routine reflections and view Polaroid missionary photos...')}
               </div>
 
               <!-- Date -->
@@ -375,7 +393,7 @@
         const data = await res.json();
         if (res.ok && data.success) {
           feedback.className = 'text-[11px] mt-1.5 block text-emerald-700 font-medium';
-          feedback.innerText = "✅ Subscribed! You'll receive email updates whenever a new weekly journal is published.";
+          feedback.innerText = "✅ Subscribed! You'll receive email updates whenever Elder Salviejo publishes a new weekly missionary journal.";
           input.value = '';
         } else {
           feedback.className = 'text-[11px] mt-1.5 block text-rose-600 font-medium';

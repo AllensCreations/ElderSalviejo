@@ -163,25 +163,26 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
   if (allRecipients.length > 0) {
     Logger.log(`Broadcasting weekly diary to ${allRecipients.length} subscriber(s): ${allRecipients.join(', ')}`);
     
-    const subject = `📖 New Weekly Diary: ${payload.title}`;
+    const subject = `📖 Elder Salviejo — Weekly Journal: ${payload.title} (Philippines Dumaguete Mission)`;
     const htmlBody = `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 580px; margin: 0 auto; background-color: #fcfbf9; border: 1px solid #e7e2d6; border-radius: 12px; overflow: hidden; color: #2d3748;">
         
         <!-- Header Banner -->
-        <div style="background-color: #1a202c; color: #ffffff; padding: 24px 30px; text-align: center;">
-          <p style="margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #d69e2e; font-weight: bold;">Weekly Reflection Published</p>
-          <h1 style="margin: 8px 0 0 0; font-size: 22px; font-family: Georgia, serif; font-weight: bold; line-height: 1.3;">${escapeHtml(payload.title)}</h1>
+        <div style="background-color: #111827; color: #ffffff; padding: 26px 30px; text-align: center; border-bottom: 3px solid #d97706;">
+          <p style="margin: 0; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #fbbf24; font-weight: bold;">Philippines Dumaguete Mission</p>
+          <h1 style="margin: 6px 0 0 0; font-size: 24px; font-family: Georgia, serif; font-weight: bold; line-height: 1.2; letter-spacing: 1px;">ELDER SALVIEJO</h1>
+          <p style="margin: 6px 0 0 0; font-size: 13px; color: #d1d5db; font-family: Georgia, serif; font-style: italic;">${escapeHtml(payload.title)}</p>
         </div>
 
         <!-- Body Content -->
         <div style="padding: 28px 30px;">
           <p style="font-size: 14px; line-height: 1.6; color: #4a5568; margin-top: 0;">
-            A new weekly journal entry has been archived into the vault with <strong>${payload.imageCount} daily routine photos</strong> and reflections from Monday through Sunday.
+            Elder Salviejo has shared his weekly Preparation Day (P-Day) letter from the <strong>Philippines Dumaguete Mission</strong>, with <strong>${payload.imageCount} daily routine photos</strong> and missionary reflections from Monday through Sunday.
           </p>
 
           <!-- Polaroid Teaser Box -->
           <div style="background-color: #fef3c7; border: 1px solid #fde68a; border-radius: 8px; padding: 18px; margin: 22px 0;">
-            <p style="margin: 0; font-size: 11px; font-weight: bold; text-transform: uppercase; color: #92400e; letter-spacing: 1px;">Monday Highlight</p>
+            <p style="margin: 0; font-size: 11px; font-weight: bold; text-transform: uppercase; color: #92400e; letter-spacing: 1px;">Missionary Highlight</p>
             <p style="margin: 6px 0 0 0; font-size: 13px; font-style: italic; color: #78350f; line-height: 1.5;">
               "${escapeHtml(firstEntrySnippet)}"
             </p>
@@ -190,7 +191,7 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
           <!-- Call to Action Button -->
           <div style="text-align: center; margin: 30px 0 10px 0;">
             <a href="${liveUrl}" target="_blank" style="background-color: #d97706; color: #ffffff; text-decoration: none; padding: 13px 26px; border-radius: 6px; font-weight: bold; font-size: 14px; display: inline-block; box-shadow: 0 3px 6px rgba(0,0,0,0.12);">
-              Open Polaroid Diary Viewer &rarr;
+              Open Elder Salviejo's Journal Viewer &rarr;
             </a>
           </div>
 
@@ -201,16 +202,16 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
 
         <!-- Footer -->
         <div style="border-top: 1px solid #e2e8f0; background-color: #f7fafc; padding: 14px 20px; text-align: center; font-size: 11px; color: #a0aec0;">
-          You received this because you subscribed to weekly journal updates at ${CONFIG.SITE_URL}
+          You received this because you subscribed to Elder Salviejo's missionary letters at ${CONFIG.SITE_URL}
         </div>
       </div>
     `;
 
     for (let r = 0; r < allRecipients.length; r++) {
       try {
-        GmailApp.sendEmail(allRecipients[r], subject, `New Weekly Diary: ${payload.title}\n\nView it here: ${liveUrl}`, {
+        GmailApp.sendEmail(allRecipients[r], subject, `New Weekly Journal: ${payload.title}\n\nView Elder Salviejo's journal here: ${liveUrl}`, {
           htmlBody: htmlBody,
-          name: 'Weekly Diary Vault'
+          name: 'Elder Salviejo (Dumaguete Mission)'
         });
       } catch (err) {
         Logger.log(`Error sending broadcast to ${allRecipients[r]}: ${err.toString()}`);
@@ -224,8 +225,8 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
   const authorClean = extractEmailAddress(authorEmail);
   if (authorClean) {
     Logger.log(`Sending delivery confirmation to author: ${authorClean}`);
-    const receiptSubject = `✅ Weekly Diary Published: ${payload.title}`;
-    const receiptBody = `Hi,\n\nYour weekly reflection email has been successfully ingested and published into the permanent Turso SQLite vault!\n\n` +
+    const receiptSubject = `✅ Published: Elder Salviejo's Weekly Journal — ${payload.title}`;
+    const receiptBody = `Elder Salviejo,\n\nYour weekly missionary reflection email and daily routine photos have been successfully archived into the permanent Turso SQLite vault!\n\n` +
       `Title: ${payload.title}\n` +
       `Entries: ${payload.totalEntries} daily entries\n` +
       `Photos: ${payload.imageCount} Base64 photos\n` +
@@ -236,7 +237,7 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
     
     try {
       GmailApp.sendEmail(authorClean, receiptSubject, receiptBody, {
-        name: 'Diary Pipeline Bot'
+        name: 'Elder Salviejo Journal Vault'
       });
     } catch (err) {
       Logger.log(`Error sending receipt to author: ${err.toString()}`);
