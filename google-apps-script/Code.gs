@@ -6,8 +6,11 @@
  *    with daily reflection headers (--- MONDAY ---, etc.) and 7 photo attachments.
  * 2. This script isolates the incoming reflection, encodes images to Base64 data URIs,
  *    and POSTs the structured payload to your Vercel API and Turso SQLite database.
- * 3. Once successfully archived into the Vault, the script automatically sends out:
- *    - An announcement newsletter to your distribution list (family/friends) with a link to the live polaroid viewer.
+ * 3. In the website (Index Vault), visitors and family members can insert their emails
+ *    to subscribe to updates.
+ * 4. Once successfully archived into the Vault, the script automatically sends out:
+ *    - An announcement newsletter to all website subscribers (and any manual distribution list)
+ *      with a direct link to the dynamic polaroid viewer!
  *    - A confirmation receipt back to your personal email with the published link.
  */
 
@@ -28,8 +31,8 @@ const CONFIG = {
   // Leave empty ("") to accept from any sender
   ALLOWED_SENDER: PropertiesService.getScriptProperties().getProperty('ALLOWED_SENDER') || '',
   
-  // Distribution list: comma-separated list of family/friends emails to receive the Monday diary announcement
-  // Example: "family@example.com, friend@example.com"
+  // Optional manual distribution list (comma-separated). Note: All users who insert
+  // their emails on the website are automatically notified in addition to this list!
   DISTRIBUTION_LIST: PropertiesService.getScriptProperties().getProperty('DISTRIBUTION_LIST') || '',
   
   // Base public website URL for the live diary viewer
@@ -63,7 +66,6 @@ function processWeeklyDiaryEmails() {
     const messages = thread.getMessages();
     if (messages.length === 0) continue;
     
-    // Process the most recent message in the thread
     const message = messages[messages.length - 1];
     const sender = message.getFrom();
     const subject = message.getSubject();
@@ -119,17 +121,18 @@ function processWeeklyDiaryEmails() {
     };
     
     // 5. Send POST request to Vercel API and Turso SQLite
-    const success = sendPayloadToVercel(payload);
-    if (success) {
+    const ingestResult = sendPayloadToVercel(payload);
+    if (ingestResult) {
       // Mark as processed in Gmail dummy inbox
       thread.addLabel(processedLabel);
       thread.markRead();
       Logger.log(`Successfully ingested and tagged thread: "${subject}"`);
       
       const liveUrl = `${CONFIG.SITE_URL}/week/${weekSlug}`;
+      const dbSubscribers = Array.isArray(ingestResult.subscribers) ? ingestResult.subscribers : [];
       
-      // 6. Automated Outbound Delivery: "and also sends it"
-      dispatchWeeklyBroadcast(payload, liveUrl, sender);
+      // 6. Automated Outbound Delivery to website subscribers & manual distribution list
+      dispatchWeeklyBroadcast(payload, liveUrl, sender, dbSubscribers);
     } else {
       Logger.log(`Failed to ingest thread: "${subject}". Will retry on next trigger.`);
     }
@@ -137,21 +140,28 @@ function processWeeklyDiaryEmails() {
 }
 
 /**
- * Dispatches the weekly announcement email to your family/friends distribution list
+ * Dispatches the weekly announcement email to all website subscribers & distribution list
  * and sends a confirmation receipt back to your personal email address.
  */
-function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail) {
-  const recipients = CONFIG.DISTRIBUTION_LIST.split(',')
-    .map(email => email.trim())
+function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
+  const manualRecipients = (CONFIG.DISTRIBUTION_LIST || '').split(',')
+    .map(email => email.trim().toLowerCase())
     .filter(email => email.length > 0);
+    
+  const dynamicSubscribers = (dbSubscribers || [])
+    .map(email => email.trim().toLowerCase())
+    .filter(email => email.length > 0);
+
+  // Combine and deduplicate
+  const allRecipients = Array.from(new Set([...manualRecipients, ...dynamicSubscribers]));
   
   const firstEntrySnippet = (payload.entries.length > 0 && payload.entries[0].text)
     ? payload.entries[0].text.substring(0, 160) + '...'
     : 'A new week of daily routine photos and reflections is now live.';
 
-  // 1. Send announcement to family/friends distribution list
-  if (recipients.length > 0) {
-    Logger.log(`Broadcasting weekly diary to ${recipients.length} recipient(s): ${recipients.join(', ')}`);
+  // 1. Send announcement to subscribers
+  if (allRecipients.length > 0) {
+    Logger.log(`Broadcasting weekly diary to ${allRecipients.length} subscriber(s): ${allRecipients.join(', ')}`);
     
     const subject = `📖 New Weekly Diary: ${payload.title}`;
     const htmlBody = `
@@ -166,7 +176,7 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail) {
         <!-- Body Content -->
         <div style="padding: 28px 30px;">
           <p style="font-size: 14px; line-height: 1.6; color: #4a5568; margin-top: 0;">
-            A new weekly journal entry has been archived into the vault with <strong>${payload.imageCount} daily photos</strong> and personal routine reflections from Monday through Sunday.
+            A new weekly journal entry has been archived into the vault with <strong>${payload.imageCount} daily routine photos</strong> and reflections from Monday through Sunday.
           </p>
 
           <!-- Polaroid Teaser Box -->
@@ -191,23 +201,23 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail) {
 
         <!-- Footer -->
         <div style="border-top: 1px solid #e2e8f0; background-color: #f7fafc; padding: 14px 20px; text-align: center; font-size: 11px; color: #a0aec0;">
-          Delivered automatically via the Monday Gmail Diary Pipeline
+          You received this because you subscribed to weekly journal updates at ${CONFIG.SITE_URL}
         </div>
       </div>
     `;
 
-    for (let r = 0; r < recipients.length; r++) {
+    for (let r = 0; r < allRecipients.length; r++) {
       try {
-        GmailApp.sendEmail(recipients[r], subject, `New Weekly Diary: ${payload.title}\n\nView it here: ${liveUrl}`, {
+        GmailApp.sendEmail(allRecipients[r], subject, `New Weekly Diary: ${payload.title}\n\nView it here: ${liveUrl}`, {
           htmlBody: htmlBody,
           name: 'Weekly Diary Vault'
         });
       } catch (err) {
-        Logger.log(`Error sending broadcast to ${recipients[r]}: ${err.toString()}`);
+        Logger.log(`Error sending broadcast to ${allRecipients[r]}: ${err.toString()}`);
       }
     }
   } else {
-    Logger.log('DISTRIBUTION_LIST is empty. Skipping broadcast email.');
+    Logger.log('No website subscribers or manual recipients found yet.');
   }
 
   // 2. Send confirmation receipt back to your personal email
@@ -215,15 +225,14 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail) {
   if (authorClean) {
     Logger.log(`Sending delivery confirmation to author: ${authorClean}`);
     const receiptSubject = `✅ Weekly Diary Published: ${payload.title}`;
-    const receiptBody = `
-      Hi,\n\nYour weekly reflection email has been successfully ingested and published into the permanent Turso SQLite vault!\n\n
-      Title: ${payload.title}\n
-      Entries: ${payload.totalEntries} daily entries\n
-      Photos: ${payload.imageCount} Base64 photos\n
-      Live View URL: ${liveUrl}\n
-      Broadcast Sent To: ${recipients.length > 0 ? recipients.join(', ') : 'None (DISTRIBUTION_LIST not configured)'}\n\n
-      View it live now:\n${liveUrl}
-    `;
+    const receiptBody = `Hi,\n\nYour weekly reflection email has been successfully ingested and published into the permanent Turso SQLite vault!\n\n` +
+      `Title: ${payload.title}\n` +
+      `Entries: ${payload.totalEntries} daily entries\n` +
+      `Photos: ${payload.imageCount} Base64 photos\n` +
+      `Live View URL: ${liveUrl}\n` +
+      `Total Subscribers Notified: ${allRecipients.length}\n` +
+      (allRecipients.length > 0 ? `Recipients: ${allRecipients.join(', ')}\n\n` : `(No subscribers have inserted their emails yet)\n\n`) +
+      `View it live now:\n${liveUrl}`;
     
     try {
       GmailApp.sendEmail(authorClean, receiptSubject, receiptBody, {
@@ -240,7 +249,6 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail) {
  * Run this function once from the Apps Script editor toolbar.
  */
 function createMondayTrigger() {
-  // Clear any old triggers for this function to prevent duplicates
   const triggers = ScriptApp.getProjectTriggers();
   for (let i = 0; i < triggers.length; i++) {
     if (triggers[i].getHandlerFunction() === 'processWeeklyDiaryEmails') {
@@ -258,10 +266,6 @@ function createMondayTrigger() {
   Logger.log('🎉 Monday trigger successfully created! It will automatically run every Monday at 9:00 AM.');
 }
 
-/**
- * Parses email body text searching for day headers:
- * e.g., "--- MONDAY ---", "--- TUESDAY ---", etc.
- */
 function parseDiaryEntries(bodyText, encodedImages) {
   const entries = [];
   const headerRegex = /(?:^|\n)\s*(?:---|###|#)?\s*(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s*(?:---|:)?\s*(?:\n|$)/gi;
@@ -304,9 +308,6 @@ function parseDiaryEntries(bodyText, encodedImages) {
   return entries;
 }
 
-/**
- * Transmits the JSON payload to Vercel API
- */
 function sendPayloadToVercel(payload) {
   const url = CONFIG.VERCEL_INGEST_URL;
   const secret = CONFIG.INGEST_SECRET;
@@ -330,14 +331,16 @@ function sendPayloadToVercel(payload) {
     
     if (responseCode >= 200 && responseCode < 300) {
       Logger.log(`Ingest succeeded: HTTP ${responseCode} - ${responseText}`);
-      return true;
+      let parsed = null;
+      try { parsed = JSON.parse(responseText); } catch (_) {}
+      return parsed || { success: true };
     } else {
       Logger.log(`Ingest failed: HTTP ${responseCode} - ${responseText}`);
-      return false;
+      return null;
     }
   } catch (err) {
     Logger.log(`Exception during UrlFetchApp: ${err.toString()}`);
-    return false;
+    return null;
   }
 }
 

@@ -14,6 +14,8 @@ const url = require('url');
 const ingestHandler = require('./api/ingest');
 const weeksHandler = require('./api/weeks/index');
 const singleWeekHandler = require('./api/weeks/[id]');
+const subscribeHandler = require('./api/subscribe');
+const subscribersHandler = require('./api/subscribers');
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
@@ -69,6 +71,17 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/api/ingest') {
       req.body = await readBody();
       return await ingestHandler(req, res);
+    }
+
+    // 1b. API: POST /api/subscribe
+    if (pathname === '/api/subscribe') {
+      req.body = await readBody();
+      return await subscribeHandler(req, res);
+    }
+
+    // 1c. API: GET /api/subscribers
+    if (pathname === '/api/subscribers') {
+      return await subscribersHandler(req, res);
     }
 
     // 2. API: GET /api/weeks

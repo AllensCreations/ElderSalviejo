@@ -6,7 +6,7 @@
  * and writes the entry into the Turso SQLite database.
  */
 
-const { saveWeeklyDiary, initDatabase } = require('../lib/turso');
+const { saveWeeklyDiary, initDatabase, getAllSubscribers } = require('../lib/turso');
 
 module.exports = async function handler(req, res) {
   // Allow CORS preflight if needed
@@ -91,6 +91,8 @@ module.exports = async function handler(req, res) {
 
     console.log(`✅ Successfully ingested weekly diary: "${title}" (slug: ${cleanSlug})`);
 
+    const subscribers = await getAllSubscribers();
+
     return res.status(200).json({
       success: true,
       message: 'Weekly diary ingested and stored successfully',
@@ -99,7 +101,8 @@ module.exports = async function handler(req, res) {
       publishedAt,
       entriesCount: entries.length,
       imageCount: finalImages,
-      viewUrl: `/week/${cleanSlug}`
+      viewUrl: `/week/${cleanSlug}`,
+      subscribers: subscribers || []
     });
   } catch (error) {
     console.error('❌ Error processing /api/ingest:', error);

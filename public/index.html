@@ -104,6 +104,40 @@
       </div>
     </div>
 
+    <!-- Insert Email / Subscriber Card -->
+    <div class="bg-white rounded-xl border border-stone-200/90 p-5 mb-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="flex items-center gap-3.5">
+        <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-800 text-lg shrink-0">
+          💌
+        </div>
+        <div>
+          <h3 class="font-serif font-bold text-stone-900 text-sm sm:text-base">Get Notified on New Updates</h3>
+          <p class="text-xs text-stone-500 mt-0.5">Insert your email below to receive an update whenever a new Monday journal is published.</p>
+        </div>
+      </div>
+
+      <div class="w-full md:w-auto">
+        <form onsubmit="handleSubscribe(event)" class="flex items-center gap-2">
+          <input
+            type="email"
+            id="subscribeEmailInput"
+            required
+            placeholder="Insert your email..."
+            class="w-full sm:w-64 text-xs px-3 py-2 rounded-lg border border-stone-300 bg-stone-50/50 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 shadow-sm"
+          />
+          <button
+            type="submit"
+            id="subscribeSubmitBtn"
+            class="shrink-0 text-xs font-semibold px-4 py-2 bg-stone-900 hover:bg-stone-800 text-white rounded-lg shadow transition duration-150 flex items-center gap-1.5"
+          >
+            <span>Subscribe</span>
+            <span class="text-amber-400">&rarr;</span>
+          </button>
+        </form>
+        <p id="subscribeFeedback" class="text-[11px] mt-1.5 hidden font-medium"></p>
+      </div>
+    </div>
+
     <!-- Search & Filter Bar -->
     <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4">
       <div class="relative w-full sm:w-80">
@@ -316,6 +350,44 @@
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
+    }
+
+    async function handleSubscribe(e) {
+      e.preventDefault();
+      const input = document.getElementById('subscribeEmailInput');
+      const btn = document.getElementById('subscribeSubmitBtn');
+      const feedback = document.getElementById('subscribeFeedback');
+      const email = input.value.trim();
+
+      if (!email) return;
+
+      btn.disabled = true;
+      btn.innerText = 'Subscribing...';
+      feedback.className = 'text-[11px] mt-1.5 block text-stone-500 font-medium';
+      feedback.innerText = 'Saving email to vault...';
+
+      try {
+        const res = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          feedback.className = 'text-[11px] mt-1.5 block text-emerald-700 font-medium';
+          feedback.innerText = "✅ Subscribed! You'll receive email updates whenever a new weekly journal is published.";
+          input.value = '';
+        } else {
+          feedback.className = 'text-[11px] mt-1.5 block text-rose-600 font-medium';
+          feedback.innerText = '⚠️ ' + (data.error || 'Failed to subscribe. Please try again.');
+        }
+      } catch (err) {
+        feedback.className = 'text-[11px] mt-1.5 block text-rose-600 font-medium';
+        feedback.innerText = '⚠️ Network error: ' + err.message;
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>Subscribe</span> <span class="text-amber-400">&rarr;</span>';
+      }
     }
 
     // Auto-fetch on load
