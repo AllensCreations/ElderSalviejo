@@ -8,6 +8,7 @@
  * Default SECRET: your-super-secret-token-change-me (or process.env.INGEST_SECRET)
  */
 
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 
