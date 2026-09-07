@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "framework": null,
   "cleanUrls": true,
   "rewrites": [
     {
       "source": "/week/:slug*",
-      "destination": "/week.html"
+      "destination": "/week"
     }
   ]
 }
