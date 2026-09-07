@@ -4,130 +4,65 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Elder Salviejo • Weekly Journal Vault | Philippines Dumaguete Mission</title>
+  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <!-- Google Fonts: Inter, Playfair Display & Caveat handwriting -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            serif: ['Playfair Display', 'serif'],
-            hand: ['Caveat', 'cursive'],
-            marker: ['Permanent Marker', 'cursive'],
-          },
-          colors: {
-            parchment: '#f7f4ed',
-            polaroidPaper: '#fefefe',
-          },
-          boxShadow: {
-            'polaroid': '0 8px 24px -4px rgba(0, 0, 0, 0.18), 0 4px 8px -2px rgba(0, 0, 0, 0.1)',
-            'sticky': '0 10px 20px -3px rgba(0, 0, 0, 0.12), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-          }
-        }
-      }
-    };
-  </script>
-    html, body {
-      overflow-x: hidden;
-      width: 100%;
-    }
-
-    /* Protection against long-press, dragging, and context menu on photos */
-    img {
-      -webkit-touch-callout: none !important;
-      -webkit-user-select: none !important;
-      -khtml-user-select: none !important;
-      -moz-user-select: none !important;
-      -ms-user-select: none !important;
-      user-select: none !important;
-      -webkit-user-drag: none !important;
-      user-drag: none !important;
-    }
-
-    .protect-photo {
-      -webkit-touch-callout: none !important;
-      -webkit-user-select: none !important;
-      user-select: none !important;
-    }
-
-    body {
-      background-color: #ede7da;
-      background-image: 
-        radial-gradient(#d6cdba 1px, transparent 1px),
-        radial-gradient(#cbbfa8 1px, #ede7da 1px);
-      background-size: 32px 32px;
-      background-position: 0 0, 16px 16px;
-    }
-    
-    .tape {
-      background: rgba(254, 243, 199, 0.75);
-      backdrop-filter: blur(1px);
-      border-left: 2px dashed rgba(217, 119, 6, 0.3);
-      border-right: 2px dashed rgba(217, 119, 6, 0.3);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    }
-
-    .pin {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 4px 4px, #f87171, #991b1b);
-      box-shadow: 0 3px 6px rgba(0,0,0,0.3);
-    }
-
-    /* Print styles */
-    @media print {
-      body {
-        background: white !important;
-      }
-      .no-print {
-        display: none !important;
-      }
-      .break-inside-avoid {
-        break-inside: avoid;
-        page-break-inside: avoid;
-      }
-    }
-  </style>
+  <!-- External Modular Stylesheets (Clean Separation) -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/week.css" />
 </head>
-<body class="min-h-screen text-stone-800 antialiased font-sans flex flex-col selection:bg-amber-200 overflow-x-hidden">
+<body class="week-view min-h-screen text-stone-800 antialiased font-sans flex flex-col selection:bg-amber-200 overflow-x-hidden">
 
   <!-- Sticky Top Navigation Bar -->
-  <header class="no-print sticky top-0 z-40 bg-stone-900/90 backdrop-blur-md text-stone-100 border-b border-stone-700/80 shadow-md">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-stone-300 hover:text-white transition">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-        Back to Elder Salviejo's Journal Vault
+  <header class="no-print sticky top-0 z-40 bg-stone-900/95 backdrop-blur-md text-stone-100 border-b border-stone-700/80 shadow-md">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-3">
+      
+      <!-- Back Link with Elder Salviejo Avatar -->
+      <a href="/" class="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-stone-300 hover:text-white transition group min-w-0">
+        <div class="profile-avatar-nav w-7 h-7 sm:w-8 sm:h-8 border border-amber-400">
+          <img
+            src="/assets/images/elder-salviejo.jpg"
+            alt="Elder Salviejo"
+            onerror="this.src='https://i.ibb.co/Xrpks0Hm/received-1633857454919246.jpg'"
+            loading="eager"
+          />
+        </div>
+        <div class="flex items-center gap-1.5 truncate">
+          <svg class="w-4 h-4 text-amber-400 shrink-0 group-hover:-translate-x-0.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span class="truncate">Journal Vault</span>
+        </div>
       </a>
 
-      <div class="flex items-center space-x-2">
-        <button onclick="window.print()" class="text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-600 px-3 py-1.5 rounded shadow-sm flex items-center gap-1.5 transition">
+      <!-- Action Buttons -->
+      <div class="flex items-center space-x-2 shrink-0">
+        <button onclick="window.print()" class="text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-600 px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-1.5 transition">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
           </svg>
-          Print / PDF
+          <span class="hidden xs:inline">Print / PDF</span>
         </button>
 
-        <button onclick="copyShareLink()" id="shareBtn" class="text-xs bg-amber-600 hover:bg-amber-500 text-white font-medium px-3 py-1.5 rounded shadow flex items-center gap-1.5 transition">
+        <button onclick="copyShareLink()" id="shareBtn" class="text-xs bg-amber-600 hover:bg-amber-500 text-white font-medium px-3.5 py-1.5 rounded-lg shadow flex items-center gap-1.5 transition">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
           </svg>
-          Share
+          <span>Share</span>
         </button>
       </div>
+
     </div>
   </header>
 
   <!-- Main Scrollable Diary Container -->
-  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-10 flex-1 w-full">
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-1 w-full">
 
     <!-- Loading State -->
     <div id="loadingState" class="py-24 text-center">
@@ -136,14 +71,14 @@
         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
       </svg>
       <h3 class="font-serif text-lg font-semibold text-stone-700">Retrieving Journal from Vault...</h3>
-      <p class="text-xs text-stone-500 mt-1">Loading weekly reflections and missionary moments...</p>
+      <p class="text-xs text-stone-500 mt-1">Loading weekly missionary reflections and photographs...</p>
     </div>
 
     <!-- Error State -->
-    <div id="errorState" class="hidden py-20 px-6 text-center bg-white/80 rounded-2xl border border-stone-300 shadow-sm max-w-lg mx-auto">
-      <span class="text-4xl">📭</span>
-      <h2 class="font-serif text-xl font-bold text-stone-800 mt-3">Letter Not Found</h2>
-      <p id="errorMessage" class="text-stone-600 text-sm mt-2 leading-relaxed">
+    <div id="errorState" class="hidden py-16 px-6 text-center bg-white/90 rounded-2xl border border-stone-300 shadow-sm max-w-lg mx-auto">
+      <span class="text-4xl block mb-2">📭</span>
+      <h2 class="font-serif text-xl font-bold text-stone-800">Letter Not Found</h2>
+      <p id="errorMessage" class="text-stone-600 text-xs sm:text-sm mt-2 leading-relaxed">
         Could not locate the requested weekly archive. It may have been renamed or has not yet been published.
       </p>
       <div class="mt-6 flex justify-center gap-3">
@@ -153,70 +88,92 @@
       </div>
     </div>
 
-    <!-- Diary Content View -->
+    <!-- Diary Content View (Populated dynamically via /js/week.js) -->
     <div id="diaryContent" class="hidden space-y-16">
 
       <!-- Week Header Paper Banner -->
-      <section class="relative bg-[#fdfbf7] border border-[#e5dfd3] rounded-2xl p-6 sm:p-10 shadow-lg text-center overflow-hidden">
-        <!-- Top Tape -->
-        <div class="tape absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 w-52 h-7 rotate-[-1deg] text-center text-[10px] font-sans uppercase font-bold text-amber-900/70 pt-1 tracking-widest">
+      <section class="relative bg-[#fdfbf7] border border-[#e5dfd3] rounded-2xl p-6 sm:p-10 shadow-lg text-center">
+        <!-- Top Washi Tape (Cleanly centered, no clipping) -->
+        <div class="tape absolute -top-3.5 left-1/2 -translate-x-1/2 w-52 h-7 rotate-[-1deg] text-center text-[10px] font-sans uppercase font-bold text-amber-900/80 pt-1 tracking-widest">
           Philippines Dumaguete Mission
         </div>
         
-        <div class="space-y-3 pt-2">
-          <div class="inline-flex items-center gap-2 text-xs font-semibold tracking-widest text-amber-800 uppercase px-3 py-1 rounded-full bg-amber-100/70 border border-amber-200">
+        <div class="space-y-3.5 pt-3">
+          
+          <!-- P-Day Badge -->
+          <div class="inline-flex items-center gap-2 text-xs font-semibold tracking-wider text-amber-900 uppercase px-3.5 py-1 rounded-full bg-amber-100/80 border border-amber-200">
             <span>🌴</span>
             <span id="weekDateStamp">Weekly P-Day Archive</span>
           </div>
 
+          <!-- Letter Title -->
           <h1 id="weekTitle" class="font-serif text-3xl sm:text-5xl font-bold text-stone-900 tracking-tight leading-tight">
             Weekly Missionary Journal
           </h1>
 
-          <div class="flex flex-wrap items-center justify-center gap-4 text-xs sm:text-sm text-stone-500 font-medium pt-2">
-            <span id="weekSender" class="font-semibold text-stone-800">Elder Salviejo</span>
+          <!-- Author Profile Bar -->
+          <div class="flex flex-wrap items-center justify-center gap-3 text-xs sm:text-sm text-stone-600 font-medium pt-2">
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 rounded-full overflow-hidden border border-amber-500 bg-stone-800 shrink-0">
+                <img
+                  src="/assets/images/elder-salviejo.jpg"
+                  alt="Elder Salviejo"
+                  onerror="this.src='https://i.ibb.co/Xrpks0Hm/received-1633857454919246.jpg'"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <span id="weekSender" class="font-bold text-stone-900">Elder Salviejo</span>
+            </div>
             <span>•</span>
             <span class="text-amber-800 font-semibold">Philippines Dumaguete Mission</span>
             <span>•</span>
             <span id="entryCountBadge">📸 7 Daily Routine Photos</span>
             <span>•</span>
-            <span class="text-amber-900 font-semibold">Negros Oriental</span>
+            <span class="text-stone-500">Negros Oriental</span>
           </div>
+
         </div>
       </section>
 
-      <!-- 7 Days Grid / Feed -->
-      <div id="entriesList" class="space-y-20">
-        <!-- Injected dynamically via JS -->
-      </div>
+      <!-- 7 Days Grid / Feed (Rendered by /js/week.js) -->
+      <div id="entriesList" class="space-y-16 sm:space-y-20"></div>
 
       <!-- Missionary Weekly Scripture & Testimony Card -->
-      <section id="weeklyVerseSection" class="pt-8 pb-12 max-w-2xl mx-auto">
-        <div class="relative bg-gradient-to-br from-[#fcfaf5] to-[#f5eedf] rounded-2xl border-2 border-amber-300/80 p-8 sm:p-10 shadow-xl text-center overflow-hidden">
+      <section id="weeklyVerseSection" class="pt-6 pb-8 max-w-2xl mx-auto">
+        <div class="scripture-card">
           
-          <!-- Top Tape -->
-          <div class="tape absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 w-52 h-7 rotate-[-0.5deg] text-center text-[10px] font-sans uppercase font-bold text-amber-900/80 pt-1 tracking-widest">
+          <!-- Top Washi Tape -->
+          <div class="tape absolute -top-3.5 left-1/2 -translate-x-1/2 w-48 h-7 rotate-[-0.5deg] text-center text-[10px] font-sans uppercase font-bold text-amber-900/80 pt-1 tracking-widest">
             Weekly Scripture
           </div>
 
-          <div class="w-12 h-12 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center mx-auto text-amber-800 text-xl mt-2 mb-3 shadow-sm">
-            📖
+          <!-- Elder Salviejo Testimony Avatar -->
+          <div class="profile-avatar-testimony mt-2">
+            <img
+              src="/assets/images/elder-salviejo.jpg"
+              alt="Elder Salviejo"
+              onerror="this.src='https://i.ibb.co/Xrpks0Hm/received-1633857454919246.jpg'"
+              loading="lazy"
+            />
           </div>
 
-          <div class="inline-block px-3.5 py-1 bg-amber-200/70 border border-amber-300 rounded-full text-xs font-bold text-amber-900 uppercase tracking-wider mb-4 shadow-sm">
+          <!-- Scripture Reference Badge -->
+          <div class="inline-block px-4 py-1.5 bg-amber-200/80 border border-amber-300 rounded-full text-xs font-bold text-amber-950 uppercase tracking-wider mb-4 shadow-sm">
             <span id="verseReference">Doctrine and Covenants 68:6</span>
           </div>
 
-          <blockquote class="font-serif italic text-stone-800 text-lg sm:text-xl leading-relaxed max-w-xl mx-auto">
+          <!-- Scripture Quote -->
+          <blockquote class="font-serif italic text-stone-900 text-lg sm:text-xl leading-relaxed max-w-xl mx-auto">
             "<span id="verseText">Wherefore, be of good cheer, and do not fear, for I the Lord am with you, and will stand by you; and you shall bear record of me, even Jesus Christ, that I am the Son of the living God...</span>"
           </blockquote>
 
+          <!-- Author Signoff -->
           <div class="mt-6 pt-5 border-t border-amber-300/60 flex flex-col items-center">
             <div class="font-hand text-3xl text-amber-950 font-bold">
               With love and testimony,<br>
               Elder Salviejo
             </div>
-            <p class="text-xs text-amber-900/80 uppercase tracking-widest font-semibold mt-1">
+            <p class="text-xs text-amber-900/90 uppercase tracking-widest font-semibold mt-1">
               Philippines Dumaguete Mission • Negros Oriental
             </p>
           </div>
@@ -229,328 +186,14 @@
   </main>
 
   <!-- Footer -->
-  <footer class="no-print mt-auto border-t border-stone-300/60 bg-stone-900 text-stone-400 py-6 text-center text-xs">
-    <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+  <footer class="no-print mt-auto border-t border-stone-800 bg-stone-900 text-stone-400 py-6 text-center text-xs">
+    <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
       <p>Elder Salviejo • Philippines Dumaguete Mission • Negros Oriental • "The City of Gentle People"</p>
-      <a href="/" class="text-amber-400 hover:underline">Vault Directory</a>
+      <a href="/" class="text-amber-400 hover:underline font-medium">Vault Directory</a>
     </div>
   </footer>
 
-  <script>
-    // Day palette configurations for alternating sticky-notes
-    const DAY_THEMES = {
-      MONDAY: {
-        bg: 'bg-[#fef9c3]', // Butter yellow
-        border: 'border-yellow-200',
-        tapeRotate: '-rotate-2',
-        noteRotate: '-rotate-1',
-        photoRotate: 'rotate-2',
-        pinColor: 'bg-red-500'
-      },
-      TUESDAY: {
-        bg: 'bg-[#dcfce7]', // Soft mint
-        border: 'border-emerald-200',
-        tapeRotate: 'rotate-2',
-        noteRotate: 'rotate-1',
-        photoRotate: '-rotate-2',
-        pinColor: 'bg-emerald-600'
-      },
-      WEDNESDAY: {
-        bg: 'bg-[#e0f2fe]', // Sky blue
-        border: 'border-sky-200',
-        tapeRotate: '-rotate-3',
-        noteRotate: '-rotate-1.5',
-        photoRotate: 'rotate-1',
-        pinColor: 'bg-blue-600'
-      },
-      THURSDAY: {
-        bg: 'bg-[#ffedd5]', // Warm peach
-        border: 'border-orange-200',
-        tapeRotate: 'rotate-1',
-        noteRotate: 'rotate-1',
-        photoRotate: '-rotate-1.5',
-        pinColor: 'bg-amber-600'
-      },
-      FRIDAY: {
-        bg: 'bg-[#f3e8ff]', // Soft lavender
-        border: 'border-purple-200',
-        tapeRotate: '-rotate-2',
-        noteRotate: '-rotate-1',
-        photoRotate: 'rotate-2',
-        pinColor: 'bg-purple-600'
-      },
-      SATURDAY: {
-        bg: 'bg-[#ffe4e6]', // Soft rose
-        border: 'border-rose-200',
-        tapeRotate: 'rotate-3',
-        noteRotate: 'rotate-1.5',
-        photoRotate: '-rotate-2',
-        pinColor: 'bg-rose-600'
-      },
-      SUNDAY: {
-        bg: 'bg-[#fef08a]', // Golden honey
-        border: 'border-amber-300',
-        tapeRotate: '-rotate-1',
-        noteRotate: '-rotate-0.5',
-        photoRotate: 'rotate-1.5',
-        pinColor: 'bg-yellow-600'
-      }
-    };
-
-    function getSlugFromPath() {
-      // Handles both /week/[slug] and ?id=[slug]
-      const urlParams = new URLSearchParams(window.location.search);
-      const queryId = urlParams.get('id') || urlParams.get('slug');
-      if (queryId) return queryId;
-
-      const pathParts = window.location.pathname.split('/').filter(Boolean);
-      const weekIndex = pathParts.indexOf('week');
-      if (weekIndex !== -1 && pathParts[weekIndex + 1]) {
-        return decodeURIComponent(pathParts[weekIndex + 1]);
-      }
-      return null;
-    }
-
-    async function loadWeek() {
-      const slug = getSlugFromPath();
-
-      if (!slug || slug === 'sample') {
-        // Fallback or demo mode: load sample data
-        loadSamplePayload();
-        return;
-      }
-
-      try {
-        const res = await fetch(`/api/weeks/${encodeURIComponent(slug)}`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        
-        if (!data.week) throw new Error('Week data not found in response');
-        renderWeek(data.week);
-      } catch (err) {
-        console.warn('Could not fetch from API, attempting sample fallback if relevant:', err);
-        // If api fails and was searching for sample or default
-        if (slug === 'sample' || slug === 'demo') {
-          loadSamplePayload();
-        } else {
-          showError(`Could not load week "${escapeHtml(slug)}": ${err.message}`);
-        }
-      }
-    }
-
-    async function loadSamplePayload() {
-      try {
-        const res = await fetch('/sample-data/sample-payload.json');
-        if (res.ok) {
-          const sample = await res.json();
-          renderWeek(sample);
-          return;
-        }
-      } catch (_) {}
-
-      // Embedded emergency fallback sample
-      renderWeek({
-        title: "Autumn Kickoff & Daily Adventures (Demo)",
-        publishedAt: new Date().toISOString(),
-        sender: "me@gmail.com",
-        entries: [
-          {
-            day: "Monday",
-            text: "Started the week with a 5-mile sunrise trail run through the ridge trail. The crisp autumn air felt amazing!",
-            image: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450'><rect width='600' height='450' fill='%23f6ad55'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='28' fill='%23ffffff' font-family='sans-serif' font-weight='bold'>Monday Sunrise Run</text></svg>"
-          },
-          {
-            day: "Tuesday",
-            text: "Deep work at the downtown library on systems architecture. Cardamom buns afterwards were a 10/10.",
-            image: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450'><rect width='600' height='450' fill='%2368d391'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='28' fill='%23ffffff' font-family='sans-serif' font-weight='bold'>Tuesday Library</text></svg>"
-          }
-        ]
-      });
-    }
-
-    function renderWeek(week) {
-      document.getElementById('loadingState').classList.add('hidden');
-      document.getElementById('errorState').classList.add('hidden');
-      document.getElementById('diaryContent').classList.remove('hidden');
-
-      document.title = `${week.title || 'Weekly Missionary Journal'} | Elder Salviejo • Philippines Dumaguete Mission`;
-      document.getElementById('weekTitle').innerText = week.title || 'Weekly Missionary Journal';
-
-      const pubDate = new Date(week.publishedAt || Date.now());
-      document.getElementById('weekDateStamp').innerText = pubDate.toLocaleDateString('en-US', {
-        weekday: 'long',
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric'
-      });
-
-      document.getElementById('weekSender').innerText = '👤 Elder Salviejo';
-
-      const entries = Array.isArray(week.entries) ? week.entries : [];
-      document.getElementById('entryCountBadge').innerText = `📸 ${entries.length} Daily Reflections & Photos`;
-
-      // Render Weekly Scripture Verse at the bottom
-      const verseRefEl = document.getElementById('verseReference');
-      const verseTextEl = document.getElementById('verseText');
-      if (week.verse && (week.verse.text || week.verse.reference)) {
-        verseRefEl.innerText = week.verse.reference || 'Weekly Scripture';
-        verseTextEl.innerText = week.verse.text || '';
-      } else {
-        verseRefEl.innerText = 'Doctrine and Covenants 68:6';
-        verseTextEl.innerText = 'Wherefore, be of good cheer, and do not fear, for I the Lord am with you, and will stand by you; and you shall bear record of me, even Jesus Christ, that I am the Son of the living God...';
-      }
-
-      const container = document.getElementById('entriesList');
-      container.innerHTML = entries.map((entry, index) => {
-        const dayClean = cleanDayName(entry.day, index);
-        const theme = DAY_THEMES[dayClean] || DAY_THEMES.MONDAY;
-        const cleanText = cleanEntryText(entry.text);
-
-        return `
-          <article class="break-inside-avoid relative max-w-2xl mx-auto">
-            
-            <!-- Journal Page Sheet -->
-            <div class="relative ${theme.bg} border ${theme.border} rounded-2xl shadow-xl p-5 sm:p-9 pt-8 sm:pt-10 transition-all duration-300">
-              
-              <!-- Sheet Decorative Washi Tapes -->
-              <div class="tape absolute -top-3 left-6 sm:left-10 w-24 sm:w-28 h-6 ${theme.tapeRotate} z-20"></div>
-              <div class="tape absolute -top-3 right-6 sm:right-10 w-24 sm:w-28 h-6 ${theme.tapeRotate === 'rotate-2' ? '-rotate-2' : 'rotate-2'} z-20"></div>
-
-              <!-- Pinned Polaroid Photo Card: Overlayed above the notes -->
-              <div class="relative -mt-2 sm:-mt-4 mb-7 flex justify-center z-10">
-                <div class="relative w-full max-w-lg bg-white p-3.5 sm:p-4 pb-6 sm:pb-7 rounded-sm shadow-[0_12px_28px_-6px_rgba(0,0,0,0.22),0_6px_12px_-4px_rgba(0,0,0,0.12)] border border-stone-200/90 transform ${theme.photoRotate} hover:rotate-0 hover:scale-[1.01] transition-all duration-300">
-                  
-                  <!-- 3D Pushpin Pinning Polaroid to Note Sheet -->
-                  <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center">
-                    <div class="w-4 h-4 rounded-full bg-gradient-to-br from-red-500 via-red-600 to-red-800 shadow-[0_3px_6px_rgba(0,0,0,0.4)] border border-red-300"></div>
-                    <div class="w-0.5 h-1.5 bg-stone-500 -mt-0.5 opacity-70"></div>
-                  </div>
-
-                  <!-- Polaroid Photo Frame: Follows natural aspect ratio of the image (portrait, landscape, or square) -->
-                  <div class="w-full bg-[#1c1917] rounded-sm overflow-hidden flex items-center justify-center border border-stone-200/80 shadow-inner protect-photo">
-                    ${entry.image ? `
-                      <img
-                        src="${entry.image}"
-                        alt="${escapeHtml(dayClean)} missionary photograph"
-                        class="w-full h-auto max-h-[420px] sm:max-h-[520px] md:max-h-[580px] object-contain block mx-auto select-none"
-                        loading="lazy"
-                        draggable="false"
-                        oncontextmenu="return false;"
-                      />
-                    ` : `
-                      <div class="text-stone-400 text-xs font-medium text-center p-8">
-                        <span class="text-3xl block mb-2">📷</span>
-                        No photograph attached for ${escapeHtml(dayClean)}
-                      </div>
-                    `}
-                  </div>
-
-                  <!-- Handwritten Polaroid Caption (No Filename!) -->
-                  <div class="mt-3 text-center">
-                    <p class="font-hand text-xl sm:text-2xl font-bold text-stone-800 tracking-wide">
-                      ${escapeHtml(dayClean)} in Dumaguete
-                    </p>
-                  </div>
-
-                </div>
-              </div>
-
-              <!-- Notes Section: Placed cleanly below photo (100% readable!) -->
-              <div class="space-y-4">
-                
-                <!-- Day Header: Pure MONDAY (no dashes!) -->
-                <div class="flex items-center justify-between border-b border-black/10 pb-3">
-                  <div class="flex items-center gap-2.5">
-                    <span class="w-2.5 h-2.5 rounded-full ${theme.pinColor}"></span>
-                    <h3 class="font-serif text-2xl sm:text-3xl font-bold tracking-wide text-stone-900 uppercase">
-                      ${escapeHtml(dayClean)}
-                    </h3>
-                  </div>
-                  <span class="text-[11px] font-sans font-bold text-stone-600 uppercase tracking-widest bg-black/5 px-2.5 py-1 rounded-full border border-black/5">
-                    Day ${index + 1} of 7 • Dumaguete
-                  </span>
-                </div>
-
-                <!-- Reflection Body Text: High-contrast, spacious, easy to read -->
-                <div class="font-serif text-stone-900 text-base sm:text-lg leading-[1.8] whitespace-pre-wrap selection:bg-amber-100">
-                  ${escapeHtml(cleanText || 'No reflection recorded for this day.')}
-                </div>
-
-                <!-- Footer Note -->
-                <div class="pt-4 border-t border-black/5 flex items-center justify-between text-xs text-stone-500 font-hand text-base">
-                  <span>Elder Salviejo • Daily missionary routine</span>
-                  <span class="text-amber-800 font-bold">Philippines Dumaguete Mission ✨</span>
-                </div>
-
-              </div>
-
-            </div>
-          </article>
-        `;
-      }).join('');
-    }
-
-    function cleanDayName(rawDay, index) {
-      if (!rawDay) return `DAY ${index + 1}`;
-      let clean = String(rawDay)
-        .replace(/^[-—#*~:\s]+|[-—#*~:\s]+$/g, '')
-        .trim()
-        .toUpperCase();
-      return clean || `DAY ${index + 1}`;
-    }
-
-    function cleanEntryText(rawText) {
-      if (!rawText) return '';
-      let text = String(rawText).trim();
-      // Strip any accidental leading "-MONDAY-", "--- MONDAY ---", "MONDAY:", etc.
-      text = text.replace(/^\s*[-—#*~]*\s*(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s*[-—#*~:]*\s*/i, '');
-      // Strip any leftover leading dashes or colons
-      text = text.replace(/^[-—:\s]+/, '');
-      return text.trim();
-    }
-
-    function showError(msg) {
-      document.getElementById('loadingState').classList.add('hidden');
-      document.getElementById('diaryContent').classList.add('hidden');
-      const err = document.getElementById('errorState');
-      err.classList.remove('hidden');
-      document.getElementById('errorMessage').innerText = msg;
-    }
-
-    function copyShareLink() {
-      navigator.clipboard.writeText(window.location.href);
-      const btn = document.getElementById('shareBtn');
-      const original = btn.innerHTML;
-      btn.innerText = 'Copied Link!';
-      setTimeout(() => { btn.innerHTML = original; }, 2000);
-    }
-
-    function escapeHtml(str) {
-      if (!str) return '';
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-    }
-
-    // Protection against saving, copying, or long-pressing images
-    window.addEventListener('contextmenu', function (e) {
-      if (e.target && (e.target.nodeName === 'IMG' || e.target.closest('.protect-photo'))) {
-        e.preventDefault();
-        return false;
-      }
-    }, false);
-
-    window.addEventListener('dragstart', function (e) {
-      if (e.target && (e.target.nodeName === 'IMG' || e.target.closest('.protect-photo'))) {
-        e.preventDefault();
-        return false;
-      }
-    }, false);
-
-    document.addEventListener('DOMContentLoaded', loadWeek);
-  </script>
+  <!-- External Script (Clean Separation) -->
+  <script src="/js/week.js"></script>
 </body>
 </html>

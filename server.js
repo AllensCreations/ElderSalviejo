@@ -105,8 +105,8 @@ const server = http.createServer(async (req, res) => {
       }
     }
 
-    // 5. Frontend Dynamic View: /week/:id
-    if (pathname.startsWith('/week/')) {
+    // 5. Frontend Dynamic View: /week and /week/:id
+    if (pathname === '/week' || pathname.startsWith('/week/')) {
       const weekHtmlPath = path.join(PUBLIC_DIR, 'week.html');
       res.setHeader('Content-Type', 'text/html; charset=UTF-8');
       return fs.createReadStream(weekHtmlPath).pipe(res);

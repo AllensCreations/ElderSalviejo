@@ -3,164 +3,150 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Elder Salviejo • Weekly Journal Vault | Philippines Dumaguete Mission</title>
-  <!-- Tailwind CSS CDN -->
+  <title>Elder Salviejo • Weekly Missionary Journal Vault | Philippines Dumaguete Mission</title>
+  
+  <!-- External Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Inter & Playfair Display & Kalam for handwriting -->
+  
+  <!-- Google Fonts: Inter, Playfair Display & Caveat handwriting -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            serif: ['Playfair Display', 'serif'],
-            hand: ['Caveat', 'cursive'],
-          },
-          colors: {
-            parchment: '#f8f6f0',
-            cream: '#fdfbf7',
-            cork: '#c8ad8d',
-            inboxDark: '#1e232a',
-          }
-        }
-      }
-    };
-  </script>
-  <style>
-    html, body {
-      overflow-x: hidden;
-      width: 100%;
-    }
-
-    /* Protection against saving, copying, or long-pressing images */
-    img {
-      -webkit-touch-callout: none !important;
-      -webkit-user-select: none !important;
-      -khtml-user-select: none !important;
-      -moz-user-select: none !important;
-      -ms-user-select: none !important;
-      user-select: none !important;
-      -webkit-user-drag: none !important;
-      user-drag: none !important;
-    }
-
-    body {
-      background-color: #f4f1ea;
-      background-image: radial-gradient(#e5dec9 0.8px, transparent 0.8px);
-      background-size: 20px 20px;
-    }
-    .inbox-row:hover {
-      background: linear-gradient(90deg, rgba(254, 243, 199, 0.4) 0%, rgba(255, 255, 255, 0.8) 100%);
-    }
-  </style>
+  <!-- Tailored Main Stylesheet (Clean Separation) -->
+  <link rel="stylesheet" href="/css/main.css" />
 </head>
 <body class="min-h-screen text-stone-800 antialiased font-sans flex flex-col overflow-x-hidden">
 
   <!-- Header / Navigation Bar -->
-  <header class="border-b border-stone-300/80 bg-stone-900 text-stone-100 shadow-md sticky top-0 z-30">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-lg bg-stone-800 border border-stone-700 flex items-center justify-center text-amber-400 text-lg shadow-inner">
-          🌴
+  <header class="border-b border-stone-800 bg-stone-900 text-stone-100 shadow-md sticky top-0 z-30">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+      
+      <!-- Left: Elder Salviejo Profile & Brand -->
+      <a href="/" class="flex items-center space-x-3 group min-w-0">
+        <!-- Elder Salviejo Profile Picture -->
+        <div class="profile-avatar-nav">
+          <img
+            src="/assets/images/elder-salviejo.jpg"
+            alt="Elder Salviejo"
+            onerror="this.src='https://i.ibb.co/Xrpks0Hm/received-1633857454919246.jpg'"
+            loading="eager"
+          />
         </div>
-        <div>
-          <h1 class="font-serif text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
+        <div class="min-w-0">
+          <h1 class="font-serif text-base sm:text-lg font-bold tracking-tight text-white group-hover:text-amber-300 transition flex items-center gap-2 truncate">
             Elder Salviejo
-            <span class="text-[11px] font-sans font-medium px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
-              Weekly Journal Vault
+            <span class="hidden sm:inline-block text-[11px] font-sans font-medium px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+              Journal Vault
             </span>
           </h1>
-          <p class="text-xs text-stone-400 hidden sm:block">Philippines Dumaguete Mission • Weekly P-Day Archive</p>
+          <p class="text-xs text-stone-400 truncate hidden xs:block">Philippines Dumaguete Mission</p>
         </div>
-      </div>
+      </a>
 
-      <div class="flex items-center space-x-3">
-        <button onclick="fetchWeeks()" class="flex items-center gap-1.5 text-xs bg-amber-600 hover:bg-amber-500 text-white font-medium px-3.5 py-1.5 rounded shadow transition">
+      <!-- Right: Action Buttons -->
+      <div class="flex items-center space-x-2 shrink-0">
+        <button onclick="fetchWeeks()" class="flex items-center gap-1.5 text-xs bg-amber-600 hover:bg-amber-500 text-white font-medium px-3 py-1.5 rounded-lg shadow transition duration-150">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
           </svg>
-          Refresh Letters
+          <span class="hidden sm:inline">Refresh Letters</span>
+          <span class="sm:hidden">Refresh</span>
         </button>
       </div>
+
     </div>
   </header>
 
   <!-- Main Container -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full">
 
-    <!-- Mission & Elder Salviejo Banner Card -->
-    <div class="bg-gradient-to-br from-[#fefbf6] to-[#f8f3e8] border border-amber-200/90 rounded-2xl p-6 sm:p-7 mb-8 shadow-sm">
+    <!-- Mission & Elder Salviejo Hero Profile Card (Responsive, Zero-Overlap) -->
+    <section class="bg-gradient-to-br from-[#fefbf6] to-[#f8f3e8] border border-amber-200/90 rounded-2xl p-6 sm:p-8 mb-8 shadow-sm">
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         
-        <!-- Left: Badge & Mission Info -->
-        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-          <!-- Authentic Missionary Nametag Design -->
-          <div class="bg-neutral-950 text-white rounded-md p-3.5 px-4 border border-neutral-700 shadow-md min-w-[210px] text-center shrink-0 border-t-2 border-t-neutral-500">
-            <div class="text-[8px] uppercase tracking-widest text-neutral-400 font-medium">The Church of</div>
-            <div class="text-[9.5px] uppercase tracking-wider text-neutral-200 font-semibold leading-tight">Jesus Christ</div>
-            <div class="text-[8px] uppercase tracking-widest text-neutral-400 font-medium">of Latter-day Saints</div>
-            <div class="h-px bg-neutral-800 my-1.5 w-4/5 mx-auto"></div>
-            <div class="text-base font-bold font-serif tracking-wide text-white">ELDER SALVIEJO</div>
+        <!-- Left Column: Portrait + Nametag + Missionary Details -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-6 flex-1 min-w-0">
+          
+          <!-- Elder Salviejo Portrait & Nametag Block -->
+          <div class="flex items-center gap-3.5 shrink-0">
+            <!-- Framed Profile Picture -->
+            <div class="profile-avatar-hero">
+              <img
+                src="/assets/images/elder-salviejo.jpg"
+                alt="Elder Salviejo Portrait"
+                onerror="this.src='https://i.ibb.co/Xrpks0Hm/received-1633857454919246.jpg'"
+                loading="eager"
+              />
+            </div>
+
+            <!-- Official Missionary Nametag -->
+            <div class="missionary-nametag">
+              <span class="tag-church">The Church of</span>
+              <span class="tag-christ">Jesus Christ</span>
+              <span class="tag-church">of Latter-day Saints</span>
+              <div class="tag-divider"></div>
+              <span class="tag-name">ELDER SALVIEJO</span>
+            </div>
           </div>
 
           <!-- Description Text -->
-          <div>
-            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-100 border border-amber-200 text-amber-800 text-xs font-semibold uppercase tracking-wider mb-1.5">
+          <div class="flex-1 min-w-0">
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-100 border border-amber-200 text-amber-900 text-xs font-semibold uppercase tracking-wider mb-2">
               <span>📍</span> Philippines Dumaguete Mission
             </div>
             <h2 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 leading-tight">
               Weekly Missionary Letters & Photo Vault
             </h2>
-            <p class="text-xs sm:text-sm text-stone-600 mt-1.5 leading-relaxed max-w-2xl">
-              Every Monday (Preparation Day), Elder Salviejo emails weekly missionary reflections, scripture study insights, teaching experiences, and 7 daily routine photos from the field. All letters are permanently archived here for family, friends, and supporters.
+            <p class="text-xs sm:text-sm text-stone-600 mt-2 leading-relaxed max-w-2xl">
+              Every Monday (Preparation Day), Elder Salviejo shares weekly missionary reflections, scripture study insights, teaching experiences, and 7 daily routine photographs from the field. All letters are permanently archived here for family, friends, and supporters.
             </p>
           </div>
+
         </div>
 
-        <!-- Right: Stats & Mission Badge -->
+        <!-- Right Column: Status & Stats Badges -->
         <div class="flex items-center gap-3 shrink-0 border-t lg:border-t-0 pt-4 lg:pt-0 border-amber-200/60">
-          <div class="text-center px-4 py-2 bg-white/90 rounded-xl border border-amber-200 shadow-sm min-w-[100px]">
-            <span id="totalWeeksCount" class="block text-2xl font-bold text-amber-900">0</span>
+          <div class="text-center px-4 py-2.5 bg-white rounded-xl border border-amber-200 shadow-sm min-w-[105px]">
+            <span id="totalWeeksCount" class="block text-2xl font-bold text-amber-900 leading-tight">0</span>
             <span class="text-[11px] font-semibold text-stone-500 uppercase tracking-wider">Archived Letters</span>
           </div>
-          <div class="text-center px-4 py-2 bg-white/90 rounded-xl border border-amber-200 shadow-sm min-w-[100px]">
-            <span class="block text-2xl font-bold text-emerald-700">Live</span>
+          <div class="text-center px-4 py-2.5 bg-white rounded-xl border border-amber-200 shadow-sm min-w-[105px]">
+            <span class="block text-2xl font-bold text-emerald-700 leading-tight">Live</span>
             <span class="text-[11px] font-semibold text-stone-500 uppercase tracking-wider">Vault Status</span>
           </div>
         </div>
 
       </div>
-    </div>
+    </section>
 
-    <!-- Insert Email / Subscriber Card -->
-    <div class="bg-white rounded-xl border border-stone-200/90 p-5 mb-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <!-- Subscription Card (Clean Responsive Form) -->
+    <section class="bg-white rounded-xl border border-stone-200/90 p-5 sm:p-6 mb-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-5">
       <div class="flex items-center gap-3.5">
         <div class="w-11 h-11 rounded-full bg-amber-100 flex items-center justify-center text-amber-800 text-xl shrink-0">
           💌
         </div>
         <div>
           <h3 class="font-serif font-bold text-stone-900 text-sm sm:text-base">Stay Connected with Elder Salviejo</h3>
-          <p class="text-xs text-stone-500 mt-0.5">Insert your email below to automatically receive an update every Monday (P-Day) whenever a new weekly journal is published.</p>
+          <p class="text-xs text-stone-500 mt-0.5 max-w-xl">
+            Insert your email below to automatically receive an update every Monday (P-Day) whenever a new weekly journal is published.
+          </p>
         </div>
       </div>
 
-      <div class="w-full md:w-auto">
-        <form onsubmit="handleSubscribe(event)" class="flex items-center gap-2">
+      <div class="w-full md:w-auto shrink-0">
+        <form onsubmit="handleSubscribe(event)" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           <input
             type="email"
             id="subscribeEmailInput"
             required
-            placeholder="Insert your email..."
-            class="w-full sm:w-64 text-xs px-3 py-2 rounded-lg border border-stone-300 bg-stone-50/50 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 shadow-sm"
+            placeholder="Enter your email..."
+            class="w-full sm:w-64 text-xs px-3.5 py-2.5 rounded-lg border border-stone-300 bg-stone-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 shadow-sm"
           />
           <button
             type="submit"
             id="subscribeSubmitBtn"
-            class="shrink-0 text-xs font-semibold px-4 py-2 bg-stone-900 hover:bg-stone-800 text-white rounded-lg shadow transition duration-150 flex items-center gap-1.5"
+            class="shrink-0 text-xs font-semibold px-4 py-2.5 bg-stone-900 hover:bg-stone-800 text-white rounded-lg shadow transition duration-150 flex items-center justify-center gap-1.5"
           >
             <span>Subscribe</span>
             <span class="text-amber-400">&rarr;</span>
@@ -168,40 +154,40 @@
         </form>
         <p id="subscribeFeedback" class="text-[11px] mt-1.5 hidden font-medium"></p>
       </div>
-    </div>
+    </section>
 
-    <!-- Search & Filter Bar -->
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4">
+    <!-- Search & Counter Header -->
+    <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-4">
       <div class="relative w-full sm:w-80">
         <input
           type="text"
           id="searchInput"
           oninput="filterWeeks()"
-          placeholder="Search reflections, cities, scriptures..."
-          class="w-full text-xs pl-8 pr-3 py-2 rounded-lg border border-stone-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 shadow-sm"
+          placeholder="Search reflections, scriptures, dates..."
+          class="w-full text-xs pl-8 pr-3 py-2.5 rounded-lg border border-stone-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 shadow-sm"
         />
-        <svg class="w-4 h-4 text-stone-400 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-4 h-4 text-stone-400 absolute left-2.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
       </div>
-      <div class="text-xs text-stone-500 w-full sm:w-auto text-right font-medium">
+      <div class="text-xs text-stone-500 text-left sm:text-right font-medium">
         Showing <span id="displayedCount" class="font-bold text-stone-800">0</span> archived letter(s)
       </div>
     </div>
 
-    <!-- Letter Feed / Inbox View -->
+    <!-- Letter Feed Container (Dual Responsive Layout: Desktop Grid + Mobile Cards) -->
     <div class="bg-white rounded-2xl border border-stone-200/90 shadow-sm overflow-hidden">
       
-      <!-- Table Header -->
-      <div class="border-b border-stone-200 bg-stone-50/70 px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider grid grid-cols-12 gap-3 items-center">
-        <div class="col-span-1 hidden sm:block">Status</div>
-        <div class="col-span-12 sm:col-span-4">Week & Subject</div>
-        <div class="col-span-7 sm:col-span-4 hidden md:block">Missionary Highlight</div>
-        <div class="col-span-5 sm:col-span-2 text-right sm:text-left">P-Day Sent</div>
-        <div class="col-span-7 sm:col-span-1 text-right">Gallery</div>
+      <!-- Desktop Table Header (Hidden on Mobile) -->
+      <div class="hidden md:grid border-b border-stone-200 bg-stone-50 px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider" style="grid-template-columns: 48px minmax(220px, 1.4fr) minmax(200px, 2fr) 110px 70px; gap: 16px;">
+        <div class="text-center">Photos</div>
+        <div>Week & Subject</div>
+        <div>Missionary Highlight</div>
+        <div>P-Day Sent</div>
+        <div class="text-right">View</div>
       </div>
 
-      <!-- Rows Container -->
+      <!-- Rows Container (Populated via /js/index.js) -->
       <div id="weeksList" class="divide-y divide-stone-200">
         <!-- Loading Spinner -->
         <div class="py-16 text-center text-stone-500">
@@ -212,233 +198,29 @@
           <p class="font-medium text-sm">Connecting to Missionary Journal Vault...</p>
         </div>
       </div>
+
     </div>
 
   </main>
 
   <!-- Footer -->
-  <footer class="mt-auto border-t border-stone-300/60 bg-white/70 py-6 text-center text-xs text-stone-500">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-      <p>Elder Salviejo • Philippines Dumaguete Mission • Negros Oriental • "The City of Gentle People"</p>
+  <footer class="mt-auto border-t border-stone-300/60 bg-white/80 py-6 text-center text-xs text-stone-500">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+        <p>Elder Salviejo • Philippines Dumaguete Mission • Negros Oriental • "The City of Gentle People"</p>
+      </div>
       <div class="flex items-center gap-4">
         <span>Preserved with Testimony</span>
         <span>•</span>
-        <a href="https://github.com/AllensCreations/gmail-diary-vault" target="_blank" class="hover:text-amber-700">Missionary Vault</a>
+        <a href="https://github.com/AllensCreations/gmail-diary-vault" target="_blank" class="hover:text-amber-700 font-medium">
+          Missionary Vault
+        </a>
       </div>
     </div>
   </footer>
 
-  <script>
-    let allWeeks = [];
-
-    // Apply global anti-save logic to dynamically added images
-    function protectImages() {
-      document.querySelectorAll('img').forEach(img => {
-        img.setAttribute('oncontextmenu', 'return false;');
-        img.setAttribute('ondragstart', 'return false;');
-      });
-    }
-
-    async function fetchWeeks() {
-      const container = document.getElementById('weeksList');
-      container.innerHTML = `
-        <div class="py-16 text-center text-stone-500">
-          <svg class="animate-spin h-8 w-8 mx-auto mb-3 text-amber-600" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-          </svg>
-          <p class="font-medium text-sm">Loading Elder Salviejo's missionary letters...</p>
-        </div>
-      `;
-
-      try {
-        const response = await fetch('/api/weeks');
-        if (!response.ok) throw new Error('HTTP ' + response.status);
-        const data = await response.json();
-        allWeeks = data.weeks || [];
-        
-        document.getElementById('totalWeeksCount').innerText = allWeeks.length;
-        renderWeeks(allWeeks);
-      } catch (err) {
-        console.error('Failed to load weeks:', err);
-        container.innerHTML = `
-          <div class="py-12 px-6 text-center">
-            <span class="text-3xl">📭</span>
-            <h3 class="font-serif font-bold text-stone-800 text-lg mt-2">No Letters Found</h3>
-            <p class="text-sm text-stone-500 max-w-md mx-auto mt-1">
-              Unable to load missionary letters at this time. Please check your connection or try again.
-            </p>
-            <div class="mt-5 flex justify-center gap-3">
-              <button onclick="fetchWeeks()" class="px-5 py-2.5 bg-stone-900 hover:bg-stone-800 text-white text-xs font-semibold rounded-lg shadow-sm">
-                Try Again
-              </button>
-            </div>
-          </div>
-        `;
-      }
-    }
-
-    function renderWeeks(weeks) {
-      const container = document.getElementById('weeksList');
-      document.getElementById('displayedCount').innerText = weeks.length;
-
-      if (weeks.length === 0) {
-        container.innerHTML = `
-          <div class="py-12 px-6 text-center">
-            <span class="text-3xl">🌴</span>
-            <h3 class="font-serif font-bold text-stone-800 text-lg mt-2">The Missionary Vault is Empty</h3>
-            <p class="text-sm text-stone-500 max-w-md mx-auto mt-1">
-              No weekly emails have been ingested yet. When Elder Salviejo sends his Monday P-Day email with daily routine photos, it will automatically appear here!
-            </p>
-          </div>
-        `;
-        return;
-      }
-
-      container.innerHTML = weeks.map((w, index) => {
-        const pubDate = new Date(w.publishedAt || w.createdAt || Date.now());
-        const formattedDate = pubDate.toLocaleDateString('en-US', {
-          month: 'short',
-          day: 'numeric',
-          year: 'numeric'
-        });
-
-        const targetUrl = `/week/${w.slug || w.id}`;
-        
-        return `
-          <a href="${targetUrl}" class="inbox-row block px-5 py-4 transition duration-150 group">
-            <div class="grid grid-cols-12 items-center gap-3">
-              
-              <!-- Status / Photo Count Badge -->
-              <div class="col-span-1 hidden sm:flex items-center">
-                <span class="w-8 h-8 rounded-full bg-amber-100 group-hover:bg-amber-200 text-amber-900 flex items-center justify-center text-xs font-bold transition">
-                  📸 ${w.imageCount || 7}
-                </span>
-              </div>
-
-              <!-- Title & Subject -->
-              <div class="col-span-12 sm:col-span-4">
-                <div class="flex items-center gap-2">
-                  <h3 class="font-semibold text-stone-900 text-sm group-hover:text-amber-800 transition line-clamp-1">
-                    ${escapeHtml(w.title || 'Weekly Missionary Journal')}
-                  </h3>
-                  ${index === 0 ? '<span class="text-[10px] uppercase font-bold bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded border border-amber-300">Latest</span>' : ''}
-                </div>
-                <p class="text-xs text-stone-400 mt-0.5 line-clamp-1">
-                  Elder Salviejo • ${w.verse && w.verse.reference ? `<span class="text-amber-800 font-medium">📖 ${escapeHtml(w.verse.reference)}</span>` : escapeHtml(w.sender || 'Philippines Dumaguete Mission')}
-                </p>
-              </div>
-
-              <!-- Snippet / Preview -->
-              <div class="col-span-7 sm:col-span-4 hidden md:block text-xs text-stone-600 line-clamp-2 pr-2">
-                ${escapeHtml(w.snippet || 'Click to read daily routine reflections and view Polaroid missionary photos...')}
-              </div>
-
-              <!-- Date -->
-              <div class="col-span-6 sm:col-span-2 text-xs text-stone-500 font-medium">
-                ${formattedDate}
-              </div>
-
-              <!-- Gallery Thumbnail / Badge -->
-              <div class="col-span-6 sm:col-span-1 text-right flex items-center justify-end gap-2">
-                ${w.previewImage ? `
-                  <div class="w-10 h-10 rounded border-2 border-white shadow-sm overflow-hidden bg-stone-200 shrink-0 transform -rotate-3 group-hover:rotate-0 transition">
-                    <img src="${w.previewImage}" alt="Preview" class="w-full h-full object-cover" />
-                  </div>
-                ` : `
-                  <span class="text-xs text-stone-400">📸 ${w.imageCount || 7}</span>
-                `}
-                <span class="text-stone-400 group-hover:text-amber-700 group-hover:translate-x-0.5 transition hidden sm:inline">
-                  &rarr;
-                </span>
-              </div>
-
-            </div>
-          </a>
-        `;
-      }).join('');
-    }
-
-    function filterWeeks() {
-      const q = document.getElementById('searchInput').value.toLowerCase().trim();
-      if (!q) {
-        renderWeeks(allWeeks);
-        return;
-      }
-      const filtered = allWeeks.filter(w => {
-        return (w.title && w.title.toLowerCase().includes(q)) ||
-               (w.snippet && w.snippet.toLowerCase().includes(q)) ||
-               (w.rawSubject && w.rawSubject.toLowerCase().includes(q)) ||
-               (w.publishedAt && w.publishedAt.toLowerCase().includes(q));
-      });
-      renderWeeks(filtered);
-    }
-
-    function escapeHtml(str) {
-      if (!str) return '';
-      return str
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-    }
-
-    async function handleSubscribe(e) {
-      e.preventDefault();
-      const input = document.getElementById('subscribeEmailInput');
-      const btn = document.getElementById('subscribeSubmitBtn');
-      const feedback = document.getElementById('subscribeFeedback');
-      const email = input.value.trim();
-
-      if (!email) return;
-
-      btn.disabled = true;
-      btn.innerText = 'Subscribing...';
-      feedback.className = 'text-[11px] mt-1.5 block text-stone-500 font-medium';
-      feedback.innerText = 'Saving email to vault...';
-
-      try {
-        const res = await fetch('/api/subscribe', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email })
-        });
-        const data = await res.json();
-        if (res.ok && data.success) {
-          feedback.className = 'text-[11px] mt-1.5 block text-emerald-700 font-medium';
-          feedback.innerText = "✅ Subscribed! You'll receive email updates whenever Elder Salviejo publishes a new weekly missionary journal.";
-          input.value = '';
-        } else {
-          feedback.className = 'text-[11px] mt-1.5 block text-rose-600 font-medium';
-          feedback.innerText = '⚠️ ' + (data.error || 'Failed to subscribe. Please try again.');
-        }
-      } catch (err) {
-        feedback.className = 'text-[11px] mt-1.5 block text-rose-600 font-medium';
-        feedback.innerText = '⚠️ Network error: ' + err.message;
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<span>Subscribe</span> <span class="text-amber-400">&rarr;</span>';
-      }
-    }
-
-    // Image protection: prevent context menu and dragging on photos
-    window.addEventListener('contextmenu', function (e) {
-      if (e.target && e.target.nodeName === 'IMG') {
-        e.preventDefault();
-        return false;
-      }
-    }, false);
-
-    window.addEventListener('dragstart', function (e) {
-      if (e.target && e.target.nodeName === 'IMG') {
-        e.preventDefault();
-        return false;
-      }
-    }, false);
-
-    // Auto-fetch on load
-    document.addEventListener('DOMContentLoaded', fetchWeeks);
-  </script>
+  <!-- External Script (Clean Separation) -->
+  <script src="/js/index.js"></script>
 </body>
 </html>
