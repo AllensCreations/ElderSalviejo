@@ -261,7 +261,7 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
       }
     }
   } else {
-    Logger.log('No website subscribers or manual recipients found yet.');
+    Logger.log('ℹ️ Letter is successfully published and live on the website! (No email subscribers have signed up on the site yet to receive newsletter copies).');
   }
 
   // 2. Send confirmation receipt back to your personal email
