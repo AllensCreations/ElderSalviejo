@@ -1,10 +1,11 @@
-# 📬 Google Apps Script: Dedicated Dummy Receiver & Monday Broadcast Guide
+# 🌴 Elder Salviejo: Dedicated Dummy Receiver & Monday Broadcast Guide
+> **Philippines Dumaguete Mission**
 
-This script runs inside your **dedicated dummy Gmail account** (the receiver for your texts and images). Every Monday, it automatically:
-1. Detects your reflection email and extracts the text and 7 daily routine photos.
+This script runs inside your **dedicated dummy Gmail account** (the receiver for Elder Salviejo's texts and photos). Every Monday (P-Day), it automatically:
+1. Detects your weekly reflection email and extracts the text and 7 daily routine photos.
 2. Converts photos into inline Base64 data URIs.
 3. Ingests the data into your live **Vercel API** and **Turso SQLite database**.
-4. **Sends it out**: Automatically emails an announcement newsletter to your **family/friends distribution list** with a direct link to the dynamic polaroid viewer.
+4. **Sends it out**: Automatically emails an HTML newsletter announcement to all **website subscribers** (and any manual distribution list) with a direct button to the dynamic Polaroid viewer.
 5. Sends a confirmation receipt back to your personal email address!
 
 ---
@@ -14,23 +15,23 @@ This script runs inside your **dedicated dummy Gmail account** (the receiver for
 ### 1. Create the Script Project
 1. Log into your **dummy Gmail account**.
 2. Navigate to [script.google.com](https://script.google.com) and click **+ New project**.
-3. Rename the project to **Monday Diary Pipeline**.
+3. Rename the project to **Elder Salviejo Diary Processor**.
 4. Replace `Code.gs` with [`google-apps-script/Code.gs`](./Code.gs).
 5. Open **Project Settings** (gear icon) > Check **"Show 'appsscript.json' manifest file in editor"**.
 6. Replace `appsscript.json` with [`google-apps-script/appsscript.json`](./appsscript.json).
 
 ---
 
-### 2. Configure Script Properties
-Under **Project Settings** > **Script Properties**, add:
+### 2. Configure Script Properties (Optional)
+Under **Project Settings** > **Script Properties**, the script uses standard defaults or you can customize:
 
 | Property | Value | Description |
 | :--- | :--- | :--- |
 | `VERCEL_INGEST_URL` | `https://gmail-diary-vault.vercel.app/api/ingest` | Live Vercel ingest endpoint |
 | `INGEST_SECRET` | `gdv_sec_7f9c2d81a4b53e89c0e211ab9` | Secure authorization token |
-| `DISTRIBUTION_LIST` | `family@example.com, friend@example.com` | Comma-separated list of emails who receive the weekly diary newsletter |
-| `ALLOWED_SENDER` | `your-personal-email@gmail.com` | Your real personal email (rejects any third-party spam to dummy inbox) |
-| `GMAIL_QUERY` | `subject:"Weekly Reflection" -label:diary-processed` | Gmail filter in the dummy inbox |
+| `DISTRIBUTION_LIST` | `family@example.com` | Optional manual extra emails (website subscribers are notified automatically!) |
+| `ALLOWED_SENDER` | `your-missionary-email@gmail.com` | Optional filter to only accept emails from your address |
+| `GMAIL_QUERY` | `subject:"Weekly Reflection" -label:diary-processed` | Search filter in the dummy inbox |
 | `PROCESSED_LABEL` | `diary-processed` | Label applied after successful ingest & send |
 
 ---
@@ -42,36 +43,36 @@ Under **Project Settings** > **Script Properties**, add:
    ```
 2. Click **Run**.
 3. Google will ask you to authorize permissions for Gmail and network requests. Grant access.
-4. The function will automatically install a time-driven trigger that runs **every Monday at 9:00 AM**.
+4. The function will automatically install a time-driven trigger that runs **every Monday at 9:00 AM (Asia/Manila time)**.
 
 ---
 
-### 4. Your Monday Routine
-From your personal Gmail app every Monday:
+### 4. Elder Salviejo's Monday P-Day Routine
+From your personal/missionary Gmail app every Monday:
 1. **To**: `your-dummy-account@gmail.com`
-2. **Subject**: `Weekly Reflection: Week 36` (or any title)
+2. **Subject**: `Weekly Reflection: Week 2 in Dumaguete` (or any title)
 3. **Body**:
    ```text
    --- MONDAY ---
-   Morning trail run through the ridge, followed by coffee and reviewing quarterly goals.
+   Preparation day! Did laundry, emailed family, and played basketball with the elders.
 
    --- TUESDAY ---
-   Deep work on systems architecture at the downtown public library. Cardamom buns after.
+   Morning study in Alma 26. Walked through Sibulan and met investigators.
 
    --- WEDNESDAY ---
-   Mid-week milestone reached. Team ramen dinner!
+   Taught the Plan of Salvation to Brother Bautista and shared buko juice.
 
    --- THURSDAY ---
-   Harvested cherry tomatoes and made fresh basil pesto.
+   District Council meeting in Dumaguete City. Practiced Cebuano roleplays.
 
    --- FRIDAY ---
-   Backyard movie night under string lights with apple cider.
+   Service project helping Nanay Elena repair her bamboo fence.
 
    --- SATURDAY ---
-   Scenic drive up to the lake overlook. Beautiful autumn foliage.
+   Street contacting on Rizal Boulevard during sunset overlooking the sea.
 
    --- SUNDAY ---
-   Baked sourdough loaves and preparing for next week!
+   Sacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior.
    ```
 4. **Attachments**: 7 photos (.jpg or .png) in order (Monday through Sunday).
-5. **Hit Send**: The dummy account script will process the email, store everything in Turso, and dispatch the newsletter announcement to your distribution list!
+5. **Hit Send**: The dummy account script will process the email, archive everything in Turso, and dispatch the newsletter announcement to all subscribers!
