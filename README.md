@@ -1,48 +1,54 @@
-# 📬 Gmail Diary Vault
-
-> A serverless, decoupled event-driven pipeline bridging your mobile/desktop Gmail client directly to a secure Turso cloud database and a dynamic polaroid/sticky-note web viewer on Vercel.
+# 🌴 Elder Salviejo • Weekly Journal Vault
+> **Philippines Dumaguete Mission** • Dedicated to Family, Friends & Supporters
+> 
+> A serverless, decoupled event-driven pipeline bridging Elder Salviejo's weekly Monday Preparation Day (P-Day) emails to a permanent Turso Cloud SQLite database, dynamic Polaroid/sticky-note viewer on Vercel, and automated subscriber notification broadcast.
 
 ---
 
 ## 🏛️ Data Flow Architecture
 
 ```text
-[Gmail (Mobile or Desktop)]
-       │ (Sends weekly email with text + 7 attachments)
+[Elder Salviejo (P-Day Email)]
+       │ (Sends weekly email with daily reflections + 7 photos to dummy Gmail)
        ▼
-[Google Apps Script Engine]
+[Dummy Gmail Receiver & Apps Script]
        │ (Parses text by day tags & converts images to Base64 data URIs)
        ▼
 [Vercel Backend API (/api/ingest)]
-       │ (Validates Bearer token & runs SQL upsert)
+       │ (Validates Bearer token & writes to Turso Cloud SQLite)
        ▼
 [Turso SQLite Database]
-       │ (Stores immutable weekly records with JSON blobs)
+       │ (Stores immutable weekly records & subscriber emails)
+       ▼
+[Automated Monday Broadcast]
+       ├─ (Website Visitors)  -> Enter email in "Stay Connected" widget to subscribe
+       ├─ (Email Newsletter)  -> Dummy Gmail sends rich HTML update to all subscribers
+       ├─ (Author Receipt)    -> Confirmation receipt sent back to Elder Salviejo
        ▼
 [Vercel Dynamic Frontend]
-       ├─ (/)          -> Index Vault: Mini-inbox style directory
-       └─ (/week/[id]) -> Dynamic Journal View: Scrollable polaroid & sticky-note cards
+       ├─ (/)          -> Live Directory: Elder Salviejo's Weekly Journal Vault
+       └─ (/week/[id]) -> Polaroid Viewer: Scrollable photos & sticky-note reflections
 ```
 
 ---
 
 ## ⚙️ Component Mechanics
 
-### 1. The Input Layer (Gmail App)
-* Draft your reflection in any Gmail app (iOS, Android, Web).
+### 1. The Input Layer (Monday P-Day Email)
+* Draft your reflection in Gmail during Monday Preparation Day.
 * Format daily entries using explicit day tags:
   ```text
   --- MONDAY ---
-  Morning trail run through the ridge, followed by coffee and reviewing quarterly goals.
+  Preparation day! Did laundry, emailed family, and played basketball with the elders.
 
   --- TUESDAY ---
-  Deep work on systems architecture at the downtown public library. Cardamom buns after.
+  Morning study in Alma 26. Walked through Sibulan and met investigators.
   ...
   --- SUNDAY ---
-  Sunday reset: meal prep, fresh sourdough loaves, and sending off the reflection!
+  Sacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior.
   ```
-* Attach **7 image files** (`.jpg` or `.png`) directly to the email corresponding to each day's reflection.
-* Send to yourself or apply a dedicated tracking filter.
+* Attach **7 image files** (`.jpg` or `.png`) directly to the email corresponding to each day's routine photo.
+* Send to your dedicated **dummy receiver Gmail account**.
 
 ### 2. The Processing Layer (Google Apps Script)
 * Script located in [`google-apps-script/Code.gs`](./google-apps-script/Code.gs).
