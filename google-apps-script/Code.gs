@@ -21,14 +21,20 @@ const CONFIG = {
   // Shared secret token to authenticate requests to /api/ingest
   INGEST_SECRET: PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || 'gdv_sec_7f9c2d81a4b53e89c0e211ab9',
   
+  // Secret security passcode that MUST be included in the email Subject line
+  // (e.g. "Weekly Reflection 159266: Week 2 in Sibulan").
+  // This code is automatically stripped and hidden during processing so it never appears publicly!
+  SECRET_CODE: PropertiesService.getScriptProperties().getProperty('SECRET_CODE') || '159266',
+
   // Gmail search query to locate new diary submissions in the dummy account
-  GMAIL_QUERY: PropertiesService.getScriptProperties().getProperty('GMAIL_QUERY') || '(subject:Reflection OR subject:Journal OR from:2ndsalviejomark2019@gmail.com OR from:salviejomark2019@gmail.com) -label:diary-processed',
+  // Finds any unprocessed email containing the secret passcode 159266
+  GMAIL_QUERY: PropertiesService.getScriptProperties().getProperty('GMAIL_QUERY') || '159266 -label:diary-processed',
   
   // Label applied to thread once successfully ingested
   PROCESSED_LABEL: PropertiesService.getScriptProperties().getProperty('PROCESSED_LABEL') || 'diary-processed',
   
   // Optional security filter: only accept submissions sent from your personal email address
-  // Leave empty ("") to accept from any sender
+  // Leave empty ("") to allow any email address that provides the secret code 159266
   ALLOWED_SENDER: PropertiesService.getScriptProperties().getProperty('ALLOWED_SENDER') || '',
   
   // Optional manual distribution list (comma-separated). Note: All users who insert
@@ -72,7 +78,13 @@ function processWeeklyDiaryEmails() {
     const date = message.getDate();
     const body = message.getPlainBody() || message.getBody();
     
-    // Security check: if ALLOWED_SENDER is configured, verify the sender
+    // Security check: verify subject contains secret passcode 159266
+    if (CONFIG.SECRET_CODE && !subject.includes(CONFIG.SECRET_CODE)) {
+      Logger.log(`Skipping thread "${subject}": Missing required secret passcode (${CONFIG.SECRET_CODE})`);
+      continue;
+    }
+
+    // Optional security check: if ALLOWED_SENDER is configured, verify the sender
     if (CONFIG.ALLOWED_SENDER && !sender.toLowerCase().includes(CONFIG.ALLOWED_SENDER.toLowerCase())) {
       Logger.log(`Skipping message from unauthorized sender: ${sender}`);
       continue;
@@ -104,16 +116,17 @@ function processWeeklyDiaryEmails() {
     // 3. Parse daily markdown blocks
     const parsedDays = parseDiaryEntries(body, encodedImages);
     
-    // Generate a clean slug / week title
-    const weekTitle = subject.replace(/^[\[\(].*?[\]\)]\s*/, '').trim() || `Week of ${Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
+    // Generate a clean slug & title (completely stripping the secret code 159266 so it remains hidden)
+    const weekTitle = cleanSubjectTitle(subject, CONFIG.SECRET_CODE) || `Week of ${Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
     const weekSlug = generateSlug(weekTitle, date);
+    const cleanRawSubject = subject.replace(new RegExp(`[\\[\\(]?\\s*${CONFIG.SECRET_CODE}\\s*[\\]\\)]?`, 'gi'), '').trim();
     
     // 4. Construct payload
     const payload = {
       slug: weekSlug,
       title: weekTitle,
       publishedAt: date.toISOString(),
-      rawSubject: subject,
+      rawSubject: cleanRawSubject,
       sender: sender,
       entries: parsedDays,
       totalEntries: parsedDays.length,
@@ -374,3 +387,21 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
+
+/**
+ * Strips the secret security passcode (e.g. 159266) from the subject line
+ * and cleans extraneous prefixes/punctuation so the passcode remains completely hidden!
+ */
+function cleanSubjectTitle(rawSubject, secretCode) {
+  let clean = rawSubject || '';
+  if (secretCode) {
+    const escaped = secretCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp('[\\[\\(]?\\s*' + escaped + '\\s*[\\]\\)]?', 'gi');
+    clean = clean.replace(regex, '');
+  }
+  clean = clean.replace(/^(weekly\s*reflection|weekly\s*journal|reflection|journal)[\s:—-]*/i, '')
+               .replace(/^[-—:\s]+|[-—:\s]+$/g, '')
+               .trim();
+  return clean || 'Weekly Missionary Journal';
+}
+
