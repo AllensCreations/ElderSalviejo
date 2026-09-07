@@ -1,73 +1,77 @@
-# Google Apps Script Setup Guide
+# 📬 Google Apps Script: Dedicated Dummy Receiver & Monday Broadcast Guide
 
-This Google Apps Script bridges your Gmail inbox with the Vercel Ingest API. It runs on a scheduled time trigger (e.g., every 6 hours or daily), finds weekly reflection emails matching your query, parses the 7 daily reflections, encodes the 7 attached images as Base64 data URIs, and POSTs the structured payload to your Vercel `/api/ingest` endpoint.
-
----
-
-## 1. Create the Script Project
-1. Navigate to [script.google.com](https://script.google.com) and click **New Project**.
-2. Rename the project to **Gmail Diary Pipeline**.
-3. Replace the default `Code.gs` with the contents of [`Code.gs`](./Code.gs).
-4. Go to **Project Settings** (gear icon) -> Check **"Show 'appsscript.json' manifest file in editor"**.
-5. Switch to `appsscript.json` in the editor and paste the contents from [`appsscript.json`](./appsscript.json).
+This script runs inside your **dedicated dummy Gmail account** (the receiver for your texts and images). Every Monday, it automatically:
+1. Detects your reflection email and extracts the text and 7 daily routine photos.
+2. Converts photos into inline Base64 data URIs.
+3. Ingests the data into your live **Vercel API** and **Turso SQLite database**.
+4. **Sends it out**: Automatically emails an announcement newsletter to your **family/friends distribution list** with a direct link to the dynamic polaroid viewer.
+5. Sends a confirmation receipt back to your personal email address!
 
 ---
 
-## 2. Configure Script Properties
-In **Project Settings**, scroll down to **Script Properties** and add the following keys:
+## 🛠️ Setup Walkthrough in the Dummy Account
 
-| Property | Example Value | Description |
+### 1. Create the Script Project
+1. Log into your **dummy Gmail account**.
+2. Navigate to [script.google.com](https://script.google.com) and click **+ New project**.
+3. Rename the project to **Monday Diary Pipeline**.
+4. Replace `Code.gs` with [`google-apps-script/Code.gs`](./Code.gs).
+5. Open **Project Settings** (gear icon) > Check **"Show 'appsscript.json' manifest file in editor"**.
+6. Replace `appsscript.json` with [`google-apps-script/appsscript.json`](./appsscript.json).
+
+---
+
+### 2. Configure Script Properties
+Under **Project Settings** > **Script Properties**, add:
+
+| Property | Value | Description |
 | :--- | :--- | :--- |
-| `VERCEL_INGEST_URL` | `https://your-diary-app.vercel.app/api/ingest` | URL of your deployed Vercel backend route |
-| `INGEST_SECRET` | `super_secret_token_123` | Secret matching `INGEST_SECRET` in Vercel |
-| `GMAIL_QUERY` | `subject:"Weekly Reflection" -label:diary-processed` | Gmail search filter for emails to process |
-| `PROCESSED_LABEL` | `diary-processed` | Gmail label applied after successful ingest |
+| `VERCEL_INGEST_URL` | `https://gmail-diary-vault.vercel.app/api/ingest` | Live Vercel ingest endpoint |
+| `INGEST_SECRET` | `gdv_sec_7f9c2d81a4b53e89c0e211ab9` | Secure authorization token |
+| `DISTRIBUTION_LIST` | `family@example.com, friend@example.com` | Comma-separated list of emails who receive the weekly diary newsletter |
+| `ALLOWED_SENDER` | `your-personal-email@gmail.com` | Your real personal email (rejects any third-party spam to dummy inbox) |
+| `GMAIL_QUERY` | `subject:"Weekly Reflection" -label:diary-processed` | Gmail filter in the dummy inbox |
+| `PROCESSED_LABEL` | `diary-processed` | Label applied after successful ingest & send |
 
 ---
 
-## 3. Email Formatting Guide
+### 3. One-Click Monday Trigger Setup
+1. In the Apps Script toolbar dropdown, select the function:
+   ```text
+   createMondayTrigger
+   ```
+2. Click **Run**.
+3. Google will ask you to authorize permissions for Gmail and network requests. Grant access.
+4. The function will automatically install a time-driven trigger that runs **every Monday at 9:00 AM**.
 
-When sending your weekly email from the Gmail mobile or desktop app:
-1. **Subject**: `Weekly Reflection: 2026-W36` (or any title)
-2. **Body**: Use day markdown tags:
+---
+
+### 4. Your Monday Routine
+From your personal Gmail app every Monday:
+1. **To**: `your-dummy-account@gmail.com`
+2. **Subject**: `Weekly Reflection: Week 36` (or any title)
+3. **Body**:
    ```text
    --- MONDAY ---
-   Started the new workout routine and finished the first chapter of the book.
+   Morning trail run through the ridge, followed by coffee and reviewing quarterly goals.
 
    --- TUESDAY ---
-   Team lunch downtown and explored the botanical gardens.
+   Deep work on systems architecture at the downtown public library. Cardamom buns after.
 
    --- WEDNESDAY ---
-   Midweek project milestone reached!
+   Mid-week milestone reached. Team ramen dinner!
 
    --- THURSDAY ---
-   Cooked homemade pasta with fresh basil.
+   Harvested cherry tomatoes and made fresh basil pesto.
 
    --- FRIDAY ---
-   Celebrated the weekend with movie night.
+   Backyard movie night under string lights with apple cider.
 
    --- SATURDAY ---
-   Hike up the mountain trails, clear skies.
+   Scenic drive up to the lake overlook. Beautiful autumn foliage.
 
    --- SUNDAY ---
-   Meal prep and quiet evening reading.
+   Baked sourdough loaves and preparing for next week!
    ```
-3. **Attachments**: Attach exactly 7 photos (JPEG or PNG) corresponding to Monday through Sunday.
-
----
-
-## 4. Test & Authorize
-1. In the Apps Script editor, select function `processWeeklyDiaryEmails` and click **Run**.
-2. Google will display an **Authorization Required** dialog. Grant access to Gmail and External URLs.
-3. Review the execution log to confirm successful payload transmission.
-
----
-
-## 5. Set Up Automated Trigger
-1. Click the **Triggers** icon (clock on the left sidebar).
-2. Click **+ Add Trigger** (bottom right):
-   - **Function to run**: `processWeeklyDiaryEmails`
-   - **Deployment**: `Head`
-   - **Event source**: `Time-driven`
-   - **Type**: `Hour timer` -> `Every 6 hours` (or `Day timer`)
-3. Click **Save**.
+4. **Attachments**: 7 photos (.jpg or .png) in order (Monday through Sunday).
+5. **Hit Send**: The dummy account script will process the email, store everything in Turso, and dispatch the newsletter announcement to your distribution list!
