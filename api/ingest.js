@@ -7,6 +7,7 @@
  */
 
 const { saveWeeklyDiary, initDatabase, getAllSubscribers } = require('../lib/turso');
+const { lookupScripture } = require('../lib/scriptures');
 
 module.exports = async function handler(req, res) {
   // Allow CORS preflight if needed
@@ -75,6 +76,22 @@ module.exports = async function handler(req, res) {
     const finalTotal = typeof totalEntries === 'number' ? totalEntries : entries.length;
     const finalImages = typeof imageCount === 'number' ? imageCount : entries.filter(e => !!e.image).length;
 
+    // Automatic Scripture Lookup via bcbooks/scriptures-json
+    let resolvedVerse = null;
+    if (verse) {
+      if (typeof verse === 'string') {
+        const found = await lookupScripture(verse);
+        resolvedVerse = found || { reference: verse, text: '' };
+      } else if (typeof verse === 'object') {
+        if (verse.reference && (!verse.text || verse.text.trim() === '')) {
+          const found = await lookupScripture(verse.reference);
+          resolvedVerse = found || verse;
+        } else {
+          resolvedVerse = verse;
+        }
+      }
+    }
+
     // Ensure database table exists
     await initDatabase();
 
@@ -88,7 +105,7 @@ module.exports = async function handler(req, res) {
       entries,
       totalEntries: finalTotal,
       imageCount: finalImages,
-      verse: verse || null
+      verse: resolvedVerse
     });
 
     console.log(`✅ Successfully ingested weekly diary: "${title}" (slug: ${cleanSlug})`);

@@ -16,7 +16,7 @@
 
 const CONFIG = {
   // Your live Vercel Production Ingest Endpoint
-  VERCEL_INGEST_URL: PropertiesService.getScriptProperties().getProperty('VERCEL_INGEST_URL') || 'https://gmail-diary-vault.vercel.app/api/ingest',
+  VERCEL_INGEST_URL: PropertiesService.getScriptProperties().getProperty('VERCEL_INGEST_URL') || 'https://eldersalviejo.vercel.app/api/ingest',
   
   // Shared secret token to authenticate requests to /api/ingest
   INGEST_SECRET: PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || 'gdv_sec_7f9c2d81a4b53e89c0e211ab9',
@@ -41,7 +41,7 @@ const CONFIG = {
   DISTRIBUTION_LIST: PropertiesService.getScriptProperties().getProperty('DISTRIBUTION_LIST') || '',
   
   // Base public website URL for the live diary viewer
-  SITE_URL: PropertiesService.getScriptProperties().getProperty('SITE_URL') || 'https://gmail-diary-vault.vercel.app',
+  SITE_URL: PropertiesService.getScriptProperties().getProperty('SITE_URL') || 'https://eldersalviejo.vercel.app',
   
   // Supported day headers
   DAYS: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY']
@@ -387,17 +387,22 @@ function parseDiaryEntries(bodyText, encodedImages) {
 }
 
 /**
- * Parses scripture verse format:
- * e.g. -VERSE- (Matthew:11:11)(VERSEHERE)
- * or   -VERSE- (Matthew 11:11)(Come unto me...)
- * or   -VERSE- (Matthew:11:11) VERSEHERE
- * or   -VERSE- Matthew:11:11 - VERSEHERE
+ * Parses scripture verse format and automatically looks up scripture text
+ * from https://github.com/bcbooks/scriptures-json
+ * 
+ * Supports:
+ *   - -VERSE- (Matthew 11:28-29)
+ *   - -VERSE- (VERSE Matthew 11:28-29)
+ *   - -VERSE- (Alma 37:37)
+ *   - -VERSE- (D&C 68:6) or (Doctrine and Covenants 68:6)
+ *   - -VERSE- (1 Nephi 3:7)
+ *   - -VERSE- (Matthew:11:11)(VERSEHERE)
  */
 function parseVerseString(raw) {
   if (!raw) return null;
   const trimmed = raw.trim();
 
-  // Pattern 1: (Reference)(Text) e.g. (Matthew:11:11)(VERSEHERE)
+  // Pattern 1: Two parentheses (Reference)(Text) e.g. (Matthew:11:11)(VERSEHERE)
   const twoParens = trimmed.match(/^\s*\(([^)]+)\)\s*\(([\s\S]+)\)\s*$/);
   if (twoParens) {
     return {
@@ -406,29 +411,111 @@ function parseVerseString(raw) {
     };
   }
 
-  // Pattern 2: (Reference) Text e.g. (Matthew:11:11) VERSEHERE
+  // Pattern 2: Single reference in parens: e.g. (Matthew 11:28-29), (VERSE Matthew 11:28-29), (Alma 37:37)
+  const singleParenMatch = trimmed.match(/^\s*\(([^)]+)\)\s*$/);
+  if (singleParenMatch) {
+    const ref = singleParenMatch[1].replace(/^VERSE\s*/i, '').trim();
+    const fetched = fetchScriptureTextGas(ref);
+    return {
+      reference: ref,
+      text: fetched || ''
+    };
+  }
+
+  // Pattern 3: (Reference) Text e.g. (Matthew:11:11) VERSEHERE
   const parenRefThenText = trimmed.match(/^\s*\(([^)]+)\)\s*([\s\S]+)$/);
   if (parenRefThenText) {
+    const ref = parenRefThenText[1].replace(/^VERSE\s*/i, '').trim();
+    const txt = parenRefThenText[2].trim().replace(/^\(|\)$/g, '');
     return {
-      reference: parenRefThenText[1].trim(),
-      text: parenRefThenText[2].trim().replace(/^\(|\)$/g, '')
+      reference: ref,
+      text: txt || fetchScriptureTextGas(ref) || ''
     };
   }
 
-  // Pattern 3: Reference - Text or Reference: Text
-  const separatorMatch = trimmed.match(/^([A-Za-z0-9\s:—&]+?)\s*(?:—|–|-|:\s+)\s*([\s\S]+)$/);
-  if (separatorMatch) {
-    return {
-      reference: separatorMatch[1].trim().replace(/^\(|\)$/g, ''),
-      text: separatorMatch[2].trim().replace(/^\(|\)$/g, '')
-    };
-  }
-
-  // Pattern 4: Fallback
+  // Pattern 4: Reference without parens: e.g. Matthew 11:28-29 or Alma 37:37
+  const refClean = trimmed.replace(/^VERSE\s*/i, '').replace(/^\(|\)$/g, '').trim();
+  const fetched = fetchScriptureTextGas(refClean);
   return {
-    reference: 'Missionary Scripture',
-    text: trimmed.replace(/^\(|\)$/g, '').trim()
+    reference: refClean || 'Missionary Scripture',
+    text: fetched || ''
   };
+}
+
+/**
+ * Automatically fetches the scripture text from bcbooks/scriptures-json via jsdelivr CDN
+ */
+function fetchScriptureTextGas(refStr) {
+  if (!refStr) return '';
+  let clean = refStr.replace(/^[-—#*~:\s]+|[-—#*~:\s]+$/g, '').replace(/^\(|\)$/g, '').trim();
+  clean = clean.replace(/^VERSE\s*/i, '').trim();
+
+  // Pattern: Book Chapter:StartVerse(-EndVerse)?
+  const regex = /^([1-4]?\s*[A-Za-z—\s&]+?)\s*[:\s]\s*(\d+)\s*[:]\s*(\d+)(?:\s*[-–—]\s*(\d+))?$/i;
+  const match = clean.match(regex);
+  if (!match) return '';
+
+  const bookRaw = match[1].trim();
+  const chapter = match[2];
+  const startVerse = parseInt(match[3], 10);
+  const endVerse = match[4] ? parseInt(match[4], 10) : startVerse;
+
+  const normalized = bookRaw.toLowerCase().replace(/\s+/g, ' ');
+  let volFile = 'new-testament-reference.json';
+  let isDc = false;
+
+  const bomBooks = ['1 nephi', '2 nephi', 'jacob', 'enos', 'jarom', 'omni', 'words of mormon', 'mosiah', 'alma', 'helaman', '3 nephi', '4 nephi', 'mormon', 'ether', 'moroni'];
+  const pgpBooks = ['moses', 'abraham', 'joseph smith—matthew', 'joseph smith-matthew', 'js-m', 'joseph smith—history', 'js-h', 'articles of faith', 'a of f'];
+  const dcBooks = ['doctrine and covenants', 'd&c', 'd and c', 'dc', 'section'];
+  const otBooks = ['genesis', 'exodus', 'leviticus', 'numbers', 'deuteronomy', 'joshua', 'judges', 'ruth', '1 samuel', '2 samuel', '1 kings', '2 kings', '1 chronicles', '2 chronicles', 'ezra', 'nehemiah', 'esther', 'job', 'psalms', 'psalm', 'proverbs', 'ecclesiastes', 'song of solomon', 'isaiah', 'jeremiah', 'lamentations', 'ezekiel', 'daniel', 'hosea', 'joel', 'amos', 'obadiah', 'jonah', 'micah', 'nahum', 'habakkuk', 'zephaniah', 'haggai', 'zechariah', 'malachi'];
+
+  if (bomBooks.indexOf(normalized) !== -1) {
+    volFile = 'book-of-mormon-reference.json';
+  } else if (dcBooks.indexOf(normalized) !== -1) {
+    volFile = 'doctrine-and-covenants-reference.json';
+    isDc = true;
+  } else if (pgpBooks.indexOf(normalized) !== -1) {
+    volFile = 'pearl-of-great-price-reference.json';
+  } else if (otBooks.indexOf(normalized) !== -1) {
+    volFile = 'old-testament-reference.json';
+  }
+
+  try {
+    const url = 'https://cdn.jsdelivr.net/gh/bcbooks/scriptures-json@master/reference/' + volFile;
+    const res = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
+    if (res.getResponseCode() === 200) {
+      const data = JSON.parse(res.getContentText());
+      let versesObj = null;
+      if (isDc) {
+        versesObj = data[chapter];
+      } else {
+        for (const k in data) {
+          if (k === 'last_modified' || k === 'version') continue;
+          if (k.toLowerCase() === normalized || k.toLowerCase().replace(/—/g, '-').replace(/\s+/g, ' ') === normalized) {
+            versesObj = data[k][chapter];
+            break;
+          }
+        }
+      }
+
+      if (versesObj) {
+        const verses = [];
+        for (let v = startVerse; v <= endVerse; v++) {
+          if (versesObj[String(v)]) {
+            verses.push(versesObj[String(v)].trim());
+          }
+        }
+        if (verses.length > 0) {
+          Logger.log(`Found scripture text for "${clean}": ${verses.length} verse(s)`);
+          return verses.join(' ');
+        }
+      }
+    }
+  } catch (err) {
+    Logger.log(`Scripture lookup notice in Apps Script: ${err.toString()}`);
+  }
+
+  return '';
 }
 
 function sendPayloadToVercel(payload) {
