@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Journal Vault | Weekly Diary Directory</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & Playfair Display & Kalam for handwriting -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+            hand: ['Caveat', 'cursive'],
+          },
+          colors: {
+            parchment: '#f8f6f0',
+            cream: '#fdfbf7',
+            cork: '#c8ad8d',
+            inboxDark: '#1e232a',
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      background-color: #f4f1ea;
+      background-image: radial-gradient(#e5dec9 0.8px, transparent 0.8px);
+      background-size: 20px 20px;
+    }
+    .inbox-row:hover {
+      background: linear-gradient(90deg, rgba(254, 243, 199, 0.4) 0%, rgba(255, 255, 255, 0.8) 100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen text-stone-800 antialiased font-sans flex flex-col">
+
+  <!-- Header / Navigation Bar -->
+  <header class="border-b border-stone-300/80 bg-stone-900 text-stone-100 shadow-md sticky top-0 z-30">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="text-2xl">📬</span>
+        <div>
+          <h1 class="font-serif text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
+            Weekly Journal Vault
+            <span class="text-xs font-sans font-medium px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+              Live Inbox
+            </span>
+          </h1>
+          <p class="text-xs text-stone-400 hidden sm:block">Automated Gmail Pipeline • Base64 Immutable Archive</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <a href="/week/sample" id="sampleLink" class="text-xs text-stone-300 hover:text-white px-3 py-1.5 rounded border border-stone-700 hover:bg-stone-800 transition">
+          View Demo Week
+        </a>
+        <button onclick="fetchWeeks()" class="flex items-center gap-1.5 text-xs bg-amber-600 hover:bg-amber-500 text-white font-medium px-3 py-1.5 rounded shadow transition">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          Refresh Inbox
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full">
+
+    <!-- Overview Banner -->
+    <div class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-5 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm backdrop-blur-sm">
+      <div class="flex items-start gap-4">
+        <div class="p-3 bg-amber-100 rounded-lg text-amber-800 shrink-0">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="font-serif text-lg font-bold text-stone-900">Archive Directory & Weekly Feed</h2>
+          <p class="text-sm text-stone-600 mt-0.5">
+            Every Sunday, your Gmail client delivers reflections and 7 daily routine photos. Entries are converted to Base64 blobs and archived in Turso SQLite.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-4 shrink-0 border-t md:border-t-0 pt-3 md:pt-0 border-amber-200">
+        <div class="text-center px-3 py-1 bg-white/80 rounded-lg border border-amber-200">
+          <span id="totalWeeksCount" class="block text-xl font-bold text-amber-900">0</span>
+          <span class="text-[11px] font-medium text-stone-500 uppercase tracking-wider">Archived Weeks</span>
+        </div>
+        <div class="text-center px-3 py-1 bg-white/80 rounded-lg border border-amber-200">
+          <span class="block text-xl font-bold text-emerald-700">Online</span>
+          <span class="text-[11px] font-medium text-stone-500 uppercase tracking-wider">Turso Cloud</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search & Filter Bar -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4">
+      <div class="relative w-full sm:w-80">
+        <input
+          type="text"
+          id="searchInput"
+          oninput="filterWeeks()"
+          placeholder="Search by title, subject or date..."
+          class="w-full text-sm pl-9 pr-4 py-2 rounded-lg border border-stone-300 bg-white/90 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 shadow-sm"
+        />
+        <svg class="w-4 h-4 absolute left-3 top-2.5 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </div>
+
+      <div class="text-xs text-stone-500 self-end sm:self-center font-medium">
+        Showing <span id="displayedCount" class="font-bold text-stone-800">0</span> entries
+      </div>
+    </div>
+
+    <!-- Inbox Table Container -->
+    <div class="bg-white rounded-xl shadow border border-stone-300/80 overflow-hidden">
+      <!-- Inbox Header -->
+      <div class="bg-stone-100 border-b border-stone-200 px-5 py-3 grid grid-cols-12 text-xs font-semibold text-stone-600 uppercase tracking-wider">
+        <div class="col-span-1 hidden sm:block">Status</div>
+        <div class="col-span-12 sm:col-span-4">Week Subject</div>
+        <div class="col-span-7 sm:col-span-4 hidden md:block">Snippet & Highlights</div>
+        <div class="col-span-5 sm:col-span-2 text-right sm:text-left">Date Ingested</div>
+        <div class="col-span-7 sm:col-span-1 text-right">Gallery</div>
+      </div>
+
+      <!-- Rows Container -->
+      <div id="weeksList" class="divide-y divide-stone-200">
+        <!-- Loading Spinner -->
+        <div class="py-16 text-center text-stone-500">
+          <svg class="animate-spin h-8 w-8 mx-auto mb-3 text-amber-600" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+          </svg>
+          <p class="font-medium text-sm">Connecting to Turso Vault...</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-stone-300/60 bg-white/60 py-6 text-center text-xs text-stone-500">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>Serverless Decoupled Pipeline • Gmail → Apps Script → Vercel API → Turso SQLite</p>
+      <div class="flex items-center gap-4">
+        <a href="/api/weeks" class="hover:text-amber-700 underline underline-offset-2">Raw JSON API</a>
+        <span>•</span>
+        <a href="https://github.com" target="_blank" class="hover:text-amber-700">Repository</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let allWeeks = [];
+
+    async function fetchWeeks() {
+      const container = document.getElementById('weeksList');
+      container.innerHTML = `
+        <div class="py-16 text-center text-stone-500">
+          <svg class="animate-spin h-8 w-8 mx-auto mb-3 text-amber-600" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+          </svg>
+          <p class="font-medium text-sm">Loading archive directory...</p>
+        </div>
+      `;
+
+      try {
+        const response = await fetch('/api/weeks');
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        const data = await response.json();
+        allWeeks = data.weeks || [];
+        
+        document.getElementById('totalWeeksCount').innerText = allWeeks.length;
+        renderWeeks(allWeeks);
+      } catch (err) {
+        console.error('Failed to load weeks:', err);
+        container.innerHTML = `
+          <div class="py-12 px-6 text-center">
+            <span class="text-3xl">📭</span>
+            <h3 class="font-serif font-bold text-stone-800 text-lg mt-2">No Weeks Found or Database Unreachable</h3>
+            <p class="text-sm text-stone-500 max-w-md mx-auto mt-1">
+              Ensure Turso database credentials are set in .env / Vercel, or ingest your first week using the sample test script.
+            </p>
+            <div class="mt-5 flex justify-center gap-3">
+              <a href="/week/sample" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-lg shadow">
+                View Pre-loaded Sample Diary
+              </a>
+              <button onclick="fetchWeeks()" class="px-4 py-2 border border-stone-300 hover:bg-stone-50 text-stone-700 text-xs font-semibold rounded-lg shadow-sm">
+                Try Again
+              </button>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function renderWeeks(weeks) {
+      const container = document.getElementById('weeksList');
+      document.getElementById('displayedCount').innerText = weeks.length;
+
+      if (weeks.length === 0) {
+        container.innerHTML = `
+          <div class="py-12 px-6 text-center">
+            <span class="text-3xl">📭</span>
+            <h3 class="font-serif font-bold text-stone-800 text-lg mt-2">The Inbox Vault is Empty</h3>
+            <p class="text-sm text-stone-500 max-w-md mx-auto mt-1">
+              No weekly emails have been ingested yet. Send an email with your 7 reflections & photos to initiate the automated pipeline!
+            </p>
+            <div class="mt-5">
+              <a href="/week/sample" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-lg shadow inline-block">
+                View Demo Diary Page
+              </a>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = weeks.map((w, index) => {
+        const pubDate = new Date(w.publishedAt || w.createdAt || Date.now());
+        const formattedDate = pubDate.toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric'
+        });
+
+        const targetUrl = `/week/${w.slug || w.id}`;
+        
+        return `
+          <a href="${targetUrl}" class="inbox-row block px-5 py-4 transition duration-150 group">
+            <div class="grid grid-cols-12 items-center gap-3">
+              
+              <!-- Status Icon -->
+              <div class="col-span-1 hidden sm:flex items-center">
+                <span class="w-7 h-7 rounded-full bg-amber-100 group-hover:bg-amber-200 text-amber-800 flex items-center justify-center text-xs font-bold transition">
+                  ${w.imageCount || 7}
+                </span>
+              </div>
+
+              <!-- Title & Subject -->
+              <div class="col-span-12 sm:col-span-4">
+                <div class="flex items-center gap-2">
+                  <h3 class="font-semibold text-stone-900 text-sm group-hover:text-amber-800 transition line-clamp-1">
+                    ${escapeHtml(w.title || 'Weekly Diary')}
+                  </h3>
+                  ${index === 0 ? '<span class="text-[10px] uppercase font-bold bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded">Latest</span>' : ''}
+                </div>
+                <p class="text-xs text-stone-400 mt-0.5 line-clamp-1">
+                  From: ${escapeHtml(w.sender || 'Gmail Client')}
+                </p>
+              </div>
+
+              <!-- Snippet / Preview -->
+              <div class="col-span-7 sm:col-span-4 hidden md:block text-xs text-stone-600 line-clamp-2 pr-2">
+                ${escapeHtml(w.snippet || 'Click to view this week\'s sticky-note reflections and daily routine photos...')}
+              </div>
+
+              <!-- Date -->
+              <div class="col-span-6 sm:col-span-2 text-xs text-stone-500 font-medium">
+                ${formattedDate}
+              </div>
+
+              <!-- Gallery Thumbnail / Badge -->
+              <div class="col-span-6 sm:col-span-1 text-right flex items-center justify-end gap-2">
+                ${w.previewImage ? `
+                  <div class="w-10 h-10 rounded border-2 border-white shadow-sm overflow-hidden bg-stone-200 shrink-0 transform -rotate-3 group-hover:rotate-0 transition">
+                    <img src="${w.previewImage}" alt="Preview" class="w-full h-full object-cover" />
+                  </div>
+                ` : `
+                  <span class="text-xs text-stone-400">📸 ${w.imageCount || 7}</span>
+                `}
+                <span class="text-stone-400 group-hover:text-amber-700 group-hover:translate-x-0.5 transition hidden sm:inline">
+                  &rarr;
+                </span>
+              </div>
+
+            </div>
+          </a>
+        `;
+      }).join('');
+    }
+
+    function filterWeeks() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      if (!q) {
+        renderWeeks(allWeeks);
+        return;
+      }
+      const filtered = allWeeks.filter(w => {
+        return (w.title && w.title.toLowerCase().includes(q)) ||
+               (w.snippet && w.snippet.toLowerCase().includes(q)) ||
+               (w.rawSubject && w.rawSubject.toLowerCase().includes(q)) ||
+               (w.publishedAt && w.publishedAt.toLowerCase().includes(q));
+      });
+      renderWeeks(filtered);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Auto-fetch on load
+    document.addEventListener('DOMContentLoaded', fetchWeeks);
+  </script>
+</body>
+</html>

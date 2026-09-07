@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weekly Diary Viewer | Dynamic Journal</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter, Playfair Display & Caveat handwriting -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Permanent+Marker&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+            hand: ['Caveat', 'cursive'],
+            marker: ['Permanent Marker', 'cursive'],
+          },
+          colors: {
+            parchment: '#f7f4ed',
+            polaroidPaper: '#fefefe',
+          },
+          boxShadow: {
+            'polaroid': '0 8px 24px -4px rgba(0, 0, 0, 0.18), 0 4px 8px -2px rgba(0, 0, 0, 0.1)',
+            'sticky': '0 10px 20px -3px rgba(0, 0, 0, 0.12), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      background-color: #ede7da;
+      background-image: 
+        radial-gradient(#d6cdba 1px, transparent 1px),
+        radial-gradient(#cbbfa8 1px, #ede7da 1px);
+      background-size: 32px 32px;
+      background-position: 0 0, 16px 16px;
+    }
+    
+    .tape {
+      background: rgba(254, 243, 199, 0.75);
+      backdrop-filter: blur(1px);
+      border-left: 2px dashed rgba(217, 119, 6, 0.3);
+      border-right: 2px dashed rgba(217, 119, 6, 0.3);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .pin {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 4px 4px, #f87171, #991b1b);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: white !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .break-inside-avoid {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen text-stone-800 antialiased font-sans flex flex-col selection:bg-amber-200">
+
+  <!-- Sticky Top Navigation Bar -->
+  <header class="no-print sticky top-0 z-40 bg-stone-900/90 backdrop-blur-md text-stone-100 border-b border-stone-700/80 shadow-md">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-stone-300 hover:text-white transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Back to Vault Directory
+      </a>
+
+      <div class="flex items-center space-x-2">
+        <button onclick="window.print()" class="text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-600 px-3 py-1.5 rounded shadow-sm flex items-center gap-1.5 transition">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+          </svg>
+          Print / PDF
+        </button>
+
+        <button onclick="copyShareLink()" id="shareBtn" class="text-xs bg-amber-600 hover:bg-amber-500 text-white font-medium px-3 py-1.5 rounded shadow flex items-center gap-1.5 transition">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+          </svg>
+          Share
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Scrollable Diary Container -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-10 flex-1 w-full">
+
+    <!-- Loading State -->
+    <div id="loadingState" class="py-24 text-center">
+      <svg class="animate-spin h-10 w-10 mx-auto mb-4 text-amber-700" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+      </svg>
+      <h3 class="font-serif text-lg font-semibold text-stone-700">Retrieving Journal from Vault...</h3>
+      <p class="text-xs text-stone-500 mt-1">Fetching weekly reflections and decoding Base64 photos</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="hidden py-20 px-6 text-center bg-white/80 rounded-2xl border border-stone-300 shadow-sm max-w-lg mx-auto">
+      <span class="text-4xl">📭</span>
+      <h2 class="font-serif text-xl font-bold text-stone-800 mt-3">Week Not Found</h2>
+      <p id="errorMessage" class="text-stone-600 text-sm mt-2 leading-relaxed">
+        Could not locate the requested weekly archive. It may have been renamed or has not yet been ingested.
+      </p>
+      <div class="mt-6 flex justify-center gap-3">
+        <a href="/" class="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-white text-xs font-semibold rounded-lg shadow">
+          Back to Vault
+        </a>
+        <a href="/week/sample" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold rounded-lg shadow">
+          View Demo Week
+        </a>
+      </div>
+    </div>
+
+    <!-- Diary Content View -->
+    <div id="diaryContent" class="hidden space-y-16">
+
+      <!-- Week Header Paper Banner -->
+      <section class="relative bg-[#fdfbf7] border border-[#e5dfd3] rounded-2xl p-6 sm:p-10 shadow-lg text-center overflow-hidden">
+        <!-- Top Tape -->
+        <div class="tape absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 w-36 h-7 rotate-[-1deg]"></div>
+        
+        <div class="space-y-3 pt-2">
+          <div class="inline-flex items-center gap-2 text-xs font-semibold tracking-widest text-amber-800 uppercase px-3 py-1 rounded-full bg-amber-100/70 border border-amber-200">
+            <span>📅</span>
+            <span id="weekDateStamp">Weekly Archive</span>
+          </div>
+
+          <h1 id="weekTitle" class="font-serif text-3xl sm:text-5xl font-bold text-stone-900 tracking-tight leading-tight">
+            Weekly Diary
+          </h1>
+
+          <div class="flex flex-wrap items-center justify-center gap-4 text-xs sm:text-sm text-stone-500 font-medium pt-2">
+            <span id="weekSender">👤 Delivered via Gmail</span>
+            <span>•</span>
+            <span id="entryCountBadge">📸 7 Daily Routine Photos</span>
+            <span>•</span>
+            <span class="text-emerald-700 font-semibold">Verified Base64 Payload</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7 Days Grid / Feed -->
+      <div id="entriesList" class="space-y-20">
+        <!-- Injected dynamically via JS -->
+      </div>
+
+      <!-- Diary Conclusion / Sign-off Stamp -->
+      <section class="text-center pt-8 pb-12">
+        <div class="inline-block p-4 border-2 border-dashed border-stone-400/80 rounded-xl bg-amber-50/50 transform rotate-1">
+          <p class="font-hand text-2xl text-stone-700 font-bold">End of Week Reflection</p>
+          <p class="text-xs text-stone-500 font-sans mt-0.5">Stored permanently in Turso Cloud SQLite</p>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="no-print mt-auto border-t border-stone-300/60 bg-stone-900 text-stone-400 py-6 text-center text-xs">
+    <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>Decoupled Event-Driven Pipeline • Vercel Edge & Turso DB</p>
+      <a href="/" class="text-amber-400 hover:underline">Vault Directory</a>
+    </div>
+  </footer>
+
+  <script>
+    // Day palette configurations for alternating sticky-notes
+    const DAY_THEMES = {
+      MONDAY: {
+        bg: 'bg-[#fef9c3]', // Butter yellow
+        border: 'border-yellow-200',
+        tapeRotate: '-rotate-2',
+        noteRotate: '-rotate-1',
+        photoRotate: 'rotate-2',
+        pinColor: 'bg-red-500'
+      },
+      TUESDAY: {
+        bg: 'bg-[#dcfce7]', // Soft mint
+        border: 'border-emerald-200',
+        tapeRotate: 'rotate-2',
+        noteRotate: 'rotate-1',
+        photoRotate: '-rotate-2',
+        pinColor: 'bg-emerald-600'
+      },
+      WEDNESDAY: {
+        bg: 'bg-[#e0f2fe]', // Sky blue
+        border: 'border-sky-200',
+        tapeRotate: '-rotate-3',
+        noteRotate: '-rotate-1.5',
+        photoRotate: 'rotate-1',
+        pinColor: 'bg-blue-600'
+      },
+      THURSDAY: {
+        bg: 'bg-[#ffedd5]', // Warm peach
+        border: 'border-orange-200',
+        tapeRotate: 'rotate-1',
+        noteRotate: 'rotate-1',
+        photoRotate: '-rotate-1.5',
+        pinColor: 'bg-amber-600'
+      },
+      FRIDAY: {
+        bg: 'bg-[#f3e8ff]', // Soft lavender
+        border: 'border-purple-200',
+        tapeRotate: '-rotate-2',
+        noteRotate: '-rotate-1',
+        photoRotate: 'rotate-2',
+        pinColor: 'bg-purple-600'
+      },
+      SATURDAY: {
+        bg: 'bg-[#ffe4e6]', // Soft rose
+        border: 'border-rose-200',
+        tapeRotate: 'rotate-3',
+        noteRotate: 'rotate-1.5',
+        photoRotate: '-rotate-2',
+        pinColor: 'bg-rose-600'
+      },
+      SUNDAY: {
+        bg: 'bg-[#fef08a]', // Golden honey
+        border: 'border-amber-300',
+        tapeRotate: '-rotate-1',
+        noteRotate: '-rotate-0.5',
+        photoRotate: 'rotate-1.5',
+        pinColor: 'bg-yellow-600'
+      }
+    };
+
+    function getSlugFromPath() {
+      // Handles both /week/[slug] and ?id=[slug]
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryId = urlParams.get('id') || urlParams.get('slug');
+      if (queryId) return queryId;
+
+      const pathParts = window.location.pathname.split('/').filter(Boolean);
+      const weekIndex = pathParts.indexOf('week');
+      if (weekIndex !== -1 && pathParts[weekIndex + 1]) {
+        return decodeURIComponent(pathParts[weekIndex + 1]);
+      }
+      return null;
+    }
+
+    async function loadWeek() {
+      const slug = getSlugFromPath();
+
+      if (!slug || slug === 'sample') {
+        // Fallback or demo mode: load sample data
+        loadSamplePayload();
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/weeks/${encodeURIComponent(slug)}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        
+        if (!data.week) throw new Error('Week data not found in response');
+        renderWeek(data.week);
+      } catch (err) {
+        console.warn('Could not fetch from API, attempting sample fallback if relevant:', err);
+        // If api fails and was searching for sample or default
+        if (slug === 'sample' || slug === 'demo') {
+          loadSamplePayload();
+        } else {
+          showError(`Could not load week "${escapeHtml(slug)}": ${err.message}`);
+        }
+      }
+    }
+
+    async function loadSamplePayload() {
+      try {
+        const res = await fetch('/sample-data/sample-payload.json');
+        if (res.ok) {
+          const sample = await res.json();
+          renderWeek(sample);
+          return;
+        }
+      } catch (_) {}
+
+      // Embedded emergency fallback sample
+      renderWeek({
+        title: "Autumn Kickoff & Daily Adventures (Demo)",
+        publishedAt: new Date().toISOString(),
+        sender: "me@gmail.com",
+        entries: [
+          {
+            day: "Monday",
+            text: "Started the week with a 5-mile sunrise trail run through the ridge trail. The crisp autumn air felt amazing!",
+            image: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450'><rect width='600' height='450' fill='%23f6ad55'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='28' fill='%23ffffff' font-family='sans-serif' font-weight='bold'>Monday Sunrise Run</text></svg>"
+          },
+          {
+            day: "Tuesday",
+            text: "Deep work at the downtown library on systems architecture. Cardamom buns afterwards were a 10/10.",
+            image: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450'><rect width='600' height='450' fill='%2368d391'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='28' fill='%23ffffff' font-family='sans-serif' font-weight='bold'>Tuesday Library</text></svg>"
+          }
+        ]
+      });
+    }
+
+    function renderWeek(week) {
+      document.getElementById('loadingState').classList.add('hidden');
+      document.getElementById('errorState').classList.add('hidden');
+      document.getElementById('diaryContent').classList.remove('hidden');
+
+      document.title = `${week.title || 'Weekly Diary'} | Journal Vault`;
+      document.getElementById('weekTitle').innerText = week.title || 'Weekly Diary';
+
+      const pubDate = new Date(week.publishedAt || Date.now());
+      document.getElementById('weekDateStamp').innerText = pubDate.toLocaleDateString('en-US', {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric'
+      });
+
+      if (week.sender) {
+        document.getElementById('weekSender').innerText = `👤 Sent by ${week.sender}`;
+      }
+
+      const entries = Array.isArray(week.entries) ? week.entries : [];
+      document.getElementById('entryCountBadge').innerText = `📸 ${entries.length} Daily Reflections & Photos`;
+
+      const container = document.getElementById('entriesList');
+      container.innerHTML = entries.map((entry, index) => {
+        const dayKey = (entry.day || `Day ${index + 1}`).toUpperCase();
+        const theme = DAY_THEMES[dayKey] || DAY_THEMES.MONDAY;
+        
+        // Alternating photo on left vs right on desktop
+        const isPhotoLeft = index % 2 === 0;
+
+        return `
+          <article class="break-inside-avoid relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            <!-- Polaroid Photo Card -->
+            <div class="lg:col-span-6 ${isPhotoLeft ? 'lg:order-1' : 'lg:order-2'} flex justify-center">
+              <div class="relative max-w-sm w-full bg-white p-3 sm:p-4 pb-8 sm:pb-10 rounded shadow-polaroid border border-stone-200/90 transform ${theme.photoRotate} hover:rotate-0 hover:scale-[1.01] transition-all duration-300">
+                <!-- Top Tape Strip -->
+                <div class="tape absolute -top-3 left-1/2 -translate-x-1/2 w-28 h-6 ${theme.tapeRotate} z-10"></div>
+                
+                <!-- Polaroid Photo Frame -->
+                <div class="aspect-[4/3] w-full bg-stone-100 rounded-sm overflow-hidden flex items-center justify-center border border-stone-200">
+                  ${entry.image ? `
+                    <img
+                      src="${entry.image}"
+                      alt="${escapeHtml(entry.day)} routine photo"
+                      class="w-full h-full object-cover select-none"
+                      loading="lazy"
+                    />
+                  ` : `
+                    <div class="text-stone-400 text-xs font-medium text-center p-4">
+                      <span class="text-2xl block mb-1">📷</span>
+                      No attachment provided for ${escapeHtml(entry.day)}
+                    </div>
+                  `}
+                </div>
+
+                <!-- Handwritten Polaroid Caption -->
+                <div class="mt-3 text-center">
+                  <p class="font-hand text-xl sm:text-2xl font-bold text-stone-800 tracking-wide">
+                    ${escapeHtml(entry.day)} ${entry.imageFilename ? `• ${escapeHtml(entry.imageFilename)}` : '• Daily Moment'}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sticky-Note Reflection -->
+            <div class="lg:col-span-6 ${isPhotoLeft ? 'lg:order-2' : 'lg:order-1'} flex justify-center">
+              <div class="relative max-w-md w-full ${theme.bg} border ${theme.border} p-6 sm:p-8 rounded-sm shadow-sticky transform ${theme.noteRotate} hover:rotate-0 hover:scale-[1.01] transition-all duration-300">
+                
+                <!-- Pushpin Decoration -->
+                <div class="absolute -top-2 left-1/2 -translate-x-1/2 pin flex items-center justify-center"></div>
+
+                <!-- Sticky Header -->
+                <div class="flex items-center justify-between border-b border-black/10 pb-3 mb-4">
+                  <span class="font-marker tracking-wider text-xs sm:text-sm uppercase text-stone-700">
+                    --- ${escapeHtml(entry.day)} ---
+                  </span>
+                  <span class="text-[11px] font-sans font-semibold text-stone-500 uppercase tracking-widest">
+                    Day ${index + 1} of 7
+                  </span>
+                </div>
+
+                <!-- Reflection Body Text -->
+                <div class="prose text-stone-800 text-sm sm:text-base leading-relaxed whitespace-pre-wrap font-serif">
+                  ${escapeHtml(entry.text || 'No reflection recorded for this day.')}
+                </div>
+
+                <!-- Bottom Sticky Curl Effect -->
+                <div class="mt-4 pt-3 border-t border-black/5 flex items-center justify-between text-xs text-stone-500 font-hand text-base">
+                  <span>Daily routine logged</span>
+                  <span>✨</span>
+                </div>
+
+              </div>
+            </div>
+
+          </article>
+        `;
+      }).join('');
+    }
+
+    function showError(msg) {
+      document.getElementById('loadingState').classList.add('hidden');
+      document.getElementById('diaryContent').classList.add('hidden');
+      const err = document.getElementById('errorState');
+      err.classList.remove('hidden');
+      document.getElementById('errorMessage').innerText = msg;
+    }
+
+    function copyShareLink() {
+      navigator.clipboard.writeText(window.location.href);
+      const btn = document.getElementById('shareBtn');
+      const original = btn.innerHTML;
+      btn.innerText = 'Copied Link!';
+      setTimeout(() => { btn.innerHTML = original; }, 2000);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    document.addEventListener('DOMContentLoaded', loadWeek);
+  </script>
+</body>
+</html>

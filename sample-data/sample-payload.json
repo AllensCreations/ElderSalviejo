@@ -1,0 +1,53 @@
+{
+  "slug": "2026-09-01-autumn-kickoff-week",
+  "title": "Autumn Kickoff & Daily Adventures",
+  "publishedAt": "2026-09-01T20:00:00.000Z",
+  "rawSubject": "Weekly Reflection: Autumn Kickoff",
+  "sender": "adventurer@example.com",
+  "totalEntries": 7,
+  "imageCount": 7,
+  "entries": [
+    {
+      "day": "Monday",
+      "text": "Started the week with a 5-mile sunrise trail run through the ridge trail. The crisp autumn air felt amazing, and I wrapped up the morning with a pour-over coffee while reviewing quarterly goals.",
+      "image": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450' viewBox='0 0 600 450'><rect width='600' height='450' fill='%23f6ad55'/><circle cx='300' cy='220' r='100' fill='%23ed8936'/><path d='M0 350 L200 240 L350 320 L500 210 L600 350 L600 450 L0 450 Z' fill='%237b341e'/><text x='50%25' y='88%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%23ffffff' font-weight='bold'>Monday: Sunrise Mountain Run</text></svg>",
+      "imageFilename": "monday_sunrise.jpg"
+    },
+    {
+      "day": "Tuesday",
+      "text": "Spent the afternoon at the downtown public library deep-working on system architecture. Tried the local bakery's cardamom buns afterwards — easily a 10/10.",
+      "image": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450' viewBox='0 0 600 450'><rect width='600' height='450' fill='%2368d391'/><rect x='80' y='60' width='440' height='300' rx='16' fill='%232f855a'/><line x1='120' y1='120' x2='480' y2='120' stroke='%23e2e8f0' stroke-width='12' stroke-linecap='round'/><line x1='120' y1='170' x2='400' y2='170' stroke='%23e2e8f0' stroke-width='12' stroke-linecap='round'/><line x1='120' y1='220' x2='450' y2='220' stroke='%23e2e8f0' stroke-width='12' stroke-linecap='round'/><text x='50%25' y='88%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%23ffffff' font-weight='bold'>Tuesday: Library & Cardamom Buns</text></svg>",
+      "imageFilename": "tuesday_library.jpg"
+    },
+    {
+      "day": "Wednesday",
+      "text": "Mid-week milestone: shipped the v1 prototype of the data pipeline! Team celebrated over hot ramen during an evening thunderstorm.",
+      "image": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450' viewBox='0 0 600 450'><rect width='600' height='450' fill='%2363b3ed'/><circle cx='300' cy='200' r='120' fill='%232b6cb0'/><path d='M220 200 Q300 320 380 200 Z' fill='%23c53030'/><circle cx='280' cy='190' r='20' fill='%23ecc94b'/><text x='50%25' y='88%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%23ffffff' font-weight='bold'>Wednesday: Milestone Ramen</text></svg>",
+      "imageFilename": "wednesday_ramen.jpg"
+    },
+    {
+      "day": "Thursday",
+      "text": "Quiet garden day. Harvested heirloom cherry tomatoes and prepared fresh basil pesto from scratch. The smell in the kitchen was pure bliss.",
+      "image": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450' viewBox='0 0 600 450'><rect width='600' height='450' fill='%23f6e05e'/><circle cx='260' cy='210' r='50' fill='%23e53e3e'/><circle cx='340' cy='230' r='45' fill='%23dd6b20'/><circle cx='300' cy='160' r='40' fill='%23e53e3e'/><path d='M290 120 Q300 90 310 120' stroke='%2338a169' stroke-width='8' fill='none'/><text x='50%25' y='88%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%232d3748' font-weight='bold'>Thursday: Heirloom Tomato Harvest</text></svg>",
+      "imageFilename": "thursday_harvest.jpg"
+    },
+    {
+      "day": "Friday",
+      "text": "Friday movie night under the backyard string lights. Watched an old classic with popcorn and spiced apple cider as the temperatures dropped.",
+      "image": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450' viewBox='0 0 600 450'><rect width='600' height='450' fill='%234a5568'/><rect x='100' y='80' width='400' height='220' rx='10' fill='%231a202c'/><circle cx='160' cy='60' r='10' fill='%23ecc94b'/><circle cx='250' cy='50' r='10' fill='%23ecc94b'/><circle cx='350' cy='55' r='10' fill='%23ecc94b'/><circle cx='440' cy='60' r='10' fill='%23ecc94b'/><text x='50%25' y='88%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%23ffffff' font-weight='bold'>Friday: Backyard Movie Night</text></svg>",
+      "imageFilename": "friday_movienight.jpg"
+    },
+    {
+      "day": "Saturday",
+      "text": "Road trip up to the lake overlook. The autumn foliage is turning vibrant reds and golds. Sketched by the lakeshore for nearly two hours.",
+      "image": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450' viewBox='0 0 600 450'><rect width='600' height='450' fill='%239b2c2c'/><rect x='0' y='280' width='600' height='170' fill='%233182ce'/><polygon points='150,120 70,280 230,280' fill='%23dd6b20'/><polygon points='300,100 200,280 400,280' fill='%23d69e2e'/><polygon points='450,130 380,280 520,280' fill='%23c53030'/><text x='50%25' y='88%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%23ffffff' font-weight='bold'>Saturday: Lake Foliage</text></svg>",
+      "imageFilename": "saturday_lake.jpg"
+    },
+    {
+      "day": "Sunday",
+      "text": "Sunday reset: planned the upcoming week, baked fresh sourdough loaves, and sent off this weekly reflection email to the family vault!",
+      "image": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450' viewBox='0 0 600 450'><rect width='600' height='450' fill='%23b7791f'/><ellipse cx='300' cy='220' rx='160' ry='100' fill='%23d69e2e'/><path d='M200 200 Q260 170 320 200' stroke='%23744210' stroke-width='6' fill='none'/><path d='M260 230 Q320 200 380 230' stroke='%23744210' stroke-width='6' fill='none'/><text x='50%25' y='88%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%23ffffff' font-weight='bold'>Sunday: Warm Sourdough Reset</text></svg>",
+      "imageFilename": "sunday_bread.jpg"
+    }
+  ]
+}
