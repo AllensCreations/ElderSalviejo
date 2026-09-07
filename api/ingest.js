@@ -57,7 +57,8 @@ module.exports = async function handler(req, res) {
       sender,
       entries,
       totalEntries,
-      imageCount
+      imageCount,
+      verse
     } = body;
 
     if (!title) {
@@ -86,7 +87,8 @@ module.exports = async function handler(req, res) {
       sender: sender || null,
       entries,
       totalEntries: finalTotal,
-      imageCount: finalImages
+      imageCount: finalImages,
+      verse: verse || null
     });
 
     console.log(`✅ Successfully ingested weekly diary: "${title}" (slug: ${cleanSlug})`);

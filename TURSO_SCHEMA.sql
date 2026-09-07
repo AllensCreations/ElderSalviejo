@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS journal_weeks (
   entries TEXT NOT NULL, -- Serialized JSON array: [{ day, text, image, imageFilename }]
   total_entries INTEGER DEFAULT 7,
   image_count INTEGER DEFAULT 0,
+  verse TEXT, -- Serialized JSON object: { reference, text }
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 

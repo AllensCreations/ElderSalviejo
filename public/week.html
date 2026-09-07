@@ -33,7 +33,29 @@
       }
     };
   </script>
-  <style>
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    /* Protection against long-press, dragging, and context menu on photos */
+    img {
+      -webkit-touch-callout: none !important;
+      -webkit-user-select: none !important;
+      -khtml-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+      user-select: none !important;
+      -webkit-user-drag: none !important;
+      user-drag: none !important;
+    }
+
+    .protect-photo {
+      -webkit-touch-callout: none !important;
+      -webkit-user-select: none !important;
+      user-select: none !important;
+    }
+
     body {
       background-color: #ede7da;
       background-image: 
@@ -74,7 +96,7 @@
     }
   </style>
 </head>
-<body class="min-h-screen text-stone-800 antialiased font-sans flex flex-col selection:bg-amber-200">
+<body class="min-h-screen text-stone-800 antialiased font-sans flex flex-col selection:bg-amber-200 overflow-x-hidden">
 
   <!-- Sticky Top Navigation Bar -->
   <header class="no-print sticky top-0 z-40 bg-stone-900/90 backdrop-blur-md text-stone-100 border-b border-stone-700/80 shadow-md">
@@ -114,22 +136,19 @@
         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
       </svg>
       <h3 class="font-serif text-lg font-semibold text-stone-700">Retrieving Journal from Vault...</h3>
-      <p class="text-xs text-stone-500 mt-1">Fetching weekly reflections and decoding Base64 photos</p>
+      <p class="text-xs text-stone-500 mt-1">Loading weekly reflections and missionary moments...</p>
     </div>
 
     <!-- Error State -->
     <div id="errorState" class="hidden py-20 px-6 text-center bg-white/80 rounded-2xl border border-stone-300 shadow-sm max-w-lg mx-auto">
       <span class="text-4xl">📭</span>
-      <h2 class="font-serif text-xl font-bold text-stone-800 mt-3">Week Not Found</h2>
+      <h2 class="font-serif text-xl font-bold text-stone-800 mt-3">Letter Not Found</h2>
       <p id="errorMessage" class="text-stone-600 text-sm mt-2 leading-relaxed">
-        Could not locate the requested weekly archive. It may have been renamed or has not yet been ingested.
+        Could not locate the requested weekly archive. It may have been renamed or has not yet been published.
       </p>
       <div class="mt-6 flex justify-center gap-3">
-        <a href="/" class="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-white text-xs font-semibold rounded-lg shadow">
-          Back to Vault
-        </a>
-        <a href="/week/sample" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold rounded-lg shadow">
-          View Demo Week
+        <a href="/" class="px-5 py-2.5 bg-stone-900 hover:bg-stone-800 text-white text-xs font-semibold rounded-lg shadow">
+          Back to Journal Vault
         </a>
       </div>
     </div>
@@ -161,7 +180,7 @@
             <span>•</span>
             <span id="entryCountBadge">📸 7 Daily Routine Photos</span>
             <span>•</span>
-            <span class="text-emerald-700 font-semibold">Verified Base64 Payload</span>
+            <span class="text-amber-900 font-semibold">Negros Oriental</span>
           </div>
         </div>
       </section>
@@ -171,21 +190,37 @@
         <!-- Injected dynamically via JS -->
       </div>
 
-      <!-- Missionary Sign-Off & Testimony -->
-      <section class="text-center pt-8 pb-12 max-w-xl mx-auto">
-        <div class="p-7 bg-white/90 rounded-2xl border border-stone-300/80 shadow-sm text-center">
-          <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center mx-auto text-amber-800 text-lg mb-3">
+      <!-- Missionary Weekly Scripture & Testimony Card -->
+      <section id="weeklyVerseSection" class="pt-8 pb-12 max-w-2xl mx-auto">
+        <div class="relative bg-gradient-to-br from-[#fcfaf5] to-[#f5eedf] rounded-2xl border-2 border-amber-300/80 p-8 sm:p-10 shadow-xl text-center overflow-hidden">
+          
+          <!-- Top Tape -->
+          <div class="tape absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 w-52 h-7 rotate-[-0.5deg] text-center text-[10px] font-sans uppercase font-bold text-amber-900/80 pt-1 tracking-widest">
+            Weekly Scripture
+          </div>
+
+          <div class="w-12 h-12 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center mx-auto text-amber-800 text-xl mt-2 mb-3 shadow-sm">
             📖
           </div>
-          <p class="font-serif italic text-stone-700 text-sm sm:text-base leading-relaxed">
-            "Wherefore, be of good cheer, and do not fear, for I the Lord am with you, and will stand by you; and you shall bear record of me, even Jesus Christ, that I am the Son of the living God..."
-          </p>
-          <p class="text-xs text-stone-500 mt-2 font-mono">— Doctrine and Covenants 68:6</p>
-          <div class="mt-5 font-hand text-2xl text-amber-900 font-bold">
-            With love and testimony,<br>
-            Elder Salviejo
+
+          <div class="inline-block px-3.5 py-1 bg-amber-200/70 border border-amber-300 rounded-full text-xs font-bold text-amber-900 uppercase tracking-wider mb-4 shadow-sm">
+            <span id="verseReference">Doctrine and Covenants 68:6</span>
           </div>
-          <p class="text-xs text-stone-500 mt-1 uppercase tracking-widest font-semibold">Philippines Dumaguete Mission</p>
+
+          <blockquote class="font-serif italic text-stone-800 text-lg sm:text-xl leading-relaxed max-w-xl mx-auto">
+            "<span id="verseText">Wherefore, be of good cheer, and do not fear, for I the Lord am with you, and will stand by you; and you shall bear record of me, even Jesus Christ, that I am the Son of the living God...</span>"
+          </blockquote>
+
+          <div class="mt-6 pt-5 border-t border-amber-300/60 flex flex-col items-center">
+            <div class="font-hand text-3xl text-amber-950 font-bold">
+              With love and testimony,<br>
+              Elder Salviejo
+            </div>
+            <p class="text-xs text-amber-900/80 uppercase tracking-widest font-semibold mt-1">
+              Philippines Dumaguete Mission • Negros Oriental
+            </p>
+          </div>
+
         </div>
       </section>
 
@@ -354,83 +389,124 @@
       const entries = Array.isArray(week.entries) ? week.entries : [];
       document.getElementById('entryCountBadge').innerText = `📸 ${entries.length} Daily Reflections & Photos`;
 
+      // Render Weekly Scripture Verse at the bottom
+      const verseRefEl = document.getElementById('verseReference');
+      const verseTextEl = document.getElementById('verseText');
+      if (week.verse && (week.verse.text || week.verse.reference)) {
+        verseRefEl.innerText = week.verse.reference || 'Weekly Scripture';
+        verseTextEl.innerText = week.verse.text || '';
+      } else {
+        verseRefEl.innerText = 'Doctrine and Covenants 68:6';
+        verseTextEl.innerText = 'Wherefore, be of good cheer, and do not fear, for I the Lord am with you, and will stand by you; and you shall bear record of me, even Jesus Christ, that I am the Son of the living God...';
+      }
+
       const container = document.getElementById('entriesList');
       container.innerHTML = entries.map((entry, index) => {
-        const dayKey = (entry.day || `Day ${index + 1}`).toUpperCase();
-        const theme = DAY_THEMES[dayKey] || DAY_THEMES.MONDAY;
-        
-        // Alternating photo on left vs right on desktop
-        const isPhotoLeft = index % 2 === 0;
+        const dayClean = cleanDayName(entry.day, index);
+        const theme = DAY_THEMES[dayClean] || DAY_THEMES.MONDAY;
+        const cleanText = cleanEntryText(entry.text);
 
         return `
-          <article class="break-inside-avoid relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <article class="break-inside-avoid relative max-w-2xl mx-auto">
             
-            <!-- Polaroid Photo Card -->
-            <div class="lg:col-span-6 ${isPhotoLeft ? 'lg:order-1' : 'lg:order-2'} flex justify-center">
-              <div class="relative max-w-sm w-full bg-white p-3 sm:p-4 pb-8 sm:pb-10 rounded shadow-polaroid border border-stone-200/90 transform ${theme.photoRotate} hover:rotate-0 hover:scale-[1.01] transition-all duration-300">
-                <!-- Top Tape Strip -->
-                <div class="tape absolute -top-3 left-1/2 -translate-x-1/2 w-28 h-6 ${theme.tapeRotate} z-10"></div>
-                
-                <!-- Polaroid Photo Frame -->
-                <div class="aspect-[4/3] w-full bg-stone-100 rounded-sm overflow-hidden flex items-center justify-center border border-stone-200">
-                  ${entry.image ? `
-                    <img
-                      src="${entry.image}"
-                      alt="${escapeHtml(entry.day)} routine photo"
-                      class="w-full h-full object-cover select-none"
-                      loading="lazy"
-                    />
-                  ` : `
-                    <div class="text-stone-400 text-xs font-medium text-center p-4">
-                      <span class="text-2xl block mb-1">📷</span>
-                      No attachment provided for ${escapeHtml(entry.day)}
-                    </div>
-                  `}
-                </div>
+            <!-- Journal Page Sheet -->
+            <div class="relative ${theme.bg} border ${theme.border} rounded-2xl shadow-xl p-5 sm:p-9 pt-8 sm:pt-10 transition-all duration-300">
+              
+              <!-- Sheet Decorative Washi Tapes -->
+              <div class="tape absolute -top-3 left-6 sm:left-10 w-24 sm:w-28 h-6 ${theme.tapeRotate} z-20"></div>
+              <div class="tape absolute -top-3 right-6 sm:right-10 w-24 sm:w-28 h-6 ${theme.tapeRotate === 'rotate-2' ? '-rotate-2' : 'rotate-2'} z-20"></div>
 
-                <!-- Handwritten Polaroid Caption -->
-                <div class="mt-3 text-center">
-                  <p class="font-hand text-xl sm:text-2xl font-bold text-stone-800 tracking-wide">
-                    ${escapeHtml(entry.day)} ${entry.imageFilename ? `• ${escapeHtml(entry.imageFilename)}` : '• Daily Moment'}
-                  </p>
+              <!-- Pinned Polaroid Photo Card: Overlayed above the notes -->
+              <div class="relative -mt-2 sm:-mt-4 mb-7 flex justify-center z-10">
+                <div class="relative w-full max-w-lg bg-white p-3.5 sm:p-4 pb-6 sm:pb-7 rounded-sm shadow-[0_12px_28px_-6px_rgba(0,0,0,0.22),0_6px_12px_-4px_rgba(0,0,0,0.12)] border border-stone-200/90 transform ${theme.photoRotate} hover:rotate-0 hover:scale-[1.01] transition-all duration-300">
+                  
+                  <!-- 3D Pushpin Pinning Polaroid to Note Sheet -->
+                  <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center">
+                    <div class="w-4 h-4 rounded-full bg-gradient-to-br from-red-500 via-red-600 to-red-800 shadow-[0_3px_6px_rgba(0,0,0,0.4)] border border-red-300"></div>
+                    <div class="w-0.5 h-1.5 bg-stone-500 -mt-0.5 opacity-70"></div>
+                  </div>
+
+                  <!-- Polaroid Photo Frame: Follows natural aspect ratio of the image (portrait, landscape, or square) -->
+                  <div class="w-full bg-[#1c1917] rounded-sm overflow-hidden flex items-center justify-center border border-stone-200/80 shadow-inner protect-photo">
+                    ${entry.image ? `
+                      <img
+                        src="${entry.image}"
+                        alt="${escapeHtml(dayClean)} missionary photograph"
+                        class="w-full h-auto max-h-[420px] sm:max-h-[520px] md:max-h-[580px] object-contain block mx-auto select-none"
+                        loading="lazy"
+                        draggable="false"
+                        oncontextmenu="return false;"
+                      />
+                    ` : `
+                      <div class="text-stone-400 text-xs font-medium text-center p-8">
+                        <span class="text-3xl block mb-2">📷</span>
+                        No photograph attached for ${escapeHtml(dayClean)}
+                      </div>
+                    `}
+                  </div>
+
+                  <!-- Handwritten Polaroid Caption (No Filename!) -->
+                  <div class="mt-3 text-center">
+                    <p class="font-hand text-xl sm:text-2xl font-bold text-stone-800 tracking-wide">
+                      ${escapeHtml(dayClean)} in Dumaguete
+                    </p>
+                  </div>
+
                 </div>
               </div>
-            </div>
 
-            <!-- Sticky-Note Reflection -->
-            <div class="lg:col-span-6 ${isPhotoLeft ? 'lg:order-2' : 'lg:order-1'} flex justify-center">
-              <div class="relative max-w-md w-full ${theme.bg} border ${theme.border} p-6 sm:p-8 rounded-sm shadow-sticky transform ${theme.noteRotate} hover:rotate-0 hover:scale-[1.01] transition-all duration-300">
+              <!-- Notes Section: Placed cleanly below photo (100% readable!) -->
+              <div class="space-y-4">
                 
-                <!-- Pushpin Decoration -->
-                <div class="absolute -top-2 left-1/2 -translate-x-1/2 pin flex items-center justify-center"></div>
-
-                <!-- Sticky Header -->
-                <div class="flex items-center justify-between border-b border-black/10 pb-3 mb-4">
-                  <span class="font-marker tracking-wider text-xs sm:text-sm uppercase text-stone-700">
-                    --- ${escapeHtml(entry.day)} ---
-                  </span>
-                  <span class="text-[11px] font-sans font-semibold text-stone-500 uppercase tracking-widest">
-                    Day ${index + 1} of 7
+                <!-- Day Header: Pure MONDAY (no dashes!) -->
+                <div class="flex items-center justify-between border-b border-black/10 pb-3">
+                  <div class="flex items-center gap-2.5">
+                    <span class="w-2.5 h-2.5 rounded-full ${theme.pinColor}"></span>
+                    <h3 class="font-serif text-2xl sm:text-3xl font-bold tracking-wide text-stone-900 uppercase">
+                      ${escapeHtml(dayClean)}
+                    </h3>
+                  </div>
+                  <span class="text-[11px] font-sans font-bold text-stone-600 uppercase tracking-widest bg-black/5 px-2.5 py-1 rounded-full border border-black/5">
+                    Day ${index + 1} of 7 • Dumaguete
                   </span>
                 </div>
 
-                <!-- Reflection Body Text -->
-                <div class="prose text-stone-800 text-sm sm:text-base leading-relaxed whitespace-pre-wrap font-serif">
-                  ${escapeHtml(entry.text || 'No reflection recorded for this day.')}
+                <!-- Reflection Body Text: High-contrast, spacious, easy to read -->
+                <div class="font-serif text-stone-900 text-base sm:text-lg leading-[1.8] whitespace-pre-wrap selection:bg-amber-100">
+                  ${escapeHtml(cleanText || 'No reflection recorded for this day.')}
                 </div>
 
-                <!-- Bottom Sticky Curl Effect -->
-                <div class="mt-4 pt-3 border-t border-black/5 flex items-center justify-between text-xs text-stone-500 font-hand text-base">
-                  <span>Daily routine logged</span>
-                  <span>✨</span>
+                <!-- Footer Note -->
+                <div class="pt-4 border-t border-black/5 flex items-center justify-between text-xs text-stone-500 font-hand text-base">
+                  <span>Elder Salviejo • Daily missionary routine</span>
+                  <span class="text-amber-800 font-bold">Philippines Dumaguete Mission ✨</span>
                 </div>
 
               </div>
-            </div>
 
+            </div>
           </article>
         `;
       }).join('');
+    }
+
+    function cleanDayName(rawDay, index) {
+      if (!rawDay) return `DAY ${index + 1}`;
+      let clean = String(rawDay)
+        .replace(/^[-—#*~:\s]+|[-—#*~:\s]+$/g, '')
+        .trim()
+        .toUpperCase();
+      return clean || `DAY ${index + 1}`;
+    }
+
+    function cleanEntryText(rawText) {
+      if (!rawText) return '';
+      let text = String(rawText).trim();
+      // Strip any accidental leading "-MONDAY-", "--- MONDAY ---", "MONDAY:", etc.
+      text = text.replace(/^\s*[-—#*~]*\s*(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s*[-—#*~:]*\s*/i, '');
+      // Strip any leftover leading dashes or colons
+      text = text.replace(/^[-—:\s]+/, '');
+      return text.trim();
     }
 
     function showError(msg) {
@@ -458,6 +534,21 @@
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
     }
+
+    // Protection against saving, copying, or long-pressing images
+    window.addEventListener('contextmenu', function (e) {
+      if (e.target && (e.target.nodeName === 'IMG' || e.target.closest('.protect-photo'))) {
+        e.preventDefault();
+        return false;
+      }
+    }, false);
+
+    window.addEventListener('dragstart', function (e) {
+      if (e.target && (e.target.nodeName === 'IMG' || e.target.closest('.protect-photo'))) {
+        e.preventDefault();
+        return false;
+      }
+    }, false);
 
     document.addEventListener('DOMContentLoaded', loadWeek);
   </script>

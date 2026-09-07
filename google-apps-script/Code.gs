@@ -132,8 +132,8 @@ function processWeeklyDiaryEmails() {
       };
     });
     
-    // 3. Parse daily markdown blocks
-    const parsedDays = parseDiaryEntries(body, encodedImages);
+    // 3. Parse daily markdown blocks & weekly scripture verse
+    const parsedData = parseDiaryContent(body, encodedImages);
     
     // Generate a clean slug & title (completely stripping the secret code 159266 so it remains hidden)
     const weekTitle = cleanSubjectTitle(subject, CONFIG.SECRET_CODE) || `Week of ${Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
@@ -147,9 +147,10 @@ function processWeeklyDiaryEmails() {
       publishedAt: date.toISOString(),
       rawSubject: cleanRawSubject,
       sender: sender,
-      entries: parsedDays,
-      totalEntries: parsedDays.length,
-      imageCount: encodedImages.length
+      entries: parsedData.entries,
+      totalEntries: parsedData.entries.length,
+      imageCount: encodedImages.length,
+      verse: parsedData.verse
     };
     
     // 5. Send POST request to Vercel API and Turso SQLite
@@ -219,6 +220,16 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
               "${escapeHtml(firstEntrySnippet)}"
             </p>
           </div>
+
+          ${(payload.verse && payload.verse.text) ? `
+          <!-- Weekly Scripture Verse -->
+          <div style="background-color: #fffbeb; border-left: 4px solid #d97706; border-radius: 6px; padding: 16px; margin: 20px 0; border: 1px solid #fef3c7;">
+            <p style="margin: 0; font-size: 11px; font-weight: bold; text-transform: uppercase; color: #92400e; letter-spacing: 1px;">Weekly Scripture • ${escapeHtml(payload.verse.reference || 'Missionary Scripture')}</p>
+            <p style="margin: 6px 0 0 0; font-size: 13px; font-style: italic; color: #78350f; line-height: 1.5;">
+              "${escapeHtml(payload.verse.text)}"
+            </p>
+          </div>
+          ` : ''}
 
           <!-- Call to Action Button -->
           <div style="text-align: center; margin: 30px 0 10px 0;">
@@ -299,31 +310,55 @@ function createMondayTrigger() {
   Logger.log('🎉 Monday trigger successfully created! It will automatically run every Monday at 9:00 AM.');
 }
 
-function parseDiaryEntries(bodyText, encodedImages) {
+/**
+ * Main parser that:
+ * 1. Extracts weekly scripture verse from `-VERSE- (Matthew:11:11)(VERSEHERE)`
+ * 2. Parses daily sections supporting `-MONDAY-`, `- MONDAY -`, `--- MONDAY ---`, etc.
+ * 3. Cleans day titles to pure MONDAY and cleans reflection body text
+ */
+function parseDiaryContent(bodyText, encodedImages) {
+  let cleanBody = bodyText || '';
+  let extractedVerse = null;
+
+  // 1. Extract weekly scripture verse: matches -VERSE-, - VERSE -, --- VERSE ---, etc.
+  const verseRegex = /(?:^|\n)\s*[-—#*~]*\s*VERSE\s*[-—#*~:]*\s*([\s\S]*)$/i;
+  const verseMatch = cleanBody.match(verseRegex);
+  if (verseMatch) {
+    const rawVerseText = verseMatch[1].trim();
+    extractedVerse = parseVerseString(rawVerseText);
+    // Strip verse block from body so it doesn't bleed into Sunday's daily reflection!
+    cleanBody = cleanBody.substring(0, verseMatch.index).trim();
+  }
+
+  // 2. Parse daily sections: matches -MONDAY-, - MONDAY -, --- MONDAY ---, MONDAY:, etc.
   const entries = [];
-  const headerRegex = /(?:^|\n)\s*(?:---|###|#)?\s*(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s*(?:---|:)?\s*(?:\n|$)/gi;
-  
+  const headerRegex = /(?:^|\n)\s*[-—#*~]*\s*(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s*[-—#*~:]*\s*(?:\n|$)/gi;
+
   const matches = [];
   let match;
-  while ((match = headerRegex.exec(bodyText)) !== null) {
+  while ((match = headerRegex.exec(cleanBody)) !== null) {
     matches.push({
       dayName: match[1].toUpperCase(),
       startIndex: match.index,
       headerLength: match[0].length
     });
   }
-  
+
   if (matches.length > 0) {
     for (let i = 0; i < matches.length; i++) {
       const current = matches[i];
       const contentStart = current.startIndex + current.headerLength;
-      const contentEnd = (i + 1 < matches.length) ? matches[i + 1].startIndex : bodyText.length;
+      const contentEnd = (i + 1 < matches.length) ? matches[i + 1].startIndex : cleanBody.length;
       
-      const dayText = bodyText.substring(contentStart, contentEnd).trim();
+      let dayText = cleanBody.substring(contentStart, contentEnd).trim();
+      // Clean any accidental leading dashes, day headers, or colons
+      dayText = dayText.replace(/^\s*[-—#*~]*\s*(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s*[-—#*~:]*\s*/i, '');
+      dayText = dayText.replace(/^[-—:\s]+/, '').trim();
+
       const imageObj = encodedImages[i] ? encodedImages[i].dataUri : null;
       
       entries.push({
-        day: capitalize(current.dayName),
+        day: current.dayName, // Pure clean "MONDAY", "TUESDAY", etc.
         text: dayText,
         image: imageObj,
         imageFilename: encodedImages[i] ? encodedImages[i].filename : null
@@ -331,14 +366,69 @@ function parseDiaryEntries(bodyText, encodedImages) {
     }
   } else {
     entries.push({
-      day: 'Weekly Note',
-      text: bodyText.trim(),
+      day: 'MONDAY',
+      text: cleanBody.trim(),
       image: encodedImages.length > 0 ? encodedImages[0].dataUri : null,
       imageFilename: encodedImages.length > 0 ? encodedImages[0].filename : null
     });
   }
-  
-  return entries;
+
+  return {
+    entries: entries,
+    verse: extractedVerse
+  };
+}
+
+/**
+ * Backward compatibility wrapper
+ */
+function parseDiaryEntries(bodyText, encodedImages) {
+  return parseDiaryContent(bodyText, encodedImages).entries;
+}
+
+/**
+ * Parses scripture verse format:
+ * e.g. -VERSE- (Matthew:11:11)(VERSEHERE)
+ * or   -VERSE- (Matthew 11:11)(Come unto me...)
+ * or   -VERSE- (Matthew:11:11) VERSEHERE
+ * or   -VERSE- Matthew:11:11 - VERSEHERE
+ */
+function parseVerseString(raw) {
+  if (!raw) return null;
+  const trimmed = raw.trim();
+
+  // Pattern 1: (Reference)(Text) e.g. (Matthew:11:11)(VERSEHERE)
+  const twoParens = trimmed.match(/^\s*\(([^)]+)\)\s*\(([\s\S]+)\)\s*$/);
+  if (twoParens) {
+    return {
+      reference: twoParens[1].trim(),
+      text: twoParens[2].trim()
+    };
+  }
+
+  // Pattern 2: (Reference) Text e.g. (Matthew:11:11) VERSEHERE
+  const parenRefThenText = trimmed.match(/^\s*\(([^)]+)\)\s*([\s\S]+)$/);
+  if (parenRefThenText) {
+    return {
+      reference: parenRefThenText[1].trim(),
+      text: parenRefThenText[2].trim().replace(/^\(|\)$/g, '')
+    };
+  }
+
+  // Pattern 3: Reference - Text or Reference: Text
+  const separatorMatch = trimmed.match(/^([A-Za-z0-9\s:—&]+?)\s*(?:—|–|-|:\s+)\s*([\s\S]+)$/);
+  if (separatorMatch) {
+    return {
+      reference: separatorMatch[1].trim().replace(/^\(|\)$/g, ''),
+      text: separatorMatch[2].trim().replace(/^\(|\)$/g, '')
+    };
+  }
+
+  // Pattern 4: Fallback
+  return {
+    reference: 'Missionary Scripture',
+    text: trimmed.replace(/^\(|\)$/g, '').trim()
+  };
 }
 
 function sendPayloadToVercel(payload) {
