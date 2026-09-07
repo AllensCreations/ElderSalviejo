@@ -21,20 +21,19 @@ const CONFIG = {
   // Shared secret token to authenticate requests to /api/ingest
   INGEST_SECRET: PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || 'gdv_sec_7f9c2d81a4b53e89c0e211ab9',
   
-  // Secret security passcode that MUST be included in the email Subject line
-  // (e.g. "Weekly Reflection 159266: Week 2 in Sibulan").
+  // Secret security passcode that can be included in the email Subject or Body (159266)
   // This code is automatically stripped and hidden during processing so it never appears publicly!
-  SECRET_CODE: PropertiesService.getScriptProperties().getProperty('SECRET_CODE') || '159266',
+  SECRET_CODE: '159266',
 
-  // Gmail search query to locate new diary submissions in the dummy account
-  // Finds any unprocessed email containing the secret passcode 159266
-  GMAIL_QUERY: PropertiesService.getScriptProperties().getProperty('GMAIL_QUERY') || '159266 -label:diary-processed',
+  // Gmail search query to locate new diary submissions in the dummy account:
+  // Automatically searches for 159266, Weekly Reflection, or Weekly Journal
+  GMAIL_QUERY: '(159266 OR subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection) -label:diary-processed',
   
   // Label applied to thread once successfully ingested
   PROCESSED_LABEL: PropertiesService.getScriptProperties().getProperty('PROCESSED_LABEL') || 'diary-processed',
   
   // Optional security filter: only accept submissions sent from your personal email address
-  // Leave empty ("") to allow any email address that provides the secret code 159266
+  // Leave empty ("") to allow any email address
   ALLOWED_SENDER: PropertiesService.getScriptProperties().getProperty('ALLOWED_SENDER') || '',
   
   // Optional manual distribution list (comma-separated). Note: All users who insert
@@ -47,6 +46,25 @@ const CONFIG = {
   // Supported day headers
   DAYS: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY']
 };
+
+/**
+ * Diagnostic tool: Run this from the Apps Script toolbar to see the exact
+ * subjects, senders, and labels of the last 5 emails in this dummy account!
+ */
+function debugCheckInbox() {
+  Logger.log('=== Checking Last 5 Emails in Inbox ===');
+  const threads = GmailApp.getInboxThreads(0, 5);
+  if (!threads || threads.length === 0) {
+    Logger.log('Inbox has NO emails right now! Make sure the test email was sent to this dummy account.');
+    return;
+  }
+  for (let i = 0; i < threads.length; i++) {
+    const msg = threads[i].getMessages()[0];
+    const labels = threads[i].getLabels().map(l => l.getName()).join(', ') || 'none';
+    Logger.log(`Email #${i + 1}: Subject="${msg.getSubject()}" | From="${msg.getFrom()}" | Labels=[${labels}]`);
+  }
+  Logger.log('=======================================');
+}
 
 /**
  * Main entry point: executed via Monday time-driven trigger or manual run.
@@ -78,9 +96,11 @@ function processWeeklyDiaryEmails() {
     const date = message.getDate();
     const body = message.getPlainBody() || message.getBody();
     
-    // Security check: verify subject contains secret passcode 159266
-    if (CONFIG.SECRET_CODE && !subject.includes(CONFIG.SECRET_CODE)) {
-      Logger.log(`Skipping thread "${subject}": Missing required secret passcode (${CONFIG.SECRET_CODE})`);
+    // Security check: verify subject or body contains passcode OR subject contains reflection/journal
+    const hasCode = (subject && subject.includes(CONFIG.SECRET_CODE)) || (body && body.includes(CONFIG.SECRET_CODE));
+    const isReflection = subject.toLowerCase().includes('reflection') || subject.toLowerCase().includes('journal');
+    if (!hasCode && !isReflection) {
+      Logger.log(`Skipping thread "${subject}": Missing required secret passcode (${CONFIG.SECRET_CODE}) or Reflection/Journal subject.`);
       continue;
     }
 
