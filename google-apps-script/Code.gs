@@ -9,11 +9,11 @@
 
 // Configuration: can also be customized via Script Properties (File > Project Properties > Script properties)
 const CONFIG = {
-  // The Vercel API Ingest URL, e.g. "https://your-project.vercel.app/api/ingest"
-  VERCEL_INGEST_URL: PropertiesService.getScriptProperties().getProperty('VERCEL_INGEST_URL') || 'https://your-project.vercel.app/api/ingest',
+  // The Vercel API Ingest URL
+  VERCEL_INGEST_URL: PropertiesService.getScriptProperties().getProperty('VERCEL_INGEST_URL') || 'https://gmail-diary-vault.vercel.app/api/ingest',
   
   // Shared secret token to authenticate requests to /api/ingest
-  INGEST_SECRET: PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || 'your-super-secret-token-change-me',
+  INGEST_SECRET: PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || 'gdv_sec_7f9c2d81a4b53e89c0e211ab9',
   
   // Gmail search query to locate new diary submissions
   // e.g., 'label:weekly-diary -label:diary-processed' or 'subject:"Weekly Reflection" -label:diary-processed'
