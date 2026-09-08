@@ -5,6 +5,10 @@
     {
       "source": "/week/:slug*",
       "destination": "/week"
+    },
+    {
+      "source": "/mission-call",
+      "destination": "/call"
     }
   ]
 }

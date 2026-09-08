@@ -46,9 +46,9 @@
 
       <!-- Right: Action Buttons -->
       <div class="flex items-center space-x-2 shrink-0">
-        <a href="#mission-call" class="hidden sm:inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-amber-300 font-medium px-3 py-1.5 rounded-lg border border-amber-500/30 transition duration-150">
+        <a href="/call" class="hidden sm:inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-amber-300 font-medium px-3 py-1.5 rounded-lg border border-amber-500/30 transition duration-150">
           <span>📜</span>
-          <span>Mission Call Story</span>
+          <span>Mission Call Page</span>
         </a>
         <button onclick="fetchWeeks()" class="flex items-center gap-1.5 text-xs bg-amber-600 hover:bg-amber-500 text-white font-medium px-3 py-1.5 rounded-lg shadow transition duration-150">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -105,12 +105,16 @@
             <p class="text-xs sm:text-sm text-stone-600 mt-2 leading-relaxed max-w-2xl">
               On every Preparation Day (P-Day), Elder Salviejo shares weekly missionary reflections, scripture study insights, teaching experiences, and daily routine photographs from the field in the Philippines Dumaguete Mission. All letters are permanently archived here for family, friends, and supporters.
             </p>
-            <div class="mt-3">
-              <a href="#mission-call" class="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-900 hover:text-amber-950 bg-amber-100 hover:bg-amber-200/90 px-3 py-1.5 rounded-lg border border-amber-300 shadow-2xs transition">
+            <div class="mt-3 flex flex-wrap items-center gap-2">
+              <a href="/call" class="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-900 hover:text-amber-950 bg-amber-100 hover:bg-amber-200/90 px-3 py-1.5 rounded-lg border border-amber-300 shadow-2xs transition">
                 <span>📜</span>
-                <span>Read Mission Call & Origin Story</span>
-                <span class="text-amber-600">&darr;</span>
+                <span>Mission Call Keepsake Page</span>
+                <span class="text-amber-600">&rarr;</span>
               </a>
+              <button onclick="toggleMissionCallStory()" class="inline-flex items-center gap-1.5 text-xs font-medium text-stone-700 hover:text-stone-900 bg-white hover:bg-stone-50 px-3 py-1.5 rounded-lg border border-stone-300/80 shadow-2xs transition">
+                <span>📖</span>
+                <span id="heroToggleText">Preview Story</span>
+              </button>
             </div>
           </div>
 
@@ -131,172 +135,222 @@
       </div>
     </section>
 
-    <!-- Elder Salviejo Introduction & Mission Call Section -->
-    <section id="mission-call" class="intro-card relative bg-gradient-to-br from-[#fdfcf9] via-[#fcf8ef] to-[#f7f2e4] border border-amber-300/80 rounded-2xl p-6 sm:p-10 mb-8 shadow-sm">
+    <!-- Elder Salviejo Introduction & Mission Call Accordion Section -->
+    <section id="mission-call" class="intro-card relative bg-gradient-to-br from-[#fdfcf9] via-[#fcf8ef] to-[#f7f2e4] border border-amber-300/80 rounded-2xl p-4 sm:p-6 mb-8 shadow-sm transition-all duration-300">
       
       <!-- Top Decorative Washi Tape -->
-      <div class="tape absolute -top-3.5 left-1/2 -translate-x-1/2 w-64 h-7 rotate-[-0.5deg] text-center text-[10px] font-sans uppercase font-bold text-amber-950 pt-1 tracking-widest shadow-xs">
-        The Journey Begins • Mission Call
+      <div class="tape absolute -top-3.5 left-1/2 -translate-x-1/2 w-60 h-7 rotate-[-0.5deg] text-center text-[10px] font-sans uppercase font-bold text-amber-950 pt-1 tracking-widest shadow-xs">
+        Missionary Origin Story
       </div>
 
-      <!-- Section Header -->
-      <div class="text-center max-w-3xl mx-auto mb-8 pt-2">
-        <div class="inline-flex items-center gap-2 text-xs font-semibold tracking-wider text-amber-900 uppercase px-3.5 py-1 rounded-full bg-amber-100/90 border border-amber-300 shadow-2xs mb-3">
-          <span>📜</span>
-          <span>Mission Call & Origin Testimony • September 2026</span>
-        </div>
-        <h2 class="font-serif text-2xl sm:text-4xl font-bold text-stone-900 tracking-tight leading-snug">
-          “The Lord does not call the qualified, He qualifies the called.”
-        </h2>
-        <p class="text-xs sm:text-sm font-serif italic text-amber-800 mt-2">
-          Elder Salviejo • Philippines Dumaguete Mission • MTC: December 11, 2026
-        </p>
-      </div>
-
-      <!-- Main Two-Column Layout -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <!-- Collapsed Teaser Header Bar (Always Visible, Compact, Non-Intrusive) -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-1">
         
-        <!-- Left Column: Elder Salviejo's Words & Testimony (7 cols) -->
-        <div class="lg:col-span-7 space-y-4 text-stone-700 text-xs sm:text-sm leading-relaxed">
-          
-          <p class="font-serif italic text-sm sm:text-base text-stone-900 border-l-4 border-amber-500 pl-4 py-2 bg-amber-50/70 rounded-r-lg shadow-2xs">
-            At first, wala akong desire na mag-mission. Pero in my darkest moments, binigyan ako ni Heavenly Father ng liwanag na hindi ko inakala na kailangan ko.
-          </p>
-
-          <p>
-            Through the love ng YSA district ko, sa spirit ng YSA Conferences, at sa pagserve ko as an FSY Counselor, nasoften ni Heavenly Father yung puso ko at tinawag Niya ako sa Kanyang gawain.
-          </p>
-
-          <!-- Official Call Declaration Card -->
-          <div class="p-4 sm:p-5 bg-stone-900 text-stone-100 rounded-xl shadow-md border border-stone-800">
-            <div class="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase tracking-wider mb-1.5">
-              <span>🇵🇭</span> Official Missionary Call
-            </div>
-            <p class="font-serif text-sm sm:text-base text-white leading-snug">
-              Ako ay gitawag isip usa ka full-time missionary sa The Church of Jesus Christ of Latter-day Saints sa <span class="text-amber-300 font-bold underline decoration-amber-400">Philippines Dumaguete Mission! 🇵🇭</span>
-            </p>
-            <div class="mt-3 pt-2.5 border-t border-stone-800 flex flex-wrap items-center justify-between gap-2 text-xs text-stone-300">
-              <span>Language: <strong class="text-white">Cebuano</strong></span>
-              <span>MTC Entrance: <strong class="text-amber-300">December 11, 2026</strong></span>
-            </div>
+        <div class="flex items-start sm:items-center gap-3.5 min-w-0">
+          <div class="w-10 h-10 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-900 text-lg shrink-0 shadow-2xs">
+            📜
           </div>
-
-          <!-- Moroni 10:5 Scripture Box -->
-          <div class="p-4 sm:p-5 bg-amber-50/90 border border-amber-200 rounded-xl relative shadow-2xs">
-            <div class="text-[10px] uppercase font-bold tracking-widest text-amber-900 mb-1 flex items-center gap-1.5">
-              <span>📖</span> Sacred Missionary Promise • Moroni 10:5
+          <div class="min-w-0">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500/20 text-amber-900 border border-amber-500/30">
+                Official Mission Call
+              </span>
+              <span class="text-xs text-stone-500 hidden sm:inline">September 2026 • Philippines Dumaguete Mission</span>
             </div>
-            <blockquote class="font-serif italic text-stone-900 text-sm sm:text-base leading-relaxed">
-              “By the power of the Holy Ghost ye may know the truth of all things.”
-            </blockquote>
-            <p class="text-xs text-stone-600 mt-2">
-              I don’t know everything that’s ahead, and I have fears... especially about teaching. But I hold to this promise.
+            <h3 class="font-serif text-sm sm:text-base font-bold text-stone-900 mt-0.5 truncate">
+              “The Lord does not call the qualified, He qualifies the called.”
+            </h3>
+            <p class="text-[11px] sm:text-xs text-stone-600 truncate">
+              Elder Salviejo's personal testimony, MTC entrance details & celebration memories
             </p>
           </div>
-
-          <p>
-            Alam ko na totoo ang Atonement ni Jesus Christ, at Siya yung reason kung bakit may hope at faith ako to go.
-          </p>
-
-          <p>
-            Such a huge privilege to be an instrument ng Panginoon to share His Gospel at ang love ni Jesus Christ sa mga tao sa Dumaguete Mission.
-          </p>
-
-          <p>
-            Sobrang thankful ako sa lahat ng support, guidance, at prayers ng family ko, friends, at leaders na laging nandiyan.
-          </p>
-
-          <p>
-            I go with a grateful heart to serve, to love, at para maging instrument sa mga kamay ng Panginoon. Please keep me in your prayers!
-          </p>
-
-          <!-- Final Signoff -->
-          <div class="pt-4 border-t border-amber-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <div class="font-serif text-lg sm:text-xl font-bold text-amber-950">
-                Here am I, send me.
-              </div>
-              <div class="font-hand text-2xl text-stone-700">
-                Elder Salviejo
-              </div>
-            </div>
-            <div class="flex flex-wrap gap-1.5 text-[11px] font-semibold text-amber-900">
-              <span class="px-2 py-0.5 bg-amber-100/90 border border-amber-200 rounded-md">#CalledToServe</span>
-              <span class="px-2 py-0.5 bg-amber-100/90 border border-amber-200 rounded-md">#PhilippinesDumagueteMission</span>
-              <span class="px-2 py-0.5 bg-amber-100/90 border border-amber-200 rounded-md">#MTC</span>
-              <span class="px-2 py-0.5 bg-amber-100/90 border border-amber-200 rounded-md">#LDSMissionary 🇵🇭✨</span>
-            </div>
-          </div>
-
         </div>
 
-        <!-- Right Column: 7 Embedded Photos & Visual Gallery (5 cols) -->
-        <div class="lg:col-span-5 space-y-4">
+        <!-- Action Controls -->
+        <div class="flex items-center gap-2 shrink-0 self-end md:self-center">
+          <button
+            onclick="toggleMissionCallStory()"
+            id="missionCallToggleBtn"
+            class="flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-lg shadow-sm transition"
+          >
+            <span id="missionCallToggleText">Read Story & Photos</span>
+            <span id="missionCallToggleIcon" class="text-[10px]">▼</span>
+          </button>
           
-          <!-- Feature 1: Official Call Letter (Click to enlarge) -->
-          <div onclick="openIntroModal(0)" class="intro-photo-thumb group cursor-pointer bg-white rounded-xl border border-amber-200/80 p-3 shadow-xs hover:border-amber-400 transition duration-200">
-            <div class="relative overflow-hidden rounded-lg bg-stone-100 aspect-[3/4] max-h-72 flex items-center justify-center">
-              <img
-                src="/assets/images/intro/call-letter.jpg"
-                alt="Elder Salviejo Official Mission Call Letter"
-                onerror="this.src='https://i.ibb.co/HWRwq7L/Mark-Salviejo-Mission-Call-Letter-page-0001.jpg'"
-                class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300"
-                loading="lazy"
-              />
-              <div class="absolute inset-0 bg-stone-950/15 group-hover:bg-transparent transition duration-200"></div>
-              <span class="absolute bottom-2.5 right-2.5 px-2.5 py-1 bg-stone-900/85 text-white text-[11px] font-semibold rounded-md shadow flex items-center gap-1 backdrop-blur-xs">
-                🔍 Click to Read Call Letter
-              </span>
+          <a
+            href="/call"
+            class="flex items-center gap-1 text-xs font-medium px-3 py-2 bg-white hover:bg-stone-50 text-stone-700 hover:text-stone-900 border border-stone-300 rounded-lg shadow-2xs transition"
+            title="Open full dedicated keepsake page"
+          >
+            <span>Full Page</span>
+            <span class="text-stone-400">&nearr;</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Collapsible Body (Hidden by default to avoid overwhelming the homepage) -->
+      <div id="missionCallBody" class="hidden mt-6 pt-6 border-t border-amber-200/80">
+        
+        <!-- Section Subtitle & Dedication -->
+        <div class="text-center max-w-2xl mx-auto mb-8">
+          <p class="text-xs sm:text-sm font-serif italic text-amber-900">
+            Elder Salviejo • Philippines Dumaguete Mission • MTC Entrance: December 11, 2026
+          </p>
+          <div class="mt-2 inline-flex items-center gap-2 text-[11px] text-stone-500">
+            <span>Also available as a</span>
+            <a href="/call" class="text-amber-800 hover:text-amber-950 font-semibold underline decoration-amber-400">
+              dedicated full-screen keepsake page &rarr;
+            </a>
+          </div>
+        </div>
+
+        <!-- Main Two-Column Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          <!-- Left Column: Elder Salviejo's Words & Testimony (7 cols) -->
+          <div class="lg:col-span-7 space-y-4 text-stone-700 text-xs sm:text-sm leading-relaxed">
+            
+            <p class="font-serif italic text-sm sm:text-base text-stone-900 border-l-4 border-amber-500 pl-4 py-2 bg-amber-50/70 rounded-r-lg shadow-2xs">
+              At first, wala akong desire na mag-mission. Pero in my darkest moments, binigyan ako ni Heavenly Father ng liwanag na hindi ko inakala na kailangan ko.
+            </p>
+
+            <p>
+              Through the love ng YSA district ko, sa spirit ng YSA Conferences, at sa pagserve ko as an FSY Counselor, nasoften ni Heavenly Father yung puso ko at tinawag Niya ako sa Kanyang gawain.
+            </p>
+
+            <!-- Official Call Declaration Card -->
+            <div class="p-4 sm:p-5 bg-stone-900 text-stone-100 rounded-xl shadow-md border border-stone-800">
+              <div class="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase tracking-wider mb-1.5">
+                <span>🇵🇭</span> Official Missionary Call
+              </div>
+              <p class="font-serif text-sm sm:text-base text-white leading-snug">
+                Ako ay gitawag isip usa ka full-time missionary sa The Church of Jesus Christ of Latter-day Saints sa <span class="text-amber-300 font-bold underline decoration-amber-400">Philippines Dumaguete Mission! 🇵🇭</span>
+              </p>
+              <div class="mt-3 pt-2.5 border-t border-stone-800 flex flex-wrap items-center justify-between gap-2 text-xs text-stone-300">
+                <span>Language: <strong class="text-white">Cebuano</strong></span>
+                <span>MTC Entrance: <strong class="text-amber-300">December 11, 2026</strong></span>
+              </div>
             </div>
-            <div class="mt-2.5 px-1">
-              <h4 class="font-serif font-bold text-stone-900 text-xs sm:text-sm">Official Mission Call Letter</h4>
-              <p class="text-[11px] text-stone-500">First Presidency • Signed by President Dallin H. Oaks</p>
+
+            <!-- Moroni 10:5 Scripture Box -->
+            <div class="p-4 sm:p-5 bg-amber-50/90 border border-amber-200 rounded-xl relative shadow-2xs">
+              <div class="text-[10px] uppercase font-bold tracking-widest text-amber-900 mb-1 flex items-center gap-1.5">
+                <span>📖</span> Sacred Missionary Promise • Moroni 10:5
+              </div>
+              <blockquote class="font-serif italic text-stone-900 text-sm sm:text-base leading-relaxed">
+                “By the power of the Holy Ghost ye may know the truth of all things.”
+              </blockquote>
+              <p class="text-xs text-stone-600 mt-2">
+                I don’t know everything that’s ahead, and I have fears... especially about teaching. But I hold to this promise.
+              </p>
             </div>
+
+            <p>
+              Alam ko na totoo ang Atonement ni Jesus Christ, at Siya yung reason kung bakit may hope at faith ako to go.
+            </p>
+
+            <p>
+              Such a huge privilege to be an instrument ng Panginoon to share His Gospel at ang love ni Jesus Christ sa mga tao sa Dumaguete Mission.
+            </p>
+
+            <p>
+              Sobrang thankful ako sa lahat ng support, guidance, at prayers ng family ko, friends, at leaders na laging nandiyan.
+            </p>
+
+            <p>
+              I go with a grateful heart to serve, to love, at para maging instrument sa mga kamay ng Panginoon. Please keep me in your prayers!
+            </p>
+
+            <!-- Final Signoff -->
+            <div class="pt-4 border-t border-amber-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="font-serif text-lg sm:text-xl font-bold text-amber-950">
+                  Here am I, send me.
+                </div>
+                <div class="font-hand text-2xl text-stone-700">
+                  Elder Salviejo
+                </div>
+              </div>
+              <div class="flex flex-wrap gap-1.5 text-[11px] font-semibold text-amber-900">
+                <span class="px-2 py-0.5 bg-amber-100/90 border border-amber-200 rounded-md">#CalledToServe</span>
+                <span class="px-2 py-0.5 bg-amber-100/90 border border-amber-200 rounded-md">#PhilippinesDumagueteMission</span>
+                <span class="px-2 py-0.5 bg-amber-100/90 border border-amber-200 rounded-md">#MTC</span>
+                <span class="px-2 py-0.5 bg-amber-100/90 border border-amber-200 rounded-md">#LDSMissionary 🇵🇭✨</span>
+              </div>
+            </div>
+
           </div>
 
-          <!-- Feature 2: Dumaguete Mission Map -->
-          <div onclick="openIntroModal(1)" class="intro-photo-thumb group cursor-pointer bg-white rounded-xl border border-amber-200/80 p-3 shadow-xs hover:border-amber-400 transition duration-200">
-            <div class="relative overflow-hidden rounded-lg bg-stone-100 aspect-[16/9] max-h-44 flex items-center justify-center">
-              <img
-                src="/assets/images/intro/call-overview.jpg"
-                alt="Philippines Dumaguete Mission Boundary Map"
-                onerror="this.src='https://i.ibb.co/mCqcbT3D/overview-2246341-page-0001.jpg'"
-                class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-300"
-                loading="lazy"
-              />
-              <span class="absolute bottom-2 right-2 px-2 py-0.5 bg-stone-900/80 text-white text-[10px] font-semibold rounded shadow flex items-center gap-1">
-                🗺️ Mission Boundary Map
-              </span>
+          <!-- Right Column: 7 Embedded Photos & Visual Gallery (5 cols) -->
+          <div class="lg:col-span-5 space-y-4">
+            
+            <!-- Feature 1: Official Call Letter (Click to enlarge) -->
+            <div onclick="openIntroModal(0)" class="intro-photo-thumb group cursor-pointer bg-white rounded-xl border border-amber-200/80 p-3 shadow-xs hover:border-amber-400 transition duration-200">
+              <div class="relative overflow-hidden rounded-lg bg-stone-100 aspect-[3/4] max-h-72 flex items-center justify-center">
+                <img
+                  src="/assets/images/intro/call-letter.jpg"
+                  alt="Elder Salviejo Official Mission Call Letter"
+                  onerror="this.src='https://i.ibb.co/HWRwq7L/Mark-Salviejo-Mission-Call-Letter-page-0001.jpg'"
+                  class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-stone-950/15 group-hover:bg-transparent transition duration-200"></div>
+                <span class="absolute bottom-2.5 right-2.5 px-2.5 py-1 bg-stone-900/85 text-white text-[11px] font-semibold rounded-md shadow flex items-center gap-1 backdrop-blur-xs">
+                  🔍 Click to Read Call Letter
+                </span>
+              </div>
+              <div class="mt-2.5 px-1">
+                <h4 class="font-serif font-bold text-stone-900 text-xs sm:text-sm">Official Mission Call Letter</h4>
+                <p class="text-[11px] text-stone-500">First Presidency • Signed by President Dallin H. Oaks</p>
+              </div>
             </div>
-            <div class="mt-2 px-1">
-              <h4 class="font-serif font-bold text-stone-900 text-xs">Philippines Dumaguete Mission Map</h4>
-              <p class="text-[11px] text-stone-500">Negros Oriental, Siquijor Island, and Visayan areas</p>
-            </div>
-          </div>
 
-          <!-- Mini Grid: 5 Personal & Chapel Photos -->
-          <div>
-            <div class="flex items-center justify-between text-xs font-semibold text-stone-600 mb-2">
-              <span>Call Opening & YSA Memories</span>
-              <span class="text-[11px] text-amber-700 font-medium">5 Photos • Click to view</span>
-            </div>
-            <div class="grid grid-cols-5 gap-2">
-              <div onclick="openIntroModal(2)" title="Holding the Official Call" class="intro-photo-thumb aspect-square rounded-lg overflow-hidden border border-amber-200 bg-stone-100 cursor-pointer hover:ring-2 hover:ring-amber-500 transition">
-                <img src="/assets/images/intro/photo-2.jpg" onerror="this.src='https://i.ibb.co/bMqVVZqL/received-1778183986537355.jpg'" alt="Holding Call Letter" class="w-full h-full object-cover" loading="lazy" />
+            <!-- Feature 2: Dumaguete Mission Map -->
+            <div onclick="openIntroModal(1)" class="intro-photo-thumb group cursor-pointer bg-white rounded-xl border border-amber-200/80 p-3 shadow-xs hover:border-amber-400 transition duration-200">
+              <div class="relative overflow-hidden rounded-lg bg-stone-100 aspect-[16/9] max-h-44 flex items-center justify-center">
+                <img
+                  src="/assets/images/intro/call-overview.jpg"
+                  alt="Philippines Dumaguete Mission Boundary Map"
+                  onerror="this.src='https://i.ibb.co/mCqcbT3D/overview-2246341-page-0001.jpg'"
+                  class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-300"
+                  loading="lazy"
+                />
+                <span class="absolute bottom-2 right-2 px-2 py-0.5 bg-stone-900/80 text-white text-[10px] font-semibold rounded shadow flex items-center gap-1">
+                  🗺️ Mission Boundary Map
+                </span>
               </div>
-              <div onclick="openIntroModal(3)" title="Spire of Faith" class="intro-photo-thumb aspect-square rounded-lg overflow-hidden border border-amber-200 bg-stone-100 cursor-pointer hover:ring-2 hover:ring-amber-500 transition">
-                <img src="/assets/images/intro/photo-1.jpg" onerror="this.src='https://i.ibb.co/7JShV8Cy/received-1420724736611243.jpg'" alt="Spire of Faith" class="w-full h-full object-cover" loading="lazy" />
-              </div>
-              <div onclick="openIntroModal(4)" title="Rejoicing Together" class="intro-photo-thumb aspect-square rounded-lg overflow-hidden border border-amber-200 bg-stone-100 cursor-pointer hover:ring-2 hover:ring-amber-500 transition">
-                <img src="/assets/images/intro/photo-3.jpg" onerror="this.src='https://i.ibb.co/n8M8VDR8/received-4536366903287651.jpg'" alt="Rejoicing" class="w-full h-full object-cover" loading="lazy" />
-              </div>
-              <div onclick="openIntroModal(5)" title="YSA District Family" class="intro-photo-thumb aspect-square rounded-lg overflow-hidden border border-amber-200 bg-stone-100 cursor-pointer hover:ring-2 hover:ring-amber-500 transition">
-                <img src="/assets/images/intro/photo-4.jpg" onerror="this.src='https://i.ibb.co/rKPvxrBH/Messenger-creation-2242403789659455.jpg'" alt="YSA District" class="w-full h-full object-cover" loading="lazy" />
-              </div>
-              <div onclick="openIntroModal(6)" title="Gathered by the Savior" class="intro-photo-thumb aspect-square rounded-lg overflow-hidden border border-amber-200 bg-stone-100 cursor-pointer hover:ring-2 hover:ring-amber-500 transition">
-                <img src="/assets/images/intro/photo-5.jpg" onerror="this.src='https://i.ibb.co/5gwwKS9q/IMG-20260906-120706.jpg'" alt="Gathered at Church" class="w-full h-full object-cover" loading="lazy" />
+              <div class="mt-2 px-1">
+                <h4 class="font-serif font-bold text-stone-900 text-xs">Philippines Dumaguete Mission Map</h4>
+                <p class="text-[11px] text-stone-500">Negros Oriental, Siquijor Island, and Visayan areas</p>
               </div>
             </div>
+
+            <!-- Mini Grid: 5 Personal & Chapel Photos -->
+            <div>
+              <div class="flex items-center justify-between text-xs font-semibold text-stone-600 mb-2">
+                <span>Call Opening & YSA Memories</span>
+                <span class="text-[11px] text-amber-700 font-medium">5 Photos • Click to view</span>
+              </div>
+              <div class="grid grid-cols-5 gap-2">
+                <div onclick="openIntroModal(2)" title="Holding the Official Call" class="intro-photo-thumb aspect-square rounded-lg overflow-hidden border border-amber-200 bg-stone-100 cursor-pointer hover:ring-2 hover:ring-amber-500 transition">
+                  <img src="/assets/images/intro/photo-2.jpg" onerror="this.src='https://i.ibb.co/bMqVVZqL/received-1778183986537355.jpg'" alt="Holding Call Letter" class="w-full h-full object-cover" loading="lazy" />
+                </div>
+                <div onclick="openIntroModal(3)" title="Spire of Faith" class="intro-photo-thumb aspect-square rounded-lg overflow-hidden border border-amber-200 bg-stone-100 cursor-pointer hover:ring-2 hover:ring-amber-500 transition">
+                  <img src="/assets/images/intro/photo-1.jpg" onerror="this.src='https://i.ibb.co/7JShV8Cy/received-1420724736611243.jpg'" alt="Spire of Faith" class="w-full h-full object-cover" loading="lazy" />
+                </div>
+                <div onclick="openIntroModal(4)" title="Rejoicing Together" class="intro-photo-thumb aspect-square rounded-lg overflow-hidden border border-amber-200 bg-stone-100 cursor-pointer hover:ring-2 hover:ring-amber-500 transition">
+                  <img src="/assets/images/intro/photo-3.jpg" onerror="this.src='https://i.ibb.co/n8M8VDR8/received-4536366903287651.jpg'" alt="Rejoicing" class="w-full h-full object-cover" loading="lazy" />
+                </div>
+                <div onclick="openIntroModal(5)" title="YSA District Family" class="intro-photo-thumb aspect-square rounded-lg overflow-hidden border border-amber-200 bg-stone-100 cursor-pointer hover:ring-2 hover:ring-amber-500 transition">
+                  <img src="/assets/images/intro/photo-4.jpg" onerror="this.src='https://i.ibb.co/rKPvxrBH/Messenger-creation-2242403789659455.jpg'" alt="YSA District" class="w-full h-full object-cover" loading="lazy" />
+                </div>
+                <div onclick="openIntroModal(6)" title="Gathered by the Savior" class="intro-photo-thumb aspect-square rounded-lg overflow-hidden border border-amber-200 bg-stone-100 cursor-pointer hover:ring-2 hover:ring-amber-500 transition">
+                  <img src="/assets/images/intro/photo-5.jpg" onerror="this.src='https://i.ibb.co/5gwwKS9q/IMG-20260906-120706.jpg'" alt="Gathered at Church" class="w-full h-full object-cover" loading="lazy" />
+                </div>
+              </div>
+            </div>
+
           </div>
 
         </div>

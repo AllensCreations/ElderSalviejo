@@ -275,6 +275,32 @@ function escapeHtml(str) {
 }
 
 // ==========================================================================
+// Collapsible Mission Call Accordion Handler
+// ==========================================================================
+function toggleMissionCallStory() {
+  const body = document.getElementById('missionCallBody');
+  const btnText = document.getElementById('missionCallToggleText');
+  const btnIcon = document.getElementById('missionCallToggleIcon');
+  const heroBtn = document.getElementById('heroToggleText');
+  if (!body) return;
+
+  const isHidden = body.classList.contains('hidden');
+  if (isHidden) {
+    body.classList.remove('hidden');
+    if (btnText) btnText.innerText = 'Collapse Story';
+    if (btnIcon) btnIcon.innerText = '▲';
+    if (heroBtn) heroBtn.innerText = 'Hide Story';
+    const section = document.getElementById('mission-call');
+    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  } else {
+    body.classList.add('hidden');
+    if (btnText) btnText.innerText = 'Read Story & Photos';
+    if (btnIcon) btnIcon.innerText = '▼';
+    if (heroBtn) heroBtn.innerText = 'Preview Story';
+  }
+}
+
+// ==========================================================================
 // Introduction & Mission Call Lightbox Gallery
 // ==========================================================================
 const INTRO_GALLERY = [
