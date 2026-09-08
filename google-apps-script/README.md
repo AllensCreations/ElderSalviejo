@@ -53,21 +53,19 @@ To keep your public GitHub repository 100% clean and free of secret keys, store 
 
 ---
 
-### 3. One-Click Instant Trigger Setup (Any P-Day, 24/7)
-Because missionary P-Days can change between transfers or companionships (Monday, Tuesday, Friday, etc.), do **not** bind the script to Monday only:
+### 3. One-Click 9:00 PM Daily Trigger Setup
+To set the script to process every day automatically at **9:00 PM (21:00)**:
 
 1. In the Apps Script toolbar dropdown, select:
-  ```text
-  create5MinuteTrigger
-  ```
-  *(Or choose `create1MinuteTrigger` if you want near-instant ~60-second processing!)*
+   ```text
+   createDaily9PMTrigger
+   ```
 2. Click **Run**.
-3. Google will present an authorization modal requesting permission to read/reply to Gmail and make external HTTPS requests. Click **Review permissions** > **Advanced** > **Go to Elder Salviejo Diary Processor (unsafe)** > **Allow**.
+3. It will automatically delete all previous / obsolete triggers and set a clean daily 9:00 PM schedule.
 4. Check the execution log:
-  ```text
-  Instant trigger created! It will automatically check for new diary emails every 5 minute(s) 24/7 on any P-Day.
-  ```
-The dummy account will now monitor incoming diary submissions 24/7 and automatically publish within minutes of you hitting send!
+   ```text
+   SUCCESS: Daily 9:00 PM (21:00) trigger active! All other triggers have been removed.
+   ```
 
 ---
 

@@ -1268,53 +1268,46 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
 }
 
 /**
- * 1-Click Trigger: Runs every 5 minutes 24/7.
+ * 1-Click Trigger: Runs automatically EVERY DAY at 9:00 PM (21:00).
+ * Removes all other existing triggers to keep your execution clean.
+ * 
+ * To activate: Select "createDaily9PMTrigger" from the toolbar and click "Run".
  */
-function create5MinuteTrigger() {
-  createInstantTrigger(5);
+function createDaily9PMTrigger() {
+  const triggers = ScriptApp.getProjectTriggers();
+  let deletedCount = 0;
+  for (let i = 0; i < triggers.length; i++) {
+    if (triggers[i].getHandlerFunction() === 'processWeeklyDiaryEmails' || 
+        triggers[i].getHandlerFunction() === 'processUnprocessedThreads') {
+      ScriptApp.deleteTrigger(triggers[i]);
+      deletedCount++;
+    }
+  }
+  if (deletedCount > 0) {
+    Logger.log(`Removed ${deletedCount} previous trigger(s).`);
+  }
+
+  ScriptApp.newTrigger('processWeeklyDiaryEmails')
+    .timeBased()
+    .everyDays(1)
+    .atHour(21) // 9:00 PM (21:00)
+    .create();
+
+  Logger.log('====================================================');
+  Logger.log('SUCCESS: Daily 9:00 PM (21:00) trigger active!');
+  Logger.log('All other triggers have been removed.');
+  Logger.log('====================================================');
 }
 
 /**
- * 1-Click Trigger: Runs every 1 minute 24/7.
+ * Removes all active triggers for this project.
  */
-function create1MinuteTrigger() {
-  createInstantTrigger(1);
-}
-
-function createInstantTrigger(intervalMinutes) {
-  const minutes = (intervalMinutes === 1 || intervalMinutes === 5 || intervalMinutes === 10 || intervalMinutes === 15 || intervalMinutes === 30)
-    ? intervalMinutes
-    : 5;
-
+function removeAllTriggers() {
   const triggers = ScriptApp.getProjectTriggers();
   for (let i = 0; i < triggers.length; i++) {
-    if (triggers[i].getHandlerFunction() === 'processWeeklyDiaryEmails') {
-      ScriptApp.deleteTrigger(triggers[i]);
-    }
+    ScriptApp.deleteTrigger(triggers[i]);
   }
-
-  ScriptApp.newTrigger('processWeeklyDiaryEmails')
-    .timeBased()
-    .everyMinutes(minutes)
-    .create();
-
-  Logger.log(`Instant trigger created. It will automatically check for new diary emails every ${minutes} minute(s) 24/7.`);
-}
-
-function createMondayTrigger() {
-  const triggers = ScriptApp.getProjectTriggers();
-  for (let i = 0; i < triggers.length; i++) {
-    if (triggers[i].getHandlerFunction() === 'processWeeklyDiaryEmails') {
-      ScriptApp.deleteTrigger(triggers[i]);
-    }
-  }
-  ScriptApp.newTrigger('processWeeklyDiaryEmails')
-    .timeBased()
-    .onWeekDay(ScriptApp.WeekDay.MONDAY)
-    .atHour(9)
-    .create();
-    
-  Logger.log('Monday trigger successfully created for 9:00 AM.');
+  Logger.log(`Successfully removed all ${triggers.length} trigger(s).`);
 }
 
 /**
