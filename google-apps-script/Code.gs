@@ -36,9 +36,6 @@ const CONFIG = {
   // Optional security filter: only accept submissions sent from specified email
   ALLOWED_SENDER: PropertiesService.getScriptProperties().getProperty('ALLOWED_SENDER') || '',
   
-  // Optional manual distribution list (comma-separated)
-  DISTRIBUTION_LIST: PropertiesService.getScriptProperties().getProperty('DISTRIBUTION_LIST') || '',
-  
   // Base public website URL
   SITE_URL: 'https://eldersalviejo.vercel.app',
   
@@ -975,28 +972,58 @@ function sendSuccessReplyToSender(thread, sender, payload, liveUrl, dbSubscriber
 }
 
 /**
- * Dispatches weekly announcement to website subscribers.
+ * Fetches the active subscriber list directly from the Turso SQLite database endpoint.
+ */
+function fetchSubscribersFromTurso(baseUrl, ingestSecret) {
+  try {
+    const url = `${baseUrl}/api/subscribers`;
+    const res = UrlFetchApp.fetch(url, {
+      method: 'get',
+      headers: {
+        'Authorization': `Bearer ${ingestSecret}`,
+        'x-ingest-secret': ingestSecret
+      },
+      muteHttpExceptions: true
+    });
+    if (res.getResponseCode() === 200) {
+      const data = JSON.parse(res.getContentText());
+      if (Array.isArray(data.subscribers)) {
+        return data.subscribers;
+      }
+    }
+  } catch (err) {
+    Logger.log(`Notice fetching subscribers from Turso: ${err.message}`);
+  }
+  return [];
+}
+
+/**
+ * Dispatches weekly announcement to website subscribers directly from Turso SQLite database.
  * Includes strict per-subscriber and per-week deduplication to prevent duplicate sends.
  */
 function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
-  const manualRecipients = (CONFIG.DISTRIBUTION_LIST || '').split(',')
-    .map(email => email.trim().toLowerCase())
-    .filter(email => email.length > 0);
-    
-  const dynamicSubscribers = (dbSubscribers || [])
-    .map(email => email.trim().toLowerCase())
-    .filter(email => email.length > 0);
+  const ingestSecret = PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || CONFIG.INGEST_SECRET;
+  const baseUrl = (PropertiesService.getScriptProperties().getProperty('SITE_URL') || CONFIG.SITE_URL || 'https://eldersalviejo.vercel.app').replace(/\/$/, '');
 
-  const allRecipients = Array.from(new Set([...manualRecipients, ...dynamicSubscribers]));
+  // Retrieve subscribers directly from Turso SQLite database
+  let tursoSubscribers = Array.isArray(dbSubscribers) && dbSubscribers.length > 0
+    ? dbSubscribers
+    : fetchSubscribersFromTurso(baseUrl, ingestSecret);
+
+  const allRecipients = Array.from(new Set(
+    tursoSubscribers
+      .map(email => String(email).trim().toLowerCase())
+      .filter(email => email.length > 0 && email.includes('@'))
+  ));
+
   if (allRecipients.length === 0) {
-    Logger.log('Letter is live on the website. No email subscribers found.');
+    Logger.log('Letter is live on the website. No subscribers found in Turso database.');
     return;
   }
 
+  Logger.log(`Found ${allRecipients.length} subscriber(s) in Turso database.`);
+
   // Anti-Duplicate Broadcast Engine (Backed by Turso SQLite Database)
-  const ingestSecret = PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || CONFIG.INGEST_SECRET;
-  const baseUrl = (PropertiesService.getScriptProperties().getProperty('SITE_URL') || CONFIG.SITE_URL || 'https://eldersalviejo.vercel.app').replace(/\/$/, '');
-  
   let alreadySentRecipients = [];
   try {
     const checkUrl = `${baseUrl}/api/tracking/broadcast?slug=${encodeURIComponent(payload.slug)}`;

@@ -13,11 +13,12 @@ module.exports = async function handler(req, res) {
   }
 
   const authHeader = req.headers.authorization || '';
-  const token = authHeader.replace(/^Bearer\s+/i, '').trim();
+  const xSecret = req.headers['x-ingest-secret'] || '';
+  const token = authHeader.replace(/^Bearer\s+/i, '').trim() || xSecret;
   const configuredSecret = process.env.INGEST_SECRET;
 
   if (configuredSecret && token !== configuredSecret) {
-    return res.status(401).json({ error: 'Unauthorized: Invalid Bearer token' });
+    return res.status(401).json({ error: 'Unauthorized: Invalid authentication secret' });
   }
 
   try {

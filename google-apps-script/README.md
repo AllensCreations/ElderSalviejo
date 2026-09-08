@@ -47,8 +47,9 @@ To keep your public GitHub repository 100% clean and free of secret keys, store 
 | `SECRET_DIARY_CODE` | *(Your private chosen passcode)* | Passcode filter for weekly diary reflections |
 | `SECRET_GALLERY_CODE` | *(Your private gallery passcode)* | Passcode filter for direct photo gallery uploads |
 | `SITE_URL` | `https://eldersalviejo.vercel.app` | Base public website URL |
-| `DISTRIBUTION_LIST` | `family@example.com` | Optional manual extra emails |
 | `ALLOWED_SENDER` | *(Optional)* | Filter to only accept emails from your missionary address |
+
+> **Note on Subscribers:** All subscribers are automatically stored and managed centrally in your **Turso SQLite database** whenever family, friends, or supporters subscribe via the website form. You do not need to manage any email lists in Google Apps Script!
 
 ---
 
