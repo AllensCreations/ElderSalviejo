@@ -49,18 +49,16 @@
       </a>
 
       <!-- Right: Action Buttons -->
-      <div class="flex items-center space-x-2 shrink-0">
-        <a href="/call" class="inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-amber-300 font-medium px-2.5 sm:px-3 py-1.5 rounded-lg border border-amber-500/30 transition duration-150" title="Read Official Mission Call & Origin Story">
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <a href="/call" class="inline-flex items-center gap-1 text-xs bg-stone-800 hover:bg-stone-700 text-amber-300 font-medium px-2 sm:px-3 py-1.5 rounded-lg border border-amber-500/30 transition duration-150" title="Read Official Mission Call & Origin Story">
           <span>📜</span>
-          <span class="hidden xs:inline">Mission Call</span>
-          <span class="xs:hidden">Call</span>
+          <span class="hidden sm:inline">Mission Call</span>
         </a>
-        <a href="/book" class="inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 transition duration-150" title="Complete Printable Missionary Book & PDF">
+        <a href="/book" class="inline-flex items-center gap-1 text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-medium px-2 sm:px-3 py-1.5 rounded-lg border border-stone-700 transition duration-150" title="Complete Printable Missionary Book & PDF">
           <span>📖</span>
-          <span class="hidden xs:inline">Mission Book</span>
-          <span class="xs:hidden">Book</span>
+          <span class="hidden sm:inline">Mission Book</span>
         </a>
-        <button onclick="fetchWeeks()" class="flex items-center gap-1.5 text-xs bg-amber-600 hover:bg-amber-500 text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg shadow transition duration-150">
+        <button onclick="fetchWeeks()" class="flex items-center justify-center gap-1 text-xs bg-amber-600 hover:bg-amber-500 text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg shadow transition duration-150" title="Refresh Letters">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
           </svg>
@@ -128,7 +126,7 @@
         </div>
 
         <!-- Right Column: Status & Stats Badges -->
-        <div class="flex items-center gap-3 shrink-0 border-t lg:border-t-0 pt-4 lg:pt-0 border-amber-200/60">
+        <div class="flex items-center justify-center sm:justify-start lg:justify-end gap-3 shrink-0 border-t lg:border-t-0 pt-4 lg:pt-0 border-amber-200/60 w-full lg:w-auto">
           <div class="text-center px-4 py-2.5 bg-white rounded-xl border border-amber-200 shadow-sm min-w-[105px]">
             <span id="totalWeeksCount" class="block text-2xl font-bold text-amber-900 leading-tight">0</span>
             <span class="text-[11px] font-semibold text-stone-500 uppercase tracking-wider">Archived Letters</span>
@@ -161,7 +159,7 @@
         </div>
 
         <!-- Live Digital Countdown / Service Progress Bar -->
-        <div id="countdownDisplay" class="flex items-center gap-2 self-start md:self-center shrink-0">
+        <div id="countdownDisplay" class="flex items-center justify-center sm:justify-start md:justify-end w-full md:w-auto shrink-0">
           <!-- Populated dynamically by countdown.js -->
         </div>
       </div>
@@ -190,7 +188,7 @@
       </div>
       <a
         href="/call"
-        class="shrink-0 inline-flex items-center justify-center gap-1.5 text-xs font-semibold px-4 py-2.5 bg-stone-900 hover:bg-stone-800 text-amber-300 hover:text-amber-200 rounded-lg shadow-sm transition self-start sm:self-center"
+        class="shrink-0 inline-flex items-center justify-center gap-1.5 text-xs font-semibold px-4 py-2.5 bg-stone-900 hover:bg-stone-800 text-amber-300 hover:text-amber-200 rounded-lg shadow-sm transition w-full sm:w-auto text-center"
       >
         <span>Read Full Keepsake</span>
         <span>&rarr;</span>
@@ -247,16 +245,16 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
       </div>
-      <div class="flex items-center gap-3 self-end sm:self-auto">
+      <div class="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto">
         <a
           href="/book"
-          class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 bg-stone-100 hover:bg-amber-100 text-stone-700 hover:text-amber-900 border border-stone-300 hover:border-amber-300 rounded-lg shadow-2xs transition"
+          class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 bg-stone-100 hover:bg-amber-100 text-stone-700 hover:text-amber-900 border border-stone-300 hover:border-amber-300 rounded-lg shadow-2xs transition"
           title="Open complete printable book layout"
         >
           <span>📖</span>
           <span>Mission Book (PDF)</span>
         </a>
-        <div class="text-xs text-stone-500 text-left sm:text-right font-medium">
+        <div class="text-xs text-stone-500 font-medium text-right">
           Showing <span id="displayedCount" class="font-bold text-stone-800">0</span> archived letter(s)
         </div>
       </div>

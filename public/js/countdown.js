@@ -1,36 +1,24 @@
 /**
  * Mission Countdown & Journey Milestones
- * Calculates live time until MTC entrance (Dec 11, 2026)
- * and 24-month missionary service progress thereafter.
+ * - Pre-MTC (until Dec 11, 2026): Countdown to entering the MTC.
+ * - Active Mission (Dec 11, 2026 to Dec 11, 2028): Turns into the 2-Year Countdown
+ *   counting down the full 730 days to Honorable Release & Homecoming.
+ * - Post-Mission: Celebration banner.
  */
 
 (function () {
   const MTC_DATE = new Date('2026-12-11T08:00:00+08:00'); // Dec 11, 2026, 8:00 AM PST
-  const RETURN_DATE = new Date('2028-12-11T08:00:00+08:00'); // 24-month mission completion
+  const RETURN_DATE = new Date('2028-12-11T08:00:00+08:00'); // Dec 11, 2028, 8:00 AM PST (2 full years)
   const TOTAL_MISSION_DAYS = 730;
 
-  function updateCountdown() {
-    const now = new Date();
-    const display = document.getElementById('countdownDisplay');
-    const title = document.getElementById('countdownTitle');
-    const statusBadge = document.getElementById('countdownStatusBadge');
-    
-    // Call page elements if present
-    const callDisplay = document.getElementById('callCountdownDisplay');
+  function renderCountdownBoxes(days, hours, mins, secs, subline, alignRight = false) {
+    const alignClasses = alignRight ? 'items-center md:items-end' : 'items-center';
+    const textClasses = alignRight ? 'text-center md:text-right' : 'text-center';
 
-    if (!display && !callDisplay) return;
-
-    if (now < MTC_DATE) {
-      // Countdown Phase (Before Dec 11, 2026)
-      const diff = MTC_DATE.getTime() - now.getTime();
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const mins = Math.floor((diff / (1000 * 60)) % 60);
-      const secs = Math.floor((diff / 1000) % 60);
-
-      const html = `
-        <div class="flex items-center gap-1 sm:gap-1.5 text-center">
-          <div class="px-2 sm:px-2.5 py-1.5 bg-stone-900 text-white rounded-lg shadow-xs min-w-[44px] sm:min-w-[50px]">
+    return `
+      <div class="flex flex-col ${alignClasses} gap-1.5 w-full sm:w-auto">
+        <div class="flex items-center justify-center gap-1 sm:gap-1.5 text-center">
+          <div class="px-2 sm:px-2.5 py-1.5 bg-stone-900 text-white rounded-lg shadow-xs min-w-[48px] sm:min-w-[54px]">
             <span class="block text-sm sm:text-base font-bold font-mono text-amber-300 leading-tight">${days}</span>
             <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-stone-400 font-semibold">Days</span>
           </div>
@@ -50,50 +38,69 @@
             <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-stone-400 font-semibold">Secs</span>
           </div>
         </div>
-      `;
+        ${subline ? `<div class="text-[10px] text-stone-500 font-medium ${textClasses} tracking-tight">${subline}</div>` : ''}
+      </div>
+    `;
+  }
 
-      if (display) display.innerHTML = html;
-      if (callDisplay) callDisplay.innerHTML = html;
+  function updateCountdown() {
+    const now = new Date();
+    const display = document.getElementById('countdownDisplay');
+    const title = document.getElementById('countdownTitle');
+    const statusBadge = document.getElementById('countdownStatusBadge');
+    
+    // Call page elements if present
+    const callDisplay = document.getElementById('callCountdownDisplay');
+
+    if (!display && !callDisplay) return;
+
+    if (now < MTC_DATE) {
+      // Phase 1: Countdown to MTC Entrance (Until Dec 11, 2026)
+      const diff = MTC_DATE.getTime() - now.getTime();
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const mins = Math.floor((diff / (1000 * 60)) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+
+      const subline = 'MTC Entrance: Dec 11, 2026 • 8:00 AM PST';
+
+      if (display) display.innerHTML = renderCountdownBoxes(days, hours, mins, secs, subline, true);
+      if (callDisplay) callDisplay.innerHTML = renderCountdownBoxes(days, hours, mins, secs, subline, false);
 
       if (title) title.innerText = 'Entering the Missionary Training Center (MTC)';
       if (statusBadge) statusBadge.innerText = 'MTC Entrance Countdown';
 
     } else if (now < RETURN_DATE) {
-      // Active Mission Phase (Dec 11, 2026 - Dec 11, 2028)
+      // Phase 2: Turns into the 2-Year Countdown (Dec 11, 2026 to Dec 11, 2028)
+      // Counts down to Homecoming & Honorable Release!
+      const diff = RETURN_DATE.getTime() - now.getTime();
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const mins = Math.floor((diff / (1000 * 60)) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+
       const elapsedMs = now.getTime() - MTC_DATE.getTime();
       const servedDays = Math.floor(elapsedMs / (1000 * 60 * 60 * 24));
-      const remainingDays = Math.max(0, TOTAL_MISSION_DAYS - servedDays);
       const pct = Math.min(100, Math.max(1, Math.round((servedDays / TOTAL_MISSION_DAYS) * 100)));
       const currentMonth = Math.min(24, Math.floor(servedDays / 30.4) + 1);
 
-      if (title) title.innerText = `Philippines Dumaguete Mission • Month ${currentMonth} of 24`;
-      if (statusBadge) statusBadge.innerText = 'Active Missionary Service';
+      const subline = `2-Year Mission: Day ${servedDays} of 730 (${pct}%) • Month ${currentMonth} of 24`;
 
-      const progressHtml = `
-        <div class="w-full sm:w-64 space-y-1.5">
-          <div class="flex items-center justify-between text-xs font-semibold text-stone-700">
-            <span>${servedDays} Days Served</span>
-            <span class="text-amber-800 font-bold">${pct}%</span>
-            <span>${remainingDays} Days Left</span>
-          </div>
-          <div class="w-full h-2.5 bg-stone-200 rounded-full overflow-hidden border border-stone-300/60 shadow-inner">
-            <div class="h-full bg-gradient-to-r from-amber-600 to-amber-500 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
-          </div>
-        </div>
-      `;
+      if (display) display.innerHTML = renderCountdownBoxes(days, hours, mins, secs, subline, true);
+      if (callDisplay) callDisplay.innerHTML = renderCountdownBoxes(days, hours, mins, secs, subline, false);
 
-      if (display) display.innerHTML = progressHtml;
-      if (callDisplay) callDisplay.innerHTML = progressHtml;
+      if (title) title.innerText = '2-Year Mission Service Countdown';
+      if (statusBadge) statusBadge.innerText = '2-Year Mission Countdown';
 
     } else {
-      // Completed Phase
+      // Phase 3: Mission Completed
       if (title) title.innerText = 'Mission Honorably Completed!';
       if (statusBadge) statusBadge.innerText = 'Faithfully Returned';
 
       const finishedHtml = `
-        <span class="px-3.5 py-1.5 bg-emerald-100 text-emerald-800 font-semibold text-xs rounded-lg border border-emerald-300">
+        <div class="px-4 py-2 bg-emerald-100 text-emerald-900 font-semibold text-xs rounded-xl border border-emerald-300 text-center shadow-xs">
           🎉 24 Months Completed • Welcome Home Elder Salviejo!
-        </span>
+        </div>
       `;
 
       if (display) display.innerHTML = finishedHtml;
