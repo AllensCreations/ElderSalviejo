@@ -154,7 +154,7 @@ async function loadSamplePayload() {
     entries: [
       {
         day: "Monday",
-        text: "Preparation day in Dumaguete! Did laundry, bought groceries at the local market, and spent quality time studying the scriptures with my companion.",
+        text: "Preparation day! Did laundry, bought groceries at the local market, and spent quality time studying the scriptures with my companion.",
         image: ""
       }
     ],
@@ -259,7 +259,7 @@ function renderWeek(week) {
 
             <!-- Handwritten Polaroid Caption (No filename!) -->
             <div class="polaroid-caption">
-              ${escapeHtml(dayClean)} in Dumaguete
+              ${escapeHtml(dayClean)} • Missionary Work
             </div>
 
           </div>
@@ -276,7 +276,7 @@ function renderWeek(week) {
                 </h2>
               </div>
               <span class="text-[10px] sm:text-[11px] font-sans font-bold text-stone-700 uppercase tracking-wider bg-black/5 px-2.5 sm:px-3 py-1 rounded-full border border-black/5">
-                Day ${index + 1} of 7 • Dumaguete
+                Day ${index + 1} of 7 • Daily Routine
               </span>
             </div>
 
