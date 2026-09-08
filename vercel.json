@@ -9,6 +9,10 @@
     {
       "source": "/mission-call",
       "destination": "/call"
+    },
+    {
+      "source": "/book",
+      "destination": "/book"
     }
   ],
   "headers": [

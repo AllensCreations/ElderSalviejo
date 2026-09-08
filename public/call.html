@@ -47,6 +47,12 @@
 
       <!-- Action Buttons -->
       <div class="flex items-center space-x-2 shrink-0">
+        <a href="/book" class="text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-600 px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-1.5 transition" title="Complete Printable Missionary Book & PDF">
+          <span>📖</span>
+          <span class="hidden xs:inline">Mission Book</span>
+          <span class="xs:hidden">Book</span>
+        </a>
+
         <button onclick="window.print()" class="text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-600 px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-1.5 transition">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
@@ -113,6 +119,13 @@
           <span class="text-amber-800 font-semibold">Philippines Dumaguete Mission 🇵🇭</span>
           <span class="text-stone-300 hidden sm:inline">•</span>
           <span class="text-stone-500">MTC Entrance: Dec 11, 2026</span>
+        </div>
+
+        <!-- Live Countdown Widget -->
+        <div class="pt-3 flex flex-col items-center justify-center">
+          <div id="callCountdownDisplay" class="flex items-center justify-center">
+            <!-- Populated dynamically by countdown.js -->
+          </div>
         </div>
 
       </div>
@@ -583,5 +596,6 @@
       }
     }
   </script>
+  <script src="/js/countdown.js"></script>
 </body>
 </html>
