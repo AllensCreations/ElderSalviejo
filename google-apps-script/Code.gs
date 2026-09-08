@@ -1711,17 +1711,21 @@ function testSampleEmailDryRun() {
     'Baptisms: 0\n' +
     'Sacrament Attendance: 2\n';
 
-  const parsed = parseMissionaryEmail(sampleSubject, sampleBody, new Date());
-  Logger.log(`[PASS] Parsed Title: "${parsed.title}"`);
-  Logger.log(`[PASS] Parsed Slug: "${parsed.slug}"`);
-  Logger.log(`[PASS] Extracted Verse: ${parsed.verse ? parsed.verse.reference : 'None'}`);
-  Logger.log(`[PASS] Total Daily Entries: ${parsed.entries ? parsed.entries.length : 0}`);
+  const sampleDate = new Date();
+  const weekTitle = cleanSubjectTitle(sampleSubject) || `Week of ${Utilities.formatDate(sampleDate, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
+  const weekSlug = generateSlug(weekTitle, sampleDate);
+  const parsedData = parseDiaryContent(sampleBody, []);
+
+  Logger.log(`[PASS] Parsed Title: "${weekTitle}"`);
+  Logger.log(`[PASS] Parsed Slug: "${weekSlug}"`);
+  Logger.log(`[PASS] Extracted Verse: ${parsedData.verse ? parsedData.verse.reference : 'None'}`);
+  Logger.log(`[PASS] Total Daily Entries: ${parsedData.entries ? parsedData.entries.length : 0}`);
   Logger.log(`[PASS] Sanitized: Weekly report stripped cleanly from journal view.`);
 
   // 3. Test Email Template Generation
   Logger.log('\n[TEST 3/4] Generating responsive email preview shell...');
-  const cleanTitle = cleanSubjectTitle(parsed.title);
-  const sampleLiveUrl = `${baseUrl}/week/${encodeURIComponent(parsed.slug)}`;
+  const cleanTitle = cleanSubjectTitle(weekTitle);
+  const sampleLiveUrl = `${baseUrl}/week/${encodeURIComponent(weekSlug)}`;
   const emailShell = buildEmailShell(
     cleanTitle,
     'Weekly Missionary Journal • Dumaguete, Philippines',
