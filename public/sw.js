@@ -9,7 +9,7 @@
  * 4. PWA offline support & 1-tap installation
  */
 
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v4';
 const STATIC_CACHE = `elder-salviejo-shell-${CACHE_VERSION}`;
 const IMAGE_CACHE = `elder-salviejo-images-${CACHE_VERSION}`;
 const DATA_CACHE = `elder-salviejo-data-${CACHE_VERSION}`;
@@ -27,6 +27,7 @@ const STATIC_SHELL = [
   '/js/week.js',
   '/js/countdown.js',
   '/js/book.js',
+  '/js/print-helper.js',
   '/Icon.ico',
   '/assets/images/elder-salviejo.jpg'
 ];

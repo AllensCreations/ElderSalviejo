@@ -66,7 +66,7 @@
 
       html, body {
         width: var(--a4-width) !important;
-        background: #ffffff !important;
+        background: #f4f1ea !important;
         color: #1c1917 !important;
         font-size: 10pt !important;
         line-height: 1.45 !important;
@@ -112,7 +112,7 @@
       .book-chapter {
         page-break-before: always !important;
         break-before: page !important;
-        box-shadow: none !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
         border-radius: 0 !important;
         border: 1px solid #fde68a !important;
         background-color: #fdfbf7 !important;
@@ -141,9 +141,16 @@
         background-color: rgba(255, 255, 255, 0.5) !important;
       }
 
-      /* Image height safety to prevent page spilling */
+      /* Image height and natural aspect ratio safety */
       img {
-        max-height: 75mm !important;
+        max-height: 80mm !important;
+        width: auto !important;
+        max-width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important;
+        display: block !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
       }
     }
   </style>
@@ -204,8 +211,8 @@
           <span class="hidden sm:inline">Book</span>
         </a>
         <button
-          onclick="window.print()"
-          class="text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 shadow-xs flex items-center gap-1.5 transition"
+          onclick="triggerPrintWithPreload(this)"
+          class="text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 shadow-xs flex items-center gap-1.5 transition cursor-pointer"
           title="Print or Save complete book as PDF (A4 Portrait)"
         >
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -435,6 +442,9 @@
       </div>
     </div>
   </footer>
+
+  <!-- Print & PDF Preload Helper -->
+  <script src="/js/print-helper.js"></script>
 
   <!-- External Script to Populate Weekly Chapters -->
   <script src="/js/book.js"></script>

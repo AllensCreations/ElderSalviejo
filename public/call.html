@@ -80,7 +80,7 @@
           </svg>
           <span class="hidden sm:inline">Book</span>
         </a>
-        <button onclick="window.print()" class="text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 shadow-xs flex items-center gap-1.5 transition">
+        <button onclick="triggerPrintWithPreload(this)" class="text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 shadow-xs flex items-center gap-1.5 transition cursor-pointer" title="Print or Save Mission Call as PDF">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
           </svg>
@@ -626,6 +626,7 @@
       }
     }
   </script>
+  <script src="/js/print-helper.js"></script>
   <script src="/js/countdown.js"></script>
   <script>
     if ('serviceWorker' in navigator) {

@@ -212,25 +212,93 @@ body.week-view {
 }
 
 /* --------------------------------------------------------------------------
-   Print Styles
+   Print & PDF Styles (Preserves Authentic App Theme & Colors)
    -------------------------------------------------------------------------- */
 @media print {
-  body.week-view {
-    background: #ffffff !important;
+  *, *:before, *:after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
+
+  body.week-view {
+    background: #f4f1ea !important;
+    color: #1c1917 !important;
+    font-size: 10pt !important;
+    line-height: 1.5 !important;
+  }
+
   .no-print {
     display: none !important;
   }
-  .journal-sheet {
-    box-shadow: none !important;
-    border: 1px solid #d4d4d4 !important;
-    break-inside: avoid;
-    page-break-inside: avoid;
-    margin-bottom: 24px;
+
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
   }
+
+  .journal-sheet {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+    border-radius: 12px !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 24px !important;
+    padding: 24px 20px !important;
+  }
+
   .polaroid-card {
-    box-shadow: none !important;
-    border: 1px solid #cccccc !important;
+    background: #ffffff !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid #e5e5e5 !important;
+    border-radius: 2px !important;
     transform: none !important;
+    padding: 10px 10px 24px !important;
+    margin-bottom: 16px !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .polaroid-photo-frame {
+    background-color: #1c1917 !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    border-radius: 1px !important;
+  }
+
+  .polaroid-photo-frame img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 80mm !important;
+    object-fit: contain !important;
+    display: block !important;
+  }
+
+  .scripture-card {
+    background: linear-gradient(135deg, #fcfaf5 0%, #f5eedf 100%) !important;
+    border: 2px solid #fcd34d !important;
+    border-radius: 12px !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    box-shadow: none !important;
+    margin-bottom: 24px !important;
+  }
+
+  .missionary-nametag {
+    background-color: #0a0a0a !important;
+    color: #ffffff !important;
+  }
+  .missionary-nametag .tag-name,
+  .missionary-nametag .tag-christ {
+    color: #ffffff !important;
+  }
+  .missionary-nametag .tag-church {
+    color: #d1d5db !important;
+  }
+  .missionary-nametag .tag-divider {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  .tape {
+    opacity: 0.9 !important;
   }
 }

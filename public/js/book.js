@@ -130,17 +130,17 @@
                   ` : ''}
 
                   ${entry.image ? `
-                    <div class="my-4 text-center">
-                      <div class="inline-block p-3 bg-white border border-amber-200/80 rounded-xl shadow-xs">
+                    <div class="my-4 text-center avoid-break">
+                      <div class="inline-block p-2.5 sm:p-3 bg-white border border-amber-200/90 rounded-xl shadow-xs max-w-full">
                         <img
                           src="${escapeHtml(entry.image)}"
                           alt="Week Photo"
-                          class="max-h-80 mx-auto rounded-lg object-contain"
-                          loading="lazy"
+                          class="max-h-80 w-auto max-w-full mx-auto rounded-lg object-contain"
+                          loading="eager"
                           decoding="async"
                         />
                         ${entry.caption ? `
-                          <p class="text-xs text-stone-500 italic mt-2 font-hand text-base">${escapeHtml(entry.caption)}</p>
+                          <p class="text-xs text-stone-600 italic mt-2 font-hand text-base">${escapeHtml(entry.caption)}</p>
                         ` : ''}
                       </div>
                     </div>
