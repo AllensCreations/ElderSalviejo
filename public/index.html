@@ -75,32 +75,34 @@
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         
         <!-- Left Column: Elder Salviejo Profile & Mission Info -->
-        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-6 min-w-0">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-6 flex-1 min-w-0">
           
-          <!-- Large Profile Picture (Responsive sizing) -->
-          <div class="profile-avatar-hero">
-            <img
-              src="/assets/images/elder-salviejo.jpg"
-              alt="Elder Salviejo"
-              onerror="this.src='https://i.ibb.co/Xrpks0Hm/received-1633857454919246.jpg'"
-              loading="eager"
-              fetchpriority="high"
-              decoding="async"
-            />
+          <!-- Image and Nametag (ALWAYS beside each other on all screen sizes) -->
+          <div class="flex flex-row items-center gap-3 sm:gap-4 shrink-0">
+            <!-- Large Profile Picture -->
+            <div class="profile-avatar-hero shrink-0">
+              <img
+                src="/assets/images/elder-salviejo.jpg"
+                alt="Elder Salviejo"
+                onerror="this.src='https://i.ibb.co/Xrpks0Hm/received-1633857454919246.jpg'"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+              />
+            </div>
+
+            <!-- Authentic Missionary Nametag (Elder Salviejo at Top) -->
+            <div class="missionary-nametag shrink-0 shadow-md">
+              <span class="tag-name">ELDER SALVIEJO</span>
+              <div class="tag-divider"></div>
+              <span class="tag-church">The Church of</span>
+              <span class="tag-christ">Jesus Christ</span>
+              <span class="tag-church">of Latter-day Saints</span>
+            </div>
           </div>
 
-          <!-- Mission Description & Nametag -->
-          <div class="min-w-0">
-            <div class="flex flex-wrap items-center gap-2 mb-2">
-              <!-- Authentic Missionary Nametag (CSS badge) -->
-              <div class="missionary-nametag scale-90 sm:scale-95 origin-left">
-                <span class="tag-church">The Church of</span>
-                <span class="tag-christ">Jesus Christ</span>
-                <span class="tag-church">of Latter-day Saints</span>
-                <div class="tag-divider"></div>
-                <span class="tag-name">ELDER SALVIEJO</span>
-              </div>
-            </div>
+          <!-- Mission Description & Details -->
+          <div class="flex-1 min-w-0">
             <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-100 border border-amber-200 text-amber-900 text-xs font-semibold uppercase tracking-wider mb-2">
               <span>📍</span> Philippines Dumaguete Mission
             </div>

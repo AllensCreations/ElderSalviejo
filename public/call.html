@@ -78,14 +78,26 @@
 
       <div class="space-y-4 pt-3">
         
-        <!-- Authentic Missionary Nametag -->
-        <div class="flex justify-center pb-2">
-          <div class="missionary-nametag scale-95 sm:scale-100 shadow-md">
+        <!-- Authentic Missionary Nametag & Avatar (Always beside each other) -->
+        <div class="flex flex-row items-center justify-center gap-3 sm:gap-4 pb-2">
+          <!-- Framed Profile Picture -->
+          <div class="profile-avatar-hero w-14 h-14 sm:w-16 sm:h-16 shrink-0 shadow-md">
+            <img
+              src="/assets/images/elder-salviejo.jpg"
+              alt="Elder Salviejo"
+              onerror="this.src='https://i.ibb.co/Xrpks0Hm/received-1633857454919246.jpg'"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </div>
+          <!-- Authentic Missionary Nametag (Elder Salviejo at Top) -->
+          <div class="missionary-nametag scale-95 sm:scale-100 shrink-0 shadow-md">
+            <span class="tag-name">ELDER SALVIEJO</span>
+            <div class="tag-divider"></div>
             <span class="tag-church">The Church of</span>
             <span class="tag-christ">Jesus Christ</span>
             <span class="tag-church">of Latter-day Saints</span>
-            <div class="tag-divider"></div>
-            <span class="tag-name">ELDER SALVIEJO</span>
           </div>
         </div>
 
