@@ -1574,12 +1574,25 @@ function extractGalleryCategory(subject, secretCode) {
 
 function compressAndResizeAttachment(att, targetWidth) {
   targetWidth = targetWidth || 800;
-  let tempFile = null;
   const originalBytes = att.getBytes();
   const origKb = Math.round(originalBytes.length / 1024);
+  const contentType = att.getContentType() || 'image/jpeg';
+
+  // If the image size is already small (<= 350 KB), preserve original quality and skip compression
+  const MAX_UNCOMPRESSED_KB = 350;
+  if (origKb <= MAX_UNCOMPRESSED_KB) {
+    Logger.log(`Image "${att.getName()}" is already optimal (${origKb} KB <= ${MAX_UNCOMPRESSED_KB} KB). Skipping compression.`);
+    return {
+      mimeType: contentType,
+      dataUri: `data:${contentType};base64,${Utilities.base64Encode(originalBytes)}`
+    };
+  }
+
+  Logger.log(`Image "${att.getName()}" (${origKb} KB) exceeds ${MAX_UNCOMPRESSED_KB} KB. Compressing via Drive thumbnailer...`);
+  let tempFile = null;
 
   try {
-    const blob = Utilities.newBlob(originalBytes, att.getContentType() || 'image/jpeg', att.getName());
+    const blob = Utilities.newBlob(originalBytes, contentType, att.getName());
     tempFile = DriveApp.createFile(blob);
     const fileId = tempFile.getId();
 
@@ -1654,8 +1667,7 @@ function compressAndResizeAttachment(att, targetWidth) {
     }
   }
 
-  Logger.log(`Using original uncompressed attachment for "${att.getName()}" (${origKb} KB)`);
-  const contentType = att.getContentType() || 'image/jpeg';
+  Logger.log(`Using original attachment for "${att.getName()}" (${origKb} KB)`);
   return {
     mimeType: contentType,
     dataUri: `data:${contentType};base64,${Utilities.base64Encode(originalBytes)}`
