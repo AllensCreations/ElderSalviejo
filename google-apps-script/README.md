@@ -32,7 +32,7 @@ To keep your public GitHub repository 100% clean and free of secret keys, store 
 2. In the toolbar function dropdown, select `setupPrivateProperties`.
 3. Open `Code.gs` temporarily and adjust the parameters to your secrets:
   ```javascript
-  setupPrivateProperties('YOUR_VERCEL_INGEST_SECRET', '159266');
+  setupPrivateProperties('YOUR_VERCEL_INGEST_SECRET', 'YOUR_DIARY_PASSCODE', 'YOUR_GALLERY_PASSCODE');
   ```
 4. Click **Run**. When finished, revert those values in the code so they stay blank in Git.
 
@@ -43,8 +43,9 @@ To keep your public GitHub repository 100% clean and free of secret keys, store 
 | Property | Value | Description |
 | :--- | :--- | :--- |
 | `VERCEL_INGEST_URL` | `https://eldersalviejo.vercel.app/api/ingest` | Production ingest endpoint |
-| `INGEST_SECRET` | *(Your Vercel INGEST_SECRET token)* | Shared authorization secret |
-| `SECRET_CODE` | `159266` *(or your chosen passcode)* | Passcode filter for email queries |
+| `INGEST_SECRET` | *(Your private Vercel INGEST_SECRET)* | Shared authorization secret |
+| `SECRET_DIARY_CODE` | *(Your private chosen passcode)* | Passcode filter for weekly diary reflections |
+| `SECRET_GALLERY_CODE` | *(Your private gallery passcode)* | Passcode filter for direct photo gallery uploads |
 | `SITE_URL` | `https://eldersalviejo.vercel.app` | Base public website URL |
 | `DISTRIBUTION_LIST` | `family@example.com` | Optional manual extra emails |
 | `ALLOWED_SENDER` | *(Optional)* | Filter to only accept emails from your missionary address |
@@ -72,7 +73,7 @@ The dummy account will now monitor incoming diary submissions 24/7 and automatic
 ### 4. Elder Salviejo's P-Day Email Format
 From your missionary or personal Gmail on your P-Day:
 1. **To**: `your-dummy-account@gmail.com`
-2. **Subject**: `Weekly Reflection: Week 2 in Dumaguete 159266` *(includes your secret code)*
+2. **Subject**: `Weekly Reflection: Week 2 in Dumaguete [YOUR_PASSCODE]` *(includes your secret passcode)*
 3. **Body Format**:
   ```text
   -VERSE-

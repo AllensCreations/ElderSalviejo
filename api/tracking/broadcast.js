@@ -9,7 +9,8 @@
 const { getBroadcastLogsForWeek, recordBroadcastLogs, initDatabase } = require('../../lib/turso');
 
 function verifySecret(req) {
-  const secret = process.env.INGEST_SECRET || 'dev-secret-change-me';
+  const secret = process.env.INGEST_SECRET;
+  if (!secret) return false;
   const authHeader = req.headers['authorization'] || '';
   const xSecret = req.headers['x-ingest-secret'] || '';
 

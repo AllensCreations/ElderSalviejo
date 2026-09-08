@@ -2,8 +2,8 @@
  * Vercel Serverless Function: GET /api/gallery
  * 
  * Fetches all Polaroid photos for the dedicated image-only gallery.
- * Aggregates direct gallery uploads (passcode 073000), photos from weekly journals
- * (passcode 159266), and mission starter photos.
+ * Aggregates direct gallery uploads, photos from weekly journals,
+ * and mission starter photos.
  */
 
 const { getAllGalleryPhotos, initDatabase } = require('../lib/turso');
@@ -28,14 +28,17 @@ module.exports = async function handler(req, res) {
         if (cdnRes.ok) {
           const cdnData = await cdnRes.json();
           if (Array.isArray(cdnData) && cdnData.length > 0) {
-            photos = cdnData.map(item => ({
-              id: item.id || `cdn-${item.filename}`,
-              src: item.src || item.cdnUrl,
-              date: item.uploadedAt,
-              category: item.category || (item.source === '073000' ? 'Mission' : 'P-Day Journal'),
-              isGalleryUpload: item.source === '073000',
-              source: item.source
-            }));
+            photos = cdnData.map(item => {
+              const isGallery = item.source === '073000' || item.source === 'gallery' || Boolean(item.isGalleryUpload);
+              return {
+                id: item.id || `cdn-${item.filename}`,
+                src: item.src || item.cdnUrl,
+                date: item.uploadedAt,
+                category: item.category || (isGallery ? 'Mission' : 'P-Day Journal'),
+                isGalleryUpload: isGallery,
+                source: isGallery ? 'gallery' : 'journal'
+              };
+            });
           }
         }
       } catch (_) {}

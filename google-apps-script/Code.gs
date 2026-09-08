@@ -4,8 +4,7 @@
  * 
  * Features:
  * 1. Dual Passcode Routing:
- *    - 073000: Direct Polaroid Photo Gallery upload (pure images, no text)
- *    - 159266: Weekly Missionary Journal reflections & daily routine polaroids
+ *    - Configurable Secret Passcodes for Direct Polaroid Gallery upload and Weekly Journal reflections
  * 2. Anti-Duplicate Engine:
  *    - Strict Gmail message ID tracking prevents duplicate processing of the same email.
  *    - Automatic -from:me filtering ensures system confirmation replies are never looped.
@@ -26,10 +25,10 @@ const CONFIG = {
   // Shared secret token to authenticate requests to /api/ingest
   INGEST_SECRET: PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || '',
   
-  // Dedicated passcodes
-  SECRET_DIARY_CODE: '159266',
-  SECRET_GALLERY_CODE: '073000',
-  SECRET_CODE: PropertiesService.getScriptProperties().getProperty('SECRET_CODE') || '159266',
+  // Dedicated passcodes (configured privately via Script Properties)
+  SECRET_DIARY_CODE: PropertiesService.getScriptProperties().getProperty('SECRET_DIARY_CODE') || PropertiesService.getScriptProperties().getProperty('SECRET_CODE') || '',
+  SECRET_GALLERY_CODE: PropertiesService.getScriptProperties().getProperty('SECRET_GALLERY_CODE') || '',
+  SECRET_CODE: PropertiesService.getScriptProperties().getProperty('SECRET_CODE') || '',
 
   // Label applied to thread once successfully ingested
   PROCESSED_LABEL: PropertiesService.getScriptProperties().getProperty('PROCESSED_LABEL') || 'diary-processed',
@@ -77,22 +76,37 @@ function getSiteUrl() {
  * self-replies, and confirmation subjects.
  */
 function getGmailQuery() {
-  const label = PropertiesService.getScriptProperties().getProperty('PROCESSED_LABEL') || CONFIG.PROCESSED_LABEL || 'diary-processed';
-  return `(073000 OR 159266 OR subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection) -label:${label} -from:me -subject:"Confirmed:" -subject:"Published:" -subject:"Re:" -subject:"RE:" -subject:"Fwd:" -subject:"FW:"`;
+  const props = PropertiesService.getScriptProperties();
+  const label = props.getProperty('PROCESSED_LABEL') || CONFIG.PROCESSED_LABEL || 'diary-processed';
+  const diaryCode = props.getProperty('SECRET_DIARY_CODE') || props.getProperty('SECRET_CODE') || CONFIG.SECRET_DIARY_CODE || '';
+  const galleryCode = props.getProperty('SECRET_GALLERY_CODE') || CONFIG.SECRET_GALLERY_CODE || '';
+
+  const codeTerms = [diaryCode, galleryCode].filter(Boolean).map(c => `"${c}"`).join(' OR ');
+  const codeFilter = codeTerms 
+    ? `(${codeTerms} OR subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection)`
+    : '(subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection)';
+
+  return `${codeFilter} -label:${label} -from:me -subject:"Confirmed:" -subject:"Receipt:" -subject:"Published:" -subject:"Re:" -subject:"RE:" -subject:"Fwd:" -subject:"FW:"`;
 }
 
 /**
  * One-time setup helper: Run this function once from the Apps Script toolbar
  * to securely save private credentials into Google Account Script Properties.
  */
-function setupPrivateProperties(ingestSecret, secretPasscode) {
+function setupPrivateProperties(ingestSecret, secretDiaryPasscode, secretGalleryPasscode) {
   const props = PropertiesService.getScriptProperties();
-  props.setProperty('INGEST_SECRET', ingestSecret || 'gdv_sec_7f9c2d81a4b53e89c0e211ab9');
-  props.setProperty('SECRET_CODE', secretPasscode || '159266');
-  props.setProperty('PROCESSED_LABEL', 'diary-processed');
-  props.setProperty('VERCEL_INGEST_URL', 'https://eldersalviejo.vercel.app/api/ingest');
-  props.setProperty('SITE_URL', 'https://eldersalviejo.vercel.app');
-  Logger.log('Configured all 5 Script Properties in Google Cloud: INGEST_SECRET, SECRET_CODE, PROCESSED_LABEL, VERCEL_INGEST_URL, SITE_URL.');
+  if (ingestSecret) props.setProperty('INGEST_SECRET', ingestSecret);
+  if (secretDiaryPasscode) {
+    props.setProperty('SECRET_DIARY_CODE', secretDiaryPasscode);
+    props.setProperty('SECRET_CODE', secretDiaryPasscode);
+  }
+  if (secretGalleryPasscode) {
+    props.setProperty('SECRET_GALLERY_CODE', secretGalleryPasscode);
+  }
+  props.setProperty('PROCESSED_LABEL', props.getProperty('PROCESSED_LABEL') || 'diary-processed');
+  props.setProperty('VERCEL_INGEST_URL', props.getProperty('VERCEL_INGEST_URL') || 'https://eldersalviejo.vercel.app/api/ingest');
+  props.setProperty('SITE_URL', props.getProperty('SITE_URL') || 'https://eldersalviejo.vercel.app');
+  Logger.log('Saved configuration to private Google Apps Script Properties. Public git repository code contains zero secret keys or tokens.');
 }
 
 /**
@@ -340,9 +354,11 @@ function processWeeklyDiaryEmails() {
       continue;
     }
 
-    const secretCode = PropertiesService.getScriptProperties().getProperty('SECRET_CODE') || CONFIG.SECRET_CODE || '159266';
-    const isGalleryCode = (subject && subject.includes('073000')) || (body && body.includes('073000'));
-    const isDiaryCode = (subject && subject.includes('159266')) || (body && body.includes('159266')) || (secretCode && ((subject && subject.includes(secretCode)) || (body && body.includes(secretCode))));
+    const secretDiaryCode = PropertiesService.getScriptProperties().getProperty('SECRET_DIARY_CODE') || PropertiesService.getScriptProperties().getProperty('SECRET_CODE') || CONFIG.SECRET_DIARY_CODE || '';
+    const secretGalleryCode = PropertiesService.getScriptProperties().getProperty('SECRET_GALLERY_CODE') || CONFIG.SECRET_GALLERY_CODE || '';
+
+    const isGalleryCode = Boolean(secretGalleryCode && ((subject && subject.includes(secretGalleryCode)) || (body && body.includes(secretGalleryCode))));
+    const isDiaryCode = Boolean(secretDiaryCode && ((subject && subject.includes(secretDiaryCode)) || (body && body.includes(secretDiaryCode))));
     const hasCode = isGalleryCode || isDiaryCode;
     const isReflection = subject.toLowerCase().includes('reflection') || subject.toLowerCase().includes('journal');
     
@@ -355,7 +371,7 @@ function processWeeklyDiaryEmails() {
     }
 
     if (!hasCode && !isReflection) {
-      Logger.log(`Skipping thread "${subject}": Missing required passcode (073000 or 159266).`);
+      Logger.log(`Skipping thread "${subject}": Missing required secret passcode or reflection subject.`);
       continue;
     }
 
@@ -376,7 +392,7 @@ function processWeeklyDiaryEmails() {
     Logger.log(`Found ${imageAttachments.length} image attachment(s).`);
 
     // -------------------------------------------------------------
-    // BRANCH A: Direct Polaroid Gallery Upload (Passcode 073000)
+    // BRANCH A: Direct Polaroid Gallery Upload
     // -------------------------------------------------------------
     if (isGalleryCode) {
       if (imageAttachments.length === 0) {
@@ -387,10 +403,10 @@ function processWeeklyDiaryEmails() {
         continue;
       }
 
-      const galleryTitle = cleanSubjectTitle(subject, '073000') || `Polaroid Gallery ${Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
+      const galleryTitle = cleanSubjectTitle(subject, secretGalleryCode) || `Polaroid Gallery ${Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
       const gallerySlug = generateSlug(galleryTitle, date);
-      const cleanRawSubject = subject.replace(/[\(\[]?\s*073000\s*[\)\]]?/gi, '').trim();
-      const galleryCategory = extractGalleryCategory(subject);
+      const cleanRawSubject = cleanSubjectTitle(subject, secretGalleryCode);
+      const galleryCategory = extractGalleryCategory(subject, secretGalleryCode);
 
       const totalImages = imageAttachments.length;
       let processedIndex = 0;
@@ -478,12 +494,12 @@ function processWeeklyDiaryEmails() {
     }
 
     // -------------------------------------------------------------
-    // BRANCH B: Weekly Diary Reflections (Passcode 159266)
+    // BRANCH B: Weekly Diary Reflections
     // -------------------------------------------------------------
-    const cleanRawSubject = subject.replace(/[\(\[]?\s*159266\s*[\)\]]?/gi, '').trim();
-    const weekTitle = cleanSubjectTitle(subject, '159266') || `Week of ${Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
+    const weekTitle = cleanSubjectTitle(subject, secretDiaryCode) || `Week of ${Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
+    const cleanRawSubject = cleanSubjectTitle(subject, secretDiaryCode);
     const weekSlug = generateSlug(weekTitle, date);
-    const diaryCategory = extractGalleryCategory(subject);
+    const diaryCategory = extractGalleryCategory(subject, secretDiaryCode);
 
     const mainAttachments = imageAttachments.slice(0, CONFIG.BATCH_SIZE);
     Logger.log(`Compressing ${mainAttachments.length} main diary photo(s)...`);
@@ -1381,16 +1397,35 @@ function escapeHtml(str) {
 
 function cleanSubjectTitle(rawSubject, secretCode) {
   let clean = rawSubject || '';
-  clean = clean.replace(/[\(\[]?\s*073000\s*[\)\]]?/gi, '');
-  clean = clean.replace(/[\(\[]?\s*159266\s*[\)\]]?/gi, '');
 
+  // 1. Remove configured secret passcode if provided
   if (secretCode) {
     const escaped = secretCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp('[\\[\\(]?\\s*' + escaped + '\\s*[\\]\\)]?', 'gi');
     clean = clean.replace(regex, '');
   }
+
+  // 2. Also check and strip any passcodes from Script Properties
+  try {
+    const pDiary = PropertiesService.getScriptProperties().getProperty('SECRET_DIARY_CODE') || PropertiesService.getScriptProperties().getProperty('SECRET_CODE');
+    const pGallery = PropertiesService.getScriptProperties().getProperty('SECRET_GALLERY_CODE');
+    if (pDiary) {
+      const escD = pDiary.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      clean = clean.replace(new RegExp('[\\[\\(]?\\s*' + escD + '\\s*[\\]\\)]?', 'gi'), '');
+    }
+    if (pGallery) {
+      const escG = pGallery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      clean = clean.replace(new RegExp('[\\[\\(]?\\s*' + escG + '\\s*[\\]\\)]?', 'gi'), '');
+    }
+  } catch (_) {}
+
+  // 3. Strip standalone bracketed numeric tags (e.g. [123456], (789012))
+  clean = clean.replace(/[\(\[]\s*\d{4,8}\s*[\)\]]/g, '');
+
+  // 4. Strip system prefixes and boilerplate
   clean = clean.replace(/(?:Published:\s*Elder\s*Salviejo'?s\s*Weekly\s*Journal\s*[—–-]*\s*)+/gi, '');
   clean = clean.replace(/(?:Confirmed:\s*Elder\s*Salviejo'?s\s*Weekly\s*Journal\s*[—–-]*\s*)+/gi, '');
+  clean = clean.replace(/(?:Receipt:\s*(?:Weekly\s*Journal\s*Published|Polaroid\s*Gallery\s*Synced)\s*[—–-]*\s*)+/gi, '');
   clean = clean.replace(/(?:Elder\s*Salviejo\s*[—–-]\s*Weekly\s*Journal:\s*)+/gi, '');
   clean = clean.replace(/^(?:re|fwd|fw)\s*:\s*/gi, '');
   clean = clean.replace(/^(?:weekly\s*reflection|weekly\s*journal|reflection|journal)[\s:—-]*/gi, '');
@@ -1399,9 +1434,9 @@ function cleanSubjectTitle(rawSubject, secretCode) {
   return clean || 'Weekly Missionary Journal';
 }
 
-function extractGalleryCategory(subject) {
+function extractGalleryCategory(subject, secretCode) {
   if (!subject) return 'Mission';
-  const clean = subject.replace(/[\(\[]?\s*(?:073000|159266)\s*[\)\]]?/gi, '').trim();
+  const clean = cleanSubjectTitle(subject, secretCode);
 
   if (/baptism/i.test(clean)) return 'Baptisms';
   if (/companion/i.test(clean)) return 'Companions';
