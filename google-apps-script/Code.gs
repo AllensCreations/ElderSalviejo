@@ -1436,8 +1436,15 @@ function sendPayloadToVercel(payload) {
 }
 
 function generateSlug(title, date) {
-  const dateStr = Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd');
-  const cleanTitle = title.toLowerCase()
+  let dateObj = new Date();
+  if (date instanceof Date && !isNaN(date.getTime())) {
+    dateObj = date;
+  } else if (date) {
+    const parsed = new Date(date);
+    if (!isNaN(parsed.getTime())) dateObj = parsed;
+  }
+  const dateStr = Utilities.formatDate(dateObj, Session.getScriptTimeZone(), 'yyyy-MM-dd');
+  const cleanTitle = (title || '').toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
   return `${dateStr}-${cleanTitle}`.substring(0, 64);
@@ -1466,11 +1473,12 @@ function escapeHtml(str) {
 }
 
 function cleanSubjectTitle(rawSubject, secretCode) {
-  let clean = rawSubject || '';
+  let clean = String(rawSubject || '');
 
   // 1. Remove configured secret passcode if provided
   if (secretCode) {
-    const escaped = secretCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const codeStr = String(secretCode);
+    const escaped = codeStr.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp('[\\[\\(]?\\s*' + escaped + '\\s*[\\]\\)]?', 'gi');
     clean = clean.replace(regex, '');
   }
@@ -1480,11 +1488,11 @@ function cleanSubjectTitle(rawSubject, secretCode) {
     const pDiary = PropertiesService.getScriptProperties().getProperty('SECRET_DIARY_CODE') || PropertiesService.getScriptProperties().getProperty('SECRET_CODE');
     const pGallery = PropertiesService.getScriptProperties().getProperty('SECRET_GALLERY_CODE');
     if (pDiary) {
-      const escD = pDiary.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const escD = String(pDiary).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       clean = clean.replace(new RegExp('[\\[\\(]?\\s*' + escD + '\\s*[\\]\\)]?', 'gi'), '');
     }
     if (pGallery) {
-      const escG = pGallery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const escG = String(pGallery).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       clean = clean.replace(new RegExp('[\\[\\(]?\\s*' + escG + '\\s*[\\]\\)]?', 'gi'), '');
     }
   } catch (_) {}
@@ -1506,11 +1514,12 @@ function cleanSubjectTitle(rawSubject, secretCode) {
 
 function cleanEmailBodyText(rawBody, secretCode) {
   if (!rawBody) return '';
-  let clean = rawBody;
+  let clean = String(rawBody);
 
   // 1. Remove configured secret passcode if provided
   if (secretCode) {
-    const escaped = secretCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const codeStr = String(secretCode);
+    const escaped = codeStr.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     clean = clean.replace(new RegExp('[\\[\\(]?\\s*' + escaped + '\\s*[\\]\\)]?', 'gi'), '');
   }
 
@@ -1519,11 +1528,11 @@ function cleanEmailBodyText(rawBody, secretCode) {
     const pDiary = PropertiesService.getScriptProperties().getProperty('SECRET_DIARY_CODE') || PropertiesService.getScriptProperties().getProperty('SECRET_CODE');
     const pGallery = PropertiesService.getScriptProperties().getProperty('SECRET_GALLERY_CODE');
     if (pDiary) {
-      const escD = pDiary.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const escD = String(pDiary).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       clean = clean.replace(new RegExp('[\\[\\(]?\\s*' + escD + '\\s*[\\]\\)]?', 'gi'), '');
     }
     if (pGallery) {
-      const escG = pGallery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const escG = String(pGallery).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       clean = clean.replace(new RegExp('[\\[\\(]?\\s*' + escG + '\\s*[\\]\\)]?', 'gi'), '');
     }
   } catch (_) {}
