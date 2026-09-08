@@ -751,7 +751,9 @@ function buildEmailShell(title, subtitle, contentHtml, ctaText, ctaUrl) {
  */
 function sendGallerySuccessReplyToSender(thread, sender, payload, galleryUrl) {
   const authorClean = extractEmailAddress(sender);
-  const subject = `Confirmed: Polaroid Gallery Upload — ${payload.title || 'Philippines Dumaguete Mission'}`;
+  const categoryClean = payload.category || 'Mission';
+  const timestamp = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'MMM d, yyyy • h:mm a');
+  const subject = `Receipt: Polaroid Gallery Synced — ${categoryClean} (${timestamp})`;
   
   const contentHtml = `
     <p style="font-size: 13px; line-height: 1.6; color: #44403c; margin-top: 0;">
@@ -764,7 +766,7 @@ function sendGallerySuccessReplyToSender(thread, sender, payload, galleryUrl) {
         <td style="padding: 10px 14px; color: #78716c; font-weight: 600; width: 35%;">Category Album</td>
         <td style="padding: 10px 14px; color: #1c1917; font-weight: 700;">
           <span style="background-color: #fef3c7; color: #92400e; padding: 3px 8px; border-radius: 9999px; font-size: 11px;">
-            ${escapeHtml(payload.category || 'Mission')}
+            ${escapeHtml(categoryClean)}
           </span>
         </td>
       </tr>
@@ -773,9 +775,9 @@ function sendGallerySuccessReplyToSender(thread, sender, payload, galleryUrl) {
         <td style="padding: 10px 14px; color: #1c1917; font-weight: 700; border-top: 1px solid #f5f5f4;">${payload.imageCount} polaroid(s)</td>
       </tr>
       <tr>
-        <td style="padding: 10px 14px; color: #78716c; font-weight: 600; border-top: 1px solid #f5f5f4;">Date Recorded</td>
+        <td style="padding: 10px 14px; color: #78716c; font-weight: 600; border-top: 1px solid #f5f5f4;">Time Recorded</td>
         <td style="padding: 10px 14px; color: #1c1917; border-top: 1px solid #f5f5f4;">
-          ${Utilities.formatDate(new Date(payload.publishedAt), Session.getScriptTimeZone(), 'MMMM d, yyyy')}
+          ${timestamp}
         </td>
       </tr>
       <tr>
@@ -794,20 +796,11 @@ function sendGallerySuccessReplyToSender(thread, sender, payload, galleryUrl) {
   );
 
   const plainText = 
-    `Elder Salviejo,
-
-` +
-    `Confirmed: Your ${payload.imageCount} photo(s) have been received and pinned to your Polaroid Gallery.
-
-` +
-    `Category: ${payload.category || 'Mission'}
-` +
-    `Date: ${Utilities.formatDate(new Date(payload.publishedAt), Session.getScriptTimeZone(), 'MMMM d, yyyy')}
-
-` +
-    `View live gallery: ${galleryUrl}
-
-` +
+    `Elder Salviejo,\n\n` +
+    `Confirmed: Your ${payload.imageCount} photo(s) have been received and pinned to your Polaroid Gallery.\n\n` +
+    `Category: ${categoryClean}\n` +
+    `Time: ${timestamp}\n\n` +
+    `View live gallery: ${galleryUrl}\n\n` +
     `Elder Mark Salviejo • Philippines Dumaguete Mission`;
 
   try {
@@ -837,7 +830,9 @@ function sendGallerySuccessReplyToSender(thread, sender, payload, galleryUrl) {
 function sendSuccessReplyToSender(thread, sender, payload, liveUrl, dbSubscribers) {
   const authorClean = extractEmailAddress(sender);
   const subscriberCount = (dbSubscribers || []).length;
-  const subject = `Confirmed: Elder Salviejo's Weekly Journal — ${payload.title}`;
+  const cleanTitle = cleanSubjectTitle(payload.title || 'Weekly Missionary Journal', CONFIG.SECRET_CODE);
+  const timestamp = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'MMM d, yyyy • h:mm a');
+  const subject = `Receipt: Weekly Journal Published — ${cleanTitle} (${timestamp})`;
 
   const contentHtml = `
     <p style="font-size: 13px; line-height: 1.6; color: #44403c; margin-top: 0;">
@@ -848,12 +843,12 @@ function sendSuccessReplyToSender(thread, sender, payload, liveUrl, dbSubscriber
     <table style="width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 12px; background-color: #fafaf9; border-radius: 6px; border: 1px solid #f5f5f4;">
       <tr>
         <td style="padding: 10px 14px; color: #78716c; font-weight: 600; width: 35%;">Journal Title</td>
-        <td style="padding: 10px 14px; color: #1c1917; font-weight: 700;">${escapeHtml(payload.title)}</td>
+        <td style="padding: 10px 14px; color: #1c1917; font-weight: 700;">${escapeHtml(cleanTitle)}</td>
       </tr>
       <tr>
-        <td style="padding: 10px 14px; color: #78716c; font-weight: 600; border-top: 1px solid #f5f5f4;">Date Published</td>
+        <td style="padding: 10px 14px; color: #78716c; font-weight: 600; border-top: 1px solid #f5f5f4;">Time Published</td>
         <td style="padding: 10px 14px; color: #1c1917; border-top: 1px solid #f5f5f4;">
-          ${Utilities.formatDate(new Date(payload.publishedAt), Session.getScriptTimeZone(), 'MMMM d, yyyy')}
+          ${timestamp}
         </td>
       </tr>
       <tr>
@@ -890,26 +885,14 @@ function sendSuccessReplyToSender(thread, sender, payload, liveUrl, dbSubscriber
   );
 
   const plainText =
-    `Elder Salviejo,
-
-` +
-    `Confirmed: Your weekly reflection has been published live.
-
-` +
-    `Title: ${payload.title}
-` +
-    `Date: ${Utilities.formatDate(new Date(payload.publishedAt), Session.getScriptTimeZone(), 'MMMM d, yyyy')}
-` +
-    `Entries: ${payload.totalEntries} day(s)
-` +
-    `Photos: ${payload.imageCount} photo(s)
-` +
-    `Subscribers: ${subscriberCount} notified
-
-` +
-    `View online: ${liveUrl}
-
-` +
+    `Elder Salviejo,\n\n` +
+    `Confirmed: Your weekly reflection has been published live.\n\n` +
+    `Title: ${cleanTitle}\n` +
+    `Time: ${timestamp}\n` +
+    `Entries: ${payload.totalEntries} day(s)\n` +
+    `Photos: ${payload.imageCount} photo(s)\n` +
+    `Subscribers: ${subscriberCount} notified\n\n` +
+    `View online: ${liveUrl}\n\n` +
     `Elder Mark Salviejo • Philippines Dumaguete Mission`;
 
   try {
