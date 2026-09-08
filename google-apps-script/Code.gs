@@ -338,7 +338,8 @@ function processWeeklyDiaryEmails() {
   
   let myEmail = '';
   try {
-    myEmail = Session.getActiveUser().getEmail() || '';
+    myEmail = (Session.getEffectiveUser() && Session.getEffectiveUser().getEmail()) || 
+              (Session.getActiveUser() && Session.getActiveUser().getEmail()) || '';
   } catch (_) {}
 
   for (let i = 0; i < threads.length; i++) {
@@ -1667,7 +1668,11 @@ function testSampleEmailDryRun() {
 
   const ingestSecret = PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || CONFIG.INGEST_SECRET;
   const baseUrl = (PropertiesService.getScriptProperties().getProperty('SITE_URL') || CONFIG.SITE_URL || 'https://eldersalviejo.vercel.app').replace(/\/$/, '');
-  const testerEmail = Session.getActiveUser().getEmail();
+  let testerEmail = '';
+  try {
+    testerEmail = (Session.getEffectiveUser() && Session.getEffectiveUser().getEmail()) || 
+                  (Session.getActiveUser() && Session.getActiveUser().getEmail()) || '';
+  } catch (_) {}
 
   // 1. Test Turso SQLite Database Subscribers
   Logger.log('\n[TEST 1/4] Checking Turso SQLite database connection...');
