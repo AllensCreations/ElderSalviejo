@@ -264,8 +264,15 @@ function debugCheckInbox() {
 }
 
 /**
- * Main entry point: Process incoming diary and gallery emails with auto-continue
- * and anti-duplicate guards.
+ * Alias for processWeeklyDiaryEmails to allow manual execution under either name.
+ */
+function processUnprocessedThreads() {
+  return processWeeklyDiaryEmails();
+}
+
+/**
+ * Main entry point: Scans inbox for unprocessed missionary journal and gallery emails,
+ * extracts reflections, scriptures, and attachments, and posts them to the ingest API.
  */
 function processWeeklyDiaryEmails() {
   const startTime = Date.now();
