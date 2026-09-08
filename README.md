@@ -126,7 +126,7 @@ vault/scriptures/
 
 ### 6. The Presentation Layer (Dynamic Frontend)
 * **The Index Vault (`/`)**:
-  * Clean archive list, Polaroid count, Month of 24 Months progress indicator, and Mission Journey Timeline.
+  * Clean archive list, Polaroid count, and Month of 24 Months missionary progress bar.
 * **The Dynamic Journal View (`/week/[slug]`)**:
   * Responsive Polaroid cards & sticky-note reflections.
   * **Family & Friends Encouragement Board**: Live message feed powered by Turso SQLite.
