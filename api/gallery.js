@@ -16,12 +16,39 @@ module.exports = async function handler(req, res) {
 
   try {
     await initDatabase();
-    const photos = await getAllGalleryPhotos();
+    let photos = await getAllGalleryPhotos();
+
+    // If local/Turso has no photos, check the dedicated jsDelivr gallery index as a fallback
+    if (!photos || photos.length === 0) {
+      try {
+        const cdnRes = await fetch('https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/index.json', {
+          headers: { 'User-Agent': 'ElderSalviejo-Vault/1.0' },
+          signal: AbortSignal.timeout(2500)
+        });
+        if (cdnRes.ok) {
+          const cdnData = await cdnRes.json();
+          if (Array.isArray(cdnData) && cdnData.length > 0) {
+            photos = cdnData.map(item => ({
+              id: item.id || `cdn-${item.filename}`,
+              src: item.src || item.cdnUrl,
+              date: item.uploadedAt,
+              isGalleryUpload: item.source === '073000',
+              source: item.source
+            }));
+          }
+        }
+      } catch (_) {}
+    }
+
     res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
     return res.status(200).json({
       success: true,
       count: photos.length,
-      photos
+      photos,
+      jsdelivr: {
+        folder: 'https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/',
+        index: 'https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/index.json'
+      }
     });
   } catch (error) {
     console.error('❌ Error fetching gallery photos:', error);

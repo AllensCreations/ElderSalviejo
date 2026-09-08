@@ -326,6 +326,8 @@ function sendSuccessReplyToSender(thread, sender, payload, liveUrl, dbSubscriber
     `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
     `🌐 View your live polaroid journal here:\n` +
     `${liveUrl}\n\n` +
+    `📷 Photos Auto-Synced to Polaroid Gallery:\n` +
+    `${getSiteUrl()}/gallery\n\n` +
     `Elder Salviejo Journal Vault\n` +
     `Philippines Dumaguete Mission`;
 

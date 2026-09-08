@@ -8,17 +8,6 @@ let activeLightboxIndex = 0;
 let touchStartX = 0;
 let touchEndX = 0;
 
-const FALLBACK_STARTER_PHOTOS = [
-  { id: 'starter-1', src: '/assets/images/elder-salviejo.jpg' },
-  { id: 'starter-2', src: '/assets/images/intro/photo-1.jpg' },
-  { id: 'starter-3', src: '/assets/images/intro/photo-2.jpg' },
-  { id: 'starter-4', src: '/assets/images/intro/photo-3.jpg' },
-  { id: 'starter-5', src: '/assets/images/intro/photo-4.jpg' },
-  { id: 'starter-6', src: '/assets/images/intro/photo-5.jpg' },
-  { id: 'starter-7', src: '/assets/images/intro/call-letter.jpg' },
-  { id: 'starter-8', src: '/assets/images/intro/call-overview.jpg' }
-];
-
 const TILT_CLASSES = [
   'tilt-neg-2',
   'tilt-pos-1',
@@ -41,7 +30,7 @@ async function loadGallery() {
   if (skeleton) skeleton.classList.remove('hidden');
   if (grid) grid.classList.add('hidden');
   if (empty) empty.classList.add('hidden');
-  if (countText) countText.textContent = 'Loading photos...';
+  if (countText) countText.textContent = 'Checking photos...';
 
   try {
     const res = await fetch('/api/gallery', { cache: 'no-cache' });
@@ -51,11 +40,11 @@ async function loadGallery() {
     if (data && Array.isArray(data.photos) && data.photos.length > 0) {
       galleryPhotos = data.photos;
     } else {
-      galleryPhotos = FALLBACK_STARTER_PHOTOS;
+      galleryPhotos = [];
     }
   } catch (err) {
-    console.warn('Could not fetch /api/gallery, using fallback mission starter photos:', err);
-    galleryPhotos = FALLBACK_STARTER_PHOTOS;
+    console.warn('Could not fetch /api/gallery:', err);
+    galleryPhotos = [];
   }
 
   renderGallery();
