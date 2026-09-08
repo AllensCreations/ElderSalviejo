@@ -69,11 +69,16 @@ To set the script to process every day automatically at **9:00 PM (21:00)**:
 
 ---
 
-### 4. Elder Salviejo's P-Day Email Format
-From your missionary or personal Gmail on your P-Day:
-1. **To**: `your-dummy-account@gmail.com`
-2. **Subject**: `Weekly Reflection: Week 2 in Dumaguete [YOUR_PASSCODE]` *(includes your secret passcode)*
-3. **Body Format**:
+### 4. How to Send Submissions from Gmail
+
+You can submit two types of emails to your dummy receiver account:
+
+---
+
+#### Option A: Weekly Diary Reflections (P-Day Letters)
+- **To**: `your-dummy-account@gmail.com`
+- **Subject**: `Weekly Reflection: Week 2 in Dumaguete [YOUR_DIARY_PASSCODE]` *(e.g. `Weekly Reflection: Week 2 in Dumaguete 159266`)*
+- **Body Format**:
   ```text
   -VERSE-
   Alma 26:12
@@ -99,6 +104,35 @@ From your missionary or personal Gmail on your P-Day:
 
   --- SUNDAY ---
   Sacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior Jesus Christ.
+
+  --- WEEKLY REPORT ---
+  Lessons: 14
+  Investigators: 6
+  Baptisms: 0
+  Sacrament: 2
   ```
-4. **Attachments**: 7 photos (.jpg or .png) corresponding to Monday through Sunday.
-5. **Hit Send**: Within 1–5 minutes, your photos and reflections are backed up to GitHub, loaded onto jsDelivr, stored in Turso, and emailed to all your family and friends!
+- **Attachments**: 7 photos (.jpg, .png, .heic) matching each day from Monday to Sunday.
+- **What Happens**:
+  1. The reflection and daily photos are saved to GitHub, jsDelivr CDN, and Turso SQLite.
+  2. Private statistical report numbers (`Lessons: 14`, etc.) are automatically stripped from public view.
+  3. All website subscribers receive the **Weekly Broadcast Newsletter**.
+  4. Elder Salviejo receives an instant **Confirmation Receipt**.
+  5. The thread in the dummy account is labeled **`diary-processed`**.
+
+---
+
+#### Option B: Direct Polaroid Photo Gallery Uploads
+- **To**: `your-dummy-account@gmail.com`
+- **Subject**: `Sibulan District Conference [YOUR_GALLERY_PASSCODE]` *(e.g. `Sibulan District Conference 073000`)*
+  - *Tip: Include category keywords in the subject like `Baptisms`, `Companions`, `Service`, `Transfers`, `Teaching`, or `P-Day` to automatically organize into albums!*
+- **Body Format (Optional Caption / Story Note)**:
+  ```text
+  Wonderful district conference gathering with President and Sister across the Negros Oriental zone!
+  ```
+  *(Any text written in the email body automatically attaches as the Polaroid photo story caption across all uploaded photos).*
+- **Attachments**: Any number of photos (1 to 50+ photos).
+- **What Happens**:
+  1. Photos are automatically compressed (if $> 350\text{ KB}$) and pinned to the **Polaroid Photo Wall** on `/gallery`.
+  2. Elder Salviejo receives a **Polaroid Gallery Synced Receipt** with album statistics and live gallery link.
+  3. The thread in the dummy account is labeled **`gallery-processed`**.
+

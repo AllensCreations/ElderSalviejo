@@ -32,66 +32,73 @@
 
 ---
 
-## Component Mechanics
+### 1. The Input Layer: Two Submission Modes
 
-### 1. The Input Layer (Monday P-Day Email)
-* Draft your reflection in Gmail during Monday Preparation Day.
-* Format daily entries using explicit day tags:
- ```text
- --- MONDAY ---
- Preparation day! Did laundry, emailed family, and played basketball with the elders.
+#### A. Weekly Diary Reflections (P-Day Letters)
+* Draft your reflection in Gmail during your Preparation Day (P-Day).
+* **Subject**: `Weekly Reflection: Week 2 in Dumaguete [YOUR_DIARY_PASSCODE]`
+* **Body Format**:
+  ```text
+  -VERSE-
+  Alma 26:12
+  "Yea, I know that I am nothing; as to my strength I am weak; therefore I will not boast of myself, but I will boast of my God, for in his strength I can do all things."
 
- --- TUESDAY ---
- Morning study in Alma 26. Walked through Sibulan and met investigators.
- ...
- --- SUNDAY ---
- Sacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior.
- ```
-* Attach **7 image files** (`.jpg` or `.png`) directly to the email corresponding to each day's routine photo.
-* Send to your dedicated **dummy receiver Gmail account**.
+  --- MONDAY ---
+  Preparation day! Did laundry, emailed family, and played basketball with the district elders.
+
+  --- TUESDAY ---
+  Morning companion study in Alma 26. Walked through Sibulan and met an investigator family.
+  ...
+  --- SUNDAY ---
+  Sacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior Jesus Christ.
+
+  --- WEEKLY REPORT ---
+  Lessons: 14
+  Investigators: 6
+  Baptisms: 0
+  Sacrament: 2
+  ```
+* **Attachments**: 7 daily routine photos (`.jpg`, `.png`, `.heic`).
+* **Processing**: Statistical report sections are automatically stripped from public view, photos are stored in GitHub & jsDelivr CDN, subscribers are notified via email, and the thread is labeled `diary-processed`.
+
+#### B. Direct Polaroid Photo Gallery Uploads
+* Send raw mission memories and photo albums directly to the live Polaroid Wall.
+* **Subject**: `Sibulan District Conference [YOUR_GALLERY_PASSCODE]` *(Include album categories like `Baptisms`, `Companions`, `Service`, `Transfers`, `Teaching`, `P-Day`)*.
+* **Body (Optional Caption / Story Note)**:
+  ```text
+  Wonderful district conference gathering with President and Sister across the Negros Oriental zone!
+  ```
+* **Attachments**: Any number of photos (1 to 50+ photos).
+* **Processing**: Photos are optimized and pinned to `/gallery`, story captions are attached, and the thread is labeled `gallery-processed`.
 
 ### 2. The Processing Layer (Google Apps Script)
 * Script located in [`google-apps-script/Code.gs`](./google-apps-script/Code.gs).
-* Runs on a scheduled time trigger (e.g. hourly or daily) or manual trigger.
-* Finds unread reflection threads matching `GMAIL_QUERY`.
-* **Base64 Encoding Engine:** Web browsers cannot access raw email binary blobs. The script executes `Utilities.base64Encode()` to transform each photo into an inline data URI (`data:image/jpeg;base64,...`).
-* Maps each day tag to its corresponding image into an array of daily reflection objects.
-* Dispatches an authenticated HTTP POST via `UrlFetchApp.fetch()` to your Vercel backend `/api/ingest`.
-* Tags the processed thread in Gmail with label `diary-processed` to avoid duplicate processing.
+* Runs on a scheduled daily 9:00 PM trigger (`createDaily9PMTrigger`) or manual execution.
+* **Smart Compression Engine**: Photos $\le 350\text{ KB}$ preserve 100% original camera quality and skip Drive processing. Photos $> 350\text{ KB}$ are resized to $800\text{px}$ width.
+* Dispatches authenticated payload via `UrlFetchApp.fetch()` to `/api/ingest`.
+* Automatically labels processed threads with `diary-processed` or `gallery-processed`.
+* Dispatches deduplicated weekly broadcast to website subscribers from Turso SQLite.
 
 ### 3. The Transport Layer (Vercel API Endpoint)
-* Serverless route [`api/ingest.js`](./api/ingest.js) deployed on Vercel Edge/Serverless.
+* Serverless route [`api/ingest.js`](./api/ingest.js) deployed on Vercel.
 * Enforces Bearer token security (`INGEST_SECRET`).
-* Parameterizes incoming JSON payload into SQL statement.
+* Automatically commits photos & letters to GitHub (`vault/`) and saves metadata to Turso SQLite.
 
-### 4. The Storage Layer (Turso SQLite Database)
-* Connects via `@libsql/client/web` using `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN`.
-* Stores immutable weekly entries in the `journal_weeks` table:
- ```sql
- CREATE TABLE journal_weeks (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  slug TEXT NOT NULL UNIQUE,
-  title TEXT NOT NULL,
-  published_at TEXT NOT NULL,
-  raw_subject TEXT,
-  sender TEXT,
-  entries TEXT NOT NULL,
-  total_entries INTEGER DEFAULT 7,
-  image_count INTEGER DEFAULT 0,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
- );
- ```
+### 4. The Storage Layer (Turso SQLite Database & GitHub Vault)
+* **Turso SQLite**: Stores `weeks`, `gallery`, `subscribers`, `broadcast_logs`, and `family_encouragements`.
+* **GitHub Repository Vault (`vault/`)**: Permanent Git archive of Markdown letters and raw photos.
+* **jsDelivr Edge CDN**: Global high-speed content delivery for all photos.
 
 ### 5. The Presentation Layer (Dynamic Frontend)
 * **The Index Vault (`/`)**:
- * Mini-inbox style directory.
- * Shows archive list with date stamps, titles, senders, reflection previews, and thumbnail badges.
-* **The Dynamic Journal View (`/week/[id]`)**:
- * Fetches the selected week and loops through the 7 daily entries.
- * **Polaroid Cards:** Injects the Base64 data URI directly into `<img>` tags inside a white polaroid frame with washi tape and handwritten captions.
- * **Sticky-Note Reflections:** Warm pastel notes with pushpins, subtle rotations, and clean typography.
- * **Self-Contained & Immutable:** Zero external image hosting dependencies (AWS S3, Cloudinary, etc.); photos are stored permanently as Base64 strings directly in SQLite.
- * Built-in **Print / Save PDF** styling and one-click share link.
+  * Clean archive list, Polaroid count, Month of 24 Months progress indicator, and Mission Journey Timeline.
+* **The Dynamic Journal View (`/week/[slug]`)**:
+  * Responsive Polaroid cards & sticky-note reflections.
+  * **Family & Friends Encouragement Board**: Live message feed powered by Turso SQLite.
+  * **1-Click Save / Print PDF**: Clean printable layout for scrapbooks.
+  * **PWA Support**: "Add to Home Screen" on iOS & Android.
+* **The Polaroid Photo Wall (`/gallery`)**:
+  * Pinned 3D pushpin Polaroid cards organized by category albums with lightbox view.
 
 ---
 
