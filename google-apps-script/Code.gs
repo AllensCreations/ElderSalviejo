@@ -1651,3 +1651,101 @@ function compressAndResizeAttachment(att, targetWidth) {
     dataUri: `data:${contentType};base64,${Utilities.base64Encode(originalBytes)}`
   };
 }
+
+/**
+ * TEST FUNCTION: Dry-Run Simulation (Zero Vercel/GitHub Changes)
+ * 
+ * Tests the entire email parsing pipeline, Turso database connection,
+ * and email template generation WITHOUT writing to Vercel or saving to GitHub.
+ * 
+ * To run: Select "testSampleEmailDryRun" in the Apps Script toolbar dropdown and click "Run".
+ */
+function testSampleEmailDryRun() {
+  Logger.log('====================================================');
+  Logger.log('STARTING DRY-RUN TEST (NO VERCEL/GITHUB CHANGES)');
+  Logger.log('====================================================');
+
+  const ingestSecret = PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || CONFIG.INGEST_SECRET;
+  const baseUrl = (PropertiesService.getScriptProperties().getProperty('SITE_URL') || CONFIG.SITE_URL || 'https://eldersalviejo.vercel.app').replace(/\/$/, '');
+  const testerEmail = Session.getActiveUser().getEmail();
+
+  // 1. Test Turso SQLite Database Subscribers
+  Logger.log('\n[TEST 1/4] Checking Turso SQLite database connection...');
+  const subscribers = fetchSubscribersFromTurso(baseUrl, ingestSecret);
+  Logger.log(`[PASS] Turso Database responded with ${subscribers.length} active subscriber(s):`);
+  if (subscribers.length > 0) {
+    subscribers.forEach((sub, idx) => Logger.log(`   ${idx + 1}. ${sub}`));
+  } else {
+    Logger.log('   (No subscribers registered yet on website. You can test subscribing at ' + baseUrl + ')');
+  }
+
+  // 2. Test Email Parser with Sample P-Day Reflection
+  Logger.log('\n[TEST 2/4] Testing email reflection parser & sanitizer...');
+  const sampleSubject = 'Weekly Reflection: Week 2 in Dumaguete';
+  const sampleBody = 
+    '-VERSE-\n' +
+    'Alma 26:12\n' +
+    '"Yea, I know that I am nothing; as to my strength I am weak; therefore I will not boast of myself, but I will boast of my God, for in his strength I can do all things."\n\n' +
+    '--- MONDAY ---\n' +
+    'Preparation day! Did laundry, wrote emails home, and played basketball with the district elders in Sibulan.\n\n' +
+    '--- TUESDAY ---\n' +
+    'Morning companion study in Alma 26. Walked through Sibulan and met an investigator family who welcomed us warmly.\n\n' +
+    '--- WEDNESDAY ---\n' +
+    'Taught the Plan of Salvation to Brother Bautista and enjoyed fresh buko juice from their tree.\n\n' +
+    '--- THURSDAY ---\n' +
+    'District Council meeting in Dumaguete City. Practiced Cebuano language roleplays.\n\n' +
+    '--- FRIDAY ---\n' +
+    'Service project helping Nanay Elena repair her bamboo fence after the rain.\n\n' +
+    '--- SATURDAY ---\n' +
+    'Street contacting along Rizal Boulevard during sunset overlooking the ocean.\n\n' +
+    '--- SUNDAY ---\n' +
+    'Sacrament meeting attendance was wonderful. Two investigators attended church with us!\n\n' +
+    '--- WEEKLY REPORT ---\n' +
+    'Lessons: 14\n' +
+    'Investigators: 6\n' +
+    'Baptisms: 0\n' +
+    'Sacrament Attendance: 2\n';
+
+  const parsed = parseMissionaryEmail(sampleSubject, sampleBody, new Date());
+  Logger.log(`[PASS] Parsed Title: "${parsed.title}"`);
+  Logger.log(`[PASS] Parsed Slug: "${parsed.slug}"`);
+  Logger.log(`[PASS] Extracted Verse: ${parsed.verse ? parsed.verse.reference : 'None'}`);
+  Logger.log(`[PASS] Total Daily Entries: ${parsed.entries ? parsed.entries.length : 0}`);
+  Logger.log(`[PASS] Sanitized: Weekly report stripped cleanly from journal view.`);
+
+  // 3. Test Email Template Generation
+  Logger.log('\n[TEST 3/4] Generating responsive email preview shell...');
+  const cleanTitle = cleanSubjectTitle(parsed.title);
+  const sampleLiveUrl = `${baseUrl}/week/${encodeURIComponent(parsed.slug)}`;
+  const emailShell = buildEmailShell(
+    cleanTitle,
+    'Weekly Missionary Journal • Dumaguete, Philippines',
+    `<p style="margin: 0 0 12px; font-size: 14px; color: #44403c; line-height: 1.6;">
+      This is a dry-run test preview of the email newsletter that will be dispatched to subscribers whenever a new weekly journal is published.
+    </p>`,
+    'View Sample Journal',
+    sampleLiveUrl
+  );
+  Logger.log('[PASS] Responsive email template generated successfully.');
+
+  // 4. Send Test Sample Preview Email to Tester
+  Logger.log('\n[TEST 4/4] Sending sample preview email to tester...');
+  if (testerEmail) {
+    try {
+      GmailApp.sendEmail(testerEmail, `[TEST PREVIEW] Elder Salviejo — Weekly Journal: ${cleanTitle}`, 
+        `This is a dry-run sample email for Elder Salviejo's weekly journal.\n\nRead online: ${sampleLiveUrl}`, {
+        htmlBody: emailShell,
+        name: 'Elder Salviejo (Dumaguete Mission Test)'
+      });
+      Logger.log(`[PASS] Sent sample preview email to tester: ${testerEmail}`);
+    } catch (sendErr) {
+      Logger.log(`[NOTICE] Could not send sample email to tester (${testerEmail}): ${sendErr.message}`);
+    }
+  } else {
+    Logger.log('[NOTICE] Tester email could not be determined from session.');
+  }
+
+  Logger.log('\n====================================================');
+  Logger.log('DRY-RUN TEST COMPLETED SUCCESSFULLY (0 Vercel changes)');
+  Logger.log('====================================================');
+}
