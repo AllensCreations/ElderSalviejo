@@ -16,7 +16,7 @@
 
 const CONFIG = {
   // Your live Vercel Production Ingest Endpoint
-  VERCEL_INGEST_URL: PropertiesService.getScriptProperties().getProperty('VERCEL_INGEST_URL') || 'https://eldersalviejo.vercel.app/api/ingest',
+  VERCEL_INGEST_URL: 'https://eldersalviejo.vercel.app/api/ingest',
   
   // Shared secret token to authenticate requests to /api/ingest
   INGEST_SECRET: PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || 'gdv_sec_7f9c2d81a4b53e89c0e211ab9',
@@ -26,8 +26,9 @@ const CONFIG = {
   SECRET_CODE: '159266',
 
   // Gmail search query to locate new diary submissions in the dummy account:
-  // Automatically searches for 159266, Weekly Reflection, or Weekly Journal
-  GMAIL_QUERY: '(159266 OR subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection) -label:diary-processed',
+  // Automatically searches for 159266, Weekly Reflection, or Weekly Journal.
+  // Excludes already processed threads, self-replies, and published receipts to prevent feedback loops.
+  GMAIL_QUERY: '(159266 OR subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection) -label:diary-processed -subject:"Published:" -subject:"✅" -subject:"📖"',
   
   // Label applied to thread once successfully ingested
   PROCESSED_LABEL: PropertiesService.getScriptProperties().getProperty('PROCESSED_LABEL') || 'diary-processed',
@@ -41,11 +42,34 @@ const CONFIG = {
   DISTRIBUTION_LIST: PropertiesService.getScriptProperties().getProperty('DISTRIBUTION_LIST') || '',
   
   // Base public website URL for the live diary viewer
-  SITE_URL: PropertiesService.getScriptProperties().getProperty('SITE_URL') || 'https://eldersalviejo.vercel.app',
+  SITE_URL: 'https://eldersalviejo.vercel.app',
   
   // Supported day headers
   DAYS: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY']
 };
+
+/**
+ * Returns the effective ingest URL, prioritizing https://eldersalviejo.vercel.app
+ * and safely migrating away from any obsolete URLs stored in ScriptProperties.
+ */
+function getIngestUrl() {
+  const custom = PropertiesService.getScriptProperties().getProperty('VERCEL_INGEST_URL');
+  if (custom && !custom.includes('gmail-diary-vault.vercel.app')) {
+    return custom;
+  }
+  return CONFIG.VERCEL_INGEST_URL;
+}
+
+/**
+ * Returns the effective website URL.
+ */
+function getSiteUrl() {
+  const custom = PropertiesService.getScriptProperties().getProperty('SITE_URL');
+  if (custom && !custom.includes('gmail-diary-vault.vercel.app')) {
+    return custom;
+  }
+  return CONFIG.SITE_URL;
+}
 
 /**
  * Diagnostic tool: Run this from the Apps Script toolbar to see the exact
@@ -85,20 +109,48 @@ function processWeeklyDiaryEmails() {
     processedLabel = GmailApp.createLabel(CONFIG.PROCESSED_LABEL);
   }
   
+  let myEmail = '';
+  try {
+    myEmail = Session.getActiveUser().getEmail() || '';
+  } catch (_) {}
+
   for (let i = 0; i < threads.length; i++) {
     const thread = threads[i];
     const messages = thread.getMessages();
     if (messages.length === 0) continue;
     
+    // Process the latest email in the thread
     const message = messages[messages.length - 1];
     const sender = message.getFrom();
-    const subject = message.getSubject();
+    const subject = message.getSubject() || '';
     const date = message.getDate();
-    const body = message.getPlainBody() || message.getBody();
+    const body = message.getPlainBody() || message.getBody() || '';
     
+    // Safety guard 1: Skip if subject is an automated notification, receipt, or reply
+    if (
+      subject.startsWith('✅') ||
+      subject.includes('Published:') ||
+      subject.startsWith('📖') ||
+      (subject.includes('Elder Salviejo — Weekly Journal:') && subject.includes('Philippines Dumaguete Mission'))
+    ) {
+      Logger.log(`Skipping automated system notification email: "${subject}"`);
+      thread.addLabel(processedLabel);
+      thread.markRead();
+      continue;
+    }
+
     // Security check: verify subject or body contains passcode OR subject contains reflection/journal
     const hasCode = (subject && subject.includes(CONFIG.SECRET_CODE)) || (body && body.includes(CONFIG.SECRET_CODE));
     const isReflection = subject.toLowerCase().includes('reflection') || subject.toLowerCase().includes('journal');
+    
+    // Safety guard 2: If message was sent from dummy account itself without secret passcode, skip
+    if (myEmail && sender.toLowerCase().includes(myEmail.toLowerCase()) && !hasCode) {
+      Logger.log(`Skipping message sent from script account itself: "${subject}"`);
+      thread.addLabel(processedLabel);
+      thread.markRead();
+      continue;
+    }
+
     if (!hasCode && !isReflection) {
       Logger.log(`Skipping thread "${subject}": Missing required secret passcode (${CONFIG.SECRET_CODE}) or Reflection/Journal subject.`);
       continue;
@@ -115,7 +167,7 @@ function processWeeklyDiaryEmails() {
     // 1. Extract image attachments
     const rawAttachments = message.getAttachments();
     const imageAttachments = rawAttachments.filter(att => {
-      const contentType = att.getContentType().toLowerCase();
+      const contentType = (att.getContentType() || '').toLowerCase();
       return contentType.startsWith('image/') || 
              att.getName().match(/\.(jpe?g|png|webp|heic)$/i);
     });
@@ -135,7 +187,7 @@ function processWeeklyDiaryEmails() {
     // 3. Parse daily markdown blocks & weekly scripture verse
     const parsedData = parseDiaryContent(body, encodedImages);
     
-    // Generate a clean slug & title (completely stripping the secret code 159266 so it remains hidden)
+    // Generate a clean slug & title (completely stripping the secret code 159266 and duplicate prefixes)
     const weekTitle = cleanSubjectTitle(subject, CONFIG.SECRET_CODE) || `Week of ${Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
     const weekSlug = generateSlug(weekTitle, date);
     const cleanRawSubject = subject.replace(new RegExp(`[\\[\\(]?\\s*${CONFIG.SECRET_CODE}\\s*[\\]\\)]?`, 'gi'), '').trim();
@@ -156,15 +208,18 @@ function processWeeklyDiaryEmails() {
     // 5. Send POST request to Vercel API and Turso SQLite
     const ingestResult = sendPayloadToVercel(payload);
     if (ingestResult) {
-      // Mark as processed in Gmail dummy inbox
+      // Mark as processed in Gmail dummy inbox BEFORE sending any replies/broadcasts!
       thread.addLabel(processedLabel);
       thread.markRead();
       Logger.log(`Successfully ingested and tagged thread: "${subject}"`);
       
-      const liveUrl = `${CONFIG.SITE_URL}/week/${weekSlug}`;
+      const liveUrl = `${getSiteUrl()}/week/${weekSlug}`;
       const dbSubscribers = Array.isArray(ingestResult.subscribers) ? ingestResult.subscribers : [];
       
-      // 6. Automated Outbound Delivery to website subscribers & manual distribution list
+      // 6. Instantly reply to the sender's thread confirming successful publication!
+      sendSuccessReplyToSender(thread, sender, payload, liveUrl, dbSubscribers);
+
+      // 7. Automated Outbound Delivery to website subscribers & manual distribution list
       dispatchWeeklyBroadcast(payload, liveUrl, sender, dbSubscribers);
     } else {
       Logger.log(`Failed to ingest thread: "${subject}". Will retry on next trigger.`);
@@ -173,8 +228,51 @@ function processWeeklyDiaryEmails() {
 }
 
 /**
- * Dispatches the weekly announcement email to all website subscribers & distribution list
- * and sends a confirmation receipt back to your personal email address.
+ * Replies directly to the sender's email thread confirming that the weekly
+ * journal was successfully received, parsed, and published to the live website.
+ */
+function sendSuccessReplyToSender(thread, sender, payload, liveUrl, dbSubscribers) {
+  const authorClean = extractEmailAddress(sender);
+  const subscriberCount = (dbSubscribers || []).length;
+  
+  const replyBody = 
+    `Elder Salviejo,\n\n` +
+    `✅ SUCCESS! Your weekly missionary reflection email and daily photos have been successfully received and published live to your online journal vault!\n\n` +
+    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+    `📖 Title: ${payload.title}\n` +
+    `📅 Published: ${Utilities.formatDate(new Date(payload.publishedAt), Session.getScriptTimeZone(), 'MMMM d, yyyy')}\n` +
+    `📝 Daily Entries: ${payload.totalEntries} day(s) (Monday – Sunday)\n` +
+    `📸 Photo Polaroids: ${payload.imageCount} photo(s) processed\n` +
+    (payload.verse && payload.verse.reference ? `📜 Scripture Verse: ${payload.verse.reference}\n` : '') +
+    `👥 Website Subscribers Notified: ${subscriberCount} subscriber(s)\n` +
+    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+    `🌐 View your live polaroid journal here:\n` +
+    `${liveUrl}\n\n` +
+    `Elder Salviejo Journal Vault\n` +
+    `Philippines Dumaguete Mission`;
+
+  try {
+    thread.reply(replyBody, {
+      name: 'Elder Salviejo Journal Vault'
+    });
+    Logger.log(`✅ Sent success reply directly to thread for: ${authorClean || sender}`);
+  } catch (err) {
+    Logger.log(`Notice: thread.reply error (${err.message}), falling back to direct email.`);
+    if (authorClean) {
+      try {
+        GmailApp.sendEmail(authorClean, `✅ Published: ${payload.title}`, replyBody, {
+          name: 'Elder Salviejo Journal Vault'
+        });
+        Logger.log(`✅ Sent direct confirmation email to: ${authorClean}`);
+      } catch (sendErr) {
+        Logger.log(`Could not send confirmation email to author: ${sendErr.message}`);
+      }
+    }
+  }
+}
+
+/**
+ * Dispatches the weekly announcement email to all website subscribers & distribution list.
  */
 function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
   const manualRecipients = (CONFIG.DISTRIBUTION_LIST || '').split(',')
@@ -245,7 +343,7 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
 
         <!-- Footer -->
         <div style="border-top: 1px solid #e2e8f0; background-color: #f7fafc; padding: 14px 20px; text-align: center; font-size: 11px; color: #a0aec0;">
-          You received this because you subscribed to Elder Salviejo's missionary letters at ${CONFIG.SITE_URL}
+          You received this because you subscribed to Elder Salviejo's missionary letters at ${getSiteUrl()}
         </div>
       </div>
     `;
@@ -262,29 +360,6 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
     }
   } else {
     Logger.log('ℹ️ Letter is successfully published and live on the website! (No email subscribers have signed up on the site yet to receive newsletter copies).');
-  }
-
-  // 2. Send confirmation receipt back to your personal email
-  const authorClean = extractEmailAddress(authorEmail);
-  if (authorClean) {
-    Logger.log(`Sending delivery confirmation to author: ${authorClean}`);
-    const receiptSubject = `✅ Published: Elder Salviejo's Weekly Journal — ${payload.title}`;
-    const receiptBody = `Elder Salviejo,\n\nYour weekly missionary reflection email and daily routine photos have been successfully archived into the permanent Turso SQLite vault!\n\n` +
-      `Title: ${payload.title}\n` +
-      `Entries: ${payload.totalEntries} daily entries\n` +
-      `Photos: ${payload.imageCount} Base64 photos\n` +
-      `Live View URL: ${liveUrl}\n` +
-      `Total Subscribers Notified: ${allRecipients.length}\n` +
-      (allRecipients.length > 0 ? `Recipients: ${allRecipients.join(', ')}\n\n` : `(No subscribers have inserted their emails yet)\n\n`) +
-      `View it live now:\n${liveUrl}`;
-    
-    try {
-      GmailApp.sendEmail(authorClean, receiptSubject, receiptBody, {
-        name: 'Elder Salviejo Journal Vault'
-      });
-    } catch (err) {
-      Logger.log(`Error sending receipt to author: ${err.toString()}`);
-    }
   }
 }
 
@@ -519,8 +594,8 @@ function fetchScriptureTextGas(refStr) {
 }
 
 function sendPayloadToVercel(payload) {
-  const url = CONFIG.VERCEL_INGEST_URL;
-  const secret = CONFIG.INGEST_SECRET;
+  const url = getIngestUrl();
+  const secret = PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || CONFIG.INGEST_SECRET;
   
   const rawJson = JSON.stringify(payload);
   const payloadKb = Math.round(rawJson.length / 1024);
@@ -598,9 +673,17 @@ function cleanSubjectTitle(rawSubject, secretCode) {
     const regex = new RegExp('[\\[\\(]?\\s*' + escaped + '\\s*[\\]\\)]?', 'gi');
     clean = clean.replace(regex, '');
   }
-  clean = clean.replace(/^(weekly\s*reflection|weekly\s*journal|reflection|journal)[\s:—-]*/i, '')
-               .replace(/^[-—:\s]+|[-—:\s]+$/g, '')
-               .trim();
+  // Strip repeated "✅ Published: Elder Salviejo's Weekly Journal — "
+  clean = clean.replace(/(?:✅\s*Published:\s*Elder\s*Salviejo'?s\s*Weekly\s*Journal\s*[—–-]*\s*)+/gi, '');
+  // Strip repeated "Elder Salviejo — Weekly Journal:"
+  clean = clean.replace(/(?:Elder\s*Salviejo\s*[—–-]\s*Weekly\s*Journal:\s*)+/gi, '');
+  // Strip email prefixes Re: Fwd:
+  clean = clean.replace(/^(?:re|fwd|fw)\s*:\s*/gi, '');
+  // Strip "weekly reflection", "weekly journal", "reflection", "journal"
+  clean = clean.replace(/^(?:weekly\s*reflection|weekly\s*journal|reflection|journal)[\s:—-]*/gi, '');
+  // Strip trailing mission mentions if in title like "(Philippines Dumaguete Mission)"
+  clean = clean.replace(/\(Philippines Dumaguete Mission\)/gi, '');
+  clean = clean.replace(/^[-—:\s]+|[-—:\s]+$/g, '').trim();
   return clean || 'Weekly Missionary Journal';
 }
 
