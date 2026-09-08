@@ -9,7 +9,7 @@
 
 Elder Salviejo,
 
-SUCCESS! Your weekly missionary reflection email and daily photos have been successfully received and published live to your online journal vault!
+✅ SUCCESS! Your weekly missionary reflection email and daily photos have been successfully received and published live to your online journal vault!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ������ Title: Weekly Missionary Journal
