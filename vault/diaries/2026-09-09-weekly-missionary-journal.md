@@ -16,7 +16,7 @@ Elder Salviejo,
 ������ Published: September 9, 2026
 ������ Daily Entries: 1 day(s)
 ������ Photo Polaroids: 0 photo(s) processed
-������ Website Subscribers Notified: 3 subscriber(s)
+������ Website Subscribers Notified: 4 subscriber(s)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ������ View your live polaroid journal here:
