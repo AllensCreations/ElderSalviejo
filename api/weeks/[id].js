@@ -34,7 +34,7 @@ module.exports = async function handler(req, res) {
       week
     });
   } catch (error) {
-    console.error(`❌ Error fetching week ${id}:`, error);
+    console.error(`Error fetching week ${id}:`, error);
     return res.status(500).json({
       error: 'Internal Server Error retrieving week',
       details: error.message

@@ -52,7 +52,7 @@ module.exports = async function handler(req, res) {
       }
     });
   } catch (error) {
-    console.error('❌ Error fetching gallery photos:', error);
+    console.error('Error fetching gallery photos:', error);
     return res.status(500).json({
       error: 'Internal Server Error fetching gallery photos',
       details: error.message

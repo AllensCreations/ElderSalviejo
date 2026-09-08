@@ -28,12 +28,12 @@
 <body class="week-view min-h-screen text-stone-800 antialiased font-sans flex flex-col selection:bg-amber-200 overflow-x-hidden">
 
   <!-- Sticky Top Navigation Bar -->
-  <header class="no-print sticky top-0 z-40 bg-stone-900/95 backdrop-blur-md text-stone-100 border-b border-stone-700/80 shadow-md">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-3">
+  <header class="no-print border-b border-stone-800 bg-stone-900 text-stone-100 shadow-md sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
       
-      <!-- Back Link with Elder Salviejo Avatar -->
-      <a href="/" class="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-stone-300 hover:text-white transition group min-w-0">
-        <div class="profile-avatar-nav w-7 h-7 sm:w-8 sm:h-8 border border-amber-400">
+      <!-- Left: Elder Salviejo Profile & Brand -->
+      <a href="/" class="flex items-center space-x-3 group min-w-0">
+        <div class="profile-avatar-nav">
           <img
             src="/assets/images/elder-salviejo.jpg"
             alt="Elder Salviejo"
@@ -43,41 +43,50 @@
             decoding="async"
           />
         </div>
-        <div class="flex items-center gap-1.5 truncate">
-          <svg class="w-4 h-4 text-amber-400 shrink-0 group-hover:-translate-x-0.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          <span class="truncate">Back to Journal Vault</span>
+        <div class="min-w-0">
+          <h1 class="font-serif text-base sm:text-lg font-bold tracking-tight text-white group-hover:text-amber-300 transition flex items-center gap-2 truncate">
+            Elder Salviejo
+            <span class="hidden sm:inline-block text-[10px] font-sans font-medium px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+              Journal Vault
+            </span>
+          </h1>
+          <p class="text-xs text-stone-400 truncate hidden xs:block">Philippines Dumaguete Mission</p>
         </div>
       </a>
 
-      <!-- Action Buttons -->
-      <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
-        <a href="/book" class="text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-600 px-2.5 sm:px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-1.5 transition" title="Complete Printable Missionary Book & PDF">
-          <span>📖</span>
-          <span class="hidden xs:inline">Mission Book</span>
-          <span class="xs:hidden">Book</span>
+      <!-- Right: Navigation Action Links -->
+      <nav class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <a href="/" class="inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 transition" title="Weekly Journal Vault">
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          <span class="hidden sm:inline">Vault</span>
         </a>
-
-        <a href="/gallery" class="text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-600 px-2.5 sm:px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-1.5 transition" title="Polaroid Photo Gallery">
-          <span>📷</span>
-          <span class="hidden xs:inline">Gallery</span>
+        <a href="/gallery" class="inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 transition" title="Polaroid Photo Gallery">
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span>Gallery</span>
         </a>
-
-        <button onclick="window.print()" class="text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-600 px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-1.5 transition">
+        <a href="/call" class="inline-flex items-center gap-1.5 text-xs bg-amber-600 text-white font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg shadow-xs transition" title="Official Mission Call & Origin Story">
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span class="hidden sm:inline">Mission Call</span>
+        </a>
+        <a href="/book" class="inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 transition" title="Complete Printable Missionary Book & PDF">
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+          <span class="hidden sm:inline">Book</span>
+        </a>
+        <button onclick="window.print()" class="text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 shadow-xs flex items-center gap-1.5 transition">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
           </svg>
-          <span class="hidden xs:inline">Print / PDF</span>
+          <span class="hidden sm:inline">Print</span>
         </button>
-
-        <button onclick="copyShareLink()" id="shareBtn" class="text-xs bg-amber-600 hover:bg-amber-500 text-white font-medium px-3.5 py-1.5 rounded-lg shadow flex items-center gap-1.5 transition">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-          </svg>
-          <span>Share Story</span>
-        </button>
-      </div>
+      </nav>
 
     </div>
   </header>
@@ -127,7 +136,7 @@
         <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-xs sm:text-sm text-stone-600 font-medium pt-1">
           <span class="font-semibold text-stone-900">Elder Salviejo</span>
           <span class="text-stone-300 hidden sm:inline">•</span>
-          <span class="text-amber-800 font-semibold">Philippines Dumaguete Mission 🇵🇭</span>
+          <span class="text-amber-800 font-semibold">Philippines Dumaguete Mission</span>
           <span class="text-stone-300 hidden sm:inline">•</span>
           <span class="text-stone-500">MTC Entrance: Dec 11, 2026</span>
         </div>
@@ -147,7 +156,7 @@
       <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-stone-800 pb-6">
         <div>
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-semibold uppercase tracking-wider mb-2">
-            <span>📜</span> Office of the First Presidency
+            Office of the First Presidency
           </span>
           <h2 class="font-serif text-xl sm:text-2xl font-bold text-white leading-snug">
             Missionary Assignment Details
@@ -158,7 +167,7 @@
         </div>
         <div class="shrink-0 flex items-center gap-3">
           <button onclick="openIntroModal(0)" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold rounded-lg shadow transition flex items-center gap-2">
-            <span>🔍</span>
+            
             <span>View Full Call Letter</span>
           </button>
         </div>
@@ -211,7 +220,7 @@
         <!-- Official Declaration Quote -->
         <div class="p-5 sm:p-6 bg-gradient-to-br from-amber-50 to-amber-100/80 border border-amber-300/80 rounded-2xl shadow-xs text-center space-y-2">
           <p class="font-serif text-lg sm:text-xl font-bold text-stone-900 leading-snug">
-            Ako ay gitawag isip usa ka full-time missionary sa The Church of Jesus Christ of Latter-day Saints sa <span class="text-amber-900 underline decoration-amber-500">Philippines Dumaguete Mission! 🇵🇭</span>
+            Ako ay gitawag isip usa ka full-time missionary sa The Church of Jesus Christ of Latter-day Saints sa <span class="text-amber-900 underline decoration-amber-500">Philippines Dumaguete Mission!</span>
           </p>
           <p class="text-xs sm:text-sm text-stone-600 font-medium">
             Ug musolod na ko sa MTC sa <strong>December 11, 2026</strong>.
@@ -270,7 +279,7 @@
             <span class="px-3 py-1 bg-amber-100 rounded-full border border-amber-300">#CalledToServe</span>
             <span class="px-3 py-1 bg-amber-100 rounded-full border border-amber-300">#PhilippinesDumagueteMission</span>
             <span class="px-3 py-1 bg-amber-100 rounded-full border border-amber-300">#MTC</span>
-            <span class="px-3 py-1 bg-amber-100 rounded-full border border-amber-300">#LDSMissionary 🇵🇭✨</span>
+            <span class="px-3 py-1 bg-amber-100 rounded-full border border-amber-300">#LDSMissionary</span>
           </div>
         </div>
 
@@ -309,7 +318,7 @@
             />
             <div class="absolute inset-0 bg-stone-950/15 group-hover:bg-transparent transition"></div>
             <span class="absolute bottom-3 right-3 px-2.5 py-1 bg-stone-900/90 text-white text-xs font-semibold rounded-md shadow flex items-center gap-1.5 backdrop-blur-xs">
-              🔍 Read Full Letter
+              Read Full Letter
             </span>
           </div>
           <div class="mt-3 text-center">
@@ -334,7 +343,7 @@
               decoding="async"
             />
             <span class="absolute bottom-3 right-3 px-2.5 py-1 bg-stone-900/90 text-white text-xs font-semibold rounded-md shadow flex items-center gap-1.5 backdrop-blur-xs">
-              🗺️ Enlarge Boundary Map
+              Enlarge Boundary Map
             </span>
           </div>
           <div class="mt-3 text-center">
@@ -354,7 +363,7 @@
             <img src="/assets/images/intro/photo-2.jpg" onerror="this.src='https://i.ibb.co/bMqVVZqL/received-1778183986537355.jpg'" alt="Holding the Call Letter" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" decoding="async" />
           </div>
           <div class="mt-2.5 text-center font-hand text-xl text-stone-800 font-bold">
-            Holding My Call Letter! 📜
+            Holding My Call Letter
           </div>
         </div>
 
@@ -364,7 +373,7 @@
             <img src="/assets/images/intro/photo-1.jpg" onerror="this.src='https://i.ibb.co/7JShV8Cy/received-1420724736611243.jpg'" alt="Spire of Faith" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" decoding="async" />
           </div>
           <div class="mt-2.5 text-center font-hand text-xl text-stone-800 font-bold">
-            Beneath the Meetinghouse Spire ⛪
+            Beneath the Meetinghouse Spire
           </div>
         </div>
 
@@ -374,7 +383,7 @@
             <img src="/assets/images/intro/photo-3.jpg" onerror="this.src='https://i.ibb.co/n8M8VDR8/received-4536366903287651.jpg'" alt="Rejoicing in the Gospel" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" decoding="async" />
           </div>
           <div class="mt-2.5 text-center font-hand text-xl text-stone-800 font-bold">
-            Rejoicing in the Gospel! 🎉
+            Rejoicing in the Gospel
           </div>
         </div>
 
@@ -384,7 +393,7 @@
             <img src="/assets/images/intro/photo-4.jpg" onerror="this.src='https://i.ibb.co/rKPvxrBH/Messenger-creation-2242403789659455.jpg'" alt="YSA District Family" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" decoding="async" />
           </div>
           <div class="mt-2.5 text-center font-hand text-xl text-stone-800 font-bold">
-            Our YSA District Family 💛
+            Our YSA District Family
           </div>
         </div>
 
@@ -394,7 +403,7 @@
             <img src="/assets/images/intro/photo-5.jpg" onerror="this.src='https://i.ibb.co/5gwwKS9q/IMG-20260906-120706.jpg'" alt="Gathered by the Savior" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" decoding="async" />
           </div>
           <div class="mt-2.5 text-center font-hand text-xl text-stone-800 font-bold">
-            Gathered by the Savior inside the Chapel 🙏
+            Gathered inside the Chapel
           </div>
         </div>
 
@@ -412,10 +421,20 @@
   </main>
 
   <!-- Footer -->
-  <footer class="no-print mt-auto border-t border-stone-800 bg-stone-900 text-stone-400 py-6 text-center text-xs">
-    <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <p>Elder Salviejo • Philippines Dumaguete Mission</p>
-      <a href="/" class="text-amber-400 hover:underline font-medium">Journal Vault Directory</a>
+    <!-- Unified Missionary Footer -->
+  <footer class="no-print mt-auto border-t border-stone-800 bg-stone-900 text-stone-400 py-6 text-xs">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+        <p>Elder Mark Salviejo • Philippines Dumaguete Mission</p>
+      </div>
+      <div class="flex items-center gap-4 text-stone-400">
+        <span>Preserved with Testimony</span>
+        <span>•</span>
+        <a href="https://github.com/AllensCreations/gmail-diary-vault" target="_blank" class="hover:text-amber-400 font-medium transition">
+          Missionary Vault
+        </a>
+      </div>
     </div>
   </footer>
 
@@ -433,7 +452,7 @@
           <!-- Mobile Prev/Next in header so floating arrows don't block vertical documents -->
           <button onclick="navigateIntroModal(-1)" class="sm:hidden w-7 h-7 rounded-md bg-stone-800 hover:bg-stone-700 text-stone-300 flex items-center justify-center text-xs" title="Previous photo">&#10094;</button>
           <button onclick="navigateIntroModal(1)" class="sm:hidden w-7 h-7 rounded-md bg-stone-800 hover:bg-stone-700 text-stone-300 flex items-center justify-center text-xs" title="Next photo">&#10095;</button>
-          <button onclick="closeIntroModal()" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white flex items-center justify-center transition text-xs sm:text-sm ml-1" title="Close">✕</button>
+          <button onclick="closeIntroModal()" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white flex items-center justify-center transition text-xs sm:text-sm ml-1" title="Close"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
         </div>
       </div>
 
@@ -599,7 +618,7 @@
         await navigator.clipboard.writeText(window.location.href);
         if (btn) {
           const original = btn.innerHTML;
-          btn.innerHTML = '<span>✅ Link Copied!</span>';
+          btn.innerHTML = '<span>Link Copied!</span>';
           setTimeout(() => { btn.innerHTML = original; }, 2500);
         }
       } catch (_) {

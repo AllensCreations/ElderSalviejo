@@ -32,7 +32,7 @@
       if (!weeks || weeks.length === 0) {
         container.innerHTML = `
           <div class="bg-[#fdfbf7] border border-amber-200/90 rounded-2xl sm:rounded-3xl p-8 sm:p-12 text-center shadow-md avoid-break">
-            <span class="text-3xl sm:text-4xl block mb-3">📬</span>
+            <svg class="w-10 h-10 mx-auto mb-3 text-amber-800/60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
             <h3 class="font-serif text-lg sm:text-xl font-bold text-stone-900">
               Weekly Field Chapters Begin Following MTC Entrance
             </h3>
@@ -40,7 +40,7 @@
               Elder Salviejo enters the MTC on <strong>December 11, 2026</strong>. Each week, on Preparation Day (P-Day), his weekly missionary reflections, scripture notes, and photographs will automatically be typeset and appended into this permanent mission book.
             </p>
             <div class="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-amber-900 bg-amber-100/80 px-3.5 py-1.5 rounded-lg border border-amber-300">
-              <span>📍 Philippines Dumaguete Mission • Ready for Automatic Publishing</span>
+              <span>Philippines Dumaguete Mission • Ready for Automatic Publishing</span>
             </div>
           </div>
         `;
@@ -95,7 +95,7 @@
                 </h2>
               </div>
               <div class="text-xs text-stone-500 font-medium">
-                <span>🗓️ ${pDayDate}</span>
+                <span>${pDayDate}</span>
               </div>
             </div>
 
@@ -103,7 +103,7 @@
             ${verse && (verse.reference || verse.text) ? `
               <div class="avoid-break p-4 bg-amber-50/80 border border-amber-200 rounded-xl">
                 <div class="text-[10px] uppercase font-bold tracking-widest text-amber-900 mb-1">
-                  📖 Scripture Study Focus • ${escapeHtml(verse.reference || '')}
+                  Scripture Study Focus • ${escapeHtml(verse.reference || '')}
                 </div>
                 <blockquote class="font-serif italic text-stone-800 text-xs sm:text-sm leading-relaxed">
                   “${escapeHtml(verse.text || '')}”

@@ -165,12 +165,12 @@ const server = http.createServer(async (req, res) => {
 server.listen(PORT, () => {
   console.log(`
 =====================================================
-🚀 Gmail Diary Vault running at: http://localhost:${PORT}
+Gmail Diary Vault running at: http://localhost:${PORT}
 =====================================================
-📂 Index Vault Directory:   http://localhost:${PORT}/
-📖 Demo Weekly Diary:      http://localhost:${PORT}/week/sample
-📬 Ingest Endpoint:        http://localhost:${PORT}/api/ingest
-📋 List Weeks API:         http://localhost:${PORT}/api/weeks
+Index Vault Directory:   http://localhost:${PORT}/
+Demo Weekly Diary:      http://localhost:${PORT}/week/sample
+Ingest Endpoint:        http://localhost:${PORT}/api/ingest
+List Weeks API:         http://localhost:${PORT}/api/weeks
 =====================================================
   `);
 });

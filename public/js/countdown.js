@@ -99,7 +99,7 @@
 
       const finishedHtml = `
         <div class="px-4 py-2 bg-emerald-100 text-emerald-900 font-semibold text-xs rounded-xl border border-emerald-300 text-center shadow-xs">
-          🎉 24 Months Completed • Welcome Home Elder Salviejo!
+          24 Months Completed • Welcome Home Elder Salviejo!
         </div>
       `;
 

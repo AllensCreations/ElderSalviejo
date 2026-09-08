@@ -30,7 +30,7 @@ module.exports = async function handler(req, res) {
   const configuredSecret = process.env.INGEST_SECRET;
 
   if (configuredSecret && token !== configuredSecret) {
-    console.warn('⚠️ Unauthorized /api/ingest attempt with invalid token.');
+    console.warn('Unauthorized /api/ingest attempt with invalid token.');
     return res.status(401).json({
       error: 'Unauthorized: Invalid or missing Authorization Bearer token'
     });
@@ -113,7 +113,7 @@ module.exports = async function handler(req, res) {
         isGallery: isGalleryUpload
       });
     } catch (ghErr) {
-      console.warn('⚠️ GitHub auto-save notice (proceeding with Turso storage):', ghErr.message);
+      console.warn('GitHub auto-save notice (proceeding with Turso storage):', ghErr.message);
     }
 
     // Ensure database table exists
@@ -133,7 +133,7 @@ module.exports = async function handler(req, res) {
       isGallery: isGalleryUpload
     });
 
-    console.log(`✅ Successfully ingested ${isGalleryUpload ? 'gallery photos' : 'weekly diary'}: "${title}" (slug: ${cleanSlug})`);
+    console.log(`Successfully ingested ${isGalleryUpload ? 'gallery photos' : 'weekly diary'}: "${title}" (slug: ${cleanSlug})`);
 
     const subscribers = await getAllSubscribers();
 
@@ -153,7 +153,7 @@ module.exports = async function handler(req, res) {
       jsdelivr: githubResult && githubResult.jsdelivr ? githubResult.jsdelivr : null
     });
   } catch (error) {
-    console.error('❌ Error processing /api/ingest:', error);
+    console.error('Error processing /api/ingest:', error);
     return res.status(500).json({
       error: 'Internal Server Error during ingestion',
       details: error.message

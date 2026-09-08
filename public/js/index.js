@@ -86,7 +86,7 @@ async function fetchWeeks() {
     console.error('Failed to load weeks:', err);
     container.innerHTML = `
       <div class="py-12 px-6 text-center">
-        <span class="text-3xl">📭</span>
+        <svg class="w-10 h-10 text-stone-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
         <h3 class="font-serif font-bold text-stone-800 text-lg mt-2">No Letters Found</h3>
         <p class="text-sm text-stone-500 max-w-md mx-auto mt-1">
           Unable to load missionary letters at this time. Please check your connection or try again.
@@ -111,7 +111,7 @@ function renderWeeks(weeks) {
   if (weeks.length === 0) {
     container.innerHTML = `
       <div class="py-14 px-6 text-center">
-        <span class="text-3xl">🌴</span>
+        <svg class="w-10 h-10 text-amber-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 10V7" /></svg>
         <h3 class="font-serif font-bold text-stone-800 text-lg mt-2">The Missionary Vault is Ready</h3>
         <p class="text-sm text-stone-500 max-w-md mx-auto mt-1.5 leading-relaxed">
           No weekly emails have been ingested yet. When Elder Salviejo sends his Monday P-Day email with daily routine photos, it will automatically appear here!
@@ -132,7 +132,7 @@ function renderWeeks(weeks) {
     const targetUrl = `/week/${encodeURIComponent(w.slug || w.id)}`;
     const titleText = escapeHtml(w.title || 'Weekly Missionary Journal');
     const snippetText = escapeHtml(w.snippet || 'Click to read daily routine reflections and view Polaroid missionary photos...');
-    const scriptureText = w.verse && w.verse.reference ? `📖 ${escapeHtml(w.verse.reference)}` : 'Philippines Dumaguete Mission';
+    const scriptureText = w.verse && w.verse.reference ? escapeHtml(w.verse.reference) : 'Philippines Dumaguete Mission';
 
     return `
       <a href="${targetUrl}" class="inbox-card-row group">
@@ -142,7 +142,7 @@ function renderWeeks(weeks) {
           <!-- 1. Photo Count Badge -->
           <div class="flex items-center justify-center">
             <span class="w-8 h-8 rounded-full bg-amber-100 group-hover:bg-amber-200 text-amber-900 flex items-center justify-center text-xs font-bold transition">
-              📸 ${w.imageCount || 7}
+              ${w.imageCount || 7}
             </span>
           </div>
 
@@ -176,7 +176,7 @@ function renderWeeks(weeks) {
                 <img src="${w.previewImage}" alt="Preview" class="w-full h-full object-cover" loading="lazy" />
               </div>
             ` : `
-              <span class="text-xs text-stone-400">📸 ${w.imageCount || 7}</span>
+              <span class="text-xs text-stone-400">${w.imageCount || 7} photos</span>
             `}
             <span class="text-stone-400 group-hover:text-amber-700 group-hover:translate-x-0.5 transition font-bold">
               &rarr;
@@ -189,7 +189,7 @@ function renderWeeks(weeks) {
           <div class="flex items-center justify-between gap-2 text-xs">
             <div class="flex items-center gap-1.5">
               <span class="font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded-full text-[11px]">
-                📸 ${w.imageCount || 7} photos
+                ${w.imageCount || 7} photos
               </span>
               ${index === 0 ? '<span class="text-[10px] uppercase font-bold bg-amber-200 text-amber-900 px-1.5 py-0.5 rounded">Latest</span>' : ''}
             </div>
@@ -270,15 +270,15 @@ async function handleSubscribe(e) {
     const data = await res.json();
     if (res.ok && data.success) {
       feedback.className = 'text-[11px] mt-1.5 block text-emerald-700 font-medium';
-      feedback.innerText = "✅ Subscribed! You'll receive email updates whenever Elder Salviejo publishes a new weekly missionary journal.";
+      feedback.innerText = "Subscribed! You'll receive email updates whenever Elder Salviejo publishes a new weekly missionary journal.";
       input.value = '';
     } else {
       feedback.className = 'text-[11px] mt-1.5 block text-rose-600 font-medium';
-      feedback.innerText = '⚠️ ' + (data.error || 'Failed to subscribe. Please try again.');
+      feedback.innerText = (data.error || 'Failed to subscribe. Please try again.');
     }
   } catch (err) {
     feedback.className = 'text-[11px] mt-1.5 block text-rose-600 font-medium';
-    feedback.innerText = '⚠️ Network error: ' + err.message;
+    feedback.innerText = 'Network error: ' + err.message;
   } finally {
     btn.disabled = false;
     btn.innerHTML = '<span>Subscribe</span> <span class="text-amber-400">&rarr;</span>';

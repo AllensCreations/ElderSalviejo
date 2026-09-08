@@ -11,15 +11,15 @@ require('dotenv').config();
 const { initDatabase } = require('../lib/turso');
 
 async function main() {
-  console.log('🔄 Connecting to Turso SQLite database...');
-  console.log(`📡 URL: ${process.env.TURSO_DATABASE_URL || '(none - using default)'}`);
+  console.log('Connecting to Turso SQLite database...');
+  console.log(`URL: ${process.env.TURSO_DATABASE_URL || '(none - using default)'}`);
 
   try {
     const res = await initDatabase();
-    console.log(`✅ ${res.message}`);
-    console.log('🎉 Table `journal_weeks` and indexes are ready to receive entries!');
+    console.log(`${res.message}`);
+    console.log('Table `journal_weeks` and indexes are ready to receive entries!');
   } catch (err) {
-    console.error('❌ Error initializing database:', err.message);
+    console.error('Error initializing database:', err.message);
     process.exit(1);
   }
 }

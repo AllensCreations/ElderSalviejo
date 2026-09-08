@@ -1,51 +1,57 @@
 /**
  * Gmail Weekly Diary Exporter & Automated P-Day Broadcast Engine
+ * Philippines Dumaguete Mission • Elder Mark Salviejo
  * 
- * Flow:
- * 1. You send an email on your Preparation Day (P-Day) to your dedicated dummy receiver Gmail
- *    with daily reflection headers (--- MONDAY ---, etc.) and photo attachments.
- * 2. This script runs continuously (every 5 mins or 1 min) or on a schedule, isolates the incoming reflection,
- *    encodes images to Base64 data URIs, and POSTs the payload to your Vercel API and Turso SQLite database.
- * 3. The API auto-commits all diary files & photos to GitHub, where jsDelivr CDN serves them worldwide!
- * 4. Visitors and family members who subscribe on the website (or via manual distribution list)
- *    instantly receive an announcement newsletter with a direct link to the dynamic polaroid viewer.
- * 5. A confirmation receipt is replied directly to your email thread with the published link.
+ * Features:
+ * 1. Dual Passcode Routing:
+ *    - 073000: Direct Polaroid Photo Gallery upload (pure images, no text)
+ *    - 159266: Weekly Missionary Journal reflections & daily routine polaroids
+ * 2. Anti-Duplicate Engine:
+ *    - Strict Gmail message ID tracking prevents duplicate processing of the same email.
+ *    - Automatic -from:me filtering ensures system confirmation replies are never looped.
+ * 3. 50+ Photos Batching & Auto-Continue:
+ *    - Batches large uploads (10 photos per payload) to safely respect Vercel's 4.5 MB payload limit.
+ *    - 4-minute execution guard automatically pauses before the 6-minute Apps Script timeout,
+ *      stores continuation state, and schedules an automatic trigger to resume seamlessly.
+ * 4. Zero Emojis:
+ *    - Elegant, dignified missionary aesthetic across all subjects, templates, and logs.
+ * 5. Cohesive HTML Email Templates:
+ *    - Responsive email receipts for the sender and subscribers matching the website's warm stone and amber theme.
  */
 
 const CONFIG = {
-  // Your live Vercel Production Ingest Endpoint
+  // Production Ingest Endpoint
   VERCEL_INGEST_URL: 'https://eldersalviejo.vercel.app/api/ingest',
   
-  // Shared secret token to authenticate requests to /api/ingest (configured in Script Properties)
+  // Shared secret token to authenticate requests to /api/ingest
   INGEST_SECRET: PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || '',
   
   // Dedicated passcodes
   SECRET_DIARY_CODE: '159266',
   SECRET_GALLERY_CODE: '073000',
-
-  // Optional security passcode that can be included in the email Subject or Body
   SECRET_CODE: PropertiesService.getScriptProperties().getProperty('SECRET_CODE') || '159266',
 
   // Label applied to thread once successfully ingested
   PROCESSED_LABEL: PropertiesService.getScriptProperties().getProperty('PROCESSED_LABEL') || 'diary-processed',
   
-  // Optional security filter: only accept submissions sent from your personal email address
+  // Optional security filter: only accept submissions sent from specified email
   ALLOWED_SENDER: PropertiesService.getScriptProperties().getProperty('ALLOWED_SENDER') || '',
   
-  // Optional manual distribution list (comma-separated). Note: All users who insert
-  // their emails on the website are automatically notified in addition to this list!
+  // Optional manual distribution list (comma-separated)
   DISTRIBUTION_LIST: PropertiesService.getScriptProperties().getProperty('DISTRIBUTION_LIST') || '',
   
-  // Base public website URL for the live diary viewer
+  // Base public website URL
   SITE_URL: 'https://eldersalviejo.vercel.app',
   
-  // Supported day headers
-  DAYS: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY']
+  // Batch size for photo uploads (prevents Vercel 4.5 MB HTTP payload limit)
+  BATCH_SIZE: 10,
+
+  // Maximum execution time in milliseconds before pausing to prevent 6-minute Apps Script timeout
+  MAX_EXECUTION_MS: 240 * 1000 // 4 minutes
 };
 
 /**
- * Returns the effective ingest URL, prioritizing https://eldersalviejo.vercel.app
- * and safely migrating away from any obsolete URLs stored in ScriptProperties.
+ * Returns the effective ingest URL.
  */
 function getIngestUrl() {
   const custom = PropertiesService.getScriptProperties().getProperty('VERCEL_INGEST_URL');
@@ -67,20 +73,17 @@ function getSiteUrl() {
 }
 
 /**
- * Returns the search query to locate new diary submissions in the inbox.
- * Supports:
- * - 073000: Direct Polaroid Gallery image upload
- * - 159266: Weekly Diary Reflection with text & polaroids
+ * Anti-Duplicate Engine: Returns search query excluding processed emails,
+ * self-replies, and confirmation subjects.
  */
 function getGmailQuery() {
   const label = PropertiesService.getScriptProperties().getProperty('PROCESSED_LABEL') || CONFIG.PROCESSED_LABEL || 'diary-processed';
-  return `(073000 OR 159266 OR subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection) -label:${label} -subject:"Published:" -subject:"✅" -subject:"📖" -subject:"📷"`;
+  return `(073000 OR 159266 OR subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection) -label:${label} -from:me -subject:"Confirmed:" -subject:"Published:"`;
 }
 
 /**
  * One-time setup helper: Run this function once from the Apps Script toolbar
- * to securely save your private credentials into your Google Account Script Properties
- * so they are never exposed in public Git repositories!
+ * to securely save private credentials into Google Account Script Properties.
  */
 function setupPrivateProperties(ingestSecret, secretPasscode) {
   const props = PropertiesService.getScriptProperties();
@@ -88,18 +91,101 @@ function setupPrivateProperties(ingestSecret, secretPasscode) {
   if (secretPasscode) props.setProperty('SECRET_CODE', secretPasscode);
   props.setProperty('VERCEL_INGEST_URL', 'https://eldersalviejo.vercel.app/api/ingest');
   props.setProperty('SITE_URL', 'https://eldersalviejo.vercel.app');
-  Logger.log('🎉 Private properties configured in Google Cloud! Public code remains 100% clean of secrets.');
+  Logger.log('Private properties configured in Google Cloud. Public code remains 100% clean of secrets.');
 }
 
 /**
- * Diagnostic tool: Run this from the Apps Script toolbar to see the exact
- * subjects, senders, and labels of the last 5 emails in this dummy account!
+ * Anti-Duplicate Engine: Checks if a Gmail message has already been processed.
+ */
+function isMessageAlreadyProcessed(messageId) {
+  if (!messageId) return false;
+  const props = PropertiesService.getScriptProperties();
+  const raw = props.getProperty('PROCESSED_MESSAGE_IDS');
+  if (!raw) return false;
+  try {
+    const list = JSON.parse(raw);
+    return Array.isArray(list) && list.includes(messageId);
+  } catch (_) {
+    return false;
+  }
+}
+
+/**
+ * Anti-Duplicate Engine: Records a processed Gmail message ID.
+ */
+function markMessageProcessed(messageId) {
+  if (!messageId) return;
+  const props = PropertiesService.getScriptProperties();
+  const raw = props.getProperty('PROCESSED_MESSAGE_IDS');
+  let list = [];
+  try {
+    if (raw) list = JSON.parse(raw);
+  } catch (_) {}
+  if (!Array.isArray(list)) list = [];
+  if (!list.includes(messageId)) {
+    list.push(messageId);
+    if (list.length > 500) list = list.slice(list.length - 500);
+    props.setProperty('PROCESSED_MESSAGE_IDS', JSON.stringify(list));
+  }
+}
+
+/**
+ * Continuation Engine: Retrieves pending continuation state if an earlier run
+ * had to pause due to the 4-minute time limit on 50+ photos.
+ */
+function getContinuationState() {
+  const props = PropertiesService.getScriptProperties();
+  const raw = props.getProperty('CONTINUATION_STATE');
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw);
+  } catch (_) {
+    return null;
+  }
+}
+
+/**
+ * Continuation Engine: Saves continuation state.
+ */
+function saveContinuationState(state) {
+  const props = PropertiesService.getScriptProperties();
+  props.setProperty('CONTINUATION_STATE', JSON.stringify(state));
+}
+
+/**
+ * Continuation Engine: Clears continuation state when complete.
+ */
+function clearContinuationState() {
+  const props = PropertiesService.getScriptProperties();
+  props.deleteProperty('CONTINUATION_STATE');
+}
+
+/**
+ * Continuation Engine: Schedules an automatic one-time trigger in 30 seconds
+ * to resume processing remaining photos.
+ */
+function scheduleContinuationTrigger() {
+  const triggers = ScriptApp.getProjectTriggers();
+  for (let i = 0; i < triggers.length; i++) {
+    if (triggers[i].getHandlerFunction() === 'processWeeklyDiaryEmails' && triggers[i].getTriggerSource() === ScriptApp.TriggerSource.CLOCK) {
+      // Keep recurring time-based triggers intact
+    }
+  }
+  ScriptApp.newTrigger('processWeeklyDiaryEmails')
+    .timeBased()
+    .after(30000)
+    .create();
+  Logger.log('Scheduled automatic continuation trigger in 30 seconds.');
+}
+
+/**
+ * Diagnostic tool: Run from toolbar to verify last 5 emails in inbox.
  */
 function debugCheckInbox() {
   Logger.log('=== Checking Last 5 Emails in Inbox ===');
   const threads = GmailApp.getInboxThreads(0, 5);
   if (!threads || threads.length === 0) {
-    Logger.log('Inbox has NO emails right now! Make sure the test email was sent to this dummy account.');
+    Logger.log('Inbox has NO emails right now.');
     return;
   }
   for (let i = 0; i < threads.length; i++) {
@@ -111,20 +197,32 @@ function debugCheckInbox() {
 }
 
 /**
- * Main entry point: executed via continuous/instant trigger or manual run.
+ * Main entry point: Process incoming diary and gallery emails with auto-continue
+ * and anti-duplicate guards.
  */
 function processWeeklyDiaryEmails() {
-  const query = getGmailQuery();
+  const startTime = Date.now();
   Logger.log('Starting Weekly Diary Ingest & Dispatch job...');
+
+  // 1. Check if there is an existing continuation job (from 50+ photos upload)
+  const pendingState = getContinuationState();
+  if (pendingState) {
+    Logger.log(`Resuming continuation job for Message ID: ${pendingState.messageId} at photo offset ${pendingState.processedCount}/${pendingState.totalCount}`);
+    const resumed = resumeContinuationJob(pendingState, startTime);
+    if (resumed === 'PAUSED') {
+      return;
+    }
+  }
+
+  const query = getGmailQuery();
   Logger.log('Query: ' + query);
   
   const threads = GmailApp.search(query, 0, 5);
   if (!threads || threads.length === 0) {
-    Logger.log('No new unprocessed weekly diary emails found.');
+    Logger.log('No new unprocessed emails found.');
     return;
   }
   
-  // Ensure the processed label exists in this dummy account
   let processedLabel = GmailApp.getUserLabelByName(CONFIG.PROCESSED_LABEL);
   if (!processedLabel) {
     processedLabel = GmailApp.createLabel(CONFIG.PROCESSED_LABEL);
@@ -136,51 +234,62 @@ function processWeeklyDiaryEmails() {
   } catch (_) {}
 
   for (let i = 0; i < threads.length; i++) {
+    if (Date.now() - startTime > CONFIG.MAX_EXECUTION_MS) {
+      Logger.log('Approaching 4-minute time limit. Scheduling continuation trigger.');
+      scheduleContinuationTrigger();
+      return;
+    }
+
     const thread = threads[i];
     const messages = thread.getMessages();
     if (messages.length === 0) continue;
     
-    // Process the latest email in the thread
     const message = messages[messages.length - 1];
-    const sender = message.getFrom();
-    const subject = message.getSubject() || '';
-    const date = message.getDate();
-    const body = message.getPlainBody() || message.getBody() || '';
-    
-    // Safety guard 1: Skip if subject is an automated notification, receipt, or reply
-    if (
-      subject.startsWith('✅') ||
-      subject.includes('Published:') ||
-      subject.startsWith('📖') ||
-      (subject.includes('Elder Salviejo — Weekly Journal:') && subject.includes('Philippines Dumaguete Mission'))
-    ) {
-      Logger.log(`Skipping automated system notification email: "${subject}"`);
+    const messageId = message.getId();
+
+    if (isMessageAlreadyProcessed(messageId)) {
+      Logger.log(`Skipping already processed message ID: ${messageId}`);
       thread.addLabel(processedLabel);
       thread.markRead();
       continue;
     }
 
-    // Security check: verify subject or body contains passcode OR subject contains reflection/journal
+    const sender = message.getFrom();
+    const subject = message.getSubject() || '';
+    const date = message.getDate();
+    const body = message.getPlainBody() || message.getBody() || '';
+    
+    if (
+      subject.includes('Confirmed:') ||
+      subject.includes('Published:') ||
+      (subject.includes('Elder Salviejo') && subject.includes('Weekly Journal:') && subject.includes('Philippines Dumaguete Mission'))
+    ) {
+      Logger.log(`Skipping automated system notification: "${subject}"`);
+      markMessageProcessed(messageId);
+      thread.addLabel(processedLabel);
+      thread.markRead();
+      continue;
+    }
+
     const secretCode = PropertiesService.getScriptProperties().getProperty('SECRET_CODE') || CONFIG.SECRET_CODE || '159266';
     const isGalleryCode = (subject && subject.includes('073000')) || (body && body.includes('073000'));
     const isDiaryCode = (subject && subject.includes('159266')) || (body && body.includes('159266')) || (secretCode && ((subject && subject.includes(secretCode)) || (body && body.includes(secretCode))));
     const hasCode = isGalleryCode || isDiaryCode;
     const isReflection = subject.toLowerCase().includes('reflection') || subject.toLowerCase().includes('journal');
     
-    // Safety guard 2: If message was sent from dummy account itself without secret passcode, skip
     if (myEmail && sender.toLowerCase().includes(myEmail.toLowerCase()) && !hasCode) {
       Logger.log(`Skipping message sent from script account itself: "${subject}"`);
+      markMessageProcessed(messageId);
       thread.addLabel(processedLabel);
       thread.markRead();
       continue;
     }
 
     if (!hasCode && !isReflection) {
-      Logger.log(`Skipping thread "${subject}": Missing required secret passcode (073000 or 159266) or Reflection/Journal subject.`);
+      Logger.log(`Skipping thread "${subject}": Missing required passcode (073000 or 159266).`);
       continue;
     }
 
-    // Optional security check: if ALLOWED_SENDER is configured, verify the sender
     if (CONFIG.ALLOWED_SENDER && !sender.toLowerCase().includes(CONFIG.ALLOWED_SENDER.toLowerCase())) {
       Logger.log(`Skipping message from unauthorized sender: ${sender}`);
       continue;
@@ -188,7 +297,6 @@ function processWeeklyDiaryEmails() {
     
     Logger.log(`Processing email from ${sender}: "${subject}" received at ${date.toISOString()}`);
     
-    // 1. Extract image attachments
     const rawAttachments = message.getAttachments();
     const imageAttachments = rawAttachments.filter(att => {
       const contentType = (att.getContentType() || '').toLowerCase();
@@ -196,10 +304,122 @@ function processWeeklyDiaryEmails() {
              att.getName().match(/\.(jpe?g|png|webp|heic)$/i);
     });
     
-    Logger.log(`Found ${imageAttachments.length} image attachment(s). Compressing...`);
-    
-    // 2. Auto-compress and resize images into lightweight Base64 data URIs (max 800px width)
-    const encodedImages = imageAttachments.map((att, idx) => {
+    Logger.log(`Found ${imageAttachments.length} image attachment(s).`);
+
+    // -------------------------------------------------------------
+    // BRANCH A: Direct Polaroid Gallery Upload (Passcode 073000)
+    // -------------------------------------------------------------
+    if (isGalleryCode) {
+      if (imageAttachments.length === 0) {
+        Logger.log(`Skipping gallery upload for "${subject}": No photo attachments found.`);
+        markMessageProcessed(messageId);
+        thread.addLabel(processedLabel);
+        thread.markRead();
+        continue;
+      }
+
+      const galleryTitle = cleanSubjectTitle(subject, '073000') || `Polaroid Gallery ${Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
+      const gallerySlug = generateSlug(galleryTitle, date);
+      const cleanRawSubject = subject.replace(/[\(\[]?\s*073000\s*[\)\]]?/gi, '').trim();
+      const galleryCategory = extractGalleryCategory(subject);
+
+      const totalImages = imageAttachments.length;
+      let processedIndex = 0;
+      let batchNum = 1;
+
+      while (processedIndex < totalImages) {
+        if (Date.now() - startTime > CONFIG.MAX_EXECUTION_MS) {
+          Logger.log(`Time budget reached at photo ${processedIndex}/${totalImages}. Saving continuation state.`);
+          saveContinuationState({
+            messageId: messageId,
+            threadId: thread.getId(),
+            processedCount: processedIndex,
+            totalCount: totalImages,
+            slug: gallerySlug,
+            title: galleryTitle,
+            category: galleryCategory,
+            sender: sender,
+            date: date.toISOString(),
+            isGallery: true
+          });
+          scheduleContinuationTrigger();
+          return;
+        }
+
+        const currentBatchAtts = imageAttachments.slice(processedIndex, processedIndex + CONFIG.BATCH_SIZE);
+        Logger.log(`Compressing gallery batch #${batchNum} (photos ${processedIndex + 1} to ${processedIndex + currentBatchAtts.length} of ${totalImages})...`);
+
+        const encodedImages = currentBatchAtts.map((att, idx) => {
+          const compressed = compressAndResizeAttachment(att, 800);
+          return {
+            filename: att.getName() || `photo_${processedIndex + idx + 1}.jpg`,
+            mimeType: compressed.mimeType,
+            dataUri: compressed.dataUri
+          };
+        });
+
+        const batchSlug = batchNum === 1 ? gallerySlug : `${gallerySlug}-part-${batchNum}`;
+        const galleryEntries = encodedImages.map((img, idx) => ({
+          day: `PHOTO_${processedIndex + idx + 1}`,
+          text: '',
+          image: img.dataUri,
+          imageFilename: img.filename,
+          category: galleryCategory
+        }));
+
+        const payload = {
+          slug: batchSlug,
+          title: batchNum === 1 ? galleryTitle : `${galleryTitle} (Part ${batchNum})`,
+          publishedAt: date.toISOString(),
+          rawSubject: cleanRawSubject,
+          sender: sender,
+          entries: galleryEntries,
+          totalEntries: galleryEntries.length,
+          imageCount: encodedImages.length,
+          verse: null,
+          isGallery: true,
+          category: galleryCategory
+        };
+
+        const ingestResult = sendPayloadToVercel(payload);
+        if (!ingestResult) {
+          Logger.log(`Ingest failed on batch #${batchNum}. Will retry on next cycle.`);
+          return;
+        }
+
+        processedIndex += currentBatchAtts.length;
+        batchNum++;
+      }
+
+      clearContinuationState();
+      markMessageProcessed(messageId);
+      thread.addLabel(processedLabel);
+      thread.markRead();
+      Logger.log(`Successfully ingested Gallery thread: "${subject}" [${totalImages} photos total]`);
+
+      const galleryUrl = `${getSiteUrl()}/gallery`;
+      const finalPayloadSummary = {
+        title: galleryTitle,
+        publishedAt: date.toISOString(),
+        imageCount: totalImages,
+        category: galleryCategory
+      };
+      sendGallerySuccessReplyToSender(thread, sender, finalPayloadSummary, galleryUrl);
+      continue;
+    }
+
+    // -------------------------------------------------------------
+    // BRANCH B: Weekly Diary Reflections (Passcode 159266)
+    // -------------------------------------------------------------
+    const cleanRawSubject = subject.replace(/[\(\[]?\s*159266\s*[\)\]]?/gi, '').trim();
+    const weekTitle = cleanSubjectTitle(subject, '159266') || `Week of ${Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
+    const weekSlug = generateSlug(weekTitle, date);
+    const diaryCategory = extractGalleryCategory(subject);
+
+    const mainAttachments = imageAttachments.slice(0, CONFIG.BATCH_SIZE);
+    Logger.log(`Compressing ${mainAttachments.length} main diary photo(s)...`);
+
+    const encodedImages = mainAttachments.map((att, idx) => {
       const compressed = compressAndResizeAttachment(att, 800);
       return {
         filename: att.getName() || `photo_${idx + 1}.jpg`,
@@ -208,76 +428,12 @@ function processWeeklyDiaryEmails() {
       };
     });
 
-    // -------------------------------------------------------------
-    // BRANCH A: Direct Polaroid Gallery Upload (Passcode 073000)
-    // Pure images, no text, displayed directly in Polaroid Gallery
-    // -------------------------------------------------------------
-    if (isGalleryCode) {
-      if (encodedImages.length === 0) {
-        Logger.log(`Skipping gallery upload for "${subject}": No photo attachments found.`);
-        continue;
-      }
-
-      const galleryTitle = cleanSubjectTitle(subject, '073000') || `Polaroid Gallery ${Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
-      const gallerySlug = generateSlug(galleryTitle, date);
-      const cleanRawSubject = subject.replace(/[\(\[]?\s*073000\s*[\)\]]?/gi, '').trim();
-
-      const galleryCategory = extractGalleryCategory(subject);
-      const galleryEntries = encodedImages.map((img, idx) => ({
-        day: `PHOTO_${idx + 1}`,
-        text: '',
-        image: img.dataUri,
-        imageFilename: img.filename,
-        category: galleryCategory
-      }));
-
-      const payload = {
-        slug: gallerySlug,
-        title: galleryTitle,
-        publishedAt: date.toISOString(),
-        rawSubject: cleanRawSubject,
-        sender: sender,
-        entries: galleryEntries,
-        totalEntries: galleryEntries.length,
-        imageCount: encodedImages.length,
-        verse: null,
-        isGallery: true,
-        category: galleryCategory
-      };
-
-      const ingestResult = sendPayloadToVercel(payload);
-      if (ingestResult) {
-        thread.addLabel(processedLabel);
-        thread.markRead();
-        Logger.log(`Successfully ingested and tagged Gallery thread: "${subject}" [Category: ${galleryCategory}]`);
-        const galleryUrl = `${getSiteUrl()}/gallery`;
-        sendGallerySuccessReplyToSender(thread, sender, payload, galleryUrl);
-      } else {
-        Logger.log(`Failed to ingest Gallery thread: "${subject}". Will retry on next trigger.`);
-      }
-      continue; // Done with gallery branch
-    }
-    
-    // -------------------------------------------------------------
-    // BRANCH B: Weekly Diary Reflection (Passcode 159266)
-    // Structured markdown daily routine entries & scripture verse
-    // -------------------------------------------------------------
-    // 3. Parse daily markdown blocks & weekly scripture verse
     const parsedData = parseDiaryContent(body, encodedImages);
-    const diaryCategory = extractGalleryCategory(subject);
     const taggedEntries = parsedData.entries.map(e => ({
       ...e,
       category: diaryCategory !== 'Mission' ? diaryCategory : 'P-Day Journal'
     }));
-    
-    // Generate a clean slug & title (completely stripping any secret code and duplicate prefixes)
-    const weekTitle = cleanSubjectTitle(subject, '159266') || `Week of ${Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
-    const weekSlug = generateSlug(weekTitle, date);
-    const cleanRawSubject = subject
-      .replace(/[\(\[]?\s*(?:159266|073000)\s*[\)\]]?/gi, '')
-      .trim();
-    
-    // 4. Construct payload
+
     const payload = {
       slug: weekSlug,
       title: weekTitle,
@@ -291,68 +447,416 @@ function processWeeklyDiaryEmails() {
       isGallery: false,
       category: diaryCategory !== 'Mission' ? diaryCategory : 'P-Day Journal'
     };
-    
-    // 5. Send POST request to Vercel API and Turso SQLite
-    const ingestResult = sendPayloadToVercel(payload);
-    if (ingestResult) {
-      // Mark as processed in Gmail dummy inbox BEFORE sending any replies/broadcasts!
-      thread.addLabel(processedLabel);
-      thread.markRead();
-      Logger.log(`Successfully ingested and tagged thread: "${subject}"`);
-      
-      const liveUrl = `${getSiteUrl()}/week/${weekSlug}`;
-      const dbSubscribers = Array.isArray(ingestResult.subscribers) ? ingestResult.subscribers : [];
-      
-      // 6. Instantly reply to the sender's thread confirming successful publication!
-      sendSuccessReplyToSender(thread, sender, payload, liveUrl, dbSubscribers);
 
-      // 7. Automated Outbound Delivery to website subscribers & manual distribution list
-      dispatchWeeklyBroadcast(payload, liveUrl, sender, dbSubscribers);
-    } else {
-      Logger.log(`Failed to ingest thread: "${subject}". Will retry on next trigger.`);
+    const ingestResult = sendPayloadToVercel(payload);
+    if (!ingestResult) {
+      Logger.log(`Failed to ingest weekly diary thread: "${subject}". Will retry on next trigger.`);
+      continue;
+    }
+
+    if (imageAttachments.length > CONFIG.BATCH_SIZE) {
+      let extraIndex = CONFIG.BATCH_SIZE;
+      const totalImages = imageAttachments.length;
+      let partNum = 2;
+
+      while (extraIndex < totalImages) {
+        if (Date.now() - startTime > CONFIG.MAX_EXECUTION_MS) {
+          Logger.log(`Time budget reached during extra photos at offset ${extraIndex}/${totalImages}. Saving continuation state.`);
+          saveContinuationState({
+            messageId: messageId,
+            threadId: thread.getId(),
+            processedCount: extraIndex,
+            totalCount: totalImages,
+            slug: `${weekSlug}-gallery`,
+            title: `${weekTitle} (Gallery Photos)`,
+            category: 'P-Day Journal',
+            sender: sender,
+            date: date.toISOString(),
+            isGallery: true
+          });
+          scheduleContinuationTrigger();
+          return;
+        }
+
+        const extraBatch = imageAttachments.slice(extraIndex, extraIndex + CONFIG.BATCH_SIZE);
+        const encodedExtra = extraBatch.map((att, idx) => {
+          const comp = compressAndResizeAttachment(att, 800);
+          return {
+            filename: att.getName() || `photo_${extraIndex + idx + 1}.jpg`,
+            mimeType: comp.mimeType,
+            dataUri: comp.dataUri
+          };
+        });
+
+        const extraEntries = encodedExtra.map((img, idx) => ({
+          day: `PHOTO_${extraIndex + idx + 1}`,
+          text: '',
+          image: img.dataUri,
+          imageFilename: img.filename,
+          category: 'P-Day Journal'
+        }));
+
+        sendPayloadToVercel({
+          slug: `${weekSlug}-gallery-part-${partNum}`,
+          title: `${weekTitle} Photos (Part ${partNum})`,
+          publishedAt: date.toISOString(),
+          rawSubject: cleanRawSubject,
+          sender: sender,
+          entries: extraEntries,
+          totalEntries: extraEntries.length,
+          imageCount: encodedExtra.length,
+          verse: null,
+          isGallery: true,
+          category: 'P-Day Journal'
+        });
+
+        extraIndex += extraBatch.length;
+        partNum++;
+      }
+    }
+
+    clearContinuationState();
+    markMessageProcessed(messageId);
+    thread.addLabel(processedLabel);
+    thread.markRead();
+    Logger.log(`Successfully ingested and published weekly diary: "${weekTitle}" [${imageAttachments.length} photos total]`);
+
+    const liveUrl = `${getSiteUrl()}/week/${weekSlug}`;
+    const dbSubscribers = ingestResult.subscribers || [];
+    payload.imageCount = imageAttachments.length;
+    sendSuccessReplyToSender(thread, sender, payload, liveUrl, dbSubscribers);
+    dispatchWeeklyBroadcast(payload, liveUrl, sender, dbSubscribers);
+  }
+}
+
+/**
+ * Continuation Engine: Resumes a multi-part upload for an email with 50+ photos.
+ */
+function resumeContinuationJob(state, startTime) {
+  try {
+    const message = GmailApp.getMessageById(state.messageId);
+    if (!message) {
+      clearContinuationState();
+      return 'DONE';
+    }
+
+    const thread = message.getThread();
+    const rawAttachments = message.getAttachments();
+    const imageAttachments = rawAttachments.filter(att => {
+      const ct = (att.getContentType() || '').toLowerCase();
+      return ct.startsWith('image/') || att.getName().match(/\.(jpe?g|png|webp|heic)$/i);
+    });
+
+    const totalImages = imageAttachments.length;
+    let processedIndex = state.processedCount || 0;
+    let batchNum = Math.floor(processedIndex / CONFIG.BATCH_SIZE) + 1;
+
+    while (processedIndex < totalImages) {
+      if (Date.now() - startTime > CONFIG.MAX_EXECUTION_MS) {
+        Logger.log(`Continuation time budget reached at photo ${processedIndex}/${totalImages}. Updating state.`);
+        state.processedCount = processedIndex;
+        saveContinuationState(state);
+        scheduleContinuationTrigger();
+        return 'PAUSED';
+      }
+
+      const currentBatchAtts = imageAttachments.slice(processedIndex, processedIndex + CONFIG.BATCH_SIZE);
+      Logger.log(`Resuming batch #${batchNum} (${processedIndex + 1} to ${processedIndex + currentBatchAtts.length} of ${totalImages})...`);
+
+      const encodedImages = currentBatchAtts.map((att, idx) => {
+        const compressed = compressAndResizeAttachment(att, 800);
+        return {
+          filename: att.getName() || `photo_${processedIndex + idx + 1}.jpg`,
+          mimeType: compressed.mimeType,
+          dataUri: compressed.dataUri
+        };
+      });
+
+      const batchSlug = `${state.slug}-part-${batchNum}`;
+      const galleryEntries = encodedImages.map((img, idx) => ({
+        day: `PHOTO_${processedIndex + idx + 1}`,
+        text: '',
+        image: img.dataUri,
+        imageFilename: img.filename,
+        category: state.category || 'Mission'
+      }));
+
+      const payload = {
+        slug: batchSlug,
+        title: `${state.title} (Part ${batchNum})`,
+        publishedAt: state.date || new Date().toISOString(),
+        rawSubject: state.title,
+        sender: state.sender,
+        entries: galleryEntries,
+        totalEntries: galleryEntries.length,
+        imageCount: encodedImages.length,
+        verse: null,
+        isGallery: true,
+        category: state.category || 'Mission'
+      };
+
+      const res = sendPayloadToVercel(payload);
+      if (!res) {
+        Logger.log(`Continuation batch #${batchNum} failed. Will retry.`);
+        return 'PAUSED';
+      }
+
+      processedIndex += currentBatchAtts.length;
+      batchNum++;
+    }
+
+    clearContinuationState();
+    markMessageProcessed(state.messageId);
+    let processedLabel = GmailApp.getUserLabelByName(CONFIG.PROCESSED_LABEL) || GmailApp.createLabel(CONFIG.PROCESSED_LABEL);
+    thread.addLabel(processedLabel);
+    thread.markRead();
+
+    Logger.log(`Continuation job fully completed for ${totalImages} photos.`);
+    const galleryUrl = `${getSiteUrl()}/gallery`;
+    sendGallerySuccessReplyToSender(thread, state.sender, {
+      title: state.title,
+      publishedAt: state.date,
+      imageCount: totalImages,
+      category: state.category
+    }, galleryUrl);
+
+    return 'DONE';
+  } catch (err) {
+    Logger.log(`Continuation error: ${err.message}`);
+    clearContinuationState();
+    return 'DONE';
+  }
+}
+
+/**
+ * Universal Email HTML Template Builder (Matching Website Theme, Zero Emojis)
+ */
+function buildEmailShell(title, subtitle, contentHtml, ctaText, ctaUrl) {
+  return `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 580px; margin: 0 auto; background-color: #f7f5ef; padding: 24px 12px; color: #1c1917;">
+      
+      <!-- Top Banner Header -->
+      <div style="background-color: #1c1917; color: #ffffff; padding: 26px 24px; text-align: center; border-radius: 8px 8px 0 0; border-bottom: 3px solid #d97706;">
+        <p style="margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #d97706; font-weight: 600;">Philippines Dumaguete Mission</p>
+        <h1 style="margin: 8px 0 0 0; font-size: 22px; font-family: Georgia, serif; font-weight: 700; letter-spacing: 0.5px; color: #ffffff;">Elder Mark Salviejo</h1>
+        <p style="margin: 6px 0 0 0; font-size: 13px; color: #a8a29e; font-family: Georgia, serif; font-style: italic;">Dedicated Missionary Journal Vault</p>
+      </div>
+
+      <!-- Main Card Surface -->
+      <div style="background-color: #ffffff; padding: 28px 24px; border: 1px solid #e7e5e4; border-top: none; border-radius: 0 0 8px 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);">
+        
+        <div style="border-bottom: 1px solid #f5f5f4; padding-bottom: 14px; margin-bottom: 18px;">
+          <h2 style="font-family: Georgia, serif; font-size: 18px; color: #1c1917; margin: 0 0 4px 0; font-weight: 700;">
+            ${escapeHtml(title)}
+          </h2>
+          ${subtitle ? `<p style="font-size: 12px; color: #78716c; margin: 0;">${escapeHtml(subtitle)}</p>` : ''}
+        </div>
+
+        ${contentHtml}
+
+        ${ctaText && ctaUrl ? `
+        <!-- Call to Action Button -->
+        <div style="text-align: center; margin: 28px 0 10px 0;">
+          <a href="${ctaUrl}" target="_blank" style="background-color: #d97706; color: #ffffff; text-decoration: none; padding: 13px 28px; border-radius: 6px; font-weight: 600; font-size: 13px; display: inline-block; letter-spacing: 0.5px;">
+            ${escapeHtml(ctaText)} &rarr;
+          </a>
+        </div>
+        <p style="text-align: center; margin-top: 14px; font-size: 11px; color: #78716c;">
+          Direct link: <a href="${ctaUrl}" style="color: #b45309; text-decoration: underline; word-break: break-all;">${ctaUrl}</a>
+        </p>
+        ` : ''}
+
+      </div>
+
+      <!-- Dignified Missionary Footer -->
+      <div style="text-align: center; padding-top: 18px; font-size: 11px; color: #78716c;">
+        Elder Mark Salviejo • Philippines Dumaguete Mission • Official Archive
+      </div>
+
+    </div>
+  `;
+}
+
+/**
+ * Replies to sender confirming Polaroid Gallery publication.
+ */
+function sendGallerySuccessReplyToSender(thread, sender, payload, galleryUrl) {
+  const authorClean = extractEmailAddress(sender);
+  const subject = `Confirmed: Polaroid Gallery Upload — ${payload.title || 'Philippines Dumaguete Mission'}`;
+  
+  const contentHtml = `
+    <p style="font-size: 13px; line-height: 1.6; color: #44403c; margin-top: 0;">
+      Elder Salviejo, your photograph submission has been received, optimized, and pinned to your live Polaroid Gallery.
+    </p>
+
+    <!-- Details Table -->
+    <table style="width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 12px; background-color: #fafaf9; border-radius: 6px; border: 1px solid #f5f5f4;">
+      <tr>
+        <td style="padding: 10px 14px; color: #78716c; font-weight: 600; width: 35%;">Category Album</td>
+        <td style="padding: 10px 14px; color: #1c1917; font-weight: 700;">
+          <span style="background-color: #fef3c7; color: #92400e; padding: 3px 8px; border-radius: 9999px; font-size: 11px;">
+            ${escapeHtml(payload.category || 'Mission')}
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 10px 14px; color: #78716c; font-weight: 600; border-top: 1px solid #f5f5f4;">Photographs Added</td>
+        <td style="padding: 10px 14px; color: #1c1917; font-weight: 700; border-top: 1px solid #f5f5f4;">${payload.imageCount} polaroid(s)</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px 14px; color: #78716c; font-weight: 600; border-top: 1px solid #f5f5f4;">Date Recorded</td>
+        <td style="padding: 10px 14px; color: #1c1917; border-top: 1px solid #f5f5f4;">
+          ${Utilities.formatDate(new Date(payload.publishedAt), Session.getScriptTimeZone(), 'MMMM d, yyyy')}
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 10px 14px; color: #78716c; font-weight: 600; border-top: 1px solid #f5f5f4;">Cloud Storage</td>
+        <td style="padding: 10px 14px; color: #1c1917; border-top: 1px solid #f5f5f4;">jsDelivr Edge CDN &amp; GitHub Vault</td>
+      </tr>
+    </table>
+  `;
+
+  const htmlBody = buildEmailShell(
+    'Polaroid Wall Synced',
+    'Philippines Dumaguete Mission',
+    contentHtml,
+    'Open Polaroid Photo Gallery',
+    galleryUrl
+  );
+
+  const plainText = 
+    `Elder Salviejo,
+
+` +
+    `Confirmed: Your ${payload.imageCount} photo(s) have been received and pinned to your Polaroid Gallery.
+
+` +
+    `Category: ${payload.category || 'Mission'}
+` +
+    `Date: ${Utilities.formatDate(new Date(payload.publishedAt), Session.getScriptTimeZone(), 'MMMM d, yyyy')}
+
+` +
+    `View live gallery: ${galleryUrl}
+
+` +
+    `Elder Mark Salviejo • Philippines Dumaguete Mission`;
+
+  try {
+    thread.reply(plainText, {
+      htmlBody: htmlBody,
+      name: 'Elder Salviejo Journal Vault'
+    });
+    Logger.log(`Sent HTML gallery confirmation reply directly to thread for: ${authorClean || sender}`);
+  } catch (err) {
+    if (authorClean) {
+      try {
+        GmailApp.sendEmail(authorClean, subject, plainText, {
+          htmlBody: htmlBody,
+          name: 'Elder Salviejo Journal Vault'
+        });
+        Logger.log(`Sent direct confirmation email to: ${authorClean}`);
+      } catch (sendErr) {
+        Logger.log(`Could not send confirmation email to author: ${sendErr.message}`);
+      }
     }
   }
 }
 
 /**
- * Replies directly to the sender's email thread confirming that the weekly
- * journal was successfully received, parsed, and published to the live website.
+ * Replies to sender confirming Weekly Diary publication.
  */
 function sendSuccessReplyToSender(thread, sender, payload, liveUrl, dbSubscribers) {
   const authorClean = extractEmailAddress(sender);
   const subscriberCount = (dbSubscribers || []).length;
-  
-  const replyBody = 
-    `Elder Salviejo,\n\n` +
-    `✅ SUCCESS! Your weekly missionary reflection email and daily photos have been successfully received and published live to your online journal vault!\n\n` +
-    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-    `📖 Title: ${payload.title}\n` +
-    `📅 Published: ${Utilities.formatDate(new Date(payload.publishedAt), Session.getScriptTimeZone(), 'MMMM d, yyyy')}\n` +
-    `📝 Daily Entries: ${payload.totalEntries} day(s)\n` +
-    `📸 Photo Polaroids: ${payload.imageCount} photo(s) processed\n` +
-    (payload.verse && payload.verse.reference ? `📜 Scripture Verse: ${payload.verse.reference}\n` : '') +
-    `👥 Website Subscribers Notified: ${subscriberCount} subscriber(s)\n` +
-    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
-    `🌐 View your live polaroid journal here:\n` +
-    `${liveUrl}\n\n` +
-    `📷 Photos Auto-Synced to Polaroid Gallery:\n` +
-    `${getSiteUrl()}/gallery\n\n` +
-    `Elder Salviejo Journal Vault\n` +
-    `Philippines Dumaguete Mission`;
+  const subject = `Confirmed: Elder Salviejo's Weekly Journal — ${payload.title}`;
+
+  const contentHtml = `
+    <p style="font-size: 13px; line-height: 1.6; color: #44403c; margin-top: 0;">
+      Elder Salviejo, your weekly missionary reflections and routine photos have been successfully received and published live to your online journal vault.
+    </p>
+
+    <!-- Details Table -->
+    <table style="width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 12px; background-color: #fafaf9; border-radius: 6px; border: 1px solid #f5f5f4;">
+      <tr>
+        <td style="padding: 10px 14px; color: #78716c; font-weight: 600; width: 35%;">Journal Title</td>
+        <td style="padding: 10px 14px; color: #1c1917; font-weight: 700;">${escapeHtml(payload.title)}</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px 14px; color: #78716c; font-weight: 600; border-top: 1px solid #f5f5f4;">Date Published</td>
+        <td style="padding: 10px 14px; color: #1c1917; border-top: 1px solid #f5f5f4;">
+          ${Utilities.formatDate(new Date(payload.publishedAt), Session.getScriptTimeZone(), 'MMMM d, yyyy')}
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 10px 14px; color: #78716c; font-weight: 600; border-top: 1px solid #f5f5f4;">Daily Entries</td>
+        <td style="padding: 10px 14px; color: #1c1917; border-top: 1px solid #f5f5f4;">${payload.totalEntries} day(s) recorded</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px 14px; color: #78716c; font-weight: 600; border-top: 1px solid #f5f5f4;">Routine Polaroids</td>
+        <td style="padding: 10px 14px; color: #1c1917; border-top: 1px solid #f5f5f4;">${payload.imageCount} photograph(s) synced</td>
+      </tr>
+      ${(payload.verse && payload.verse.reference) ? `
+      <tr>
+        <td style="padding: 10px 14px; color: #78716c; font-weight: 600; border-top: 1px solid #f5f5f4;">Weekly Scripture</td>
+        <td style="padding: 10px 14px; color: #1c1917; border-top: 1px solid #f5f5f4;">${escapeHtml(payload.verse.reference)}</td>
+      </tr>
+      ` : ''}
+      <tr>
+        <td style="padding: 10px 14px; color: #78716c; font-weight: 600; border-top: 1px solid #f5f5f4;">Subscribers Notified</td>
+        <td style="padding: 10px 14px; color: #1c1917; border-top: 1px solid #f5f5f4;">${subscriberCount} recipient(s)</td>
+      </tr>
+    </table>
+
+    <div style="background-color: #f5f5f4; border-radius: 6px; padding: 12px 14px; margin-top: 14px; font-size: 11px; color: #57534e;">
+      Photographs from this entry have also been mirrored to your Polaroid Wall at <a href="${getSiteUrl()}/gallery" style="color: #b45309; text-decoration: underline;">${getSiteUrl()}/gallery</a>.
+    </div>
+  `;
+
+  const htmlBody = buildEmailShell(
+    'Weekly Journal Published',
+    'Philippines Dumaguete Mission',
+    contentHtml,
+    'Open Weekly Journal Entry',
+    liveUrl
+  );
+
+  const plainText =
+    `Elder Salviejo,
+
+` +
+    `Confirmed: Your weekly reflection has been published live.
+
+` +
+    `Title: ${payload.title}
+` +
+    `Date: ${Utilities.formatDate(new Date(payload.publishedAt), Session.getScriptTimeZone(), 'MMMM d, yyyy')}
+` +
+    `Entries: ${payload.totalEntries} day(s)
+` +
+    `Photos: ${payload.imageCount} photo(s)
+` +
+    `Subscribers: ${subscriberCount} notified
+
+` +
+    `View online: ${liveUrl}
+
+` +
+    `Elder Mark Salviejo • Philippines Dumaguete Mission`;
 
   try {
-    thread.reply(replyBody, {
+    thread.reply(plainText, {
+      htmlBody: htmlBody,
       name: 'Elder Salviejo Journal Vault'
     });
-    Logger.log(`✅ Sent success reply directly to thread for: ${authorClean || sender}`);
+    Logger.log(`Sent HTML weekly diary confirmation reply directly to thread for: ${authorClean || sender}`);
   } catch (err) {
-    Logger.log(`Notice: thread.reply error (${err.message}), falling back to direct email.`);
     if (authorClean) {
       try {
-        GmailApp.sendEmail(authorClean, `✅ Published: ${payload.title}`, replyBody, {
+        GmailApp.sendEmail(authorClean, subject, plainText, {
+          htmlBody: htmlBody,
           name: 'Elder Salviejo Journal Vault'
         });
-        Logger.log(`✅ Sent direct confirmation email to: ${authorClean}`);
+        Logger.log(`Sent direct confirmation email to: ${authorClean}`);
       } catch (sendErr) {
         Logger.log(`Could not send confirmation email to author: ${sendErr.message}`);
       }
@@ -361,46 +865,7 @@ function sendSuccessReplyToSender(thread, sender, payload, liveUrl, dbSubscriber
 }
 
 /**
- * Replies directly to the sender's email thread confirming that the photos
- * have been added directly to the Polaroid Photo Gallery (Passcode 073000).
- */
-function sendGallerySuccessReplyToSender(thread, sender, payload, galleryUrl) {
-  const authorClean = extractEmailAddress(sender);
-  const replyBody = 
-    `Elder Salviejo,\n\n` +
-    `📷 SUCCESS! Your ${payload.imageCount} photo(s) have been successfully received and added directly to your Polaroid Photo Gallery!\n\n` +
-    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-    `📸 Photos Added: ${payload.imageCount} polaroid(s)\n` +
-    `📅 Date: ${Utilities.formatDate(new Date(payload.publishedAt), Session.getScriptTimeZone(), 'MMMM d, yyyy')}\n` +
-    `🎨 Style: Polaroid Format (Images Only, Scrollable)\n` +
-    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
-    `🌐 View your live Polaroid Photo Gallery here:\n` +
-    `${galleryUrl}\n\n` +
-    `Elder Salviejo Journal Vault\n` +
-    `Philippines Dumaguete Mission`;
-
-  try {
-    thread.reply(replyBody, {
-      name: 'Elder Salviejo Journal Vault'
-    });
-    Logger.log(`✅ Sent gallery success reply directly to thread for: ${authorClean || sender}`);
-  } catch (err) {
-    Logger.log(`Notice: thread.reply error (${err.message}), falling back to direct email.`);
-    if (authorClean) {
-      try {
-        GmailApp.sendEmail(authorClean, `📷 Added to Gallery: ${payload.title}`, replyBody, {
-          name: 'Elder Salviejo Journal Vault'
-        });
-        Logger.log(`✅ Sent direct confirmation email to: ${authorClean}`);
-      } catch (sendErr) {
-        Logger.log(`Could not send confirmation email to author: ${sendErr.message}`);
-      }
-    }
-  }
-}
-
-/**
- * Dispatches the weekly announcement email to all website subscribers & distribution list.
+ * Dispatches weekly announcement to website subscribers.
  */
 function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
   const manualRecipients = (CONFIG.DISTRIBUTION_LIST || '').split(',')
@@ -411,97 +876,79 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
     .map(email => email.trim().toLowerCase())
     .filter(email => email.length > 0);
 
-  // Combine and deduplicate
   const allRecipients = Array.from(new Set([...manualRecipients, ...dynamicSubscribers]));
-  
+  if (allRecipients.length === 0) {
+    Logger.log('Letter is live on the website. No email subscribers found.');
+    return;
+  }
+
   const firstEntrySnippet = (payload.entries.length > 0 && payload.entries[0].text)
     ? payload.entries[0].text.substring(0, 160) + '...'
-    : 'A new week of daily routine photos and reflections is now live.';
+    : 'A new week of daily routine photos and missionary reflections is now live.';
 
-  // 1. Send announcement to subscribers
-  if (allRecipients.length > 0) {
-    Logger.log(`Broadcasting weekly diary to ${allRecipients.length} subscriber(s): ${allRecipients.join(', ')}`);
-    
-    const subject = `📖 Elder Salviejo — Weekly Journal: ${payload.title} (Philippines Dumaguete Mission)`;
-    const htmlBody = `
-      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 580px; margin: 0 auto; background-color: #fcfbf9; border: 1px solid #e7e2d6; border-radius: 12px; overflow: hidden; color: #2d3748;">
-        
-        <!-- Header Banner -->
-        <div style="background-color: #111827; color: #ffffff; padding: 26px 30px; text-align: center; border-bottom: 3px solid #d97706;">
-          <p style="margin: 0; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #fbbf24; font-weight: bold;">Philippines Dumaguete Mission</p>
-          <h1 style="margin: 6px 0 0 0; font-size: 24px; font-family: Georgia, serif; font-weight: bold; line-height: 1.2; letter-spacing: 1px;">ELDER SALVIEJO</h1>
-          <p style="margin: 6px 0 0 0; font-size: 13px; color: #d1d5db; font-family: Georgia, serif; font-style: italic;">${escapeHtml(payload.title)}</p>
-        </div>
+  const subject = `Elder Salviejo — Weekly Journal: ${payload.title} (Philippines Dumaguete Mission)`;
 
-        <!-- Body Content -->
-        <div style="padding: 28px 30px;">
-          <p style="font-size: 14px; line-height: 1.6; color: #4a5568; margin-top: 0;">
-            Elder Salviejo has shared his weekly Preparation Day (P-Day) letter from the <strong>Philippines Dumaguete Mission</strong>, with <strong>${payload.imageCount} daily routine photos</strong> and missionary reflections.
-          </p>
+  const contentHtml = `
+    <p style="font-size: 13px; line-height: 1.6; color: #44403c; margin-top: 0;">
+      Elder Salviejo has shared his weekly Preparation Day letter from the <strong>Philippines Dumaguete Mission</strong>, with <strong>${payload.imageCount} photographs</strong> and daily reflections.
+    </p>
 
-          <!-- Polaroid Teaser Box -->
-          <div style="background-color: #fef3c7; border: 1px solid #fde68a; border-radius: 8px; padding: 18px; margin: 22px 0;">
-            <p style="margin: 0; font-size: 11px; font-weight: bold; text-transform: uppercase; color: #92400e; letter-spacing: 1px;">Missionary Highlight</p>
-            <p style="margin: 6px 0 0 0; font-size: 13px; font-style: italic; color: #78350f; line-height: 1.5;">
-              "${escapeHtml(firstEntrySnippet)}"
-            </p>
-          </div>
+    <!-- Highlight Box -->
+    <div style="background-color: #fafaf9; border-left: 3px solid #d97706; padding: 14px 16px; margin: 18px 0; border-radius: 0 6px 6px 0;">
+      <p style="margin: 0; font-size: 10px; font-weight: 700; text-transform: uppercase; color: #92400e; letter-spacing: 1px;">Missionary Highlight</p>
+      <p style="margin: 6px 0 0 0; font-size: 12px; font-style: italic; color: #57534e; line-height: 1.5;">
+        "${escapeHtml(firstEntrySnippet)}"
+      </p>
+    </div>
 
-          ${(payload.verse && payload.verse.text) ? `
-          <!-- Weekly Scripture Verse -->
-          <div style="background-color: #fffbeb; border-left: 4px solid #d97706; border-radius: 6px; padding: 16px; margin: 20px 0; border: 1px solid #fef3c7;">
-            <p style="margin: 0; font-size: 11px; font-weight: bold; text-transform: uppercase; color: #92400e; letter-spacing: 1px;">Weekly Scripture • ${escapeHtml(payload.verse.reference || 'Missionary Scripture')}</p>
-            <p style="margin: 6px 0 0 0; font-size: 13px; font-style: italic; color: #78350f; line-height: 1.5;">
-              "${escapeHtml(payload.verse.text)}"
-            </p>
-          </div>
-          ` : ''}
+    ${(payload.verse && payload.verse.text) ? `
+    <div style="background-color: #fefce8; border: 1px solid #fef08a; border-radius: 6px; padding: 14px 16px; margin: 18px 0;">
+      <p style="margin: 0; font-size: 10px; font-weight: 700; text-transform: uppercase; color: #854d0e; letter-spacing: 1px;">Weekly Scripture • ${escapeHtml(payload.verse.reference || 'Missionary Scripture')}</p>
+      <p style="margin: 6px 0 0 0; font-size: 12px; font-style: italic; color: #713f12; line-height: 1.5;">
+        "${escapeHtml(payload.verse.text)}"
+      </p>
+    </div>
+    ` : ''}
+  `;
 
-          <!-- Call to Action Button -->
-          <div style="text-align: center; margin: 30px 0 10px 0;">
-            <a href="${liveUrl}" target="_blank" style="background-color: #d97706; color: #ffffff; text-decoration: none; padding: 13px 26px; border-radius: 6px; font-weight: bold; font-size: 14px; display: inline-block; box-shadow: 0 3px 6px rgba(0,0,0,0.12);">
-              Open Elder Salviejo's Journal Viewer &rarr;
-            </a>
-          </div>
+  const htmlBody = buildEmailShell(
+    payload.title,
+    'Weekly Missionary Journal • Dumaguete, Philippines',
+    contentHtml,
+    'Read Full Weekly Journal',
+    liveUrl
+  );
 
-          <p style="text-align: center; margin-top: 18px; font-size: 12px; color: #718096;">
-            Direct Link: <a href="${liveUrl}" style="color: #d97706; word-break: break-all;">${liveUrl}</a>
-          </p>
-        </div>
+  Logger.log(`Broadcasting weekly diary to ${allRecipients.length} subscriber(s)...`);
 
-        <!-- Footer -->
-        <div style="border-top: 1px solid #e2e8f0; background-color: #f7fafc; padding: 14px 20px; text-align: center; font-size: 11px; color: #a0aec0;">
-          You received this because you subscribed to Elder Salviejo's missionary letters at ${getSiteUrl()}
-        </div>
-      </div>
-    `;
+  for (let r = 0; r < allRecipients.length; r++) {
+    try {
+      GmailApp.sendEmail(allRecipients[r], subject, `New Weekly Journal: ${payload.title}
 
-    for (let r = 0; r < allRecipients.length; r++) {
-      try {
-        GmailApp.sendEmail(allRecipients[r], subject, `New Weekly Journal: ${payload.title}\n\nView Elder Salviejo's journal here: ${liveUrl}`, {
-          htmlBody: htmlBody,
-          name: 'Elder Salviejo (Dumaguete Mission)'
-        });
-      } catch (err) {
-        Logger.log(`Error sending broadcast to ${allRecipients[r]}: ${err.toString()}`);
-      }
+View here: ${liveUrl}`, {
+        htmlBody: htmlBody,
+        name: 'Elder Salviejo (Dumaguete Mission)'
+      });
+    } catch (err) {
+      Logger.log(`Error sending broadcast to ${allRecipients[r]}: ${err.toString()}`);
     }
-  } else {
-    Logger.log('ℹ️ Letter is successfully published and live on the website! (No email subscribers have signed up on the site yet to receive newsletter copies).');
   }
 }
 
 /**
- * Helper to install an instant continuous trigger that monitors your inbox
- * 24/7 every 5 minutes (or 1 minute)!
- * 
- * Perfect for missionary life because your P-Day might change (Monday, Tuesday, Friday, etc.).
- * Whenever you send your email on ANY day at ANY hour, it will be automatically
- * detected within minutes, backed up to GitHub + jsDelivr CDN, saved in Turso SQLite,
- * and broadcasted to your subscribers!
- * 
- * Run this function once from the Apps Script editor toolbar.
+ * 1-Click Trigger: Runs every 5 minutes 24/7.
  */
+function create5MinuteTrigger() {
+  createInstantTrigger(5);
+}
+
+/**
+ * 1-Click Trigger: Runs every 1 minute 24/7.
+ */
+function create1MinuteTrigger() {
+  createInstantTrigger(1);
+}
+
 function createInstantTrigger(intervalMinutes) {
   const minutes = (intervalMinutes === 1 || intervalMinutes === 5 || intervalMinutes === 10 || intervalMinutes === 15 || intervalMinutes === 30)
     ? intervalMinutes
@@ -519,28 +966,9 @@ function createInstantTrigger(intervalMinutes) {
     .everyMinutes(minutes)
     .create();
 
-  Logger.log(`🎉 Instant trigger created! It will automatically check for new diary emails every ${minutes} minute(s) 24/7 on any P-Day.`);
+  Logger.log(`Instant trigger created. It will automatically check for new diary emails every ${minutes} minute(s) 24/7.`);
 }
 
-/**
- * 1-Click Trigger: Runs every 5 minutes 24/7 (Recommended: rock-solid & quota safe).
- * Select "create5MinuteTrigger" in the Apps Script toolbar dropdown and click Run!
- */
-function create5MinuteTrigger() {
-  createInstantTrigger(5);
-}
-
-/**
- * 1-Click Trigger: Runs every 1 minute 24/7 for virtually instant processing.
- * Select "create1MinuteTrigger" in the Apps Script toolbar dropdown and click Run!
- */
-function create1MinuteTrigger() {
-  createInstantTrigger(1);
-}
-
-/**
- * Helper to install a recurring Monday trigger (Runs every Monday at 9:00 AM).
- */
 function createMondayTrigger() {
   const triggers = ScriptApp.getProjectTriggers();
   for (let i = 0; i < triggers.length; i++) {
@@ -548,40 +976,35 @@ function createMondayTrigger() {
       ScriptApp.deleteTrigger(triggers[i]);
     }
   }
-  
-  // Creates a trigger that runs every Monday between 9:00 AM and 10:00 AM
   ScriptApp.newTrigger('processWeeklyDiaryEmails')
     .timeBased()
     .onWeekDay(ScriptApp.WeekDay.MONDAY)
     .atHour(9)
     .create();
     
-  Logger.log('🎉 Monday trigger successfully created! It will automatically run every Monday at 9:00 AM.');
+  Logger.log('Monday trigger successfully created for 9:00 AM.');
 }
 
 /**
- * Main parser that:
- * 1. Extracts weekly scripture verse from `-VERSE- (Matthew:11:11)(VERSEHERE)`
- * 2. Parses daily sections supporting `-MONDAY-`, `- MONDAY -`, `--- MONDAY ---`, etc.
- * 3. Cleans day titles to pure MONDAY and cleans reflection body text
+ * Parses daily markdown blocks and weekly scripture verse.
  */
 function parseDiaryContent(bodyText, encodedImages) {
   let cleanBody = bodyText || '';
   let extractedVerse = null;
 
-  // 1. Extract weekly scripture verse: matches -VERSE-, - VERSE -, --- VERSE ---, etc.
-  const verseRegex = /(?:^|\n)\s*[-—#*~]*\s*VERSE\s*[-—#*~:]*\s*([\s\S]*)$/i;
+  const verseRegex = /(?:^|
+)\s*[-—#*~]*\s*VERSE\s*[-—#*~:]*\s*([\s\S]*)$/i;
   const verseMatch = cleanBody.match(verseRegex);
   if (verseMatch) {
     const rawVerseText = verseMatch[1].trim();
     extractedVerse = parseVerseString(rawVerseText);
-    // Strip verse block from body so it doesn't bleed into Sunday's daily reflection!
     cleanBody = cleanBody.substring(0, verseMatch.index).trim();
   }
 
-  // 2. Parse daily sections: matches -MONDAY-, - MONDAY -, --- MONDAY ---, MONDAY:, etc.
   const entries = [];
-  const headerRegex = /(?:^|\n)\s*[-—#*~]*\s*(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s*[-—#*~:]*\s*(?:\n|$)/gi;
+  const headerRegex = /(?:^|
+)\s*[-—#*~]*\s*(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s*[-—#*~:]*\s*(?:
+|$)/gi;
 
   const matches = [];
   let match;
@@ -600,23 +1023,19 @@ function parseDiaryContent(bodyText, encodedImages) {
       const contentEnd = (i + 1 < matches.length) ? matches[i + 1].startIndex : cleanBody.length;
       
       let dayText = cleanBody.substring(contentStart, contentEnd).trim();
-      // Clean any accidental leading dashes, day headers, or colons
       dayText = dayText.replace(/^\s*[-—#*~]*\s*(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s*[-—#*~:]*\s*/i, '');
       dayText = dayText.replace(/^[-—:\s]+/, '').trim();
 
       const imageObj = encodedImages[i] ? encodedImages[i].dataUri : null;
       
       entries.push({
-        day: current.dayName, // Pure clean "MONDAY", "TUESDAY", etc.
+        day: current.dayName,
         text: dayText,
         image: imageObj,
         imageFilename: encodedImages[i] ? encodedImages[i].filename : null
       });
     }
 
-    // BONUS / EXTRA PHOTOS HANDLING:
-    // If more photos are attached than day headers written (e.g. 7+ photos or only 3 days with 7 photos),
-    // append each bonus photo as its own entry so NO photo is ever omitted or lost!
     if (encodedImages.length > matches.length) {
       for (let j = matches.length; j < encodedImages.length; j++) {
         entries.push({
@@ -628,14 +1047,12 @@ function parseDiaryContent(bodyText, encodedImages) {
       }
     }
   } else {
-    // If no day headers were written at all (pure text reflection)
     entries.push({
       day: 'MONDAY',
       text: cleanBody.trim(),
       image: encodedImages.length > 0 ? encodedImages[0].dataUri : null,
       imageFilename: encodedImages.length > 0 ? encodedImages[0].filename : null
     });
-    // Append remaining photos if multiple attachments
     for (let k = 1; k < encodedImages.length; k++) {
       entries.push({
         day: `PHOTO ${k + 1}`,
@@ -652,30 +1069,14 @@ function parseDiaryContent(bodyText, encodedImages) {
   };
 }
 
-/**
- * Backward compatibility wrapper
- */
 function parseDiaryEntries(bodyText, encodedImages) {
   return parseDiaryContent(bodyText, encodedImages).entries;
 }
 
-/**
- * Parses scripture verse format and automatically looks up scripture text
- * from https://github.com/bcbooks/scriptures-json
- * 
- * Supports:
- *   - -VERSE- (Matthew 11:28-29)
- *   - -VERSE- (VERSE Matthew 11:28-29)
- *   - -VERSE- (Alma 37:37)
- *   - -VERSE- (D&C 68:6) or (Doctrine and Covenants 68:6)
- *   - -VERSE- (1 Nephi 3:7)
- *   - -VERSE- (Matthew:11:11)(VERSEHERE)
- */
 function parseVerseString(raw) {
   if (!raw) return null;
   const trimmed = raw.trim();
 
-  // Pattern 1: Two parentheses (Reference)(Text) e.g. (Matthew:11:11)(VERSEHERE)
   const twoParens = trimmed.match(/^\s*\(([^)]+)\)\s*\(([\s\S]+)\)\s*$/);
   if (twoParens) {
     return {
@@ -684,7 +1085,6 @@ function parseVerseString(raw) {
     };
   }
 
-  // Pattern 2: Single reference in parens: e.g. (Matthew 11:28-29), (VERSE Matthew 11:28-29), (Alma 37:37)
   const singleParenMatch = trimmed.match(/^\s*\(([^)]+)\)\s*$/);
   if (singleParenMatch) {
     const ref = singleParenMatch[1].replace(/^VERSE\s*/i, '').trim();
@@ -695,7 +1095,6 @@ function parseVerseString(raw) {
     };
   }
 
-  // Pattern 3: (Reference) Text e.g. (Matthew:11:11) VERSEHERE
   const parenRefThenText = trimmed.match(/^\s*\(([^)]+)\)\s*([\s\S]+)$/);
   if (parenRefThenText) {
     const ref = parenRefThenText[1].replace(/^VERSE\s*/i, '').trim();
@@ -706,7 +1105,6 @@ function parseVerseString(raw) {
     };
   }
 
-  // Pattern 4: Reference without parens: e.g. Matthew 11:28-29 or Alma 37:37
   const refClean = trimmed.replace(/^VERSE\s*/i, '').replace(/^\(|\)$/g, '').trim();
   const fetched = fetchScriptureTextGas(refClean);
   return {
@@ -715,15 +1113,11 @@ function parseVerseString(raw) {
   };
 }
 
-/**
- * Automatically fetches the scripture text from bcbooks/scriptures-json via jsdelivr CDN
- */
 function fetchScriptureTextGas(refStr) {
   if (!refStr) return '';
   let clean = refStr.replace(/^[-—#*~:\s]+|[-—#*~:\s]+$/g, '').replace(/^\(|\)$/g, '').trim();
   clean = clean.replace(/^VERSE\s*/i, '').trim();
 
-  // Pattern: Book Chapter:StartVerse(-EndVerse)?
   const regex = /^([1-4]?\s*[A-Za-z—\s&]+?)\s*[:\s]\s*(\d+)\s*[:]\s*(\d+)(?:\s*[-–—]\s*(\d+))?$/i;
   const match = clean.match(regex);
   if (!match) return '';
@@ -735,91 +1129,74 @@ function fetchScriptureTextGas(refStr) {
 
   const normalized = bookRaw.toLowerCase().replace(/\s+/g, ' ');
   let volFile = 'new-testament-reference.json';
-  let isDc = false;
 
   const bomBooks = ['1 nephi', '2 nephi', 'jacob', 'enos', 'jarom', 'omni', 'words of mormon', 'mosiah', 'alma', 'helaman', '3 nephi', '4 nephi', 'mormon', 'ether', 'moroni'];
   const pgpBooks = ['moses', 'abraham', 'joseph smith—matthew', 'joseph smith-matthew', 'js-m', 'joseph smith—history', 'js-h', 'articles of faith', 'a of f'];
   const dcBooks = ['doctrine and covenants', 'd&c', 'd and c', 'dc', 'section'];
   const otBooks = ['genesis', 'exodus', 'leviticus', 'numbers', 'deuteronomy', 'joshua', 'judges', 'ruth', '1 samuel', '2 samuel', '1 kings', '2 kings', '1 chronicles', '2 chronicles', 'ezra', 'nehemiah', 'esther', 'job', 'psalms', 'psalm', 'proverbs', 'ecclesiastes', 'song of solomon', 'isaiah', 'jeremiah', 'lamentations', 'ezekiel', 'daniel', 'hosea', 'joel', 'amos', 'obadiah', 'jonah', 'micah', 'nahum', 'habakkuk', 'zephaniah', 'haggai', 'zechariah', 'malachi'];
 
-  if (bomBooks.indexOf(normalized) !== -1) {
+  if (bomBooks.includes(normalized)) {
     volFile = 'book-of-mormon-reference.json';
-  } else if (dcBooks.indexOf(normalized) !== -1) {
+  } else if (dcBooks.includes(normalized)) {
     volFile = 'doctrine-and-covenants-reference.json';
-    isDc = true;
-  } else if (pgpBooks.indexOf(normalized) !== -1) {
+  } else if (pgpBooks.includes(normalized)) {
     volFile = 'pearl-of-great-price-reference.json';
-  } else if (otBooks.indexOf(normalized) !== -1) {
+  } else if (otBooks.includes(normalized)) {
     volFile = 'old-testament-reference.json';
   }
 
+  const cdnUrl = `https://cdn.jsdelivr.net/gh/bcbooks/scriptures-json@master/${volFile}`;
   try {
-    const url = 'https://cdn.jsdelivr.net/gh/bcbooks/scriptures-json@master/reference/' + volFile;
-    const res = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
-    if (res.getResponseCode() === 200) {
-      const data = JSON.parse(res.getContentText());
-      let versesObj = null;
-      if (isDc) {
-        versesObj = data[chapter];
-      } else {
-        for (const k in data) {
-          if (k === 'last_modified' || k === 'version') continue;
-          if (k.toLowerCase() === normalized || k.toLowerCase().replace(/—/g, '-').replace(/\s+/g, ' ') === normalized) {
-            versesObj = data[k][chapter];
-            break;
-          }
-        }
-      }
+    const res = UrlFetchApp.fetch(cdnUrl, { muteHttpExceptions: true });
+    if (res.getResponseCode() !== 200) return '';
+    const volData = JSON.parse(res.getContentText());
+    const verseList = volData.verses || [];
 
-      if (versesObj) {
-        const verses = [];
-        for (let v = startVerse; v <= endVerse; v++) {
-          if (versesObj[String(v)]) {
-            verses.push(versesObj[String(v)].trim());
+    const foundVerses = [];
+    for (let i = 0; i < verseList.length; i++) {
+      const v = verseList[i];
+      const bTitle = (v.book_title || '').toLowerCase();
+      if (bTitle.includes(normalized) || normalized.includes(bTitle)) {
+        if (String(v.chapter_number) === String(chapter)) {
+          if (v.verse_number >= startVerse && v.verse_number <= endVerse) {
+            foundVerses.push(v.verse_scripture);
           }
-        }
-        if (verses.length > 0) {
-          Logger.log(`Found scripture text for "${clean}": ${verses.length} verse(s)`);
-          return verses.join(' ');
         }
       }
     }
-  } catch (err) {
-    Logger.log(`Scripture lookup notice in Apps Script: ${err.toString()}`);
+    return foundVerses.join(' ');
+  } catch (_) {
+    return '';
   }
-
-  return '';
 }
 
 function sendPayloadToVercel(payload) {
   const url = getIngestUrl();
   const secret = PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || CONFIG.INGEST_SECRET;
   
-  const rawJson = JSON.stringify(payload);
-  const payloadKb = Math.round(rawJson.length / 1024);
-  
   const options = {
     method: 'post',
     contentType: 'application/json',
     headers: {
       'Authorization': 'Bearer ' + secret,
-      'User-Agent': 'Google-Apps-Script-GmailDiary/1.0'
+      'User-Agent': 'ElderSalviejo-GAS/2.0'
     },
-    payload: rawJson,
+    payload: JSON.stringify(payload),
     muteHttpExceptions: true
   };
   
   try {
-    Logger.log(`Posting JSON payload (${payloadKb} KB) to ${url}...`);
     const response = UrlFetchApp.fetch(url, options);
     const responseCode = response.getResponseCode();
     const responseText = response.getContentText();
     
     if (responseCode >= 200 && responseCode < 300) {
-      Logger.log(`Ingest succeeded: HTTP ${responseCode} - ${responseText}`);
-      let parsed = null;
-      try { parsed = JSON.parse(responseText); } catch (_) {}
-      return parsed || { success: true };
+      Logger.log(`Ingest succeeded (HTTP ${responseCode})`);
+      try {
+        return JSON.parse(responseText);
+      } catch (_) {
+        return { success: true };
+      }
     } else {
       Logger.log(`Ingest failed: HTTP ${responseCode} - ${responseText}`);
       return null;
@@ -860,44 +1237,30 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
-/**
- * Strips the optional secret security passcode from the subject line
- * and cleans extraneous prefixes/punctuation so the passcode remains completely hidden!
- */
 function cleanSubjectTitle(rawSubject, secretCode) {
   let clean = rawSubject || '';
-  // Always strip known passcodes
   clean = clean.replace(/[\(\[]?\s*073000\s*[\)\]]?/gi, '');
   clean = clean.replace(/[\(\[]?\s*159266\s*[\)\]]?/gi, '');
 
   if (secretCode) {
-    const escaped = secretCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp('[\\[\\(]?\\s*' + escaped + '\\s*[\\]\\)]?', 'gi');
+    const escaped = secretCode.replace(/[.*+?^${}()|[\]\]/g, '\$&');
+    const regex = new RegExp('[\[\(]?\s*' + escaped + '\s*[\]\)]?', 'gi');
     clean = clean.replace(regex, '');
   }
-  // Strip repeated "✅ Published: Elder Salviejo's Weekly Journal — "
-  clean = clean.replace(/(?:✅\s*Published:\s*Elder\s*Salviejo'?s\s*Weekly\s*Journal\s*[—–-]*\s*)+/gi, '');
-  // Strip repeated "Elder Salviejo — Weekly Journal:"
+  clean = clean.replace(/(?:Published:\s*Elder\s*Salviejo'?s\s*Weekly\s*Journal\s*[—–-]*\s*)+/gi, '');
+  clean = clean.replace(/(?:Confirmed:\s*Elder\s*Salviejo'?s\s*Weekly\s*Journal\s*[—–-]*\s*)+/gi, '');
   clean = clean.replace(/(?:Elder\s*Salviejo\s*[—–-]\s*Weekly\s*Journal:\s*)+/gi, '');
-  // Strip email prefixes Re: Fwd:
   clean = clean.replace(/^(?:re|fwd|fw)\s*:\s*/gi, '');
-  // Strip "weekly reflection", "weekly journal", "reflection", "journal"
   clean = clean.replace(/^(?:weekly\s*reflection|weekly\s*journal|reflection|journal)[\s:—-]*/gi, '');
-  // Strip trailing mission mentions if in title like "(Philippines Dumaguete Mission)"
   clean = clean.replace(/\(Philippines Dumaguete Mission\)/gi, '');
   clean = clean.replace(/^[-—:\s]+|[-—:\s]+$/g, '').trim();
   return clean || 'Weekly Missionary Journal';
 }
 
-/**
- * Feature 3: Discreet Gallery Album Filters via Email Subject
- * Extracts clean category tag from subject line (e.g. 073000 Baptisms, 073000 Companions, etc.)
- */
 function extractGalleryCategory(subject) {
   if (!subject) return 'Mission';
   const clean = subject.replace(/[\(\[]?\s*(?:073000|159266)\s*[\)\]]?/gi, '').trim();
 
-  // Keyword pattern matching
   if (/baptism/i.test(clean)) return 'Baptisms';
   if (/companion/i.test(clean)) return 'Companions';
   if (/service|community/i.test(clean)) return 'Service';
@@ -906,7 +1269,6 @@ function extractGalleryCategory(subject) {
   if (/teaching|investigator|lesson/i.test(clean)) return 'Teaching';
   if (/p-?day|preparation/i.test(clean)) return 'P-Day';
 
-  // Extract explicit tag before hyphen or colon: e.g. "Baptisms - Cebu" -> "Baptisms"
   const tagMatch = clean.match(/^([a-zA-Z\s]{2,20})(?:[-–—:]|$)/);
   if (tagMatch && tagMatch[1].trim()) {
     const candidate = tagMatch[1].trim();
@@ -918,16 +1280,6 @@ function extractGalleryCategory(subject) {
   return 'Mission';
 }
 
-/**
- * Automatically compresses and downscales large camera photos (3-5 MB each)
- * to ~60-90 KB web-optimized JPEGs (max width 800px) using Google's cloud image engine.
- * 
- * Why this is necessary:
- * Vercel Serverless Functions enforce a strict 4.5 MB HTTP payload limit (FUNCTION_PAYLOAD_TOO_LARGE).
- * 7 raw mobile photos exceed 25-35 MB in Base64.
- * Downscaling to 800px reduces the total payload for all 7 photos to under 600 KB (a 98% reduction!)
- * while keeping sharp, gorgeous polaroid visuals for phones and desktops.
- */
 function compressAndResizeAttachment(att, targetWidth) {
   targetWidth = targetWidth || 800;
   let tempFile = null;
@@ -935,21 +1287,17 @@ function compressAndResizeAttachment(att, targetWidth) {
   const origKb = Math.round(originalBytes.length / 1024);
 
   try {
-    const rawBlob = att.copyBlob();
-    // Temporarily upload to Google Drive to tap into Google's native image scaling service
-    tempFile = DriveApp.createFile(rawBlob);
+    const blob = Utilities.newBlob(originalBytes, att.getContentType() || 'image/jpeg', att.getName());
+    tempFile = DriveApp.createFile(blob);
     const fileId = tempFile.getId();
 
-    // Strategy 1: Drive API v3 thumbnailLink
-    const apiUrl = 'https://www.googleapis.com/drive/v3/files/' + fileId + '?fields=thumbnailLink,mimeType';
+    const driveApiUrl = 'https://www.googleapis.com/drive/v3/files/' + fileId + '?fields=thumbnailLink';
     let thumbnailLink = null;
-
-    for (let attempt = 0; attempt < 4; attempt++) {
-      const res = UrlFetchApp.fetch(apiUrl, {
+    for (let attempt = 0; attempt < 6; attempt++) {
+      const res = UrlFetchApp.fetch(driveApiUrl, {
         headers: { Authorization: 'Bearer ' + ScriptApp.getOAuthToken() },
         muteHttpExceptions: true
       });
-
       if (res.getResponseCode() === 200) {
         const data = JSON.parse(res.getContentText());
         if (data.thumbnailLink) {
@@ -961,7 +1309,6 @@ function compressAndResizeAttachment(att, targetWidth) {
     }
 
     if (thumbnailLink) {
-      // Replace default size parameter (e.g. =s220) with target size =s800
       let resizedUrl = thumbnailLink;
       if (resizedUrl.indexOf('=s') !== -1) {
         resizedUrl = resizedUrl.replace(/=s\d+.*$/, '=s' + targetWidth);
@@ -981,7 +1328,7 @@ function compressAndResizeAttachment(att, targetWidth) {
         const resizedBlob = resizedRes.getBlob();
         const base64Data = Utilities.base64Encode(resizedBlob.getBytes());
         const compKb = Math.round(base64Data.length * 0.75 / 1024);
-        Logger.log(`Compressed "${att.getName()}": ${origKb} KB -> ${compKb} KB (saved ${Math.round((1 - compKb/origKb)*100)}%)`);
+        Logger.log(`Compressed "${att.getName()}": ${origKb} KB -> ${compKb} KB`);
         
         return {
           mimeType: 'image/jpeg',
@@ -990,7 +1337,6 @@ function compressAndResizeAttachment(att, targetWidth) {
       }
     }
 
-    // Strategy 2: Direct Google Drive thumbnail link fallback
     tempFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
     const directUrl = 'https://drive.google.com/thumbnail?id=' + fileId + '&sz=w' + targetWidth;
     const directRes = UrlFetchApp.fetch(directUrl, { muteHttpExceptions: true });
@@ -1007,9 +1353,8 @@ function compressAndResizeAttachment(att, targetWidth) {
       };
     }
   } catch (err) {
-    Logger.log(`Notice: Drive auto-compression skipped for "${att.getName()}": ${err.toString()}`);
+    Logger.log(`Notice: Drive compression skipped for "${att.getName()}": ${err.toString()}`);
   } finally {
-    // Clean up temporary Drive file immediately so Drive stays completely clean
     if (tempFile) {
       try {
         tempFile.setTrashed(true);
@@ -1017,7 +1362,6 @@ function compressAndResizeAttachment(att, targetWidth) {
     }
   }
 
-  // Fallback: return original attachment if compression was unavailable
   Logger.log(`Using original uncompressed attachment for "${att.getName()}" (${origKb} KB)`);
   const contentType = att.getContentType() || 'image/jpeg';
   return {
@@ -1025,4 +1369,3 @@ function compressAndResizeAttachment(att, targetWidth) {
     dataUri: `data:${contentType};base64,${Utilities.base64Encode(originalBytes)}`
   };
 }
-
