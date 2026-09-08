@@ -992,6 +992,9 @@ function parseDiaryContent(bodyText, encodedImages) {
   let cleanBody = bodyText || '';
   let extractedVerse = null;
 
+  // Clean out standalone Report or Key Indicators sections before day splitting
+  cleanBody = cleanBody.replace(/(?:^|\n)\s*[-—#*~]*\s*(?:WEEKLY\s+REPORT|MISSIONARY\s+REPORT|KEY\s+INDICATORS|STATISTICS|REPORT)\s*[-—#*~:]*[\s\S]*?(?=\n\s*[-—#*~]*\s*(?:MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY|VERSE)|$)/gi, '\n');
+
   const verseRegex = /(?:^|
 )\s*[-—#*~]*\s*VERSE\s*[-—#*~:]*\s*([\s\S]*)$/i;
   const verseMatch = cleanBody.match(verseRegex);

@@ -87,7 +87,7 @@ function renderFilters() {
     const isActive = cat === activeCategory;
     const activeClass = isActive
       ? 'bg-amber-600 text-white font-semibold shadow-xs'
-      : 'bg-stone-900/90 text-stone-300 hover:bg-stone-800 border border-stone-800';
+      : 'bg-white hover:bg-stone-50 text-stone-700 hover:text-stone-900 border border-amber-200/90 shadow-2xs';
 
     return `
       <button 
