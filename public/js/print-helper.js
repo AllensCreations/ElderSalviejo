@@ -72,3 +72,49 @@ async function triggerPrintWithPreload(btn) {
 window.addEventListener('beforeprint', () => {
   preloadAllImages().catch(() => {});
 });
+
+/**
+ * Global Content Protection: Anti-Save, Anti-Longpress & Anti-Select
+ */
+function setupGlobalContentProtection() {
+  // Prevent context menu (right-click / long-press menu) outside editable inputs
+  document.addEventListener('contextmenu', (e) => {
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable)) {
+      return true;
+    }
+    e.preventDefault();
+    return false;
+  }, false);
+
+  // Prevent drag and drop of images
+  document.addEventListener('dragstart', (e) => {
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) {
+      return true;
+    }
+    e.preventDefault();
+    return false;
+  }, false);
+
+  // Prevent text selection drag outside inputs
+  document.addEventListener('selectstart', (e) => {
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable)) {
+      return true;
+    }
+    e.preventDefault();
+    return false;
+  }, false);
+
+  // Prevent mobile long-press image callouts
+  document.addEventListener('touchstart', (e) => {
+    if (e.target && (e.target.tagName === 'IMG' || e.target.closest('.polaroid-photo-wrap') || e.target.closest('.polaroid-frame') || e.target.closest('.polaroid-card'))) {
+      e.target.style.webkitTouchCallout = 'none';
+      e.target.style.webkitUserSelect = 'none';
+    }
+  }, { passive: true });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupGlobalContentProtection);
+} else {
+  setupGlobalContentProtection();
+}

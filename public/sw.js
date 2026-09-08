@@ -9,7 +9,7 @@
  * 4. PWA offline support & 1-tap installation
  */
 
-const CACHE_VERSION = 'v5';
+const CACHE_VERSION = 'v6';
 const STATIC_CACHE = `elder-salviejo-shell-${CACHE_VERSION}`;
 const IMAGE_CACHE = `elder-salviejo-images-${CACHE_VERSION}`;
 const DATA_CACHE = `elder-salviejo-data-${CACHE_VERSION}`;
