@@ -1,0 +1,25 @@
+{
+  "slug": "test-cdn-autosave-week",
+  "title": "Test jsDelivr CDN Auto-Save",
+  "publishedAt": "2026-09-08T12:01:22.244Z",
+  "rawSubject": "Test jsDelivr CDN",
+  "sender": "Elder Salviejo",
+  "verse": {
+    "reference": "Matthew 11:28",
+    "text": "Come unto me..."
+  },
+  "totalEntries": 1,
+  "imageCount": 1,
+  "entries": [
+    {
+      "day": "MONDAY",
+      "text": "Testing jsDelivr multi-CDN auto-save integration.",
+      "image": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=",
+      "cdnImage": "https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/photos/test-cdn-autosave-week-monday.jpg"
+    }
+  ],
+  "jsdelivr": {
+    "rawJson": "https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/diaries/test-cdn-autosave-week.json",
+    "markdown": "https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/diaries/test-cdn-autosave-week.md"
+  }
+}

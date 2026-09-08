@@ -1,0 +1,13 @@
+[
+  {
+    "slug": "test-cdn-autosave-week",
+    "title": "Test jsDelivr CDN Auto-Save",
+    "publishedAt": "2026-09-08T12:01:22.244Z",
+    "entriesCount": 1,
+    "imageCount": 1,
+    "verse": "Matthew 11:28",
+    "previewImage": "https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/photos/test-cdn-autosave-week-monday.jpg",
+    "viewUrl": "/week/test-cdn-autosave-week",
+    "cdnJsonUrl": "https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/diaries/test-cdn-autosave-week.json"
+  }
+]
