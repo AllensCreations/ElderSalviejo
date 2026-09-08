@@ -46,6 +46,14 @@ module.exports = async function handler(req, res) {
       } catch (_) {}
     }
 
+    if (Array.isArray(photos)) {
+      photos.sort((a, b) => {
+        const timeA = a && a.date ? new Date(a.date).getTime() : 0;
+        const timeB = b && b.date ? new Date(b.date).getTime() : 0;
+        return timeB - timeA;
+      });
+    }
+
     res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
     return res.status(200).json({
       success: true,

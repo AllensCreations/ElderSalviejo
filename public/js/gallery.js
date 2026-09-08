@@ -37,13 +37,22 @@ async function loadGallery() {
   const countText = document.getElementById('galleryCountText');
   const loadMore = document.getElementById('galleryLoadMoreContainer');
 
+  // Helper: sort newest photos first
+  const sortByNewest = (list) => {
+    return list.sort((a, b) => {
+      const timeA = a && a.date ? new Date(a.date).getTime() : 0;
+      const timeB = b && b.date ? new Date(b.date).getTime() : 0;
+      return timeB - timeA;
+    });
+  };
+
   // 1. Instant SWR: Render from LocalStorage if previously loaded (0ms load, zero wait)
   try {
     const cachedRaw = localStorage.getItem('gdv_cached_gallery');
     if (cachedRaw) {
       const cachedList = JSON.parse(cachedRaw);
       if (Array.isArray(cachedList) && cachedList.length > 0) {
-        allPhotos = cachedList;
+        allPhotos = sortByNewest(cachedList);
         filteredPhotos = [...allPhotos];
         if (countText) countText.textContent = `${allPhotos.length} Polaroid${allPhotos.length === 1 ? '' : 's'}`;
         renderFilters();
@@ -69,7 +78,7 @@ async function loadGallery() {
     const data = await res.json();
 
     if (data && Array.isArray(data.photos)) {
-      allPhotos = data.photos;
+      allPhotos = sortByNewest(data.photos);
       try {
         localStorage.setItem('gdv_cached_gallery', JSON.stringify(allPhotos));
       } catch (_) {}
@@ -83,7 +92,7 @@ async function loadGallery() {
         if (cdnRes.ok) {
           const cdnData = await cdnRes.json();
           if (Array.isArray(cdnData)) {
-            allPhotos = cdnData.map(item => ({
+            allPhotos = sortByNewest(cdnData.map(item => ({
               id: item.id || `cdn-${item.filename}`,
               src: item.src || item.cdnUrl,
               date: item.uploadedAt,
@@ -92,7 +101,7 @@ async function loadGallery() {
               album: item.album || item.category || '',
               isGalleryUpload: true,
               source: 'gallery'
-            }));
+            })));
             try {
               localStorage.setItem('gdv_cached_gallery', JSON.stringify(allPhotos));
             } catch (_) {}
