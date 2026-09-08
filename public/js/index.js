@@ -48,6 +48,20 @@ async function fetchWeeks() {
 
     renderWeeks(allWeeks);
   } catch (err) {
+    console.warn('API error, attempting jsDelivr CDN index fallback:', err);
+    try {
+      const cdnUrl = 'https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/index.json';
+      const cdnRes = await fetch(cdnUrl);
+      if (cdnRes.ok) {
+        const cdnWeeks = await cdnRes.json();
+        allWeeks = Array.isArray(cdnWeeks) ? cdnWeeks : [];
+        const countEl = document.getElementById('totalWeeksCount');
+        if (countEl) countEl.innerText = allWeeks.length;
+        renderWeeks(allWeeks);
+        return;
+      }
+    } catch (_) {}
+
     console.error('Failed to load weeks:', err);
     container.innerHTML = `
       <div class="py-12 px-6 text-center">

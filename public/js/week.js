@@ -101,7 +101,17 @@ async function loadWeek() {
     if (!data.week) throw new Error('Week data not found in response');
     renderWeek(data.week);
   } catch (err) {
-    console.warn('Could not fetch from API, attempting sample fallback if relevant:', err);
+    console.warn('API error, attempting jsDelivr CDN week fallback:', err);
+    try {
+      const cdnUrl = `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/diaries/${encodeURIComponent(slug)}.json`;
+      const cdnRes = await fetch(cdnUrl);
+      if (cdnRes.ok) {
+        const cdnWeek = await cdnRes.json();
+        renderWeek(cdnWeek);
+        return;
+      }
+    } catch (_) {}
+
     if (slug === 'sample' || slug === 'demo') {
       loadSamplePayload();
     } else {
@@ -213,13 +223,14 @@ function renderWeek(week) {
 
             <!-- Polaroid Photo Frame -->
             <div class="polaroid-photo-frame">
-              ${entry.image ? `
+              ${(entry.cdnImage || entry.image) ? `
                 <img
-                  src="${entry.image}"
+                  src="${entry.cdnImage || entry.image}"
                   alt="${escapeHtml(dayClean)} missionary photograph"
                   loading="lazy"
                   draggable="false"
                   oncontextmenu="return false;"
+                  onerror="if (this.src !== '${entry.image || ''}') { this.src = '${entry.image || ''}'; }"
                 />
               ` : `
                 <div class="text-stone-400 text-xs font-medium text-center py-12 px-6">

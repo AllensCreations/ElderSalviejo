@@ -22,17 +22,17 @@ This script runs inside your **dedicated dummy Gmail account** (the receiver for
 
 ---
 
-### 2. Configure Script Properties (Optional)
-Under **Project Settings** > **Script Properties**, the script uses standard defaults or you can customize:
+### 2. Configure Script Properties (Recommended for Security)
+Under **Project Settings** (gear icon) > **Script Properties**, add your private environment variables so they are never exposed in public repositories:
 
 | Property | Value | Description |
 | :--- | :--- | :--- |
-| `VERCEL_INGEST_URL` | `https://gmail-diary-vault.vercel.app/api/ingest` | Live Vercel ingest endpoint |
-| `INGEST_SECRET` | `gdv_sec_7f9c2d81a4b53e89c0e211ab9` | Secure authorization token |
+| `VERCEL_INGEST_URL` | `https://eldersalviejo.vercel.app/api/ingest` | Live production ingest endpoint |
+| `INGEST_SECRET` | *(Your Vercel INGEST_SECRET token)* | Secure authorization token matching Vercel |
+| `SECRET_CODE` | `159266` *(or your choice)* | Optional secret code filter |
+| `SITE_URL` | `https://eldersalviejo.vercel.app` | Base public website URL |
 | `DISTRIBUTION_LIST` | `family@example.com` | Optional manual extra emails (website subscribers are notified automatically!) |
-| `ALLOWED_SENDER` | `your-missionary-email@gmail.com` | Optional filter to only accept emails from your address |
-| `GMAIL_QUERY` | `subject:"Weekly Reflection" -label:diary-processed` | Search filter in the dummy inbox |
-| `PROCESSED_LABEL` | `diary-processed` | Label applied after successful ingest & send |
+| `ALLOWED_SENDER` | *(Optional)* | Optional filter to only accept emails from your address |
 
 ---
 

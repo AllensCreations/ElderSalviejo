@@ -18,23 +18,16 @@ const CONFIG = {
   // Your live Vercel Production Ingest Endpoint
   VERCEL_INGEST_URL: 'https://eldersalviejo.vercel.app/api/ingest',
   
-  // Shared secret token to authenticate requests to /api/ingest
-  INGEST_SECRET: PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || 'gdv_sec_7f9c2d81a4b53e89c0e211ab9',
+  // Shared secret token to authenticate requests to /api/ingest (configured in Script Properties)
+  INGEST_SECRET: PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || '',
   
-  // Secret security passcode that can be included in the email Subject or Body (159266)
-  // This code is automatically stripped and hidden during processing so it never appears publicly!
-  SECRET_CODE: '159266',
+  // Optional security passcode that can be included in the email Subject or Body
+  SECRET_CODE: PropertiesService.getScriptProperties().getProperty('SECRET_CODE') || '',
 
-  // Gmail search query to locate new diary submissions in the dummy account:
-  // Automatically searches for 159266, Weekly Reflection, or Weekly Journal.
-  // Excludes already processed threads, self-replies, and published receipts to prevent feedback loops.
-  GMAIL_QUERY: '(159266 OR subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection) -label:diary-processed -subject:"Published:" -subject:"✅" -subject:"📖"',
-  
   // Label applied to thread once successfully ingested
   PROCESSED_LABEL: PropertiesService.getScriptProperties().getProperty('PROCESSED_LABEL') || 'diary-processed',
   
   // Optional security filter: only accept submissions sent from your personal email address
-  // Leave empty ("") to allow any email address
   ALLOWED_SENDER: PropertiesService.getScriptProperties().getProperty('ALLOWED_SENDER') || '',
   
   // Optional manual distribution list (comma-separated). Note: All users who insert
@@ -72,6 +65,31 @@ function getSiteUrl() {
 }
 
 /**
+ * Returns the search query to locate new diary submissions in the inbox.
+ * Dynamically includes secret passcode if configured in Script Properties.
+ */
+function getGmailQuery() {
+  const secret = PropertiesService.getScriptProperties().getProperty('SECRET_CODE') || CONFIG.SECRET_CODE || '';
+  const label = PropertiesService.getScriptProperties().getProperty('PROCESSED_LABEL') || CONFIG.PROCESSED_LABEL || 'diary-processed';
+  const codeFilter = secret ? `${secret} OR ` : '';
+  return `(${codeFilter}subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection) -label:${label} -subject:"Published:" -subject:"✅" -subject:"📖"`;
+}
+
+/**
+ * One-time setup helper: Run this function once from the Apps Script toolbar
+ * to securely save your private credentials into your Google Account Script Properties
+ * so they are never exposed in public Git repositories!
+ */
+function setupPrivateProperties(ingestSecret, secretPasscode) {
+  const props = PropertiesService.getScriptProperties();
+  if (ingestSecret) props.setProperty('INGEST_SECRET', ingestSecret);
+  if (secretPasscode) props.setProperty('SECRET_CODE', secretPasscode);
+  props.setProperty('VERCEL_INGEST_URL', 'https://eldersalviejo.vercel.app/api/ingest');
+  props.setProperty('SITE_URL', 'https://eldersalviejo.vercel.app');
+  Logger.log('🎉 Private properties configured in Google Cloud! Public code remains 100% clean of secrets.');
+}
+
+/**
  * Diagnostic tool: Run this from the Apps Script toolbar to see the exact
  * subjects, senders, and labels of the last 5 emails in this dummy account!
  */
@@ -94,10 +112,11 @@ function debugCheckInbox() {
  * Main entry point: executed via Monday time-driven trigger or manual run.
  */
 function processWeeklyDiaryEmails() {
+  const query = getGmailQuery();
   Logger.log('Starting Monday Diary Ingest & Dispatch job...');
-  Logger.log('Query: ' + CONFIG.GMAIL_QUERY);
+  Logger.log('Query: ' + query);
   
-  const threads = GmailApp.search(CONFIG.GMAIL_QUERY, 0, 5);
+  const threads = GmailApp.search(query, 0, 5);
   if (!threads || threads.length === 0) {
     Logger.log('No new unprocessed weekly diary emails found.');
     return;
@@ -140,7 +159,8 @@ function processWeeklyDiaryEmails() {
     }
 
     // Security check: verify subject or body contains passcode OR subject contains reflection/journal
-    const hasCode = (subject && subject.includes(CONFIG.SECRET_CODE)) || (body && body.includes(CONFIG.SECRET_CODE));
+    const secretCode = PropertiesService.getScriptProperties().getProperty('SECRET_CODE') || CONFIG.SECRET_CODE || '';
+    const hasCode = secretCode && ((subject && subject.includes(secretCode)) || (body && body.includes(secretCode)));
     const isReflection = subject.toLowerCase().includes('reflection') || subject.toLowerCase().includes('journal');
     
     // Safety guard 2: If message was sent from dummy account itself without secret passcode, skip
@@ -151,8 +171,8 @@ function processWeeklyDiaryEmails() {
       continue;
     }
 
-    if (!hasCode && !isReflection) {
-      Logger.log(`Skipping thread "${subject}": Missing required secret passcode (${CONFIG.SECRET_CODE}) or Reflection/Journal subject.`);
+    if (secretCode && !hasCode && !isReflection) {
+      Logger.log(`Skipping thread "${subject}": Missing required secret passcode or Reflection/Journal subject.`);
       continue;
     }
 
@@ -187,10 +207,12 @@ function processWeeklyDiaryEmails() {
     // 3. Parse daily markdown blocks & weekly scripture verse
     const parsedData = parseDiaryContent(body, encodedImages);
     
-    // Generate a clean slug & title (completely stripping the secret code 159266 and duplicate prefixes)
-    const weekTitle = cleanSubjectTitle(subject, CONFIG.SECRET_CODE) || `Week of ${Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
+    // Generate a clean slug & title (completely stripping any secret code and duplicate prefixes)
+    const weekTitle = cleanSubjectTitle(subject, secretCode) || `Week of ${Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
     const weekSlug = generateSlug(weekTitle, date);
-    const cleanRawSubject = subject.replace(new RegExp(`[\\[\\(]?\\s*${CONFIG.SECRET_CODE}\\s*[\\]\\)]?`, 'gi'), '').trim();
+    const cleanRawSubject = secretCode
+      ? subject.replace(new RegExp(`[\\[\\(]?\\s*${secretCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*[\\]\\)]?`, 'gi'), '').trim()
+      : subject.trim();
     
     // 4. Construct payload
     const payload = {
@@ -663,7 +685,7 @@ function escapeHtml(str) {
 }
 
 /**
- * Strips the secret security passcode (e.g. 159266) from the subject line
+ * Strips the optional secret security passcode from the subject line
  * and cleans extraneous prefixes/punctuation so the passcode remains completely hidden!
  */
 function cleanSubjectTitle(rawSubject, secretCode) {
