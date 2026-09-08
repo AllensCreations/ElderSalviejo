@@ -118,9 +118,9 @@ vault/scriptures/
 ---
 
 ### 5. The Storage Layer (Turso SQLite Database & GitHub Vault)
-* **Turso SQLite**: Stores `weeks`, `gallery`, `subscribers`, `broadcast_logs`, and `family_encouragements`.
-* **GitHub Repository Vault (`vault/`)**: Permanent Git archive of Markdown letters and raw photos.
-* **jsDelivr Edge CDN**: Global high-speed content delivery for all photos.
+* **Turso SQLite Database**: Stores dedicated tables for `journal_weeks`, `gallery`, `subscribers`, `processed_messages`, `broadcast_logs`, and `family_encouragements`.
+* **GitHub Repository Vault (`vault/`)**: Permanent Git archive of Markdown letters, JSON gallery albums, and raw photos.
+* **jsDelivr Edge CDN**: Global high-speed content delivery for all photos and scriptures.
 
 ---
 
