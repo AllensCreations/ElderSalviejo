@@ -29,7 +29,7 @@ module.exports = async function handler(req, res) {
           const cdnData = await cdnRes.json();
           if (Array.isArray(cdnData) && cdnData.length > 0) {
             photos = cdnData.map(item => {
-              const isGallery = item.source === '073000' || item.source === 'gallery' || Boolean(item.isGalleryUpload);
+              const isGallery = item.source === 'gallery' || Boolean(item.isGalleryUpload);
               return {
                 id: item.id || `cdn-${item.filename}`,
                 src: item.src || item.cdnUrl,
