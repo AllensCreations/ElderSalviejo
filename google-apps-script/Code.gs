@@ -70,17 +70,39 @@ function getSiteUrl() {
 
 /**
  * Retrieves or creates the Gmail label object for processed threads.
+ * Supports exact match, case-insensitive match, and safe creation.
  */
 function getProcessedLabel() {
-  const labelName = PropertiesService.getScriptProperties().getProperty('PROCESSED_LABEL') || CONFIG.PROCESSED_LABEL || 'diary-processed';
+  const props = PropertiesService.getScriptProperties();
+  const labelName = props.getProperty('PROCESSED_LABEL') || CONFIG.PROCESSED_LABEL || 'diary-processed';
+  
   try {
+    // 1. Direct exact match
     let label = GmailApp.getUserLabelByName(labelName);
-    if (!label) {
-      label = GmailApp.createLabel(labelName);
+    if (label) return label;
+
+    // 2. Case-insensitive search across all existing labels
+    const allLabels = GmailApp.getUserLabels();
+    for (let i = 0; i < allLabels.length; i++) {
+      if (allLabels[i].getName().toLowerCase() === labelName.toLowerCase()) {
+        return allLabels[i];
+      }
     }
-    return label;
+
+    // 3. Create new label if it does not exist
+    return GmailApp.createLabel(labelName);
   } catch (err) {
     Logger.log(`Notice retrieving or creating label "${labelName}": ${err.message}`);
+    // Fallback: search for any existing label matching diary or processed
+    try {
+      const allLabels = GmailApp.getUserLabels();
+      for (let i = 0; i < allLabels.length; i++) {
+        const name = allLabels[i].getName().toLowerCase();
+        if (name === labelName.toLowerCase() || name === 'diary-processed' || name === 'diary processed') {
+          return allLabels[i];
+        }
+      }
+    } catch (_) {}
     return null;
   }
 }
@@ -94,6 +116,10 @@ function applyProcessedLabel(thread) {
     const label = getProcessedLabel();
     if (label) {
       thread.addLabel(label);
+      const subject = thread.getFirstMessageSubject() || 'Untitled';
+      Logger.log(`[PASS] Applied label "${label.getName()}" to thread: "${subject}"`);
+    } else {
+      Logger.log(`[WARNING] Unable to obtain label object to apply to thread.`);
     }
     thread.markRead();
   } catch (err) {
@@ -1836,4 +1862,32 @@ function requestAuthorization() {
   Logger.log('\n====================================================');
   Logger.log('AUTHORIZATION COMPLETE: All permissions granted!');
   Logger.log('====================================================');
+}
+
+/**
+ * DIAGNOSTIC TOOL: Verifies Gmail Label creation and applies it to the latest inbox email.
+ * 
+ * Select "testVerifyAndApplyGmailLabel" in the toolbar dropdown and click "Run".
+ */
+function testVerifyAndApplyGmailLabel() {
+  Logger.log('=== Verifying Gmail Processed Label ===');
+  const label = getProcessedLabel();
+  if (!label) {
+    Logger.log('[FAIL] Could not get or create Gmail label object.');
+    return;
+  }
+  Logger.log(`[PASS] Label verified: "${label.getName()}"`);
+
+  const threads = GmailApp.getInboxThreads(0, 1);
+  if (!threads || threads.length === 0) {
+    Logger.log('[NOTICE] Inbox has no emails to apply the label to.');
+    return;
+  }
+
+  const thread = threads[0];
+  const subject = thread.getFirstMessageSubject() || 'Untitled';
+  applyProcessedLabel(thread);
+  Logger.log(`[PASS] Successfully applied "${label.getName()}" label to latest email: "${subject}"`);
+  Logger.log('Check your Gmail inbox - you will see the label attached to the email thread.');
+  Logger.log('=======================================');
 }
