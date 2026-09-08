@@ -13,6 +13,10 @@
     {
       "source": "/book",
       "destination": "/book"
+    },
+    {
+      "source": "/gallery",
+      "destination": "/gallery"
     }
   ],
   "headers": [
@@ -58,6 +62,15 @@
         {
           "key": "Cache-Control",
           "value": "public, s-maxage=300, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/api/gallery",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, s-maxage=60, stale-while-revalidate=300"
         }
       ]
     }

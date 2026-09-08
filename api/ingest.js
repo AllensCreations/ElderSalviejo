@@ -60,8 +60,12 @@ module.exports = async function handler(req, res) {
       entries,
       totalEntries,
       imageCount,
-      verse
+      verse,
+      isGallery = false,
+      is_gallery = false
     } = body;
+
+    const isGalleryUpload = Boolean(isGallery || is_gallery);
 
     if (!title) {
       return res.status(400).json({ error: 'Missing required field: `title`' });
@@ -77,9 +81,9 @@ module.exports = async function handler(req, res) {
     const finalTotal = typeof totalEntries === 'number' ? totalEntries : entries.length;
     const finalImages = typeof imageCount === 'number' ? imageCount : entries.filter(e => !!e.image).length;
 
-    // Automatic Scripture Lookup via bcbooks/scriptures-json
+    // Automatic Scripture Lookup via bcbooks/scriptures-json (only for weekly diary, not raw gallery)
     let resolvedVerse = null;
-    if (verse) {
+    if (verse && !isGalleryUpload) {
       if (typeof verse === 'string') {
         const found = await lookupScripture(verse);
         resolvedVerse = found || { reference: verse, text: '' };
@@ -105,7 +109,8 @@ module.exports = async function handler(req, res) {
         entries,
         totalEntries: finalTotal,
         imageCount: finalImages,
-        verse: resolvedVerse
+        verse: resolvedVerse,
+        isGallery: isGalleryUpload
       });
     } catch (ghErr) {
       console.warn('⚠️ GitHub auto-save notice (proceeding with Turso storage):', ghErr.message);
@@ -124,22 +129,26 @@ module.exports = async function handler(req, res) {
       entries,
       totalEntries: finalTotal,
       imageCount: finalImages,
-      verse: resolvedVerse
+      verse: resolvedVerse,
+      isGallery: isGalleryUpload
     });
 
-    console.log(`✅ Successfully ingested weekly diary: "${title}" (slug: ${cleanSlug})`);
+    console.log(`✅ Successfully ingested ${isGalleryUpload ? 'gallery photos' : 'weekly diary'}: "${title}" (slug: ${cleanSlug})`);
 
     const subscribers = await getAllSubscribers();
 
     return res.status(200).json({
       success: true,
-      message: 'Weekly diary ingested, archived to Turso SQLite, and auto-saved to jsDelivr CDN successfully',
+      isGallery: isGalleryUpload,
+      message: isGalleryUpload
+        ? 'Gallery photos ingested, archived to Turso SQLite, and added to Polaroid Gallery successfully'
+        : 'Weekly diary ingested, archived to Turso SQLite, and auto-saved to jsDelivr CDN successfully',
       slug: cleanSlug,
       title,
       publishedAt,
       entriesCount: entries.length,
       imageCount: finalImages,
-      viewUrl: `/week/${cleanSlug}`,
+      viewUrl: isGalleryUpload ? '/gallery' : `/week/${cleanSlug}`,
       subscribers: subscribers || [],
       jsdelivr: githubResult && githubResult.jsdelivr ? githubResult.jsdelivr : null
     });

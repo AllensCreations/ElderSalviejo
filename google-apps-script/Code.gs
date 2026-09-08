@@ -19,8 +19,12 @@ const CONFIG = {
   // Shared secret token to authenticate requests to /api/ingest (configured in Script Properties)
   INGEST_SECRET: PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || '',
   
+  // Dedicated passcodes
+  SECRET_DIARY_CODE: '159266',
+  SECRET_GALLERY_CODE: '073000',
+
   // Optional security passcode that can be included in the email Subject or Body
-  SECRET_CODE: PropertiesService.getScriptProperties().getProperty('SECRET_CODE') || '',
+  SECRET_CODE: PropertiesService.getScriptProperties().getProperty('SECRET_CODE') || '159266',
 
   // Label applied to thread once successfully ingested
   PROCESSED_LABEL: PropertiesService.getScriptProperties().getProperty('PROCESSED_LABEL') || 'diary-processed',
@@ -64,13 +68,13 @@ function getSiteUrl() {
 
 /**
  * Returns the search query to locate new diary submissions in the inbox.
- * Dynamically includes secret passcode if configured in Script Properties.
+ * Supports:
+ * - 073000: Direct Polaroid Gallery image upload
+ * - 159266: Weekly Diary Reflection with text & polaroids
  */
 function getGmailQuery() {
-  const secret = PropertiesService.getScriptProperties().getProperty('SECRET_CODE') || CONFIG.SECRET_CODE || '';
   const label = PropertiesService.getScriptProperties().getProperty('PROCESSED_LABEL') || CONFIG.PROCESSED_LABEL || 'diary-processed';
-  const codeFilter = secret ? `${secret} OR ` : '';
-  return `(${codeFilter}subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection) -label:${label} -subject:"Published:" -subject:"✅" -subject:"📖"`;
+  return `(073000 OR 159266 OR subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection) -label:${label} -subject:"Published:" -subject:"✅" -subject:"📖" -subject:"📷"`;
 }
 
 /**
@@ -157,8 +161,10 @@ function processWeeklyDiaryEmails() {
     }
 
     // Security check: verify subject or body contains passcode OR subject contains reflection/journal
-    const secretCode = PropertiesService.getScriptProperties().getProperty('SECRET_CODE') || CONFIG.SECRET_CODE || '';
-    const hasCode = secretCode && ((subject && subject.includes(secretCode)) || (body && body.includes(secretCode)));
+    const secretCode = PropertiesService.getScriptProperties().getProperty('SECRET_CODE') || CONFIG.SECRET_CODE || '159266';
+    const isGalleryCode = (subject && subject.includes('073000')) || (body && body.includes('073000'));
+    const isDiaryCode = (subject && subject.includes('159266')) || (body && body.includes('159266')) || (secretCode && ((subject && subject.includes(secretCode)) || (body && body.includes(secretCode))));
+    const hasCode = isGalleryCode || isDiaryCode;
     const isReflection = subject.toLowerCase().includes('reflection') || subject.toLowerCase().includes('journal');
     
     // Safety guard 2: If message was sent from dummy account itself without secret passcode, skip
@@ -169,8 +175,8 @@ function processWeeklyDiaryEmails() {
       continue;
     }
 
-    if (secretCode && !hasCode && !isReflection) {
-      Logger.log(`Skipping thread "${subject}": Missing required secret passcode or Reflection/Journal subject.`);
+    if (!hasCode && !isReflection) {
+      Logger.log(`Skipping thread "${subject}": Missing required secret passcode (073000 or 159266) or Reflection/Journal subject.`);
       continue;
     }
 
@@ -180,7 +186,7 @@ function processWeeklyDiaryEmails() {
       continue;
     }
     
-    Logger.log(`Processing weekly reflection from ${sender}: "${subject}" received at ${date.toISOString()}`);
+    Logger.log(`Processing email from ${sender}: "${subject}" received at ${date.toISOString()}`);
     
     // 1. Extract image attachments
     const rawAttachments = message.getAttachments();
@@ -196,21 +202,72 @@ function processWeeklyDiaryEmails() {
     const encodedImages = imageAttachments.map((att, idx) => {
       const compressed = compressAndResizeAttachment(att, 800);
       return {
-        filename: att.getName() || `day_${idx + 1}.jpg`,
+        filename: att.getName() || `photo_${idx + 1}.jpg`,
         mimeType: compressed.mimeType,
         dataUri: compressed.dataUri
       };
     });
+
+    // -------------------------------------------------------------
+    // BRANCH A: Direct Polaroid Gallery Upload (Passcode 073000)
+    // Pure images, no text, displayed directly in Polaroid Gallery
+    // -------------------------------------------------------------
+    if (isGalleryCode) {
+      if (encodedImages.length === 0) {
+        Logger.log(`Skipping gallery upload for "${subject}": No photo attachments found.`);
+        continue;
+      }
+
+      const galleryTitle = cleanSubjectTitle(subject, '073000') || `Polaroid Gallery ${Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
+      const gallerySlug = generateSlug(galleryTitle, date);
+      const cleanRawSubject = subject.replace(/[\(\[]?\s*073000\s*[\)\]]?/gi, '').trim();
+
+      const galleryEntries = encodedImages.map((img, idx) => ({
+        day: `PHOTO_${idx + 1}`,
+        text: '',
+        image: img.dataUri,
+        imageFilename: img.filename
+      }));
+
+      const payload = {
+        slug: gallerySlug,
+        title: galleryTitle,
+        publishedAt: date.toISOString(),
+        rawSubject: cleanRawSubject,
+        sender: sender,
+        entries: galleryEntries,
+        totalEntries: galleryEntries.length,
+        imageCount: encodedImages.length,
+        verse: null,
+        isGallery: true
+      };
+
+      const ingestResult = sendPayloadToVercel(payload);
+      if (ingestResult) {
+        thread.addLabel(processedLabel);
+        thread.markRead();
+        Logger.log(`Successfully ingested and tagged Gallery thread: "${subject}"`);
+        const galleryUrl = `${getSiteUrl()}/gallery`;
+        sendGallerySuccessReplyToSender(thread, sender, payload, galleryUrl);
+      } else {
+        Logger.log(`Failed to ingest Gallery thread: "${subject}". Will retry on next trigger.`);
+      }
+      continue; // Done with gallery branch
+    }
     
+    // -------------------------------------------------------------
+    // BRANCH B: Weekly Diary Reflection (Passcode 159266)
+    // Structured markdown daily routine entries & scripture verse
+    // -------------------------------------------------------------
     // 3. Parse daily markdown blocks & weekly scripture verse
     const parsedData = parseDiaryContent(body, encodedImages);
     
     // Generate a clean slug & title (completely stripping any secret code and duplicate prefixes)
-    const weekTitle = cleanSubjectTitle(subject, secretCode) || `Week of ${Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
+    const weekTitle = cleanSubjectTitle(subject, '159266') || `Week of ${Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
     const weekSlug = generateSlug(weekTitle, date);
-    const cleanRawSubject = secretCode
-      ? subject.replace(new RegExp(`[\\[\\(]?\\s*${secretCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*[\\]\\)]?`, 'gi'), '').trim()
-      : subject.trim();
+    const cleanRawSubject = subject
+      .replace(/[\(\[]?\s*(?:159266|073000)\s*[\)\]]?/gi, '')
+      .trim();
     
     // 4. Construct payload
     const payload = {
@@ -222,7 +279,8 @@ function processWeeklyDiaryEmails() {
       entries: parsedData.entries,
       totalEntries: parsedData.entries.length,
       imageCount: encodedImages.length,
-      verse: parsedData.verse
+      verse: parsedData.verse,
+      isGallery: false
     };
     
     // 5. Send POST request to Vercel API and Turso SQLite
@@ -281,6 +339,45 @@ function sendSuccessReplyToSender(thread, sender, payload, liveUrl, dbSubscriber
     if (authorClean) {
       try {
         GmailApp.sendEmail(authorClean, `✅ Published: ${payload.title}`, replyBody, {
+          name: 'Elder Salviejo Journal Vault'
+        });
+        Logger.log(`✅ Sent direct confirmation email to: ${authorClean}`);
+      } catch (sendErr) {
+        Logger.log(`Could not send confirmation email to author: ${sendErr.message}`);
+      }
+    }
+  }
+}
+
+/**
+ * Replies directly to the sender's email thread confirming that the photos
+ * have been added directly to the Polaroid Photo Gallery (Passcode 073000).
+ */
+function sendGallerySuccessReplyToSender(thread, sender, payload, galleryUrl) {
+  const authorClean = extractEmailAddress(sender);
+  const replyBody = 
+    `Elder Salviejo,\n\n` +
+    `📷 SUCCESS! Your ${payload.imageCount} photo(s) have been successfully received and added directly to your Polaroid Photo Gallery!\n\n` +
+    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+    `📸 Photos Added: ${payload.imageCount} polaroid(s)\n` +
+    `📅 Date: ${Utilities.formatDate(new Date(payload.publishedAt), Session.getScriptTimeZone(), 'MMMM d, yyyy')}\n` +
+    `🎨 Style: Polaroid Format (Images Only, Scrollable)\n` +
+    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+    `🌐 View your live Polaroid Photo Gallery here:\n` +
+    `${galleryUrl}\n\n` +
+    `Elder Salviejo Journal Vault\n` +
+    `Philippines Dumaguete Mission`;
+
+  try {
+    thread.reply(replyBody, {
+      name: 'Elder Salviejo Journal Vault'
+    });
+    Logger.log(`✅ Sent gallery success reply directly to thread for: ${authorClean || sender}`);
+  } catch (err) {
+    Logger.log(`Notice: thread.reply error (${err.message}), falling back to direct email.`);
+    if (authorClean) {
+      try {
+        GmailApp.sendEmail(authorClean, `📷 Added to Gallery: ${payload.title}`, replyBody, {
           name: 'Elder Salviejo Journal Vault'
         });
         Logger.log(`✅ Sent direct confirmation email to: ${authorClean}`);
@@ -734,6 +831,10 @@ function escapeHtml(str) {
  */
 function cleanSubjectTitle(rawSubject, secretCode) {
   let clean = rawSubject || '';
+  // Always strip known passcodes
+  clean = clean.replace(/[\(\[]?\s*073000\s*[\)\]]?/gi, '');
+  clean = clean.replace(/[\(\[]?\s*159266\s*[\)\]]?/gi, '');
+
   if (secretCode) {
     const escaped = secretCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp('[\\[\\(]?\\s*' + escaped + '\\s*[\\]\\)]?', 'gi');

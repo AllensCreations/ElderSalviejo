@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-stone-900">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Polaroid Photo Gallery — Elder Salviejo (Philippines Dumaguete Mission)</title>
+  <meta name="description" content="Polaroid photo gallery of Elder Salviejo serving in the Philippines Dumaguete Mission. Pure images, scrollable polaroids, and visual missionary memories." />
+  
+  <link rel="icon" type="image/x-icon" href="/Icon.ico" />
+  
+  <!-- Tailwind CSS & Main Custom CSS -->
+  <link rel="stylesheet" href="/css/tailwind.min.css" />
+  <link rel="stylesheet" href="/css/main.css" />
+  
+  <!-- Google Fonts: Inter, Playfair Display & Caveat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* Authentic Polaroid Card Styling (Strictly Images Only, No Text) */
+    .polaroid-frame {
+      background: #ffffff;
+      padding: clamp(8px, 1.8vw, 14px);
+      padding-bottom: clamp(26px, 5.5vw, 44px);
+      border-radius: 2px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.15);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, z-index 0.25s ease;
+      cursor: pointer;
+      position: relative;
+      break-inside: avoid;
+      display: inline-block;
+      width: 100%;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .polaroid-frame:hover {
+      transform: scale(1.03) rotate(0deg) !important;
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.25);
+      z-index: 30;
+    }
+
+    .polaroid-photo-wrap {
+      position: relative;
+      overflow: hidden;
+      background-color: #1c1917;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 1px;
+    }
+
+    .polaroid-photo-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+
+    .polaroid-frame:hover .polaroid-photo-wrap img {
+      transform: scale(1.02);
+    }
+
+    /* Natural Polaroid slight tilts */
+    .tilt-neg-2 { transform: rotate(-2.2deg); }
+    .tilt-neg-1 { transform: rotate(-1.1deg); }
+    .tilt-pos-1 { transform: rotate(1.2deg); }
+    .tilt-pos-2 { transform: rotate(2.4deg); }
+    .tilt-zero  { transform: rotate(0deg); }
+
+    /* Lightbox Modal Dynamic Auto-Sizing */
+    .lightbox-image {
+      max-width: min(94vw, 1200px);
+      max-height: min(84dvh, 85vh);
+      object-fit: contain;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    }
+  </style>
+</head>
+<body class="bg-[#141210] text-stone-100 min-h-screen flex flex-col selection:bg-amber-400 selection:text-stone-950 overflow-x-hidden">
+
+  <!-- Sticky Top Navigation Bar -->
+  <header class="sticky top-0 z-40 bg-stone-950/90 backdrop-blur-md border-b border-stone-800 shadow-md">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 h-14 flex items-center justify-between gap-2 sm:gap-4">
+      
+      <!-- Left: Logo & Elder Salviejo Brand -->
+      <a href="/" class="flex items-center gap-2 sm:gap-3 text-stone-200 hover:text-white transition group min-w-0">
+        <div class="profile-avatar-nav w-7 h-7 sm:w-8 sm:h-8 border border-amber-500 shrink-0">
+          <img
+            src="/assets/images/elder-salviejo.jpg"
+            alt="Elder Salviejo"
+            onerror="this.src='https://i.ibb.co/Xrpks0Hm/received-1633857454919246.jpg'"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
+        <div class="flex items-center gap-1.5 truncate">
+          <span class="font-serif font-bold text-amber-400 text-xs sm:text-base tracking-tight truncate">Elder Salviejo</span>
+          <span class="text-[10px] text-stone-400 hidden md:inline">• Philippines Dumaguete Mission</span>
+        </div>
+      </a>
+
+      <!-- Right: Navigation Action Links -->
+      <nav class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <a href="/" class="inline-flex items-center gap-1 text-xs bg-stone-900 hover:bg-stone-800 text-stone-300 hover:text-white font-medium px-2 sm:px-3 py-1.5 rounded-lg border border-stone-800 transition" title="Back to Journal Vault">
+          <span>🏠</span>
+          <span class="hidden sm:inline">Vault</span>
+        </a>
+        <a href="/call" class="inline-flex items-center gap-1 text-xs bg-stone-900 hover:bg-stone-800 text-amber-300 font-medium px-2 sm:px-3 py-1.5 rounded-lg border border-amber-500/20 transition" title="Read Mission Call">
+          <span>📜</span>
+          <span class="hidden sm:inline">Call</span>
+        </a>
+        <a href="/book" class="inline-flex items-center gap-1 text-xs bg-stone-900 hover:bg-stone-800 text-stone-300 hover:text-white font-medium px-2 sm:px-3 py-1.5 rounded-lg border border-stone-800 transition" title="Read Mission Book">
+          <span>📖</span>
+          <span class="hidden sm:inline">Book</span>
+        </a>
+        <a href="/gallery" class="inline-flex items-center gap-1 text-xs bg-amber-600 text-white font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg shadow-sm transition" title="Polaroid Gallery">
+          <span>📷</span>
+          <span>Gallery</span>
+        </a>
+        <button onclick="loadGallery()" class="p-1.5 sm:px-2.5 sm:py-1.5 text-xs bg-stone-900 hover:bg-stone-800 text-stone-300 hover:text-white rounded-lg border border-stone-800 transition" title="Refresh Gallery Photos">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+        </button>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- Hero Header -->
+  <section class="border-b border-stone-800/80 bg-gradient-to-b from-stone-950 to-[#141210] py-6 sm:py-9 px-4 sm:px-6">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      
+      <div>
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-950/70 border border-amber-800/60 text-amber-300 text-[11px] font-semibold uppercase tracking-wider mb-2.5">
+          <span>🇵🇭</span> Philippines Dumaguete Mission
+        </div>
+        <h1 class="text-2xl sm:text-4xl font-serif font-bold text-white tracking-tight flex items-center gap-2 sm:gap-3">
+          <span>📷</span>
+          <span>Polaroid Gallery</span>
+        </h1>
+        <p class="text-xs sm:text-sm text-stone-400 mt-1 max-w-xl">
+          Visual missionary journey of Elder Salviejo. Pure polaroids, unscripted memories, and missionary life.
+        </p>
+      </div>
+
+      <!-- Live Photo Counter Badge -->
+      <div class="flex items-center gap-2 self-start sm:self-auto">
+        <div class="px-3.5 py-1.5 bg-stone-900/90 border border-stone-800 rounded-xl shadow-xs flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span id="galleryCountText" class="text-xs font-mono font-semibold text-amber-300">Loading photos...</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Gallery Main Scrollable Container -->
+  <main class="max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-10 flex-1 w-full">
+
+    <!-- Loading Skeleton -->
+    <div id="gallerySkeleton" class="columns-1 xs:columns-2 sm:columns-3 md:columns-3 lg:columns-4 xl:columns-5 gap-4 sm:gap-6 space-y-4 sm:space-y-6">
+      <div class="polaroid-frame tilt-neg-1 animate-pulse"><div class="polaroid-photo-wrap aspect-square bg-stone-800"></div></div>
+      <div class="polaroid-frame tilt-pos-1 animate-pulse"><div class="polaroid-photo-wrap aspect-[4/5] bg-stone-800"></div></div>
+      <div class="polaroid-frame tilt-neg-2 animate-pulse"><div class="polaroid-photo-wrap aspect-square bg-stone-800"></div></div>
+      <div class="polaroid-frame tilt-pos-2 animate-pulse"><div class="polaroid-photo-wrap aspect-[3/4] bg-stone-800"></div></div>
+      <div class="polaroid-frame tilt-zero animate-pulse"><div class="polaroid-photo-wrap aspect-square bg-stone-800"></div></div>
+      <div class="polaroid-frame tilt-neg-1 animate-pulse"><div class="polaroid-photo-wrap aspect-[4/5] bg-stone-800"></div></div>
+    </div>
+
+    <!-- Live Polaroid Masonry Grid (Pure Images, No Text) -->
+    <div id="galleryGrid" class="columns-1 xs:columns-2 sm:columns-3 md:columns-3 lg:columns-4 xl:columns-5 gap-4 sm:gap-6 space-y-4 sm:space-y-6 hidden">
+      <!-- Populated via public/js/gallery.js -->
+    </div>
+
+    <!-- Empty State Fallback -->
+    <div id="galleryEmpty" class="hidden text-center py-20 bg-stone-900/40 rounded-2xl border border-stone-800/80 p-6">
+      <span class="text-4xl block mb-2">📸</span>
+      <h3 class="text-base font-serif font-bold text-stone-200">No Photos Ingested Yet</h3>
+      <p class="text-xs text-stone-400 mt-1 max-w-sm mx-auto">
+        Email photos to your dummy receiver with passcode <code class="text-amber-300 font-mono">073000</code> to populate this gallery instantly!
+      </p>
+    </div>
+
+  </main>
+
+  <!-- Interactive Lightbox Modal (Zero-Overlap, Universal Screen Sizing) -->
+  <div id="lightboxModal" class="fixed inset-0 z-50 bg-black/92 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 opacity-0 transition-opacity duration-200" onclick="handleLightboxBackdrop(event)">
+    
+    <!-- Top Bar Controls -->
+    <div class="absolute top-3 right-3 sm:top-5 sm:right-6 flex items-center gap-2 z-50">
+      <a id="lightboxDownloadBtn" href="#" target="_blank" download class="p-2.5 bg-stone-800/80 hover:bg-stone-700 text-stone-200 rounded-full border border-stone-700/80 transition" title="Open / Download Original">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+      </a>
+      <button onclick="closeLightbox()" class="p-2.5 bg-stone-800/80 hover:bg-stone-700 text-stone-200 hover:text-white rounded-full border border-stone-700/80 transition" title="Close (Esc)">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Previous Button -->
+    <button onclick="navigateLightbox(-1)" class="absolute left-2 sm:left-6 z-50 p-3 bg-stone-800/80 hover:bg-stone-700 text-white rounded-full border border-stone-700/80 transition shadow-lg focus:outline-none" title="Previous Photo (Left Arrow)">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <!-- Next Button -->
+    <button onclick="navigateLightbox(1)" class="absolute right-2 sm:right-6 z-50 p-3 bg-stone-800/80 hover:bg-stone-700 text-white rounded-full border border-stone-700/80 transition shadow-lg focus:outline-none" title="Next Photo (Right Arrow)">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+
+    <!-- Centered Polaroid Lightbox Frame -->
+    <div class="relative max-w-full max-h-full flex items-center justify-center" onclick="event.stopPropagation()">
+      <img id="lightboxImg" src="" alt="Polaroid" class="lightbox-image rounded shadow-2xl transition-transform duration-200" />
+    </div>
+
+    <!-- Bottom Counter -->
+    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-stone-900/80 border border-stone-800 text-[11px] font-mono text-stone-400 rounded-full z-40">
+      <span id="lightboxIndex">1</span> / <span id="lightboxTotal">1</span>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-stone-800 bg-stone-950 py-6 px-4 text-center text-xs text-stone-500">
+    <p>Elder Salviejo • Philippines Dumaguete Mission • Dedicated Polaroid Photo Gallery</p>
+  </footer>
+
+  <!-- Gallery Logic Scripts -->
+  <script src="/js/gallery.js"></script>
+</body>
+</html>

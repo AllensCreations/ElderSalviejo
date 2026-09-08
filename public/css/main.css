@@ -74,7 +74,7 @@ img,
   background: #0a0a0a;
   color: #ffffff;
   border-radius: 8px;
-  padding: 9px 14px;
+  padding: clamp(6px, 1.8vw, 11px) clamp(8px, 2.5vw, 18px);
   border: 1px solid #2e2e2e;
   border-top: 2px solid #a3a3a3;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
@@ -84,68 +84,49 @@ img,
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 155px;
+  min-width: 0;
   max-width: 100%;
-  flex-shrink: 0;
-}
-
-@media (min-width: 640px) {
-  .missionary-nametag {
-    padding: 11px 18px;
-    min-width: 185px;
-  }
+  flex-shrink: 1;
 }
 
 .missionary-nametag .tag-name {
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 13.5px;
+  font-size: clamp(11px, 3.2vw, 15px);
   font-weight: 800;
   letter-spacing: 0.08em;
   color: #ffffff;
   text-transform: uppercase;
   line-height: 1.15;
-}
-
-@media (min-width: 640px) {
-  .missionary-nametag .tag-name {
-    font-size: 15px;
-  }
+  white-space: nowrap;
 }
 
 .missionary-nametag .tag-divider {
   height: 1px;
   background: rgba(255, 255, 255, 0.4);
-  margin: 5px auto 4px auto;
+  margin: clamp(3px, 1vw, 5px) auto clamp(2px, 0.8vw, 4px) auto;
   width: 86%;
 }
 
 .missionary-nametag .tag-church {
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 7.5px;
+  font-size: clamp(6.5px, 1.8vw, 8px);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: #d1d5db;
   font-weight: 500;
   line-height: 1.25;
+  white-space: nowrap;
 }
 
 .missionary-nametag .tag-christ {
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 9.5px;
+  font-size: clamp(8px, 2.3vw, 10.5px);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #ffffff;
   font-weight: 700;
   line-height: 1.25;
-}
-
-@media (min-width: 640px) {
-  .missionary-nametag .tag-church {
-    font-size: 8px;
-  }
-  .missionary-nametag .tag-christ {
-    font-size: 10.5px;
-  }
+  white-space: nowrap;
 }
 
 /* --------------------------------------------------------------------------
@@ -180,30 +161,14 @@ img,
 
 .profile-avatar-hero {
   position: relative;
-  width: 76px;
-  height: 76px;
-  border-radius: 14px;
+  width: clamp(54px, 14vw, 105px);
+  height: clamp(54px, 14vw, 105px);
+  border-radius: clamp(12px, 2.5vw, 18px);
   overflow: hidden;
   border: 3px solid #d97706;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
   background-color: #292524;
   flex-shrink: 0;
-}
-
-@media (min-width: 480px) {
-  .profile-avatar-hero {
-    width: 90px;
-    height: 90px;
-    border-radius: 16px;
-  }
-}
-
-@media (min-width: 640px) {
-  .profile-avatar-hero {
-    width: 105px;
-    height: 105px;
-    border-radius: 18px;
-  }
 }
 
 .profile-avatar-hero img {
@@ -366,5 +331,26 @@ img,
   pointer-events: none;
   z-index: 10;
   max-width: 85vw;
+}
+
+/* --------------------------------------------------------------------------
+   Universal Dynamic Auto-Sizing & Viewport Boundary Protection
+   Eliminates UI collisions and overflows across ANY width (280px–3840px+)
+   and ANY height (e.g. mobile landscape < 500px, virtual keyboards, ultrawide)
+   -------------------------------------------------------------------------- */
+@media (max-width: 360px) {
+  .hero-profile-row {
+    gap: 8px !important;
+  }
+}
+
+@media (max-height: 520px) {
+  header.sticky {
+    position: relative !important;
+  }
+  .profile-avatar-hero {
+    width: 50px !important;
+    height: 50px !important;
+  }
 }
 

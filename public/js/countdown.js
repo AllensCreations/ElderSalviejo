@@ -16,29 +16,29 @@
     const textClasses = alignRight ? 'text-center md:text-right' : 'text-center';
 
     return `
-      <div class="flex flex-col ${alignClasses} gap-1.5 w-full sm:w-auto">
-        <div class="flex items-center justify-center gap-1 sm:gap-1.5 text-center">
-          <div class="px-2 sm:px-2.5 py-1.5 bg-stone-900 text-white rounded-lg shadow-xs min-w-[48px] sm:min-w-[54px]">
-            <span class="block text-sm sm:text-base font-bold font-mono text-amber-300 leading-tight">${days}</span>
-            <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-stone-400 font-semibold">Days</span>
+      <div class="flex flex-col ${alignClasses} gap-1 sm:gap-1.5 w-full sm:w-auto">
+        <div class="flex items-center justify-center gap-1 sm:gap-1.5 text-center flex-nowrap">
+          <div class="px-1.5 xs:px-2 sm:px-2.5 py-1 sm:py-1.5 bg-stone-900 text-white rounded-lg shadow-xs min-w-[36px] xs:min-w-[44px] sm:min-w-[54px] shrink-0">
+            <span class="block text-xs xs:text-sm sm:text-base font-bold font-mono text-amber-300 leading-tight">${days}</span>
+            <span class="text-[7.5px] xs:text-[8px] sm:text-[9px] uppercase tracking-wider text-stone-400 font-semibold">Days</span>
           </div>
-          <span class="font-bold text-amber-700 text-xs sm:text-sm">:</span>
-          <div class="px-2 sm:px-2.5 py-1.5 bg-stone-900 text-white rounded-lg shadow-xs min-w-[44px] sm:min-w-[50px]">
-            <span class="block text-sm sm:text-base font-bold font-mono text-amber-300 leading-tight">${String(hours).padStart(2, '0')}</span>
-            <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-stone-400 font-semibold">Hours</span>
+          <span class="font-bold text-amber-700 text-xs sm:text-sm shrink-0">:</span>
+          <div class="px-1.5 xs:px-2 sm:px-2.5 py-1 sm:py-1.5 bg-stone-900 text-white rounded-lg shadow-xs min-w-[32px] xs:min-w-[38px] sm:min-w-[48px] shrink-0">
+            <span class="block text-xs xs:text-sm sm:text-base font-bold font-mono text-amber-300 leading-tight">${String(hours).padStart(2, '0')}</span>
+            <span class="text-[7.5px] xs:text-[8px] sm:text-[9px] uppercase tracking-wider text-stone-400 font-semibold">Hours</span>
           </div>
-          <span class="font-bold text-amber-700 text-xs sm:text-sm">:</span>
-          <div class="px-2 sm:px-2.5 py-1.5 bg-stone-900 text-white rounded-lg shadow-xs min-w-[44px] sm:min-w-[50px]">
-            <span class="block text-sm sm:text-base font-bold font-mono text-amber-300 leading-tight">${String(mins).padStart(2, '0')}</span>
-            <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-stone-400 font-semibold">Mins</span>
+          <span class="font-bold text-amber-700 text-xs sm:text-sm shrink-0">:</span>
+          <div class="px-1.5 xs:px-2 sm:px-2.5 py-1 sm:py-1.5 bg-stone-900 text-white rounded-lg shadow-xs min-w-[32px] xs:min-w-[38px] sm:min-w-[48px] shrink-0">
+            <span class="block text-xs xs:text-sm sm:text-base font-bold font-mono text-amber-300 leading-tight">${String(mins).padStart(2, '0')}</span>
+            <span class="text-[7.5px] xs:text-[8px] sm:text-[9px] uppercase tracking-wider text-stone-400 font-semibold">Mins</span>
           </div>
-          <span class="font-bold text-amber-700 text-xs sm:text-sm">:</span>
-          <div class="px-2 sm:px-2.5 py-1.5 bg-stone-900 text-white rounded-lg shadow-xs min-w-[44px] sm:min-w-[50px]">
-            <span class="block text-sm sm:text-base font-bold font-mono text-amber-400 leading-tight">${String(secs).padStart(2, '0')}</span>
-            <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-stone-400 font-semibold">Secs</span>
+          <span class="font-bold text-amber-700 text-xs sm:text-sm shrink-0">:</span>
+          <div class="px-1.5 xs:px-2 sm:px-2.5 py-1 sm:py-1.5 bg-stone-900 text-white rounded-lg shadow-xs min-w-[32px] xs:min-w-[38px] sm:min-w-[48px] shrink-0">
+            <span class="block text-xs xs:text-sm sm:text-base font-bold font-mono text-amber-400 leading-tight">${String(secs).padStart(2, '0')}</span>
+            <span class="text-[7.5px] xs:text-[8px] sm:text-[9px] uppercase tracking-wider text-stone-400 font-semibold">Secs</span>
           </div>
         </div>
-        ${subline ? `<div class="text-[10px] text-stone-500 font-medium ${textClasses} tracking-tight">${subline}</div>` : ''}
+        ${subline ? `<div class="text-[9px] xs:text-[10px] text-stone-500 font-medium ${textClasses} tracking-tight break-words max-w-full">${subline}</div>` : ''}
       </div>
     `;
   }

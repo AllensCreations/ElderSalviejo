@@ -16,6 +16,7 @@ const weeksHandler = require('./api/weeks/index');
 const singleWeekHandler = require('./api/weeks/[id]');
 const subscribeHandler = require('./api/subscribe');
 const subscribersHandler = require('./api/subscribers');
+const galleryHandler = require('./api/gallery');
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
@@ -89,6 +90,11 @@ const server = http.createServer(async (req, res) => {
       return await weeksHandler(req, res);
     }
 
+    // 2b. API: GET /api/gallery
+    if (pathname === '/api/gallery') {
+      return await galleryHandler(req, res);
+    }
+
     // 3. API: GET /api/weeks/:id
     if (pathname.startsWith('/api/weeks/')) {
       const id = pathname.replace('/api/weeks/', '');
@@ -105,7 +111,28 @@ const server = http.createServer(async (req, res) => {
       }
     }
 
-    // 5. Frontend Dynamic View: /week and /week/:id
+    // 5. Frontend Clean Route: /gallery
+    if (pathname === '/gallery') {
+      const galleryHtmlPath = path.join(PUBLIC_DIR, 'gallery.html');
+      res.setHeader('Content-Type', 'text/html; charset=UTF-8');
+      return fs.createReadStream(galleryHtmlPath).pipe(res);
+    }
+
+    // 5b. Frontend Clean Route: /call and /mission-call
+    if (pathname === '/call' || pathname === '/mission-call') {
+      const callHtmlPath = path.join(PUBLIC_DIR, 'call.html');
+      res.setHeader('Content-Type', 'text/html; charset=UTF-8');
+      return fs.createReadStream(callHtmlPath).pipe(res);
+    }
+
+    // 5c. Frontend Clean Route: /book
+    if (pathname === '/book') {
+      const bookHtmlPath = path.join(PUBLIC_DIR, 'book.html');
+      res.setHeader('Content-Type', 'text/html; charset=UTF-8');
+      return fs.createReadStream(bookHtmlPath).pipe(res);
+    }
+
+    // 5d. Frontend Dynamic View: /week and /week/:id
     if (pathname === '/week' || pathname.startsWith('/week/')) {
       const weekHtmlPath = path.join(PUBLIC_DIR, 'week.html');
       res.setHeader('Content-Type', 'text/html; charset=UTF-8');
