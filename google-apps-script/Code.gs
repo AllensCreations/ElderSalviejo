@@ -1412,16 +1412,34 @@ function parseDiaryEntries(bodyText, encodedImages) {
 
 function parseVerseString(raw) {
   if (!raw) return null;
-  const trimmed = raw.trim();
+  let trimmed = String(raw).trim();
 
+  // Strip Markdown / header prefixes like "-VERSE-", "--- VERSE ---", "### VERSE", "VERSE:"
+  trimmed = trimmed.replace(/^[-—#*~:\s]*(?:VERSE|SCRIPTURE)[-—#*~:\s]*/i, '').trim();
+
+  // Handle (Alma 26:12) (Quote text) format
   const twoParens = trimmed.match(/^\s*\(([^)]+)\)\s*\(([\s\S]+)\)\s*$/);
   if (twoParens) {
+    const ref = twoParens[1].replace(/^VERSE\s*/i, '').trim();
     return {
-      reference: twoParens[1].trim(),
+      reference: ref,
       text: twoParens[2].trim()
     };
   }
 
+  // Handle (Alma 26:12) Quote text format
+  const parenRefThenText = trimmed.match(/^\s*\(([^)]+)\)\s*([\s\S]+)$/);
+  if (parenRefThenText) {
+    const ref = parenRefThenText[1].replace(/^VERSE\s*/i, '').trim();
+    const txt = parenRefThenText[2].trim().replace(/^["'\s]+|["'\s]+$/g, '');
+    const fetched = !txt || txt.length < 5 ? fetchScriptureTextGas(ref) : txt;
+    return {
+      reference: ref,
+      text: fetched || txt || ''
+    };
+  }
+
+  // Handle (Alma 26:12) or (VERSE 26:12) format
   const singleParenMatch = trimmed.match(/^\s*\(([^)]+)\)\s*$/);
   if (singleParenMatch) {
     const ref = singleParenMatch[1].replace(/^VERSE\s*/i, '').trim();
@@ -1432,16 +1450,7 @@ function parseVerseString(raw) {
     };
   }
 
-  const parenRefThenText = trimmed.match(/^\s*\(([^)]+)\)\s*([\s\S]+)$/);
-  if (parenRefThenText) {
-    const ref = parenRefThenText[1].replace(/^VERSE\s*/i, '').trim();
-    const txt = parenRefThenText[2].trim().replace(/^\(|\)$/g, '');
-    return {
-      reference: ref,
-      text: txt || fetchScriptureTextGas(ref) || ''
-    };
-  }
-
+  // Handle raw reference string: "Alma 26:12"
   const refClean = trimmed.replace(/^VERSE\s*/i, '').replace(/^\(|\)$/g, '').trim();
   const fetched = fetchScriptureTextGas(refClean);
   return {
@@ -1452,20 +1461,42 @@ function parseVerseString(raw) {
 
 function fetchScriptureTextGas(refStr) {
   if (!refStr) return '';
-  let clean = refStr.replace(/^[-—#*~:\s]+|[-—#*~:\s]+$/g, '').replace(/^\(|\)$/g, '').trim();
+  let clean = String(refStr)
+    .replace(/^[-—#*~:\s]*(?:VERSE|SCRIPTURE)[-—#*~:\s]*/i, '')
+    .replace(/^\(|\)$/g, '')
+    .trim();
   clean = clean.replace(/^VERSE\s*/i, '').trim();
 
-  const regex = /^([1-4]?\s*[A-Za-z—\s&]+?)\s*[:\s]\s*(\d+)\s*[:]\s*(\d+)(?:\s*[-–—]\s*(\d+))?$/i;
-  const match = clean.match(regex);
-  if (!match) return '';
+  // Chapter:Verse only format (default to Alma)
+  let bookRaw = 'Alma';
+  let chapter = '1';
+  let startVerse = 1;
+  let endVerse = 1;
 
-  const bookRaw = match[1].trim();
-  const chapter = match[2];
-  const startVerse = parseInt(match[3], 10);
-  const endVerse = match[4] ? parseInt(match[4], 10) : startVerse;
+  const standardRegex = /^([1-4]?\s*[A-Za-z—\s&]+?)\s*[:\s]\s*(\d+)\s*[:]\s*(\d+)(?:\s*[-–—]\s*(\d+))?$/i;
+  const standardMatch = clean.match(standardRegex);
+
+  if (standardMatch) {
+    bookRaw = standardMatch[1].trim();
+    chapter = standardMatch[2];
+    startVerse = parseInt(standardMatch[3], 10);
+    endVerse = standardMatch[4] ? parseInt(standardMatch[4], 10) : startVerse;
+  } else {
+    const cvRegex = /^(\d+)\s*[:]\s*(\d+)(?:\s*[-–—]\s*(\d+))?$/;
+    const cvMatch = clean.match(cvRegex);
+    if (cvMatch) {
+      bookRaw = 'Alma';
+      chapter = cvMatch[1];
+      startVerse = parseInt(cvMatch[2], 10);
+      endVerse = cvMatch[3] ? parseInt(cvMatch[3], 10) : startVerse;
+    } else {
+      return '';
+    }
+  }
 
   const normalized = bookRaw.toLowerCase().replace(/\s+/g, ' ');
   let volFile = 'new-testament-reference.json';
+  let isDC = false;
 
   const bomBooks = ['1 nephi', '2 nephi', 'jacob', 'enos', 'jarom', 'omni', 'words of mormon', 'mosiah', 'alma', 'helaman', '3 nephi', '4 nephi', 'mormon', 'ether', 'moroni'];
   const pgpBooks = ['moses', 'abraham', 'joseph smith—matthew', 'joseph smith-matthew', 'js-m', 'joseph smith—history', 'js-h', 'articles of faith', 'a of f'];
@@ -1476,29 +1507,50 @@ function fetchScriptureTextGas(refStr) {
     volFile = 'book-of-mormon-reference.json';
   } else if (dcBooks.includes(normalized)) {
     volFile = 'doctrine-and-covenants-reference.json';
+    isDC = true;
   } else if (pgpBooks.includes(normalized)) {
     volFile = 'pearl-of-great-price-reference.json';
   } else if (otBooks.includes(normalized)) {
     volFile = 'old-testament-reference.json';
   }
 
-  const cdnUrl = `https://cdn.jsdelivr.net/gh/bcbooks/scriptures-json@master/${volFile}`;
+  const cdnUrl = `https://cdn.jsdelivr.net/gh/bcbooks/scriptures-json@master/reference/${volFile}`;
   try {
     const res = UrlFetchApp.fetch(cdnUrl, { muteHttpExceptions: true });
     if (res.getResponseCode() !== 200) return '';
     const volData = JSON.parse(res.getContentText());
-    const verseList = volData.verses || [];
 
-    const foundVerses = [];
-    for (let i = 0; i < verseList.length; i++) {
-      const v = verseList[i];
-      const bTitle = (v.book_title || '').toLowerCase();
-      if (bTitle.includes(normalized) || normalized.includes(bTitle)) {
-        if (String(v.chapter_number) === String(chapter)) {
-          if (v.verse_number >= startVerse && v.verse_number <= endVerse) {
-            foundVerses.push(v.verse_scripture);
+    let versesObj = null;
+    if (isDC) {
+      versesObj = volData[chapter];
+    } else {
+      let matchingKey = null;
+      for (const k of Object.keys(volData)) {
+        if (k.toLowerCase() === normalized || k.toLowerCase().replace(/—/g, '-').replace(/\s+/g, ' ') === normalized) {
+          matchingKey = k;
+          break;
+        }
+      }
+      if (!matchingKey) {
+        for (const k of Object.keys(volData)) {
+          if (k.toLowerCase().startsWith(normalized) || normalized.startsWith(k.toLowerCase())) {
+            matchingKey = k;
+            break;
           }
         }
+      }
+      if (matchingKey && volData[matchingKey]) {
+        versesObj = volData[matchingKey][chapter];
+      }
+    }
+
+    if (!versesObj) return '';
+
+    const foundVerses = [];
+    for (let v = startVerse; v <= endVerse; v++) {
+      const verseText = versesObj[String(v)];
+      if (verseText) {
+        foundVerses.push(verseText.trim());
       }
     }
     return foundVerses.join(' ');
@@ -1834,12 +1886,7 @@ function testSampleEmailDryRun() {
     '--- SATURDAY ---\n' +
     'Street contacting along Rizal Boulevard during sunset overlooking the ocean.\n\n' +
     '--- SUNDAY ---\n' +
-    'Sacrament meeting attendance was wonderful. Two investigators attended church with us!\n\n' +
-    '--- WEEKLY REPORT ---\n' +
-    'Lessons: 14\n' +
-    'Investigators: 6\n' +
-    'Baptisms: 0\n' +
-    'Sacrament Attendance: 2\n';
+    'Sacrament meeting attendance was wonderful. Two investigators attended church with us!\n';
 
   const sampleDate = new Date();
   const weekTitle = cleanSubjectTitle(sampleSubject) || `Week of ${Utilities.formatDate(sampleDate, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
@@ -1850,7 +1897,6 @@ function testSampleEmailDryRun() {
   Logger.log(`[PASS] Parsed Slug: "${weekSlug}"`);
   Logger.log(`[PASS] Extracted Verse: ${parsedData.verse ? parsedData.verse.reference : 'None'}`);
   Logger.log(`[PASS] Total Daily Entries: ${parsedData.entries ? parsedData.entries.length : 0}`);
-  Logger.log(`[PASS] Sanitized: Weekly report stripped cleanly from journal view.`);
 
   // 3. Test Email Template Generation
   Logger.log('\n[TEST 3/4] Generating responsive email preview shell...');

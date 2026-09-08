@@ -1,13 +1,14 @@
-# Elder Salviejo: Dedicated Dummy Receiver & Instant P-Day Broadcast Guide
+# Elder Salviejo: Dedicated Dummy Receiver & Daily 9:00 PM P-Day Broadcast Guide
 > **Philippines Dumaguete Mission**
 
-This script runs inside your **dedicated dummy Gmail account** (the receiver for Elder Salviejo's texts and photos). It operates **continuously 24/7**, so whenever you send your reflection email on **ANY Preparation Day (P-Day)**:
-1. **Instantly Detects**: Picks up your weekly email and extracts the reflections and 7 daily routine photos within minutes.
-2. **Encodes & Ships**: Converts photos into inline Base64 data URIs and POSTs the structured payload to your live Vercel API.
-3. **Multi-CDN & Auto-Save**: Vercel automatically saves the full diary JSON, Markdown letter, and raw photos into your GitHub repository (`vault/`) and makes them available worldwide via the **jsDelivr CDN** (`https://cdn.jsdelivr.net/gh/...`).
-4. **Database Archiving**: Saves the week into your **Turso SQLite database**.
-5. **Automated Newsletter Broadcast**: Emails a polaroid announcement to all **website subscribers** (and any manual distribution list) with a direct link to the live viewer.
-6. **Confirmation Receipt**: Replies directly to your email thread confirming that your journal is published!
+This script runs inside your **dedicated dummy Gmail account** (the receiver for Elder Salviejo's texts and photos). It operates on a **Single Daily 9:00 PM Trigger**:
+1. **Automated Detection**: Picks up your weekly email reflections or gallery photos.
+2. **Offline & CDN Scripture Lookup**: Automatically fetches scripture text from the `bcbooks/scriptures-json` dataset located in `vault/scriptures/` (or via jsDelivr CDN) when you write `-VERSE- (Alma 26:12)`.
+3. **Encodes & Ships**: Converts photos into inline Base64 data URIs and POSTs the structured payload to your live Vercel API.
+4. **Multi-CDN & Auto-Save**: Vercel automatically saves the full diary JSON, Markdown letter, and raw photos into your GitHub repository (`vault/`) and makes them available worldwide via the **jsDelivr CDN** (`https://cdn.jsdelivr.net/gh/...`).
+5. **Database Archiving**: Saves the week into your **Turso SQLite database**.
+6. **Automated Newsletter Broadcast**: Emails a polaroid announcement to all **website subscribers** with a direct link to the live viewer.
+7. **Confirmation Receipt**: Replies directly to your email thread confirming that your journal is published!
 
 ---
 
@@ -80,9 +81,7 @@ You can submit two types of emails to your dummy receiver account:
 - **Subject**: `Weekly Reflection: Week 2 in Dumaguete [YOUR_DIARY_PASSCODE]` *(e.g. `Weekly Reflection: Week 2 in Dumaguete 159266`)*
 - **Body Format**:
   ```text
-  -VERSE-
-  Alma 26:12
-  "Yea, I know that I am nothing; as to my strength I am weak; therefore I will not boast of myself, but I will boast of my God, for in his strength I can do all things."
+  -VERSE- (Alma 26:12)
 
   --- MONDAY ---
   Preparation day! Did laundry, wrote emails home, and played basketball with the district elders.
@@ -104,20 +103,18 @@ You can submit two types of emails to your dummy receiver account:
 
   --- SUNDAY ---
   Sacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior Jesus Christ.
-
-  --- WEEKLY REPORT ---
-  Lessons: 14
-  Investigators: 6
-  Baptisms: 0
-  Sacrament: 2
   ```
+- **Scripture Formats Supported**:
+  - `-VERSE- (Alma 26:12)` or `(Alma 26:12)` -> Automatically retrieves verse text from scripture dataset.
+  - `-VERSE- (VERSE 26:12)` or `(VERSE 26:12)` -> Automatically defaults to Alma in Book of Mormon.
+  - `-VERSE- (Alma 26:12) (Custom quote text)` -> Overrides verse text with your custom translation/note.
+  - Supports all Standard Works: Book of Mormon, Doctrine & Covenants, Pearl of Great Price, New Testament, Old Testament.
 - **Attachments**: 7 photos (.jpg, .png, .heic) matching each day from Monday to Sunday.
 - **What Happens**:
   1. The reflection and daily photos are saved to GitHub, jsDelivr CDN, and Turso SQLite.
-  2. Private statistical report numbers (`Lessons: 14`, etc.) are automatically stripped from public view.
-  3. All website subscribers receive the **Weekly Broadcast Newsletter**.
-  4. Elder Salviejo receives an instant **Confirmation Receipt**.
-  5. The thread in the dummy account is labeled **`diary-processed`**.
+  2. All website subscribers receive the **Weekly Broadcast Newsletter**.
+  3. Elder Salviejo receives an instant **Confirmation Receipt**.
+  4. The thread in the dummy account is labeled **`diary-processed`**.
 
 ---
 
@@ -136,3 +133,18 @@ You can submit two types of emails to your dummy receiver account:
   2. Elder Salviejo receives a **Polaroid Gallery Synced Receipt** with album statistics and live gallery link.
   3. The thread in the dummy account is labeled **`gallery-processed`**.
 
+---
+
+### 5. Scripture Dataset Location (`bcbooks/scriptures-json`)
+
+The scripture lookup dataset is located directly in your repository at:
+```text
+vault/scriptures/
+├── book-of-mormon-reference.json
+├── doctrine-and-covenants-reference.json
+├── new-testament-reference.json
+├── old-testament-reference.json
+└── pearl-of-great-price-reference.json
+```
+- On the server (`lib/scriptures.js`), it reads these local files directly for instant, offline resolution.
+- In Google Apps Script (`Code.gs`), it uses jsDelivr CDN (`https://cdn.jsdelivr.net/gh/bcbooks/scriptures-json@master/reference/`) to query verses dynamically.
