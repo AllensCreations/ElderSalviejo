@@ -326,12 +326,19 @@
       </svg>
     </button>
 
-    <!-- Centered Lightbox Image Container with Vintage Date Stamp Overlay -->
-    <div class="relative max-w-full max-h-full flex items-center justify-center" onclick="event.stopPropagation()">
-      <img id="lightboxImg" src="" alt="Polaroid" class="lightbox-image rounded-xs transition-transform duration-200" />
-      <!-- Vintage 90s Camera Orange Quartz Date Stamp (Toggleable) -->
-      <div id="lightboxDateStamp" class="vintage-date-stamp absolute bottom-3 right-3 sm:bottom-4 sm:right-5 text-xs sm:text-sm tracking-widest pointer-events-none drop-shadow-md">
-        '26 09 08
+    <!-- Centered Lightbox Image Container with Vintage Date Stamp Overlay & Caption -->
+    <div class="relative max-w-full max-h-full flex flex-col items-center justify-center p-2" onclick="event.stopPropagation()">
+      <div class="relative flex items-center justify-center max-w-full">
+        <img id="lightboxImg" src="" alt="Polaroid" class="lightbox-image rounded-xs transition-transform duration-200 max-h-[72vh] object-contain shadow-2xl" />
+        <!-- Vintage 90s Camera Orange Quartz Date Stamp (Toggleable) -->
+        <div id="lightboxDateStamp" class="vintage-date-stamp absolute bottom-3 right-3 sm:bottom-4 sm:right-5 text-xs sm:text-sm tracking-widest pointer-events-none drop-shadow-md">
+          '26 09 08
+        </div>
+      </div>
+      <!-- Album & Caption Note from Email Body -->
+      <div id="lightboxCaptionBox" class="mt-3 max-w-xl text-center px-4 hidden">
+        <span id="lightboxCategoryBadge" class="inline-block text-[11px] font-semibold font-sans px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 mb-1.5"></span>
+        <p id="lightboxCaptionText" class="text-xs sm:text-sm text-stone-200 font-sans leading-relaxed"></p>
       </div>
     </div>
 

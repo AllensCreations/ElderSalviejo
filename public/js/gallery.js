@@ -211,6 +211,30 @@ function renderGallery() {
   }
 }
 
+function updateLightboxDetails(photo) {
+  if (!photo) return;
+  const captionBox = document.getElementById('lightboxCaptionBox');
+  const catBadge = document.getElementById('lightboxCategoryBadge');
+  const captionText = document.getElementById('lightboxCaptionText');
+
+  const caption = photo.caption || photo.text || '';
+  const category = photo.category || photo.album || (photo.isGalleryUpload ? 'Mission' : 'P-Day Journal');
+
+  if (catBadge) {
+    catBadge.textContent = category;
+  }
+  if (captionText) {
+    captionText.textContent = caption;
+  }
+  if (captionBox) {
+    if (caption || category) {
+      captionBox.classList.remove('hidden');
+    } else {
+      captionBox.classList.add('hidden');
+    }
+  }
+}
+
 /* Lightbox Implementation with Feature 6 Date Stamp */
 function openLightbox(index) {
   if (!filteredPhotos || filteredPhotos.length === 0) return;
@@ -236,6 +260,7 @@ function openLightbox(index) {
   if (totalEl) totalEl.textContent = filteredPhotos.length;
 
   updateDateStampText(photo.date);
+  updateLightboxDetails(photo);
 
   modal.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
@@ -291,6 +316,7 @@ function navigateLightbox(direction) {
   if (indexEl) indexEl.textContent = activeLightboxIndex + 1;
 
   updateDateStampText(photo.date);
+  updateLightboxDetails(photo);
 }
 
 /* Feature 6: Vintage Camera Date Stamp Logic */

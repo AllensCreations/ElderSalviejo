@@ -72,21 +72,54 @@ function getSiteUrl() {
 }
 
 /**
+ * Retrieves or creates the Gmail label object for processed threads.
+ */
+function getProcessedLabel() {
+  const labelName = PropertiesService.getScriptProperties().getProperty('PROCESSED_LABEL') || CONFIG.PROCESSED_LABEL || 'diary-processed';
+  try {
+    let label = GmailApp.getUserLabelByName(labelName);
+    if (!label) {
+      label = GmailApp.createLabel(labelName);
+    }
+    return label;
+  } catch (err) {
+    Logger.log(`Notice retrieving or creating label "${labelName}": ${err.message}`);
+    return null;
+  }
+}
+
+/**
+ * Safely applies the processed label to a thread and marks it as read.
+ */
+function applyProcessedLabel(thread) {
+  if (!thread) return;
+  try {
+    const label = getProcessedLabel();
+    if (label) {
+      thread.addLabel(label);
+    }
+    thread.markRead();
+  } catch (err) {
+    Logger.log(`Notice applying processed label: ${err.message}`);
+  }
+}
+
+/**
  * Anti-Duplicate Engine: Returns search query excluding processed emails,
  * self-replies, and confirmation subjects.
  */
 function getGmailQuery() {
   const props = PropertiesService.getScriptProperties();
-  const label = props.getProperty('PROCESSED_LABEL') || CONFIG.PROCESSED_LABEL || 'diary-processed';
+  const labelName = props.getProperty('PROCESSED_LABEL') || CONFIG.PROCESSED_LABEL || 'diary-processed';
   const diaryCode = props.getProperty('SECRET_DIARY_CODE') || props.getProperty('SECRET_CODE') || CONFIG.SECRET_DIARY_CODE || '';
   const galleryCode = props.getProperty('SECRET_GALLERY_CODE') || CONFIG.SECRET_GALLERY_CODE || '';
 
   const codeTerms = [diaryCode, galleryCode].filter(Boolean).map(c => `"${c}"`).join(' OR ');
   const codeFilter = codeTerms 
-    ? `(${codeTerms} OR subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection)`
-    : '(subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection)';
+    ? `(${codeTerms} OR subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection OR subject:Gallery OR subject:Album OR subject:Photos)`
+    : '(subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection OR subject:Gallery OR subject:Album OR subject:Photos OR has:attachment)';
 
-  return `${codeFilter} -label:${label} -from:me -subject:"Confirmed:" -subject:"Receipt:" -subject:"Published:" -subject:"Re:" -subject:"RE:" -subject:"Fwd:" -subject:"FW:"`;
+  return `${codeFilter} -label:${labelName} -from:me -subject:"Confirmed:" -subject:"Receipt:" -subject:"Published:" -subject:"Re:" -subject:"RE:" -subject:"Fwd:" -subject:"FW:"`;
 }
 
 /**
@@ -106,7 +139,11 @@ function setupPrivateProperties(ingestSecret, secretDiaryPasscode, secretGallery
   props.setProperty('PROCESSED_LABEL', props.getProperty('PROCESSED_LABEL') || 'diary-processed');
   props.setProperty('VERCEL_INGEST_URL', props.getProperty('VERCEL_INGEST_URL') || 'https://eldersalviejo.vercel.app/api/ingest');
   props.setProperty('SITE_URL', props.getProperty('SITE_URL') || 'https://eldersalviejo.vercel.app');
-  Logger.log('Saved configuration to private Google Apps Script Properties. Public git repository code contains zero secret keys or tokens.');
+  
+  // Ensure the Gmail label is physically created right away
+  getProcessedLabel();
+  
+  Logger.log('Saved configuration to private Google Apps Script Properties and verified Gmail label. Public git repository code contains zero secret keys or tokens.');
 }
 
 /**
@@ -323,8 +360,7 @@ function processWeeklyDiaryEmails() {
 
     if (isMessageAlreadyProcessed(messageId)) {
       Logger.log(`Skipping already processed message ID: ${messageId}`);
-      thread.addLabel(processedLabel);
-      thread.markRead();
+      applyProcessedLabel(thread);
       continue;
     }
 
@@ -340,8 +376,7 @@ function processWeeklyDiaryEmails() {
     ) {
       Logger.log(`Skipping automated system notification: "${subject}"`);
       markMessageProcessed(messageId);
-      thread.addLabel(processedLabel);
-      thread.markRead();
+      applyProcessedLabel(thread);
       continue;
     }
 
@@ -356,8 +391,7 @@ function processWeeklyDiaryEmails() {
     ) {
       Logger.log(`Skipping reply/forward message to avoid processing report replies: "${subject}"`);
       markMessageProcessed(messageId);
-      thread.addLabel(processedLabel);
-      thread.markRead();
+      applyProcessedLabel(thread);
       continue;
     }
 
@@ -372,8 +406,7 @@ function processWeeklyDiaryEmails() {
     if (myEmail && sender.toLowerCase().includes(myEmail.toLowerCase()) && !hasCode) {
       Logger.log(`Skipping message sent from script account itself: "${subject}"`);
       markMessageProcessed(messageId);
-      thread.addLabel(processedLabel);
-      thread.markRead();
+      applyProcessedLabel(thread);
       continue;
     }
 
@@ -405,8 +438,7 @@ function processWeeklyDiaryEmails() {
       if (imageAttachments.length === 0) {
         Logger.log(`Skipping gallery upload for "${subject}": No photo attachments found.`);
         markMessageProcessed(messageId);
-        thread.addLabel(processedLabel);
-        thread.markRead();
+        applyProcessedLabel(thread);
         continue;
       }
 
@@ -414,6 +446,7 @@ function processWeeklyDiaryEmails() {
       const gallerySlug = generateSlug(galleryTitle, date);
       const cleanRawSubject = cleanSubjectTitle(subject, secretGalleryCode);
       const galleryCategory = extractGalleryCategory(subject, secretGalleryCode);
+      const cleanEmailBody = cleanEmailBodyText(body, secretGalleryCode);
 
       const totalImages = imageAttachments.length;
       let processedIndex = 0;
@@ -430,6 +463,7 @@ function processWeeklyDiaryEmails() {
             slug: gallerySlug,
             title: galleryTitle,
             category: galleryCategory,
+            bodyText: cleanEmailBody,
             sender: sender,
             date: date.toISOString(),
             isGallery: true
@@ -453,7 +487,8 @@ function processWeeklyDiaryEmails() {
         const batchSlug = batchNum === 1 ? gallerySlug : `${gallerySlug}-part-${batchNum}`;
         const galleryEntries = encodedImages.map((img, idx) => ({
           day: `PHOTO_${processedIndex + idx + 1}`,
-          text: '',
+          text: cleanEmailBody,
+          caption: cleanEmailBody,
           image: img.dataUri,
           imageFilename: img.filename,
           category: galleryCategory
@@ -465,6 +500,7 @@ function processWeeklyDiaryEmails() {
           publishedAt: date.toISOString(),
           rawSubject: cleanRawSubject,
           sender: sender,
+          bodyText: cleanEmailBody,
           entries: galleryEntries,
           totalEntries: galleryEntries.length,
           imageCount: encodedImages.length,
@@ -485,8 +521,7 @@ function processWeeklyDiaryEmails() {
 
       clearContinuationState();
       markMessageProcessed(messageId);
-      thread.addLabel(processedLabel);
-      thread.markRead();
+      applyProcessedLabel(thread);
       Logger.log(`Successfully ingested Gallery thread: "${subject}" [${totalImages} photos total]`);
 
       const galleryUrl = `${getSiteUrl()}/gallery`;
@@ -494,7 +529,8 @@ function processWeeklyDiaryEmails() {
         title: galleryTitle,
         publishedAt: date.toISOString(),
         imageCount: totalImages,
-        category: galleryCategory
+        category: galleryCategory,
+        bodyText: cleanEmailBody
       };
       sendGallerySuccessReplyToSender(thread, sender, finalPayloadSummary, galleryUrl);
       continue;
@@ -609,8 +645,7 @@ function processWeeklyDiaryEmails() {
 
     clearContinuationState();
     markMessageProcessed(messageId);
-    thread.addLabel(processedLabel);
-    thread.markRead();
+    applyProcessedLabel(thread);
     Logger.log(`Successfully ingested and published weekly diary: "${weekTitle}" [${imageAttachments.length} photos total]`);
 
     const liveUrl = `${getSiteUrl()}/week/${weekSlug}`;
@@ -667,7 +702,8 @@ function resumeContinuationJob(state, startTime) {
       const batchSlug = `${state.slug}-part-${batchNum}`;
       const galleryEntries = encodedImages.map((img, idx) => ({
         day: `PHOTO_${processedIndex + idx + 1}`,
-        text: '',
+        text: state.bodyText || '',
+        caption: state.bodyText || '',
         image: img.dataUri,
         imageFilename: img.filename,
         category: state.category || 'Mission'
@@ -679,6 +715,7 @@ function resumeContinuationJob(state, startTime) {
         publishedAt: state.date || new Date().toISOString(),
         rawSubject: state.title,
         sender: state.sender,
+        bodyText: state.bodyText || '',
         entries: galleryEntries,
         totalEntries: galleryEntries.length,
         imageCount: encodedImages.length,
@@ -699,9 +736,7 @@ function resumeContinuationJob(state, startTime) {
 
     clearContinuationState();
     markMessageProcessed(state.messageId);
-    let processedLabel = GmailApp.getUserLabelByName(CONFIG.PROCESSED_LABEL) || GmailApp.createLabel(CONFIG.PROCESSED_LABEL);
-    thread.addLabel(processedLabel);
-    thread.markRead();
+    applyProcessedLabel(thread);
 
     Logger.log(`Continuation job fully completed for ${totalImages} photos.`);
     const galleryUrl = `${getSiteUrl()}/gallery`;
@@ -1439,6 +1474,42 @@ function cleanSubjectTitle(rawSubject, secretCode) {
   clean = clean.replace(/\(Philippines Dumaguete Mission\)/gi, '');
   clean = clean.replace(/^[-—:\s]+|[-—:\s]+$/g, '').trim();
   return clean || 'Weekly Missionary Journal';
+}
+
+function cleanEmailBodyText(rawBody, secretCode) {
+  if (!rawBody) return '';
+  let clean = rawBody;
+
+  // 1. Remove configured secret passcode if provided
+  if (secretCode) {
+    const escaped = secretCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    clean = clean.replace(new RegExp('[\\[\\(]?\\s*' + escaped + '\\s*[\\]\\)]?', 'gi'), '');
+  }
+
+  // 2. Remove any Script Properties secret codes
+  try {
+    const pDiary = PropertiesService.getScriptProperties().getProperty('SECRET_DIARY_CODE') || PropertiesService.getScriptProperties().getProperty('SECRET_CODE');
+    const pGallery = PropertiesService.getScriptProperties().getProperty('SECRET_GALLERY_CODE');
+    if (pDiary) {
+      const escD = pDiary.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      clean = clean.replace(new RegExp('[\\[\\(]?\\s*' + escD + '\\s*[\\]\\)]?', 'gi'), '');
+    }
+    if (pGallery) {
+      const escG = pGallery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      clean = clean.replace(new RegExp('[\\[\\(]?\\s*' + escG + '\\s*[\\]\\)]?', 'gi'), '');
+    }
+  } catch (_) {}
+
+  // 3. Strip standalone bracketed numeric tags (e.g. [123456], (789012))
+  clean = clean.replace(/[\(\[]\s*\d{4,8}\s*[\)\]]/g, '');
+
+  // 4. Strip email signatures and client footers
+  clean = clean.replace(/--\s*[\r\n]+[\s\S]*$/g, '');
+  clean = clean.replace(/On\s.+wrote:[\s\S]*$/i, '');
+  clean = clean.replace(/Sent from my (?:iPhone|iPad|Android|Galaxy|mobile device)[\s\S]*/i, '');
+  clean = clean.replace(/Get Outlook for (?:iOS|Android)[\s\S]*/i, '');
+
+  return clean.trim();
 }
 
 function extractGalleryCategory(subject, secretCode) {

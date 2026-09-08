@@ -35,6 +35,8 @@ module.exports = async function handler(req, res) {
                 src: item.src || item.cdnUrl,
                 date: item.uploadedAt,
                 category: item.category || (isGallery ? 'Mission' : 'P-Day Journal'),
+                caption: item.caption || item.text || '',
+                album: item.album || item.category || '',
                 isGalleryUpload: isGallery,
                 source: isGallery ? 'gallery' : 'journal'
               };
