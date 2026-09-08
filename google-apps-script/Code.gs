@@ -78,7 +78,7 @@ function getSiteUrl() {
  */
 function getGmailQuery() {
   const label = PropertiesService.getScriptProperties().getProperty('PROCESSED_LABEL') || CONFIG.PROCESSED_LABEL || 'diary-processed';
-  return `(073000 OR 159266 OR subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection) -label:${label} -from:me -subject:"Confirmed:" -subject:"Published:"`;
+  return `(073000 OR 159266 OR subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection) -label:${label} -from:me -subject:"Confirmed:" -subject:"Published:" -subject:"Re:" -subject:"RE:" -subject:"Fwd:" -subject:"FW:"`;
 }
 
 /**
@@ -265,6 +265,22 @@ function processWeeklyDiaryEmails() {
       (subject.includes('Elder Salviejo') && subject.includes('Weekly Journal:') && subject.includes('Philippines Dumaguete Mission'))
     ) {
       Logger.log(`Skipping automated system notification: "${subject}"`);
+      markMessageProcessed(messageId);
+      thread.addLabel(processedLabel);
+      thread.markRead();
+      continue;
+    }
+
+    // Skip reply/forward messages (e.g. Re: or Fwd:) to prevent processing report discussions as weekly diaries
+    const trimmedSubject = subject.trim();
+    if (
+      /^(re|fwd|fw)\s*[:\-—]/i.test(trimmedSubject) ||
+      trimmedSubject.toLowerCase().startsWith('re:') ||
+      trimmedSubject.toLowerCase().startsWith('re :') ||
+      trimmedSubject.toLowerCase().startsWith('fwd:') ||
+      trimmedSubject.toLowerCase().startsWith('fw:')
+    ) {
+      Logger.log(`Skipping reply/forward message to avoid processing report replies: "${subject}"`);
       markMessageProcessed(messageId);
       thread.addLabel(processedLabel);
       thread.markRead();
@@ -629,21 +645,21 @@ function resumeContinuationJob(state, startTime) {
 }
 
 /**
- * Universal Email HTML Template Builder (Matching Website Theme, Zero Emojis)
+ * Universal Email HTML Template Builder (Matching Website Theme, Zero Emojis, Zero Question Marks)
  */
 function buildEmailShell(title, subtitle, contentHtml, ctaText, ctaUrl) {
   return `
-    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 580px; margin: 0 auto; background-color: #f7f5ef; padding: 24px 12px; color: #1c1917;">
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 580px; margin: 0 auto; background-color: #f4f1ea; padding: 24px 12px; color: #1c1917;">
       
       <!-- Top Banner Header -->
-      <div style="background-color: #1c1917; color: #ffffff; padding: 26px 24px; text-align: center; border-radius: 8px 8px 0 0; border-bottom: 3px solid #d97706;">
-        <p style="margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #d97706; font-weight: 600;">Philippines Dumaguete Mission</p>
+      <div style="background-color: #1c1917; color: #ffffff; padding: 26px 24px; text-align: center; border-radius: 10px 10px 0 0; border-bottom: 3px solid #d97706;">
+        <p style="margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #d97706; font-weight: 700;">Philippines Dumaguete Mission</p>
         <h1 style="margin: 8px 0 0 0; font-size: 22px; font-family: Georgia, serif; font-weight: 700; letter-spacing: 0.5px; color: #ffffff;">Elder Mark Salviejo</h1>
-        <p style="margin: 6px 0 0 0; font-size: 13px; color: #a8a29e; font-family: Georgia, serif; font-style: italic;">Dedicated Missionary Journal Vault</p>
+        <p style="margin: 6px 0 0 0; font-size: 12px; color: #a8a29e; font-family: Georgia, serif; font-style: italic;">Dedicated Missionary Journal Vault</p>
       </div>
 
       <!-- Main Card Surface -->
-      <div style="background-color: #ffffff; padding: 28px 24px; border: 1px solid #e7e5e4; border-top: none; border-radius: 0 0 8px 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);">
+      <div style="background-color: #ffffff; padding: 28px 24px; border: 1px solid #e7e5e4; border-top: none; border-radius: 0 0 10px 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);">
         
         <div style="border-bottom: 1px solid #f5f5f4; padding-bottom: 14px; margin-bottom: 18px;">
           <h2 style="font-family: Georgia, serif; font-size: 18px; color: #1c1917; margin: 0 0 4px 0; font-weight: 700;">
@@ -657,7 +673,7 @@ function buildEmailShell(title, subtitle, contentHtml, ctaText, ctaUrl) {
         ${ctaText && ctaUrl ? `
         <!-- Call to Action Button -->
         <div style="text-align: center; margin: 28px 0 10px 0;">
-          <a href="${ctaUrl}" target="_blank" style="background-color: #d97706; color: #ffffff; text-decoration: none; padding: 13px 28px; border-radius: 6px; font-weight: 600; font-size: 13px; display: inline-block; letter-spacing: 0.5px;">
+          <a href="${ctaUrl}" target="_blank" style="background-color: #d97706; color: #ffffff; text-decoration: none; padding: 13px 28px; border-radius: 8px; font-weight: 700; font-size: 13px; display: inline-block; letter-spacing: 0.5px;">
             ${escapeHtml(ctaText)} &rarr;
           </a>
         </div>
@@ -669,8 +685,8 @@ function buildEmailShell(title, subtitle, contentHtml, ctaText, ctaUrl) {
       </div>
 
       <!-- Dignified Missionary Footer -->
-      <div style="text-align: center; padding-top: 18px; font-size: 11px; color: #78716c;">
-        Elder Mark Salviejo • Philippines Dumaguete Mission • Official Archive
+      <div style="text-align: center; padding-top: 18px; font-size: 11px; color: #78716c; line-height: 1.5;">
+        Elder Mark Salviejo &bull; Philippines Dumaguete Mission &bull; Official Archive
       </div>
 
     </div>
@@ -866,6 +882,7 @@ function sendSuccessReplyToSender(thread, sender, payload, liveUrl, dbSubscriber
 
 /**
  * Dispatches weekly announcement to website subscribers.
+ * Includes strict per-subscriber and per-week deduplication to prevent duplicate sends.
  */
 function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
   const manualRecipients = (CONFIG.DISTRIBUTION_LIST || '').split(',')
@@ -882,11 +899,49 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
     return;
   }
 
-  const firstEntrySnippet = (payload.entries.length > 0 && payload.entries[0].text)
-    ? payload.entries[0].text.substring(0, 160) + '...'
-    : 'A new week of daily routine photos and missionary reflections is now live.';
+  // Anti-Duplicate Broadcast Engine: Track sent recipients per weekly entry
+  const slugKey = 'BROADCAST_SENT_' + (payload.slug || 'week_' + Utilities.formatDate(new Date(payload.publishedAt), Session.getScriptTimeZone(), 'yyyy-MM-dd'));
+  const rawSent = PropertiesService.getScriptProperties().getProperty(slugKey) || '[]';
+  let alreadySentRecipients = [];
+  try {
+    alreadySentRecipients = JSON.parse(rawSent);
+    if (!Array.isArray(alreadySentRecipients)) alreadySentRecipients = [];
+  } catch (_) {
+    alreadySentRecipients = [];
+  }
+  
+  const pendingRecipients = allRecipients.filter(email => !alreadySentRecipients.includes(email));
 
-  const subject = `Elder Salviejo — Weekly Journal: ${payload.title} (Philippines Dumaguete Mission)`;
+  if (pendingRecipients.length === 0) {
+    Logger.log(`Broadcast for "${payload.title}" has already been sent to all ${allRecipients.length} subscriber(s). Skipping duplicate broadcast.`);
+    return;
+  }
+
+  // Extract clean highlight snippet without report statistics
+  let firstEntrySnippet = '';
+  if (Array.isArray(payload.entries)) {
+    for (let e = 0; e < payload.entries.length; e++) {
+      const entry = payload.entries[e];
+      if (entry && entry.text) {
+        let clean = entry.text
+          .replace(/(?:^|\n)\s*[-—#*~]*\s*(?:WEEKLY\s+REPORT|MISSIONARY\s+REPORT|KEY\s+INDICATORS|STATISTICS|REPORT|INDICATORS?)\s*[-—#*~:]*[\s\S]*?(?=\n\n|\n[A-Z]|$)/gi, '')
+          .replace(/(?:lessons|investigators|baptisms|sacrament|progressing|other|referrals|tracting|media)\s*[:=]\s*\d+/gi, '')
+          .replace(/^[0-9\W_]+/, '')
+          .trim();
+        if (clean.length >= 15) {
+          clean = clean.replace(/\s+/g, ' ').trim();
+          firstEntrySnippet = clean.substring(0, 160).trim() + (clean.length > 160 ? '...' : '');
+          break;
+        }
+      }
+    }
+  }
+  if (!firstEntrySnippet) {
+    firstEntrySnippet = 'A new week of daily routine photos and missionary reflections is now live.';
+  }
+
+  const cleanTitle = cleanSubjectTitle(payload.title || 'Weekly Missionary Journal');
+  const subject = `Elder Salviejo — Weekly Journal: ${cleanTitle} (Philippines Dumaguete Mission)`;
 
   const contentHtml = `
     <p style="font-size: 13px; line-height: 1.6; color: #44403c; margin-top: 0;">
@@ -894,44 +949,64 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
     </p>
 
     <!-- Highlight Box -->
-    <div style="background-color: #fafaf9; border-left: 3px solid #d97706; padding: 14px 16px; margin: 18px 0; border-radius: 0 6px 6px 0;">
+    <div style="background-color: #fefce8; border-left: 4px solid #d97706; padding: 14px 16px; margin: 18px 0; border-radius: 0 8px 8px 0;">
       <p style="margin: 0; font-size: 10px; font-weight: 700; text-transform: uppercase; color: #92400e; letter-spacing: 1px;">Missionary Highlight</p>
-      <p style="margin: 6px 0 0 0; font-size: 12px; font-style: italic; color: #57534e; line-height: 1.5;">
-        "${escapeHtml(firstEntrySnippet)}"
+      <p style="margin: 6px 0 0 0; font-size: 12px; font-style: italic; color: #78350f; line-height: 1.5;">
+        &ldquo;${escapeHtml(firstEntrySnippet)}&rdquo;
       </p>
     </div>
 
     ${(payload.verse && payload.verse.text) ? `
-    <div style="background-color: #fefce8; border: 1px solid #fef08a; border-radius: 6px; padding: 14px 16px; margin: 18px 0;">
-      <p style="margin: 0; font-size: 10px; font-weight: 700; text-transform: uppercase; color: #854d0e; letter-spacing: 1px;">Weekly Scripture • ${escapeHtml(payload.verse.reference || 'Missionary Scripture')}</p>
-      <p style="margin: 6px 0 0 0; font-size: 12px; font-style: italic; color: #713f12; line-height: 1.5;">
-        "${escapeHtml(payload.verse.text)}"
+    <div style="background-color: #fafaf9; border: 1px solid #e7e5e4; border-radius: 8px; padding: 14px 16px; margin: 18px 0;">
+      <p style="margin: 0; font-size: 10px; font-weight: 700; text-transform: uppercase; color: #78716c; letter-spacing: 1px;">Weekly Scripture &bull; ${escapeHtml(payload.verse.reference || 'Missionary Scripture')}</p>
+      <p style="margin: 6px 0 0 0; font-size: 12px; font-style: italic; color: #44403c; line-height: 1.5;">
+        &ldquo;${escapeHtml(payload.verse.text)}&rdquo;
       </p>
     </div>
     ` : ''}
+
+    <div style="background-color: #f5f5f4; border-radius: 6px; padding: 12px 14px; margin-top: 14px; font-size: 11px; color: #57534e;">
+      Photographs from this entry are also viewable on Elder Salviejo's Polaroid Wall at <a href="${getSiteUrl()}/gallery" style="color: #b45309; text-decoration: underline;">${getSiteUrl()}/gallery</a>.
+    </div>
   `;
 
   const htmlBody = buildEmailShell(
-    payload.title,
-    'Weekly Missionary Journal • Dumaguete, Philippines',
+    cleanTitle,
+    'Weekly Missionary Journal &bull; Dumaguete, Philippines',
     contentHtml,
     'Read Full Weekly Journal',
     liveUrl
   );
 
-  Logger.log(`Broadcasting weekly diary to ${allRecipients.length} subscriber(s)...`);
+  const plainText = 
+    `Elder Mark Salviejo — Philippines Dumaguete Mission\n\n` +
+    `New Weekly Journal Published: ${cleanTitle}\n` +
+    `Date: ${Utilities.formatDate(new Date(payload.publishedAt), Session.getScriptTimeZone(), 'MMMM d, yyyy')}\n` +
+    `Daily Reflections: ${payload.totalEntries || (payload.entries ? payload.entries.length : 7)} day(s)\n` +
+    `Photographs: ${payload.imageCount} photo(s)\n\n` +
+    `Read the full journal online:\n${liveUrl}\n\n` +
+    `Elder Mark Salviejo\nPhilippines Dumaguete Mission`;
 
-  for (let r = 0; r < allRecipients.length; r++) {
+  Logger.log(`Broadcasting weekly diary to ${pendingRecipients.length} pending subscriber(s)...`);
+
+  for (let r = 0; r < pendingRecipients.length; r++) {
+    const recipient = pendingRecipients[r];
     try {
-      GmailApp.sendEmail(allRecipients[r], subject, `New Weekly Journal: ${payload.title}
-
-View here: ${liveUrl}`, {
+      GmailApp.sendEmail(recipient, subject, plainText, {
         htmlBody: htmlBody,
         name: 'Elder Salviejo (Dumaguete Mission)'
       });
+      alreadySentRecipients.push(recipient);
     } catch (err) {
-      Logger.log(`Error sending broadcast to ${allRecipients[r]}: ${err.toString()}`);
+      Logger.log(`Error sending broadcast to ${recipient}: ${err.toString()}`);
     }
+  }
+
+  // Persist sent recipients to avoid duplicate broadcasts
+  try {
+    PropertiesService.getScriptProperties().setProperty(slugKey, JSON.stringify(alreadySentRecipients));
+  } catch (propErr) {
+    Logger.log(`Notice saving broadcast state: ${propErr.message}`);
   }
 }
 

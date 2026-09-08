@@ -67,6 +67,10 @@ module.exports = async function handler(req, res) {
 
     const isGalleryUpload = Boolean(isGallery || is_gallery);
 
+    if (rawSubject && /^(re|fwd|fw)\s*[:\-—]/i.test(rawSubject.trim())) {
+      return res.status(400).json({ error: 'Skipping reply/forward message (subject starts with Re: or Fwd:)' });
+    }
+
     if (!title) {
       return res.status(400).json({ error: 'Missing required field: `title`' });
     }
