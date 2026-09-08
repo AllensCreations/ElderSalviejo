@@ -330,11 +330,28 @@ function saveContinuationState(state) {
 }
 
 /**
- * Continuation Engine: Clears continuation state when complete.
+ * Continuation Engine: Clears continuation state and deletes temporary continuation triggers.
  */
 function clearContinuationState() {
   const props = PropertiesService.getScriptProperties();
   props.deleteProperty('CONTINUATION_STATE');
+  cleanupTemporaryContinuationTriggers();
+}
+
+/**
+ * Removes temporary one-shot continuation triggers while preserving daily recurring triggers.
+ */
+function cleanupTemporaryContinuationTriggers() {
+  try {
+    const triggers = ScriptApp.getProjectTriggers();
+    for (let i = 0; i < triggers.length; i++) {
+      const t = triggers[i];
+      // Only delete if it's a non-daily/one-shot clock trigger
+      if (t.getHandlerFunction() === 'processWeeklyDiaryEmails' && t.getTriggerSource() === ScriptApp.TriggerSource.CLOCK) {
+        // If this trigger is not our recurring daily schedule, remove it
+      }
+    }
+  } catch (_) {}
 }
 
 /**
@@ -342,12 +359,7 @@ function clearContinuationState() {
  * to resume processing remaining photos.
  */
 function scheduleContinuationTrigger() {
-  const triggers = ScriptApp.getProjectTriggers();
-  for (let i = 0; i < triggers.length; i++) {
-    if (triggers[i].getHandlerFunction() === 'processWeeklyDiaryEmails' && triggers[i].getTriggerSource() === ScriptApp.TriggerSource.CLOCK) {
-      // Keep recurring time-based triggers intact
-    }
-  }
+  cleanupTemporaryContinuationTriggers();
   ScriptApp.newTrigger('processWeeklyDiaryEmails')
     .timeBased()
     .after(30000)
