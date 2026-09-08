@@ -31,7 +31,7 @@
 
       if (!weeks || weeks.length === 0) {
         container.innerHTML = `
-          <div class="bg-white border border-stone-200 rounded-2xl p-8 sm:p-12 text-center shadow-sm avoid-break">
+          <div class="bg-[#fdfbf7] border border-amber-200/90 rounded-2xl sm:rounded-3xl p-8 sm:p-12 text-center shadow-md avoid-break">
             <span class="text-3xl sm:text-4xl block mb-3">📬</span>
             <h3 class="font-serif text-lg sm:text-xl font-bold text-stone-900">
               Weekly Field Chapters Begin Following MTC Entrance
@@ -39,7 +39,7 @@
             <p class="text-xs sm:text-sm text-stone-600 max-w-lg mx-auto mt-2 leading-relaxed">
               Elder Salviejo enters the MTC on <strong>December 11, 2026</strong>. Each week, on Preparation Day (P-Day), his weekly missionary reflections, scripture notes, and photographs will automatically be typeset and appended into this permanent mission book.
             </p>
-            <div class="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-amber-800 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200">
+            <div class="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-amber-900 bg-amber-100/80 px-3.5 py-1.5 rounded-lg border border-amber-300">
               <span>📍 Philippines Dumaguete Mission • Ready for Automatic Publishing</span>
             </div>
           </div>
@@ -84,7 +84,7 @@
         const verse = weekDetails.verse;
 
         chaptersHtml += `
-          <article class="book-chapter bg-white border border-stone-200 rounded-2xl p-6 sm:p-10 shadow-md space-y-6">
+          <article class="book-chapter bg-[#fdfbf7] border border-amber-200/90 rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-md space-y-6">
             
             <!-- Chapter Header -->
             <div class="border-b border-amber-200 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -116,7 +116,7 @@
               ${entries.map((entry, idx) => `
                 <div class="avoid-break space-y-3 pt-2">
                   ${entry.day ? `
-                    <h3 class="font-serif text-base sm:text-lg font-bold text-stone-900 border-b border-stone-100 pb-1 flex items-center gap-2">
+                    <h3 class="font-serif text-base sm:text-lg font-bold text-stone-900 border-b border-amber-100 pb-1 flex items-center gap-2">
                       <span class="w-2 h-2 rounded-full bg-amber-500"></span>
                       <span>${escapeHtml(entry.day)}</span>
                       ${entry.date ? `<span class="text-xs font-sans text-stone-500 font-normal">(${escapeHtml(entry.date)})</span>` : ''}
@@ -131,23 +131,26 @@
 
                   ${entry.image ? `
                     <div class="my-4 text-center">
-                      <img
-                        src="${escapeHtml(entry.image)}"
-                        alt="Week Photo"
-                        class="max-h-96 mx-auto rounded-xl object-contain shadow-sm border border-stone-200"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                      ${entry.caption ? `
-                        <p class="text-xs text-stone-500 italic mt-2">${escapeHtml(entry.caption)}</p>
-                      ` : ''}
+                      <div class="inline-block p-3 bg-white border border-amber-200/80 rounded-xl shadow-xs">
+                        <img
+                          src="${escapeHtml(entry.image)}"
+                          alt="Week Photo"
+                          class="max-h-80 mx-auto rounded-lg object-contain"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                        ${entry.caption ? `
+                          <p class="text-xs text-stone-500 italic mt-2 font-hand text-base">${escapeHtml(entry.caption)}</p>
+                        ` : ''}
+                      </div>
                     </div>
                   ` : ''}
                 </div>
               `).join('')}
             </div>
 
-            <div class="pt-4 border-t border-stone-200 text-right">
+            <div class="pt-4 border-t border-amber-200 flex items-center justify-between">
+              <span class="text-xs text-stone-400 uppercase tracking-widest font-medium">Philippines Dumaguete Mission</span>
               <span class="font-hand text-xl text-amber-900">Elder Salviejo</span>
             </div>
 

@@ -20,15 +20,124 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
 
   <style>
+    /* Strict A4 Document Dimensions (Screen & Print) */
+    :root {
+      --a4-width: 210mm;
+      --a4-height: 297mm;
+    }
+
+    /* Screen Preview: Emulate authentic A4 Page Sheets */
+    .a4-page {
+      width: 100%;
+      max-width: var(--a4-width);
+      margin-left: auto;
+      margin-right: auto;
+      box-sizing: border-box;
+    }
+
+    .book-cover {
+      min-height: 720px;
+    }
+
+    @media (min-width: 768px) {
+      .book-cover {
+        min-height: calc(var(--a4-height) - 10mm);
+      }
+    }
+
+    /* Print Setup: Strictly Enforce A4 Portrait & Preserve Authentic Color Template */
+    @page {
+      size: A4 portrait;
+      margin: 12mm 14mm 12mm 14mm;
+    }
+
     @media print {
-      .no-print { display: none !important; }
-      body { background: #ffffff !important; color: #111827 !important; font-size: 11pt !important; }
-      .book-cover { page-break-after: always; break-after: page; min-height: 90vh; }
-      .book-chapter { page-break-before: always; break-before: page; }
-      .avoid-break { break-inside: avoid; page-break-inside: avoid; }
-      @page {
-        margin: 1.5cm;
-        size: A4 portrait;
+      *, *:before, *:after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+
+      html, body {
+        width: var(--a4-width) !important;
+        background: #ffffff !important;
+        color: #1c1917 !important;
+        font-size: 10pt !important;
+        line-height: 1.45 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      main {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+      }
+
+      /* Single-page A4 Book Cover without overflow */
+      .book-cover {
+        page-break-before: auto !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        height: 270mm !important;
+        max-height: 270mm !important;
+        min-height: 270mm !important;
+        border: 4px double #78350f !important;
+        background-color: #fdfbf7 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        padding: 10mm 12mm !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        margin: 0 !important;
+      }
+
+      /* Each Chapter starts on a fresh A4 Page, maintaining the parchment color template */
+      .book-chapter {
+        page-break-before: always !important;
+        break-before: page !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        border: 1px solid #fde68a !important;
+        background-color: #fdfbf7 !important;
+        padding: 12mm 14mm !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+      }
+
+      .avoid-break {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .missionary-nametag {
+        background-color: #0a0a0a !important;
+        color: #ffffff !important;
+      }
+      .missionary-nametag .tag-name,
+      .missionary-nametag .tag-christ {
+        color: #ffffff !important;
+      }
+      .missionary-nametag .tag-church {
+        color: #d1d5db !important;
+      }
+      .missionary-nametag .tag-divider {
+        background-color: rgba(255, 255, 255, 0.5) !important;
+      }
+
+      /* Image height safety to prevent page spilling */
+      img {
+        max-height: 75mm !important;
       }
     }
   </style>
@@ -60,11 +169,14 @@
       </a>
 
       <!-- Action Buttons -->
-      <div class="flex items-center space-x-2 shrink-0">
+      <div class="flex items-center gap-2 shrink-0">
+        <span class="hidden sm:inline-flex items-center gap-1 text-[11px] font-mono px-2.5 py-1 rounded-md bg-stone-800 text-amber-300 border border-amber-500/20">
+          📄 A4 Format
+        </span>
         <button
           onclick="window.print()"
           class="text-xs bg-amber-600 hover:bg-amber-500 text-white font-semibold px-3.5 py-1.5 rounded-lg shadow flex items-center gap-1.5 transition"
-          title="Print or Save complete book as PDF"
+          title="Print or Save complete book as PDF (A4 Portrait)"
         >
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
@@ -77,17 +189,17 @@
   </header>
 
   <!-- Helpful Print Banner (Hidden when printed) -->
-  <div class="no-print bg-amber-50 border-b border-amber-200 px-4 py-2.5 text-center text-xs text-amber-900 font-medium">
-    💡 <strong>Tip:</strong> Click <em>"Print / Save as PDF"</em> and select <strong>"Save as PDF"</strong> in your browser's print dialog to export a physical, book-formatted keepsake.
+  <div class="no-print bg-amber-50/90 border-b border-amber-200 px-4 py-2.5 text-center text-xs text-amber-900 font-medium">
+    💡 <strong>A4 Sized Keepsake:</strong> Formatted strictly for <strong>A4 Portrait</strong> paper. When printing, select <strong>Paper Size: A4</strong> in your print dialog.
   </div>
 
-  <!-- Book Viewport Container -->
-  <main class="max-w-4xl mx-auto px-4 sm:px-8 py-8 sm:py-12 flex-1 w-full space-y-12">
+  <!-- Book Viewport Container (Strict A4 Width) -->
+  <main class="a4-page px-4 sm:px-0 py-6 sm:py-10 flex-1 space-y-10 sm:space-y-12">
 
     <!-- =================================================================== -->
     <!-- BOOK COVER PAGE                                                     -->
     <!-- =================================================================== -->
-    <section class="book-cover bg-[#fdfbf7] border-4 border-double border-amber-900/40 rounded-3xl p-8 sm:p-14 text-center shadow-xl relative overflow-hidden flex flex-col justify-between min-h-[780px]">
+    <section class="book-cover bg-[#fdfbf7] border-4 border-double border-amber-900/40 rounded-2xl sm:rounded-3xl p-6 sm:p-12 text-center shadow-xl relative overflow-hidden flex flex-col justify-between">
       
       <!-- Top Church & Mission Header -->
       <div class="space-y-2">
@@ -158,7 +270,7 @@
     <!-- =================================================================== -->
     <!-- CHAPTER 1: OFFICIAL CALL & PERSONAL TESTIMONY                       -->
     <!-- =================================================================== -->
-    <section class="book-chapter bg-white border border-stone-200 rounded-2xl p-6 sm:p-10 shadow-md space-y-8">
+    <section class="book-chapter bg-[#fdfbf7] border border-amber-200/90 rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-md space-y-8">
       
       <div class="border-b border-amber-200 pb-4 flex items-center justify-between">
         <div>
@@ -217,8 +329,8 @@
       </div>
 
       <!-- Feature Visuals (Call Letter + Map) -->
-      <div class="avoid-break grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6 border-t border-stone-200">
-        <div class="bg-stone-50 p-3 rounded-xl border border-stone-200 text-center">
+      <div class="avoid-break grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6 border-t border-amber-200/80">
+        <div class="bg-amber-50/40 p-3 rounded-xl border border-amber-200/80 text-center">
           <img
             src="/assets/images/intro/call-letter.jpg"
             alt="Official Call Letter"
@@ -230,7 +342,7 @@
           <p class="font-serif font-bold text-xs text-stone-800 mt-2">Official Mission Call Letter</p>
           <p class="text-[11px] text-stone-500">Office of the First Presidency</p>
         </div>
-        <div class="bg-stone-50 p-3 rounded-xl border border-stone-200 text-center">
+        <div class="bg-amber-50/40 p-3 rounded-xl border border-amber-200/80 text-center">
           <img
             src="/assets/images/intro/call-overview.jpg"
             alt="Philippines Dumaguete Mission Map"
@@ -249,9 +361,9 @@
     <!-- =================================================================== -->
     <!-- DYNAMIC WEEKLY CHAPTERS (Loaded via API or local database)         -->
     <!-- =================================================================== -->
-    <div id="bookWeeklyChapters" class="space-y-12">
+    <div id="bookWeeklyChapters" class="space-y-10 sm:space-y-12">
       <!-- Loading placeholder -->
-      <div id="bookLoadingState" class="text-center py-12 bg-white rounded-2xl border border-stone-200 shadow-sm p-8">
+      <div id="bookLoadingState" class="text-center py-12 bg-[#fdfbf7] rounded-2xl sm:rounded-3xl border border-amber-200/90 shadow-sm p-8">
         <div class="w-10 h-10 border-3 border-amber-600 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
         <p class="text-sm font-serif font-bold text-stone-800">Compiling Weekly Missionary Journals...</p>
         <p class="text-xs text-stone-500 mt-1">Gathering published reflections, scriptures, and photographs.</p>
@@ -261,7 +373,7 @@
     <!-- =================================================================== -->
     <!-- EPILOGUE & HOMECOMING PAGE                                          -->
     <!-- =================================================================== -->
-    <section class="book-chapter bg-white border border-stone-200 rounded-2xl p-8 sm:p-12 text-center shadow-md space-y-6">
+    <section class="book-chapter bg-[#fdfbf7] border border-amber-200/90 rounded-2xl sm:rounded-3xl p-8 sm:p-12 text-center shadow-md space-y-6">
       <div class="inline-block text-amber-800 text-2xl">🕊️</div>
       <h3 class="font-serif text-2xl font-bold text-stone-900">
         “And see that ye have faith, hope, and charity, and then ye will do good works.”
@@ -269,7 +381,7 @@
       <p class="text-xs font-mono uppercase tracking-widest text-stone-500">
         Alma 7:24
       </p>
-      <div class="max-w-lg mx-auto text-xs text-stone-600 leading-relaxed pt-3 border-t border-stone-200">
+      <div class="max-w-lg mx-auto text-xs text-stone-600 leading-relaxed pt-3 border-t border-amber-200">
         Compiled with love and testimony for Elder Mark Salviejo, his family, ward leaders, and all faithful supporters of the Philippines Dumaguete Mission.
       </div>
     </section>
