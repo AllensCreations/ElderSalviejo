@@ -93,9 +93,9 @@ async function loadWeek() {
     return;
   }
 
-  // Instant SWR: render from sessionStorage if previously loaded
+  // Instant SWR: render from localStorage if previously loaded (0ms perceived load)
   try {
-    const cached = sessionStorage.getItem(`gdv_week_${slug}`);
+    const cached = localStorage.getItem(`gdv_week_${slug}`) || sessionStorage.getItem(`gdv_week_${slug}`);
     if (cached) {
       const cachedWeek = JSON.parse(cached);
       if (cachedWeek && cachedWeek.title) {
@@ -112,6 +112,7 @@ async function loadWeek() {
     if (!data.week) throw new Error('Week data not found in response');
     
     try {
+      localStorage.setItem(`gdv_week_${slug}`, JSON.stringify(data.week));
       sessionStorage.setItem(`gdv_week_${slug}`, JSON.stringify(data.week));
     } catch (_) {}
 

@@ -37,26 +37,69 @@ async function loadGallery() {
   const countText = document.getElementById('galleryCountText');
   const loadMore = document.getElementById('galleryLoadMoreContainer');
 
-  if (skeleton) skeleton.classList.remove('hidden');
-  if (grid) grid.classList.add('hidden');
-  if (empty) empty.classList.add('hidden');
-  if (filters) filters.classList.add('hidden');
-  if (loadMore) loadMore.classList.add('hidden');
-  if (countText) countText.textContent = 'Checking photos...';
-
+  // 1. Instant SWR: Render from LocalStorage if previously loaded (0ms load, zero wait)
   try {
-    const res = await fetch('/api/gallery', { cache: 'no-cache' });
+    const cachedRaw = localStorage.getItem('gdv_cached_gallery');
+    if (cachedRaw) {
+      const cachedList = JSON.parse(cachedRaw);
+      if (Array.isArray(cachedList) && cachedList.length > 0) {
+        allPhotos = cachedList;
+        filteredPhotos = [...allPhotos];
+        if (countText) countText.textContent = `${allPhotos.length} Polaroid${allPhotos.length === 1 ? '' : 's'}`;
+        renderFilters();
+        renderGallery();
+      }
+    }
+  } catch (_) {}
+
+  // Only show loading skeleton if we had no cached photos
+  if (allPhotos.length === 0) {
+    if (skeleton) skeleton.classList.remove('hidden');
+    if (grid) grid.classList.add('hidden');
+    if (empty) empty.classList.add('hidden');
+    if (filters) filters.classList.add('hidden');
+    if (loadMore) loadMore.classList.add('hidden');
+    if (countText) countText.textContent = 'Checking photos...';
+  }
+
+  // 2. Fetch fresh gallery data in background
+  try {
+    const res = await fetch('/api/gallery');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
 
-    if (data && Array.isArray(data.photos) && data.photos.length > 0) {
+    if (data && Array.isArray(data.photos)) {
       allPhotos = data.photos;
-    } else {
-      allPhotos = [];
+      try {
+        localStorage.setItem('gdv_cached_gallery', JSON.stringify(allPhotos));
+      } catch (_) {}
     }
   } catch (err) {
-    console.warn('Could not fetch /api/gallery:', err);
-    allPhotos = [];
+    console.warn('Could not fetch /api/gallery, using cached photos if available:', err);
+    if (allPhotos.length === 0) {
+      // CDN Fallback
+      try {
+        const cdnRes = await fetch('https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/index.json');
+        if (cdnRes.ok) {
+          const cdnData = await cdnRes.json();
+          if (Array.isArray(cdnData)) {
+            allPhotos = cdnData.map(item => ({
+              id: item.id || `cdn-${item.filename}`,
+              src: item.src || item.cdnUrl,
+              date: item.uploadedAt,
+              category: item.category || 'Mission',
+              caption: item.caption || item.text || '',
+              album: item.album || item.category || '',
+              isGalleryUpload: true,
+              source: 'gallery'
+            }));
+            try {
+              localStorage.setItem('gdv_cached_gallery', JSON.stringify(allPhotos));
+            } catch (_) {}
+          }
+        }
+      } catch (_) {}
+    }
   }
 
   displayedCount = PAGE_SIZE;
