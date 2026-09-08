@@ -31,10 +31,51 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
 
   <style>
+    /* Pinned Polaroid Masonry Board */
+    .gallery-masonry {
+      column-count: 1;
+      column-gap: 1.25rem;
+      width: 100%;
+    }
+
+    @media (min-width: 480px) {
+      .gallery-masonry {
+        column-count: 2;
+        column-gap: 1.5rem;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .gallery-masonry {
+        column-count: 3;
+        column-gap: 1.75rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .gallery-masonry {
+        column-count: 4;
+        column-gap: 1.75rem;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .gallery-masonry {
+        column-count: 5;
+        column-gap: 2rem;
+      }
+    }
+
     /* Pinned Polaroid Board Styling */
     .polaroid-pinned-card {
       position: relative;
       padding-top: 10px;
+      margin-bottom: 2rem;
+      display: inline-block;
+      width: 100%;
+      break-inside: avoid;
+      -webkit-column-break-inside: avoid;
+      page-break-inside: avoid;
       transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), z-index 0.25s ease;
       cursor: pointer;
       user-select: none;
@@ -42,7 +83,7 @@
     }
 
     .polaroid-pinned-card:hover {
-      transform: scale(1.05) rotate(0deg) !important;
+      transform: scale(1.04) rotate(0deg) !important;
       z-index: 30;
     }
 
@@ -72,40 +113,44 @@
       filter: blur(1px);
     }
 
-    /* Authentic Polaroid Photo Frame (Strictly No Text) */
+    /* Authentic Polaroid Photo Frame (Natural Aspect Ratio) */
     .polaroid-frame {
       background: #ffffff;
       padding: 9px;
-      padding-bottom: 34px;
+      padding-bottom: 28px;
       border-radius: 2px;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28), 0 1px 3px rgba(0, 0, 0, 0.15);
       width: 100%;
       transition: box-shadow 0.25s ease;
+      box-sizing: border-box;
     }
 
     .polaroid-pinned-card:hover .polaroid-frame {
-      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.55), 0 4px 12px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.25);
     }
 
     .polaroid-photo-wrap {
       position: relative;
       overflow: hidden;
-      background-color: #1c1917;
+      background-color: #292524;
       border: 1px solid rgba(0, 0, 0, 0.08);
       border-radius: 1px;
-      aspect-ratio: 1 / 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .polaroid-photo-wrap img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
+      max-width: 100%;
       display: block;
       transition: transform 0.35s ease;
     }
 
     .polaroid-pinned-card:hover .polaroid-photo-wrap img {
-      transform: scale(1.03);
+      transform: scale(1.025);
     }
 
     /* Natural Subtle Pinboard Tilts */
@@ -273,18 +318,18 @@
       <!-- Populated via public/js/gallery.js -->
     </div>
 
-    <!-- Loading Skeleton (Pinned Cards) -->
-    <div id="gallerySkeleton" class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 sm:gap-7 justify-items-center">
-      <div class="polaroid-pinned-card tilt-neg-1 max-w-[240px] w-full animate-pulse"><div class="polaroid-pin"></div><div class="polaroid-frame"><div class="polaroid-photo-wrap bg-stone-800"></div></div></div>
-      <div class="polaroid-pinned-card tilt-pos-1 max-w-[240px] w-full animate-pulse"><div class="polaroid-pin"></div><div class="polaroid-frame"><div class="polaroid-photo-wrap bg-stone-800"></div></div></div>
-      <div class="polaroid-pinned-card tilt-neg-2 max-w-[240px] w-full animate-pulse"><div class="polaroid-pin"></div><div class="polaroid-frame"><div class="polaroid-photo-wrap bg-stone-800"></div></div></div>
-      <div class="polaroid-pinned-card tilt-pos-2 max-w-[240px] w-full animate-pulse"><div class="polaroid-pin"></div><div class="polaroid-frame"><div class="polaroid-photo-wrap bg-stone-800"></div></div></div>
-      <div class="polaroid-pinned-card tilt-zero max-w-[240px] w-full animate-pulse"><div class="polaroid-pin"></div><div class="polaroid-frame"><div class="polaroid-photo-wrap bg-stone-800"></div></div></div>
-      <div class="polaroid-pinned-card tilt-neg-1 max-w-[240px] w-full animate-pulse"><div class="polaroid-pin"></div><div class="polaroid-frame"><div class="polaroid-photo-wrap bg-stone-800"></div></div></div>
+    <!-- Loading Skeleton (Masonry Pinned Cards) -->
+    <div id="gallerySkeleton" class="gallery-masonry">
+      <div class="polaroid-pinned-card tilt-neg-1 animate-pulse"><div class="polaroid-pin"></div><div class="polaroid-frame"><div class="polaroid-photo-wrap bg-stone-800 h-64"></div></div></div>
+      <div class="polaroid-pinned-card tilt-pos-1 animate-pulse"><div class="polaroid-pin"></div><div class="polaroid-frame"><div class="polaroid-photo-wrap bg-stone-800 h-48"></div></div></div>
+      <div class="polaroid-pinned-card tilt-neg-2 animate-pulse"><div class="polaroid-pin"></div><div class="polaroid-frame"><div class="polaroid-photo-wrap bg-stone-800 h-80"></div></div></div>
+      <div class="polaroid-pinned-card tilt-pos-2 animate-pulse"><div class="polaroid-pin"></div><div class="polaroid-frame"><div class="polaroid-photo-wrap bg-stone-800 h-56"></div></div></div>
+      <div class="polaroid-pinned-card tilt-zero animate-pulse"><div class="polaroid-pin"></div><div class="polaroid-frame"><div class="polaroid-photo-wrap bg-stone-800 h-72"></div></div></div>
+      <div class="polaroid-pinned-card tilt-neg-1 animate-pulse"><div class="polaroid-pin"></div><div class="polaroid-frame"><div class="polaroid-photo-wrap bg-stone-800 h-52"></div></div></div>
     </div>
 
-    <!-- Live Polaroid Pinned Board Grid (Auto-Sizes: Scrollable on mobile, compact pinned cards on wide screens) -->
-    <div id="galleryGrid" class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 sm:gap-7 justify-items-center hidden">
+    <!-- Live Polaroid Pinned Board (Natural Aspect Ratio Masonry Layout) -->
+    <div id="galleryGrid" class="gallery-masonry hidden">
       <!-- Populated via public/js/gallery.js -->
     </div>
 

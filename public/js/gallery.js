@@ -207,7 +207,7 @@ function renderGallery() {
 
     return `
       <div 
-        class="polaroid-pinned-card ${tiltClass} max-w-[240px] w-full" 
+        class="polaroid-pinned-card ${tiltClass} w-full" 
         onclick="openLightbox(${index})"
         role="button"
         tabindex="0"
