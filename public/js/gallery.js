@@ -12,6 +12,9 @@ let showDateStamp = localStorage.getItem('galleryDateStamp') !== 'false';
 let touchStartX = 0;
 let touchEndX = 0;
 
+const PAGE_SIZE = 20;
+let displayedCount = PAGE_SIZE;
+
 const TILT_CLASSES = [
   'tilt-neg-2',
   'tilt-pos-1',
@@ -32,11 +35,13 @@ async function loadGallery() {
   const empty = document.getElementById('galleryEmpty');
   const filters = document.getElementById('galleryFilters');
   const countText = document.getElementById('galleryCountText');
+  const loadMore = document.getElementById('galleryLoadMoreContainer');
 
   if (skeleton) skeleton.classList.remove('hidden');
   if (grid) grid.classList.add('hidden');
   if (empty) empty.classList.add('hidden');
   if (filters) filters.classList.add('hidden');
+  if (loadMore) loadMore.classList.add('hidden');
   if (countText) countText.textContent = 'Checking photos...';
 
   try {
@@ -54,6 +59,7 @@ async function loadGallery() {
     allPhotos = [];
   }
 
+  displayedCount = PAGE_SIZE;
   filteredPhotos = [...allPhotos];
   renderFilters();
   renderGallery();
@@ -104,6 +110,7 @@ function renderFilters() {
 
 function setCategory(cat) {
   activeCategory = cat;
+  displayedCount = PAGE_SIZE; // Reset pagination for category switch
   if (cat === 'All') {
     filteredPhotos = [...allPhotos];
   } else {
@@ -116,17 +123,26 @@ function setCategory(cat) {
   renderGallery();
 }
 
+function loadMorePhotos() {
+  displayedCount += PAGE_SIZE;
+  renderGallery();
+}
+
 function renderGallery() {
   const skeleton = document.getElementById('gallerySkeleton');
   const grid = document.getElementById('galleryGrid');
   const empty = document.getElementById('galleryEmpty');
   const countText = document.getElementById('galleryCountText');
+  const loadMoreContainer = document.getElementById('galleryLoadMoreContainer');
+  const loadMoreBtn = document.getElementById('loadMoreBtn');
+  const progressText = document.getElementById('galleryProgressText');
 
   if (skeleton) skeleton.classList.add('hidden');
 
   if (!filteredPhotos || filteredPhotos.length === 0) {
     if (grid) grid.classList.add('hidden');
     if (empty) empty.classList.remove('hidden');
+    if (loadMoreContainer) loadMoreContainer.classList.add('hidden');
     if (countText) countText.textContent = '0 Polaroids';
     return;
   }
@@ -138,10 +154,13 @@ function renderGallery() {
 
   if (!grid) return;
 
+  const visiblePhotos = filteredPhotos.slice(0, displayedCount);
+
   // Render pinned polaroid board (strictly images only, no text)
-  grid.innerHTML = filteredPhotos.map((item, index) => {
+  grid.innerHTML = visiblePhotos.map((item, index) => {
     const tiltClass = TILT_CLASSES[index % TILT_CLASSES.length];
     const imgSrc = item.src || item.thumb || '';
+    const isPriority = index < 4;
 
     return `
       <div 
@@ -158,7 +177,8 @@ function renderGallery() {
             <img 
               src="${escapeAttr(imgSrc)}" 
               alt="Elder Salviejo Polaroid" 
-              loading="lazy"
+              loading="${isPriority ? 'eager' : 'lazy'}"
+              ${isPriority ? 'fetchpriority="high"' : ''}
               decoding="async"
             />
           </div>
@@ -168,6 +188,27 @@ function renderGallery() {
   }).join('');
 
   grid.classList.remove('hidden');
+
+  // Handle Load More Controls
+  if (loadMoreContainer) {
+    if (filteredPhotos.length > displayedCount) {
+      loadMoreContainer.classList.remove('hidden');
+      if (loadMoreBtn) loadMoreBtn.classList.remove('hidden');
+      if (progressText) {
+        progressText.textContent = `Showing ${visiblePhotos.length} of ${filteredPhotos.length} polaroids`;
+      }
+    } else {
+      if (filteredPhotos.length > PAGE_SIZE) {
+        loadMoreContainer.classList.remove('hidden');
+        if (loadMoreBtn) loadMoreBtn.classList.add('hidden');
+        if (progressText) {
+          progressText.textContent = `Showing all ${filteredPhotos.length} polaroids`;
+        }
+      } else {
+        loadMoreContainer.classList.add('hidden');
+      }
+    }
+  }
 }
 
 /* Lightbox Implementation with Feature 6 Date Stamp */

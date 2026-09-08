@@ -995,8 +995,7 @@ function parseDiaryContent(bodyText, encodedImages) {
   // Clean out standalone Report or Key Indicators sections before day splitting
   cleanBody = cleanBody.replace(/(?:^|\n)\s*[-—#*~]*\s*(?:WEEKLY\s+REPORT|MISSIONARY\s+REPORT|KEY\s+INDICATORS|STATISTICS|REPORT)\s*[-—#*~:]*[\s\S]*?(?=\n\s*[-—#*~]*\s*(?:MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY|VERSE)|$)/gi, '\n');
 
-  const verseRegex = /(?:^|
-)\s*[-—#*~]*\s*VERSE\s*[-—#*~:]*\s*([\s\S]*)$/i;
+  const verseRegex = /(?:^|\n)\s*[-—#*~]*\s*VERSE\s*[-—#*~:]*\s*([\s\S]*)$/i;
   const verseMatch = cleanBody.match(verseRegex);
   if (verseMatch) {
     const rawVerseText = verseMatch[1].trim();
@@ -1005,9 +1004,7 @@ function parseDiaryContent(bodyText, encodedImages) {
   }
 
   const entries = [];
-  const headerRegex = /(?:^|
-)\s*[-—#*~]*\s*(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s*[-—#*~:]*\s*(?:
-|$)/gi;
+  const headerRegex = /(?:^|\n)\s*[-—#*~]*\s*(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s*[-—#*~:]*\s*(?:\n|$)/gi;
 
   const matches = [];
   let match;
@@ -1246,8 +1243,8 @@ function cleanSubjectTitle(rawSubject, secretCode) {
   clean = clean.replace(/[\(\[]?\s*159266\s*[\)\]]?/gi, '');
 
   if (secretCode) {
-    const escaped = secretCode.replace(/[.*+?^${}()|[\]\]/g, '\$&');
-    const regex = new RegExp('[\[\(]?\s*' + escaped + '\s*[\]\)]?', 'gi');
+    const escaped = secretCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp('[\\[\\(]?\\s*' + escaped + '\\s*[\\]\\)]?', 'gi');
     clean = clean.replace(regex, '');
   }
   clean = clean.replace(/(?:Published:\s*Elder\s*Salviejo'?s\s*Weekly\s*Journal\s*[—–-]*\s*)+/gi, '');

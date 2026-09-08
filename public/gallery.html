@@ -19,6 +19,12 @@
   <link rel="stylesheet" href="/css/main.css" />
   <link rel="stylesheet" href="/css/week.css" />
   
+  <!-- High-Speed Edge CDN Preconnects for Fast Images -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+  <link rel="preconnect" href="https://i.ibb.co" crossorigin />
+  <link rel="dns-prefetch" href="https://i.ibb.co" />
+  
   <!-- Google Fonts: Inter, Playfair Display & Caveat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -246,6 +252,25 @@
     <!-- Live Polaroid Pinned Board Grid (Auto-Sizes: Scrollable on mobile, compact pinned cards on wide screens) -->
     <div id="galleryGrid" class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 sm:gap-7 justify-items-center hidden">
       <!-- Populated via public/js/gallery.js -->
+    </div>
+
+    <!-- Pagination & Load More Container (20 photos per page) -->
+    <div id="galleryLoadMoreContainer" class="mt-10 sm:mt-14 text-center hidden">
+      <div class="inline-flex flex-col sm:flex-row items-center gap-3">
+        <button
+          id="loadMoreBtn"
+          onclick="loadMorePhotos()"
+          class="px-6 py-3 bg-amber-700 hover:bg-amber-600 active:scale-98 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-md hover:shadow-lg transition duration-150 flex items-center gap-2 cursor-pointer"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+          <span id="loadMoreBtnText">Load More Photos</span>
+        </button>
+        <span id="galleryProgressText" class="text-xs text-stone-500 font-medium">
+          Showing 20 polaroids
+        </span>
+      </div>
     </div>
 
     <!-- Empty State (Dignified & Public-Ready with Warm Parchment Theme) -->
