@@ -69,19 +69,16 @@ function getSiteUrl() {
 }
 
 /**
- * Retrieves or creates the Gmail label object for processed threads.
- * Supports exact match, case-insensitive match, and safe creation.
+ * Retrieves or creates the Gmail label object for processed weekly diary threads.
  */
 function getProcessedLabel() {
   const props = PropertiesService.getScriptProperties();
   const labelName = props.getProperty('PROCESSED_LABEL') || CONFIG.PROCESSED_LABEL || 'diary-processed';
   
   try {
-    // 1. Direct exact match
     let label = GmailApp.getUserLabelByName(labelName);
     if (label) return label;
 
-    // 2. Case-insensitive search across all existing labels
     const allLabels = GmailApp.getUserLabels();
     for (let i = 0; i < allLabels.length; i++) {
       if (allLabels[i].getName().toLowerCase() === labelName.toLowerCase()) {
@@ -89,11 +86,9 @@ function getProcessedLabel() {
       }
     }
 
-    // 3. Create new label if it does not exist
     return GmailApp.createLabel(labelName);
   } catch (err) {
-    Logger.log(`Notice retrieving or creating label "${labelName}": ${err.message}`);
-    // Fallback: search for any existing label matching diary or processed
+    Logger.log(`Notice retrieving or creating diary label "${labelName}": ${err.message}`);
     try {
       const allLabels = GmailApp.getUserLabels();
       for (let i = 0; i < allLabels.length; i++) {
@@ -108,7 +103,41 @@ function getProcessedLabel() {
 }
 
 /**
- * Safely applies the processed label to a thread and marks it as read.
+ * Retrieves or creates the Gmail label object for processed Polaroid gallery threads.
+ */
+function getGalleryProcessedLabel() {
+  const props = PropertiesService.getScriptProperties();
+  const labelName = props.getProperty('GALLERY_PROCESSED_LABEL') || 'gallery-processed';
+  
+  try {
+    let label = GmailApp.getUserLabelByName(labelName);
+    if (label) return label;
+
+    const allLabels = GmailApp.getUserLabels();
+    for (let i = 0; i < allLabels.length; i++) {
+      if (allLabels[i].getName().toLowerCase() === labelName.toLowerCase()) {
+        return allLabels[i];
+      }
+    }
+
+    return GmailApp.createLabel(labelName);
+  } catch (err) {
+    Logger.log(`Notice retrieving or creating gallery label "${labelName}": ${err.message}`);
+    try {
+      const allLabels = GmailApp.getUserLabels();
+      for (let i = 0; i < allLabels.length; i++) {
+        const name = allLabels[i].getName().toLowerCase();
+        if (name === labelName.toLowerCase() || name === 'gallery-processed' || name === 'gallery processed') {
+          return allLabels[i];
+        }
+      }
+    } catch (_) {}
+    return null;
+  }
+}
+
+/**
+ * Safely applies the diary processed label to a thread and marks it as read.
  */
 function applyProcessedLabel(thread) {
   if (!thread) return;
@@ -117,13 +146,33 @@ function applyProcessedLabel(thread) {
     if (label) {
       thread.addLabel(label);
       const subject = thread.getFirstMessageSubject() || 'Untitled';
-      Logger.log(`[PASS] Applied label "${label.getName()}" to thread: "${subject}"`);
+      Logger.log(`[PASS] Applied diary label "${label.getName()}" to thread: "${subject}"`);
     } else {
-      Logger.log(`[WARNING] Unable to obtain label object to apply to thread.`);
+      Logger.log(`[WARNING] Unable to obtain diary label object to apply to thread.`);
     }
     thread.markRead();
   } catch (err) {
-    Logger.log(`Notice applying processed label: ${err.message}`);
+    Logger.log(`Notice applying diary processed label: ${err.message}`);
+  }
+}
+
+/**
+ * Safely applies the gallery processed label to a thread and marks it as read.
+ */
+function applyGalleryProcessedLabel(thread) {
+  if (!thread) return;
+  try {
+    const label = getGalleryProcessedLabel();
+    if (label) {
+      thread.addLabel(label);
+      const subject = thread.getFirstMessageSubject() || 'Untitled';
+      Logger.log(`[PASS] Applied gallery label "${label.getName()}" to thread: "${subject}"`);
+    } else {
+      Logger.log(`[WARNING] Unable to obtain gallery label object to apply to thread.`);
+    }
+    thread.markRead();
+  } catch (err) {
+    Logger.log(`Notice applying gallery processed label: ${err.message}`);
   }
 }
 
@@ -133,7 +182,8 @@ function applyProcessedLabel(thread) {
  */
 function getGmailQuery() {
   const props = PropertiesService.getScriptProperties();
-  const labelName = props.getProperty('PROCESSED_LABEL') || CONFIG.PROCESSED_LABEL || 'diary-processed';
+  const diaryLabel = props.getProperty('PROCESSED_LABEL') || CONFIG.PROCESSED_LABEL || 'diary-processed';
+  const galleryLabel = props.getProperty('GALLERY_PROCESSED_LABEL') || 'gallery-processed';
   const diaryCode = props.getProperty('SECRET_DIARY_CODE') || props.getProperty('SECRET_CODE') || CONFIG.SECRET_DIARY_CODE || '';
   const galleryCode = props.getProperty('SECRET_GALLERY_CODE') || CONFIG.SECRET_GALLERY_CODE || '';
 
@@ -142,7 +192,7 @@ function getGmailQuery() {
     ? `(${codeTerms} OR subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection OR subject:Gallery OR subject:Album OR subject:Photos)`
     : '(subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection OR subject:Gallery OR subject:Album OR subject:Photos OR has:attachment)';
 
-  return `${codeFilter} -label:${labelName} -from:me -subject:"Confirmed:" -subject:"Receipt:" -subject:"Published:" -subject:"Re:" -subject:"RE:" -subject:"Fwd:" -subject:"FW:"`;
+  return `${codeFilter} -label:${diaryLabel} -label:${galleryLabel} -from:me -subject:"Confirmed:" -subject:"Receipt:" -subject:"Published:" -subject:"Re:" -subject:"RE:" -subject:"Fwd:" -subject:"FW:"`;
 }
 
 /**
@@ -306,21 +356,45 @@ function scheduleContinuationTrigger() {
 }
 
 /**
- * Diagnostic tool: Run from toolbar to verify last 5 emails in inbox.
+ * Diagnostic tool: Run from toolbar to verify last 5 emails in inbox and why they match or don't match.
  */
 function debugCheckInbox() {
-  Logger.log('=== Checking Last 5 Emails in Inbox ===');
+  Logger.log('====================================================');
+  Logger.log('=== CHECKING LAST 5 EMAILS IN INBOX ===');
+  Logger.log('====================================================');
   const threads = GmailApp.getInboxThreads(0, 5);
   if (!threads || threads.length === 0) {
     Logger.log('Inbox has NO emails right now.');
     return;
   }
+  
+  const diaryLabel = getProcessedLabel();
+  const galleryLabel = getGalleryProcessedLabel();
+  const diaryName = diaryLabel ? diaryLabel.getName().toLowerCase() : 'diary-processed';
+  const galleryName = galleryLabel ? galleryLabel.getName().toLowerCase() : 'gallery-processed';
+
   for (let i = 0; i < threads.length; i++) {
-    const msg = threads[i].getMessages()[0];
-    const labels = threads[i].getLabels().map(l => l.getName()).join(', ') || 'none';
-    Logger.log(`Email #${i + 1}: Subject="${msg.getSubject()}" | From="${msg.getFrom()}" | Labels=[${labels}]`);
+    const thread = threads[i];
+    const msg = thread.getMessages()[0];
+    const labels = thread.getLabels().map(l => l.getName());
+    const labelNamesLower = labels.map(l => l.toLowerCase());
+    const isDiaryLabeled = labelNamesLower.includes(diaryName);
+    const isGalleryLabeled = labelNamesLower.includes(galleryName);
+    
+    Logger.log(`\nEmail #${i + 1}:`);
+    Logger.log(`   Subject : "${msg.getSubject()}"`);
+    Logger.log(`   From    : "${msg.getFrom()}"`);
+    Logger.log(`   Date    : ${msg.getDate().toISOString()}`);
+    Logger.log(`   Labels  : [${labels.join(', ') || 'none'}]`);
+    if (isDiaryLabeled) {
+      Logger.log(`   Status  : ALREADY PROCESSED AS DIARY (Has "${diaryName}" label)`);
+    } else if (isGalleryLabeled) {
+      Logger.log(`   Status  : ALREADY PROCESSED AS GALLERY (Has "${galleryName}" label)`);
+    } else {
+      Logger.log(`   Status  : UNPROCESSED (Ready to be ingested by trigger or processWeeklyDiaryEmails)`);
+    }
   }
-  Logger.log('=======================================');
+  Logger.log('\n====================================================');
 }
 
 /**
@@ -462,7 +536,7 @@ function processWeeklyDiaryEmails() {
       if (imageAttachments.length === 0) {
         Logger.log(`Skipping gallery upload for "${subject}": No photo attachments found.`);
         markMessageProcessed(messageId);
-        applyProcessedLabel(thread);
+        applyGalleryProcessedLabel(thread);
         continue;
       }
 
@@ -545,7 +619,7 @@ function processWeeklyDiaryEmails() {
 
       clearContinuationState();
       markMessageProcessed(messageId);
-      applyProcessedLabel(thread);
+      applyGalleryProcessedLabel(thread);
       Logger.log(`Successfully ingested Gallery thread: "${subject}" [${totalImages} photos total]`);
 
       const galleryUrl = `${getSiteUrl()}/gallery`;
@@ -760,7 +834,11 @@ function resumeContinuationJob(state, startTime) {
 
     clearContinuationState();
     markMessageProcessed(state.messageId);
-    applyProcessedLabel(thread);
+    if (state.isGallery) {
+      applyGalleryProcessedLabel(thread);
+    } else {
+      applyProcessedLabel(thread);
+    }
 
     Logger.log(`Continuation job fully completed for ${totalImages} photos.`);
     const galleryUrl = `${getSiteUrl()}/gallery`;
@@ -1865,29 +1943,37 @@ function requestAuthorization() {
 }
 
 /**
- * DIAGNOSTIC TOOL: Verifies Gmail Label creation and applies it to the latest inbox email.
+ * DIAGNOSTIC TOOL: Verifies both Diary and Gallery Gmail Label creation and applies them.
  * 
  * Select "testVerifyAndApplyGmailLabel" in the toolbar dropdown and click "Run".
  */
 function testVerifyAndApplyGmailLabel() {
-  Logger.log('=== Verifying Gmail Processed Label ===');
-  const label = getProcessedLabel();
-  if (!label) {
-    Logger.log('[FAIL] Could not get or create Gmail label object.');
-    return;
+  Logger.log('=== Verifying Gmail Processed Labels ===');
+  const diaryLabel = getProcessedLabel();
+  const galleryLabel = getGalleryProcessedLabel();
+
+  if (diaryLabel) {
+    Logger.log(`[PASS] Diary Label verified: "${diaryLabel.getName()}"`);
+  } else {
+    Logger.log('[FAIL] Could not get or create Diary label.');
   }
-  Logger.log(`[PASS] Label verified: "${label.getName()}"`);
+
+  if (galleryLabel) {
+    Logger.log(`[PASS] Gallery Label verified: "${galleryLabel.getName()}"`);
+  } else {
+    Logger.log('[FAIL] Could not get or create Gallery label.');
+  }
 
   const threads = GmailApp.getInboxThreads(0, 1);
   if (!threads || threads.length === 0) {
-    Logger.log('[NOTICE] Inbox has no emails to apply the label to.');
+    Logger.log('[NOTICE] Inbox has no emails to test label application.');
     return;
   }
 
   const thread = threads[0];
   const subject = thread.getFirstMessageSubject() || 'Untitled';
   applyProcessedLabel(thread);
-  Logger.log(`[PASS] Successfully applied "${label.getName()}" label to latest email: "${subject}"`);
+  Logger.log(`[PASS] Successfully applied "${diaryLabel ? diaryLabel.getName() : 'diary-processed'}" label to latest email: "${subject}"`);
   Logger.log('Check your Gmail inbox - you will see the label attached to the email thread.');
   Logger.log('=======================================');
 }
