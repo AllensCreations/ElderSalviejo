@@ -17,6 +17,8 @@ const singleWeekHandler = require('./api/weeks/[id]');
 const subscribeHandler = require('./api/subscribe');
 const subscribersHandler = require('./api/subscribers');
 const galleryHandler = require('./api/gallery');
+const trackingMessageHandler = require('./api/tracking/message');
+const trackingBroadcastHandler = require('./api/tracking/broadcast');
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
@@ -83,6 +85,18 @@ const server = http.createServer(async (req, res) => {
     // 1c. API: GET /api/subscribers
     if (pathname === '/api/subscribers') {
       return await subscribersHandler(req, res);
+    }
+
+    // 1d. API: /api/tracking/message
+    if (pathname === '/api/tracking/message') {
+      if (req.method === 'POST') req.body = await readBody();
+      return await trackingMessageHandler(req, res);
+    }
+
+    // 1e. API: /api/tracking/broadcast
+    if (pathname === '/api/tracking/broadcast') {
+      if (req.method === 'POST') req.body = await readBody();
+      return await trackingBroadcastHandler(req, res);
     }
 
     // 2. API: GET /api/weeks

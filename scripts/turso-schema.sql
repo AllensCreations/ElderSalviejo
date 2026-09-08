@@ -28,3 +28,26 @@ CREATE TABLE IF NOT EXISTS subscribers (
 );
 
 CREATE INDEX IF NOT EXISTS idx_subscribers_email ON subscribers(email);
+
+-- Processed Gmail messages tracking table (replaces GAS PropertiesService storage)
+CREATE TABLE IF NOT EXISTS processed_messages (
+  message_id TEXT PRIMARY KEY,
+  subject TEXT,
+  sender TEXT,
+  status TEXT DEFAULT 'processed',
+  processed_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_processed_messages_id ON processed_messages(message_id);
+
+-- Weekly broadcast recipient logs (ensures each subscriber receives only one email per week)
+CREATE TABLE IF NOT EXISTS broadcast_logs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  week_slug TEXT NOT NULL,
+  recipient_email TEXT NOT NULL,
+  sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(week_slug, recipient_email)
+);
+
+CREATE INDEX IF NOT EXISTS idx_broadcast_logs_slug ON broadcast_logs(week_slug);
+CREATE INDEX IF NOT EXISTS idx_broadcast_logs_recipient ON broadcast_logs(week_slug, recipient_email);

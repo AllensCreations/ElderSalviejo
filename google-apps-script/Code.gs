@@ -95,10 +95,35 @@ function setupPrivateProperties(ingestSecret, secretPasscode) {
 }
 
 /**
- * Anti-Duplicate Engine: Checks if a Gmail message has already been processed.
+ * Anti-Duplicate Engine (Backed by Turso SQLite Database):
+ * Checks if a Gmail message has already been processed and recorded in Turso.
  */
 function isMessageAlreadyProcessed(messageId) {
   if (!messageId) return false;
+  
+  const ingestSecret = PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || CONFIG.INGEST_SECRET;
+  const baseUrl = (PropertiesService.getScriptProperties().getProperty('SITE_URL') || CONFIG.SITE_URL || 'https://eldersalviejo.vercel.app').replace(/\/$/, '');
+
+  try {
+    const url = `${baseUrl}/api/tracking/message?id=${encodeURIComponent(messageId)}`;
+    const res = UrlFetchApp.fetch(url, {
+      method: 'get',
+      headers: {
+        'Authorization': `Bearer ${ingestSecret}`,
+        'x-ingest-secret': ingestSecret
+      },
+      muteHttpExceptions: true
+    });
+
+    if (res.getResponseCode() === 200) {
+      const data = JSON.parse(res.getContentText());
+      return Boolean(data.isProcessed);
+    }
+  } catch (err) {
+    Logger.log(`Turso message check network notice: ${err.message}`);
+  }
+
+  // Local fallback cache in PropertiesService (temporary buffer)
   const props = PropertiesService.getScriptProperties();
   const raw = props.getProperty('PROCESSED_MESSAGE_IDS');
   if (!raw) return false;
@@ -111,22 +136,49 @@ function isMessageAlreadyProcessed(messageId) {
 }
 
 /**
- * Anti-Duplicate Engine: Records a processed Gmail message ID.
+ * Anti-Duplicate Engine (Backed by Turso SQLite Database):
+ * Records a processed Gmail message into the Turso processed_messages table.
  */
-function markMessageProcessed(messageId) {
+function markMessageProcessed(messageId, subject, sender, status) {
   if (!messageId) return;
-  const props = PropertiesService.getScriptProperties();
-  const raw = props.getProperty('PROCESSED_MESSAGE_IDS');
-  let list = [];
+  
+  const ingestSecret = PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || CONFIG.INGEST_SECRET;
+  const baseUrl = (PropertiesService.getScriptProperties().getProperty('SITE_URL') || CONFIG.SITE_URL || 'https://eldersalviejo.vercel.app').replace(/\/$/, '');
+
   try {
-    if (raw) list = JSON.parse(raw);
-  } catch (_) {}
-  if (!Array.isArray(list)) list = [];
-  if (!list.includes(messageId)) {
-    list.push(messageId);
-    if (list.length > 500) list = list.slice(list.length - 500);
-    props.setProperty('PROCESSED_MESSAGE_IDS', JSON.stringify(list));
+    const url = `${baseUrl}/api/tracking/message`;
+    UrlFetchApp.fetch(url, {
+      method: 'post',
+      contentType: 'application/json',
+      headers: {
+        'Authorization': `Bearer ${ingestSecret}`,
+        'x-ingest-secret': ingestSecret
+      },
+      payload: JSON.stringify({
+        messageId: messageId,
+        subject: subject || null,
+        sender: sender || null,
+        status: status || 'processed'
+      }),
+      muteHttpExceptions: true
+    });
+  } catch (err) {
+    Logger.log(`Turso message record notice: ${err.message}`);
   }
+
+  // Also maintain small recent memory buffer in PropertiesService (max 50)
+  try {
+    const props = PropertiesService.getScriptProperties();
+    const raw = props.getProperty('PROCESSED_MESSAGE_IDS');
+    let list = [];
+    if (raw) list = JSON.parse(raw);
+    if (!Array.isArray(list)) list = [];
+    if (!list.includes(messageId)) {
+      list.push(messageId);
+      if (list.length > 50) list = list.slice(list.length - 50);
+      props.setProperty('PROCESSED_MESSAGE_IDS', JSON.stringify(list));
+    }
+  } catch (_) {}
 }
 
 /**
@@ -899,21 +951,35 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
     return;
   }
 
-  // Anti-Duplicate Broadcast Engine: Track sent recipients per weekly entry
-  const slugKey = 'BROADCAST_SENT_' + (payload.slug || 'week_' + Utilities.formatDate(new Date(payload.publishedAt), Session.getScriptTimeZone(), 'yyyy-MM-dd'));
-  const rawSent = PropertiesService.getScriptProperties().getProperty(slugKey) || '[]';
+  // Anti-Duplicate Broadcast Engine (Backed by Turso SQLite Database)
+  const ingestSecret = PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || CONFIG.INGEST_SECRET;
+  const baseUrl = (PropertiesService.getScriptProperties().getProperty('SITE_URL') || CONFIG.SITE_URL || 'https://eldersalviejo.vercel.app').replace(/\/$/, '');
+  
   let alreadySentRecipients = [];
   try {
-    alreadySentRecipients = JSON.parse(rawSent);
-    if (!Array.isArray(alreadySentRecipients)) alreadySentRecipients = [];
-  } catch (_) {
-    alreadySentRecipients = [];
+    const checkUrl = `${baseUrl}/api/tracking/broadcast?slug=${encodeURIComponent(payload.slug)}`;
+    const checkRes = UrlFetchApp.fetch(checkUrl, {
+      method: 'get',
+      headers: {
+        'Authorization': `Bearer ${ingestSecret}`,
+        'x-ingest-secret': ingestSecret
+      },
+      muteHttpExceptions: true
+    });
+    if (checkRes.getResponseCode() === 200) {
+      const checkData = JSON.parse(checkRes.getContentText());
+      if (Array.isArray(checkData.sentRecipients)) {
+        alreadySentRecipients = checkData.sentRecipients.map(e => String(e).toLowerCase());
+      }
+    }
+  } catch (err) {
+    Logger.log(`Turso broadcast check notice: ${err.message}`);
   }
-  
-  const pendingRecipients = allRecipients.filter(email => !alreadySentRecipients.includes(email));
+
+  const pendingRecipients = allRecipients.filter(email => !alreadySentRecipients.includes(email.toLowerCase()));
 
   if (pendingRecipients.length === 0) {
-    Logger.log(`Broadcast for "${payload.title}" has already been sent to all ${allRecipients.length} subscriber(s). Skipping duplicate broadcast.`);
+    Logger.log(`Broadcast for "${payload.title}" has already been sent and logged in Turso for all ${allRecipients.length} subscriber(s). Skipping duplicate broadcast.`);
     return;
   }
 
@@ -989,6 +1055,7 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
 
   Logger.log(`Broadcasting weekly diary to ${pendingRecipients.length} pending subscriber(s)...`);
 
+  const newlySent = [];
   for (let r = 0; r < pendingRecipients.length; r++) {
     const recipient = pendingRecipients[r];
     try {
@@ -996,17 +1063,33 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
         htmlBody: htmlBody,
         name: 'Elder Salviejo (Dumaguete Mission)'
       });
-      alreadySentRecipients.push(recipient);
+      newlySent.push(recipient);
     } catch (err) {
       Logger.log(`Error sending broadcast to ${recipient}: ${err.toString()}`);
     }
   }
 
-  // Persist sent recipients to avoid duplicate broadcasts
-  try {
-    PropertiesService.getScriptProperties().setProperty(slugKey, JSON.stringify(alreadySentRecipients));
-  } catch (propErr) {
-    Logger.log(`Notice saving broadcast state: ${propErr.message}`);
+  // Persist sent recipients to Turso SQLite Database broadcast_logs table
+  if (newlySent.length > 0) {
+    try {
+      const recordUrl = `${baseUrl}/api/tracking/broadcast`;
+      UrlFetchApp.fetch(recordUrl, {
+        method: 'post',
+        contentType: 'application/json',
+        headers: {
+          'Authorization': `Bearer ${ingestSecret}`,
+          'x-ingest-secret': ingestSecret
+        },
+        payload: JSON.stringify({
+          weekSlug: payload.slug,
+          recipientEmails: newlySent
+        }),
+        muteHttpExceptions: true
+      });
+      Logger.log(`Recorded ${newlySent.length} broadcast logs in Turso SQLite Database.`);
+    } catch (recordErr) {
+      Logger.log(`Notice recording broadcast logs in Turso: ${recordErr.message}`);
+    }
   }
 }
 
