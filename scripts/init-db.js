@@ -17,7 +17,7 @@ async function main() {
   try {
     const res = await initDatabase();
     console.log(`${res.message}`);
-    console.log('Table `journal_weeks` and indexes are ready to receive entries!');
+    console.log('Tables `journal_weeks` and `gallery` with indexes are ready to receive entries!');
   } catch (err) {
     console.error('Error initializing database:', err.message);
     process.exit(1);

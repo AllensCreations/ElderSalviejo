@@ -1,5 +1,6 @@
 -- Turso SQLite Database Schema for Gmail Diary Vault
 
+-- 1. Journal Weeks table: Dedicated weekly P-Day reflections and letters
 CREATE TABLE IF NOT EXISTS journal_weeks (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   slug TEXT NOT NULL UNIQUE,
@@ -7,20 +8,36 @@ CREATE TABLE IF NOT EXISTS journal_weeks (
   published_at TEXT NOT NULL,
   raw_subject TEXT,
   sender TEXT,
-  entries TEXT NOT NULL, -- Serialized JSON array: [{ day, text, image, imageFilename }]
+  entries TEXT NOT NULL, -- Serialized JSON array: [{ day, text, image, imageFilename, category }]
   total_entries INTEGER DEFAULT 7,
   image_count INTEGER DEFAULT 0,
-  verse TEXT, -- Serialized JSON object: { reference, text }
+  verse TEXT,            -- Serialized JSON object: { reference, text }
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- Index for fast lookup by slug in the Dynamic Viewer (/week/[slug])
 CREATE INDEX IF NOT EXISTS idx_journal_weeks_slug ON journal_weeks(slug);
-
--- Index for sorting newest weeks first in the Index Vault (/)
 CREATE INDEX IF NOT EXISTS idx_journal_weeks_published_at ON journal_weeks(published_at DESC);
 
--- Subscribers table: Users who inserted their email to receive notification on new journals
+-- 2. Gallery table: Dedicated Polaroid photo gallery albums and direct image uploads
+CREATE TABLE IF NOT EXISTS gallery (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  slug TEXT NOT NULL UNIQUE,
+  title TEXT NOT NULL,
+  published_at TEXT NOT NULL,
+  raw_subject TEXT,
+  sender TEXT,
+  category TEXT DEFAULT 'Mission',
+  body_text TEXT,
+  entries TEXT NOT NULL, -- Serialized JSON array: [{ day, text, caption, image, imageFilename, category }]
+  total_entries INTEGER DEFAULT 0,
+  image_count INTEGER DEFAULT 0,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_gallery_slug ON gallery(slug);
+CREATE INDEX IF NOT EXISTS idx_gallery_published_at ON gallery(published_at DESC);
+
+-- 3. Subscribers table: Users who subscribed to receive weekly journal email notifications
 CREATE TABLE IF NOT EXISTS subscribers (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   email TEXT NOT NULL UNIQUE,
@@ -29,7 +46,7 @@ CREATE TABLE IF NOT EXISTS subscribers (
 
 CREATE INDEX IF NOT EXISTS idx_subscribers_email ON subscribers(email);
 
--- Processed Gmail messages tracking table (replaces GAS PropertiesService storage)
+-- 4. Processed Gmail messages tracking table (Anti-duplicate engine)
 CREATE TABLE IF NOT EXISTS processed_messages (
   message_id TEXT PRIMARY KEY,
   subject TEXT,
@@ -40,7 +57,7 @@ CREATE TABLE IF NOT EXISTS processed_messages (
 
 CREATE INDEX IF NOT EXISTS idx_processed_messages_id ON processed_messages(message_id);
 
--- Weekly broadcast recipient logs (ensures each subscriber receives only one email per week)
+-- 5. Weekly broadcast recipient logs (Ensures exactly one email per subscriber per week)
 CREATE TABLE IF NOT EXISTS broadcast_logs (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   week_slug TEXT NOT NULL,
@@ -52,7 +69,7 @@ CREATE TABLE IF NOT EXISTS broadcast_logs (
 CREATE INDEX IF NOT EXISTS idx_broadcast_logs_slug ON broadcast_logs(week_slug);
 CREATE INDEX IF NOT EXISTS idx_broadcast_logs_recipient ON broadcast_logs(week_slug, recipient_email);
 
--- Family & Friends Notes / Encouragement Messages table
+-- 6. Family & Friends Notes / Encouragement Messages table
 CREATE TABLE IF NOT EXISTS family_encouragements (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   week_slug TEXT NOT NULL,

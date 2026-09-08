@@ -216,6 +216,7 @@ function updateLightboxDetails(photo) {
   const captionBox = document.getElementById('lightboxCaptionBox');
   const catBadge = document.getElementById('lightboxCategoryBadge');
   const captionText = document.getElementById('lightboxCaptionText');
+  const dateText = document.getElementById('lightboxDateText');
 
   const caption = photo.caption || photo.text || '';
   const category = photo.category || photo.album || (photo.isGalleryUpload ? 'Mission' : 'P-Day Journal');
@@ -224,14 +225,27 @@ function updateLightboxDetails(photo) {
     catBadge.textContent = category;
   }
   if (captionText) {
-    captionText.textContent = caption;
+    captionText.textContent = caption || 'Memories from the Philippines Dumaguete Mission.';
   }
-  if (captionBox) {
-    if (caption || category) {
-      captionBox.classList.remove('hidden');
+  if (dateText) {
+    if (photo.date) {
+      try {
+        const d = new Date(photo.date);
+        if (!isNaN(d.getTime())) {
+          dateText.textContent = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        } else {
+          dateText.textContent = '';
+        }
+      } catch (_) {
+        dateText.textContent = '';
+      }
     } else {
-      captionBox.classList.add('hidden');
+      dateText.textContent = '';
     }
+  }
+
+  if (captionBox) {
+    captionBox.classList.remove('hidden');
   }
 }
 

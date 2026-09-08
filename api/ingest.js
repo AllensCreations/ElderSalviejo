@@ -6,7 +6,7 @@
  * and writes the entry into the Turso SQLite database.
  */
 
-const { saveWeeklyDiary, initDatabase, getAllSubscribers } = require('../lib/turso');
+const { saveWeeklyDiary, saveGalleryEntry, initDatabase, getAllSubscribers } = require('../lib/turso');
 const { lookupScripture } = require('../lib/scriptures');
 const { autoSaveToGitHub } = require('../lib/github-vault');
 
@@ -120,22 +120,36 @@ module.exports = async function handler(req, res) {
       console.warn('GitHub auto-save notice (proceeding with Turso storage):', ghErr.message);
     }
 
-    // Ensure database table exists
+    // Ensure database tables exist
     await initDatabase();
 
-    // Persist into Turso SQLite
-    await saveWeeklyDiary({
-      slug: cleanSlug,
-      title,
-      publishedAt,
-      rawSubject: rawSubject || null,
-      sender: sender || null,
-      entries,
-      totalEntries: finalTotal,
-      imageCount: finalImages,
-      verse: resolvedVerse,
-      isGallery: isGalleryUpload
-    });
+    // Persist into Turso SQLite (Separate tables for journal_weeks and gallery)
+    if (isGalleryUpload) {
+      await saveGalleryEntry({
+        slug: cleanSlug,
+        title,
+        publishedAt,
+        rawSubject: rawSubject || null,
+        sender: sender || null,
+        category: body.category || 'Mission',
+        bodyText: body.bodyText || null,
+        entries,
+        totalEntries: finalTotal,
+        imageCount: finalImages
+      });
+    } else {
+      await saveWeeklyDiary({
+        slug: cleanSlug,
+        title,
+        publishedAt,
+        rawSubject: rawSubject || null,
+        sender: sender || null,
+        entries,
+        totalEntries: finalTotal,
+        imageCount: finalImages,
+        verse: resolvedVerse
+      });
+    }
 
     console.log(`Successfully ingested ${isGalleryUpload ? 'gallery photos' : 'weekly diary'}: "${title}" (slug: ${cleanSlug})`);
 
