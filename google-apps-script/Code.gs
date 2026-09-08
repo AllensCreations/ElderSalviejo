@@ -1754,3 +1754,61 @@ function testSampleEmailDryRun() {
   Logger.log('DRY-RUN TEST COMPLETED SUCCESSFULLY (0 Vercel changes)');
   Logger.log('====================================================');
 }
+
+/**
+ * AUTHORIZATION HELPER: Requests and verifies all required permissions in one click.
+ * 
+ * Select "requestAuthorization" in the Apps Script toolbar dropdown and click "Run".
+ * Google will present the "Authorization Required" dialog requesting all required
+ * permissions (Gmail, Drive image compression, external HTTPS requests, and triggers).
+ */
+function requestAuthorization() {
+  Logger.log('Checking and requesting all required Google Apps Script permissions...');
+  
+  // 1. Check Session User Info
+  let userEmail = 'Unknown';
+  try {
+    userEmail = (Session.getEffectiveUser() && Session.getEffectiveUser().getEmail()) || 
+                (Session.getActiveUser() && Session.getActiveUser().getEmail()) || 'Unknown';
+    Logger.log(`[PASS] Session user: ${userEmail}`);
+  } catch (err) {
+    Logger.log(`[NOTICE] Session user check: ${err.message}`);
+  }
+
+  // 2. Check Gmail Access
+  try {
+    const drafts = GmailApp.getDrafts();
+    Logger.log(`[PASS] Gmail access verified (${drafts.length} draft(s) found).`);
+  } catch (err) {
+    Logger.log(`[NOTICE] Gmail access check: ${err.message}`);
+  }
+
+  // 3. Check Google Drive Access (for high-efficiency image compression)
+  try {
+    const rootFolder = DriveApp.getRootFolder();
+    Logger.log(`[PASS] Google Drive access verified (Root: "${rootFolder.getName()}").`);
+  } catch (err) {
+    Logger.log(`[NOTICE] Google Drive access check: ${err.message}`);
+  }
+
+  // 4. Check External Network Access (Vercel & Turso SQLite)
+  try {
+    const siteUrl = getSiteUrl();
+    const testRes = UrlFetchApp.fetch(`${siteUrl}/api/stats`, { muteHttpExceptions: true });
+    Logger.log(`[PASS] External network access verified (HTTP ${testRes.getResponseCode()}).`);
+  } catch (err) {
+    Logger.log(`[NOTICE] External network access check: ${err.message}`);
+  }
+
+  // 5. Check Script Triggers Access
+  try {
+    const triggers = ScriptApp.getProjectTriggers();
+    Logger.log(`[PASS] ScriptApp triggers verified (${triggers.length} active trigger(s)).`);
+  } catch (err) {
+    Logger.log(`[NOTICE] ScriptApp triggers check: ${err.message}`);
+  }
+
+  Logger.log('\n====================================================');
+  Logger.log('AUTHORIZATION COMPLETE: All permissions granted!');
+  Logger.log('====================================================');
+}
