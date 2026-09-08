@@ -1,17 +1,15 @@
 /**
- * Gmail Weekly Diary Exporter & Automated Monday Broadcast Engine
+ * Gmail Weekly Diary Exporter & Automated P-Day Broadcast Engine
  * 
  * Flow:
- * 1. You send an email every Monday to your dedicated dummy receiver Gmail account
- *    with daily reflection headers (--- MONDAY ---, etc.) and 7 photo attachments.
- * 2. This script isolates the incoming reflection, encodes images to Base64 data URIs,
- *    and POSTs the structured payload to your Vercel API and Turso SQLite database.
- * 3. In the website (Index Vault), visitors and family members can insert their emails
- *    to subscribe to updates.
- * 4. Once successfully archived into the Vault, the script automatically sends out:
- *    - An announcement newsletter to all website subscribers (and any manual distribution list)
- *      with a direct link to the dynamic polaroid viewer!
- *    - A confirmation receipt back to your personal email with the published link.
+ * 1. You send an email on your Preparation Day (P-Day) to your dedicated dummy receiver Gmail
+ *    with daily reflection headers (--- MONDAY ---, etc.) and photo attachments.
+ * 2. This script runs continuously (every 5 mins or 1 min) or on a schedule, isolates the incoming reflection,
+ *    encodes images to Base64 data URIs, and POSTs the payload to your Vercel API and Turso SQLite database.
+ * 3. The API auto-commits all diary files & photos to GitHub, where jsDelivr CDN serves them worldwide!
+ * 4. Visitors and family members who subscribe on the website (or via manual distribution list)
+ *    instantly receive an announcement newsletter with a direct link to the dynamic polaroid viewer.
+ * 5. A confirmation receipt is replied directly to your email thread with the published link.
  */
 
 const CONFIG = {
@@ -109,11 +107,11 @@ function debugCheckInbox() {
 }
 
 /**
- * Main entry point: executed via Monday time-driven trigger or manual run.
+ * Main entry point: executed via continuous/instant trigger or manual run.
  */
 function processWeeklyDiaryEmails() {
   const query = getGmailQuery();
-  Logger.log('Starting Monday Diary Ingest & Dispatch job...');
+  Logger.log('Starting Weekly Diary Ingest & Dispatch job...');
   Logger.log('Query: ' + query);
   
   const threads = GmailApp.search(query, 0, 5);
@@ -263,7 +261,7 @@ function sendSuccessReplyToSender(thread, sender, payload, liveUrl, dbSubscriber
     `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
     `📖 Title: ${payload.title}\n` +
     `📅 Published: ${Utilities.formatDate(new Date(payload.publishedAt), Session.getScriptTimeZone(), 'MMMM d, yyyy')}\n` +
-    `📝 Daily Entries: ${payload.totalEntries} day(s) (Monday – Sunday)\n` +
+    `📝 Daily Entries: ${payload.totalEntries} day(s)\n` +
     `📸 Photo Polaroids: ${payload.imageCount} photo(s) processed\n` +
     (payload.verse && payload.verse.reference ? `📜 Scripture Verse: ${payload.verse.reference}\n` : '') +
     `👥 Website Subscribers Notified: ${subscriberCount} subscriber(s)\n` +
@@ -330,7 +328,7 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
         <!-- Body Content -->
         <div style="padding: 28px 30px;">
           <p style="font-size: 14px; line-height: 1.6; color: #4a5568; margin-top: 0;">
-            Elder Salviejo has shared his weekly Preparation Day (P-Day) letter from the <strong>Philippines Dumaguete Mission</strong>, with <strong>${payload.imageCount} daily routine photos</strong> and missionary reflections from Monday through Sunday.
+            Elder Salviejo has shared his weekly Preparation Day (P-Day) letter from the <strong>Philippines Dumaguete Mission</strong>, with <strong>${payload.imageCount} daily routine photos</strong> and missionary reflections.
           </p>
 
           <!-- Polaroid Teaser Box -->
@@ -386,8 +384,54 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
 }
 
 /**
- * Helper to install a recurring Monday trigger with 1 click!
+ * Helper to install an instant continuous trigger that monitors your inbox
+ * 24/7 every 5 minutes (or 1 minute)!
+ * 
+ * Perfect for missionary life because your P-Day might change (Monday, Tuesday, Friday, etc.).
+ * Whenever you send your email on ANY day at ANY hour, it will be automatically
+ * detected within minutes, backed up to GitHub + jsDelivr CDN, saved in Turso SQLite,
+ * and broadcasted to your subscribers!
+ * 
  * Run this function once from the Apps Script editor toolbar.
+ */
+function createInstantTrigger(intervalMinutes) {
+  const minutes = (intervalMinutes === 1 || intervalMinutes === 5 || intervalMinutes === 10 || intervalMinutes === 15 || intervalMinutes === 30)
+    ? intervalMinutes
+    : 5;
+
+  const triggers = ScriptApp.getProjectTriggers();
+  for (let i = 0; i < triggers.length; i++) {
+    if (triggers[i].getHandlerFunction() === 'processWeeklyDiaryEmails') {
+      ScriptApp.deleteTrigger(triggers[i]);
+    }
+  }
+
+  ScriptApp.newTrigger('processWeeklyDiaryEmails')
+    .timeBased()
+    .everyMinutes(minutes)
+    .create();
+
+  Logger.log(`🎉 Instant trigger created! It will automatically check for new diary emails every ${minutes} minute(s) 24/7 on any P-Day.`);
+}
+
+/**
+ * 1-Click Trigger: Runs every 5 minutes 24/7 (Recommended: rock-solid & quota safe).
+ * Select "create5MinuteTrigger" in the Apps Script toolbar dropdown and click Run!
+ */
+function create5MinuteTrigger() {
+  createInstantTrigger(5);
+}
+
+/**
+ * 1-Click Trigger: Runs every 1 minute 24/7 for virtually instant processing.
+ * Select "create1MinuteTrigger" in the Apps Script toolbar dropdown and click Run!
+ */
+function create1MinuteTrigger() {
+  createInstantTrigger(1);
+}
+
+/**
+ * Helper to install a recurring Monday trigger (Runs every Monday at 9:00 AM).
  */
 function createMondayTrigger() {
   const triggers = ScriptApp.getProjectTriggers();
