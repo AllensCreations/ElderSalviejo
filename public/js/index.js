@@ -429,6 +429,31 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
+// Mobile touch swipe gestures for Lightbox Modal
+(function setupIntroModalSwipe() {
+  let touchStartX = 0;
+  let touchStartY = 0;
+  window.addEventListener('touchstart', (e) => {
+    const modal = document.getElementById('introModal');
+    if (modal && !modal.classList.contains('hidden') && e.touches && e.touches[0]) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchend', (e) => {
+    const modal = document.getElementById('introModal');
+    if (modal && !modal.classList.contains('hidden') && e.changedTouches && e.changedTouches[0]) {
+      const diffX = e.changedTouches[0].clientX - touchStartX;
+      const diffY = e.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX < 0) navigateIntroModal(1);
+        else navigateIntroModal(-1);
+      }
+    }
+  }, { passive: true });
+})();
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
   setupImageProtection();

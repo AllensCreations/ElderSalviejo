@@ -268,14 +268,14 @@ function renderWeek(week) {
           <div class="space-y-4 pt-2">
             
             <!-- Clean Day Header (pure MONDAY, no dashes) -->
-            <div class="flex items-center justify-between border-b border-black/10 pb-3">
-              <div class="flex items-center gap-2.5">
-                <span class="w-3 h-3 rounded-full ${theme.pinColor} shadow-sm"></span>
-                <h2 class="font-serif text-2xl sm:text-3xl font-bold tracking-wide text-stone-900 uppercase">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-black/10 pb-3">
+              <div class="flex items-center gap-2 sm:gap-2.5">
+                <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${theme.pinColor} shadow-sm"></span>
+                <h2 class="font-serif text-xl sm:text-3xl font-bold tracking-wide text-stone-900 uppercase">
                   ${escapeHtml(dayClean)}
                 </h2>
               </div>
-              <span class="text-[11px] font-sans font-bold text-stone-700 uppercase tracking-wider bg-black/5 px-3 py-1 rounded-full border border-black/5">
+              <span class="text-[10px] sm:text-[11px] font-sans font-bold text-stone-700 uppercase tracking-wider bg-black/5 px-2.5 sm:px-3 py-1 rounded-full border border-black/5">
                 Day ${index + 1} of 7 • Dumaguete
               </span>
             </div>

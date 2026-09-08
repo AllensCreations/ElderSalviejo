@@ -91,12 +91,12 @@
         </h1>
 
         <!-- Missionary Details Pill -->
-        <div class="flex flex-wrap items-center justify-center gap-2.5 text-xs sm:text-sm text-stone-600 font-medium pt-1">
-          <span class="font-semibold text-stone-900">Elder Mark Allen Bongolan Salviejo</span>
-          <span>•</span>
+        <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-xs sm:text-sm text-stone-600 font-medium pt-1">
+          <span class="font-semibold text-stone-900">Elder Salviejo</span>
+          <span class="text-stone-300 hidden sm:inline">•</span>
           <span class="text-amber-800 font-semibold">Philippines Dumaguete Mission 🇵🇭</span>
-          <span>•</span>
-          <span class="text-stone-500">MTC: Dec 11, 2026</span>
+          <span class="text-stone-300 hidden sm:inline">•</span>
+          <span class="text-stone-500">MTC Entrance: Dec 11, 2026</span>
         </div>
 
       </div>
@@ -339,7 +339,7 @@
         </div>
 
         <!-- Photo 4: YSA District Family -->
-        <div onclick="openIntroModal(5)" class="polaroid-card group cursor-pointer hover:shadow-xl transition duration-300 max-w-none mb-0 sm:col-span-2 lg:col-span-1">
+        <div onclick="openIntroModal(5)" class="polaroid-card group cursor-pointer hover:shadow-xl transition duration-300 max-w-none mb-0">
           <div class="aspect-square overflow-hidden rounded bg-stone-100 border border-stone-200">
             <img src="/assets/images/intro/photo-4.jpg" onerror="this.src='https://i.ibb.co/rKPvxrBH/Messenger-creation-2242403789659455.jpg'" alt="YSA District Family" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" decoding="async" />
           </div>
@@ -384,25 +384,28 @@
     <div class="relative max-w-4xl w-full bg-stone-900 border border-stone-700 rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
       
       <!-- Modal Header -->
-      <div class="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-stone-800 text-stone-200">
-        <div class="flex items-center gap-2">
-          <span id="introModalIndex" class="text-xs px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30">1 / 7</span>
-          <h3 id="introModalTitle" class="font-serif text-sm sm:text-base font-bold text-white truncate max-w-xs sm:max-w-md">Official Mission Call Letter</h3>
+      <div class="flex items-center justify-between px-3 sm:px-6 py-2.5 sm:py-3 border-b border-stone-800 text-stone-200">
+        <div class="flex items-center gap-2 min-w-0">
+          <span id="introModalIndex" class="text-xs px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30 shrink-0">1 / 7</span>
+          <h3 id="introModalTitle" class="font-serif text-xs sm:text-base font-bold text-white truncate">Official Mission Call Letter</h3>
         </div>
-        <button onclick="closeIntroModal()" class="w-8 h-8 rounded-full bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white flex items-center justify-center transition">
-          ✕
-        </button>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <!-- Mobile Prev/Next in header so floating arrows don't block vertical documents -->
+          <button onclick="navigateIntroModal(-1)" class="sm:hidden w-7 h-7 rounded-md bg-stone-800 hover:bg-stone-700 text-stone-300 flex items-center justify-center text-xs" title="Previous photo">&#10094;</button>
+          <button onclick="navigateIntroModal(1)" class="sm:hidden w-7 h-7 rounded-md bg-stone-800 hover:bg-stone-700 text-stone-300 flex items-center justify-center text-xs" title="Next photo">&#10095;</button>
+          <button onclick="closeIntroModal()" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white flex items-center justify-center transition text-xs sm:text-sm ml-1" title="Close">✕</button>
+        </div>
       </div>
 
       <!-- Modal Image Container -->
-      <div class="relative flex-1 overflow-auto flex items-center justify-center p-2 sm:p-4 bg-stone-950 min-h-[300px]">
-        <img id="introModalImg" src="" alt="" class="max-w-full max-h-[68vh] object-contain rounded shadow-lg" />
+      <div class="relative flex-1 overflow-auto flex items-center justify-center p-2 sm:p-4 bg-stone-950 min-h-[260px] sm:min-h-[300px]">
+        <img id="introModalImg" src="" alt="" class="max-w-full max-h-[68vh] object-contain rounded shadow-lg select-none" />
         
-        <!-- Nav Controls -->
-        <button onclick="navigateIntroModal(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-stone-900/80 hover:bg-stone-800 text-white flex items-center justify-center shadow-lg border border-stone-700 transition">
+        <!-- Desktop Nav Controls (hidden on small mobile to avoid blocking vertical documents) -->
+        <button onclick="navigateIntroModal(-1)" class="hidden sm:flex absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-stone-900/80 hover:bg-stone-800 text-white items-center justify-center shadow-lg border border-stone-700 transition" title="Previous photo">
           &#10094;
         </button>
-        <button onclick="navigateIntroModal(1)" class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-stone-900/80 hover:bg-stone-800 text-white flex items-center justify-center shadow-lg border border-stone-700 transition">
+        <button onclick="navigateIntroModal(1)" class="hidden sm:flex absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-stone-900/80 hover:bg-stone-800 text-white items-center justify-center shadow-lg border border-stone-700 transition" title="Next photo">
           &#10095;
         </button>
       </div>
@@ -524,6 +527,31 @@
         if (e.key === 'ArrowRight') navigateIntroModal(1);
       }
     });
+
+    // Mobile touch swipe gestures for Lightbox Modal
+    (function setupIntroModalSwipe() {
+      let touchStartX = 0;
+      let touchStartY = 0;
+      window.addEventListener('touchstart', (e) => {
+        const modal = document.getElementById('introModal');
+        if (modal && !modal.classList.contains('hidden') && e.touches && e.touches[0]) {
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchend', (e) => {
+        const modal = document.getElementById('introModal');
+        if (modal && !modal.classList.contains('hidden') && e.changedTouches && e.changedTouches[0]) {
+          const diffX = e.changedTouches[0].clientX - touchStartX;
+          const diffY = e.changedTouches[0].clientY - touchStartY;
+          if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY)) {
+            if (diffX < 0) navigateIntroModal(1);
+            else navigateIntroModal(-1);
+          }
+        }
+      }, { passive: true });
+    })();
 
     async function copyShareLink() {
       const btn = document.getElementById('shareBtn');

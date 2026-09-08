@@ -6,6 +6,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        xs: '480px',
+      },
       fontFamily: {
         serif: ['Playfair Display', 'Georgia', 'serif'],
         hand: ['Caveat', 'cursive'],

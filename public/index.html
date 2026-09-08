@@ -66,14 +66,14 @@
   <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full">
 
     <!-- Mission & Elder Salviejo Hero Profile Card (Responsive, Zero-Overlap) -->
-    <section class="bg-gradient-to-br from-[#fefbf6] to-[#f8f3e8] border border-amber-200/90 rounded-2xl p-6 sm:p-8 mb-8 shadow-sm">
+    <section class="bg-gradient-to-br from-[#fefbf6] to-[#f8f3e8] border border-amber-200/90 rounded-2xl p-4 sm:p-8 mb-8 shadow-sm">
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         
         <!-- Left Column: Portrait + Nametag + Missionary Details -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-6 flex-1 min-w-0">
           
           <!-- Elder Salviejo Portrait & Nametag Block -->
-          <div class="flex items-center gap-3.5 shrink-0">
+          <div class="flex flex-wrap xs:flex-nowrap items-center gap-3.5 shrink-0">
             <!-- Framed Profile Picture -->
             <div class="profile-avatar-hero">
               <img
@@ -336,7 +336,7 @@
                 <span>Call Opening & YSA Memories</span>
                 <span class="text-[11px] text-amber-700 font-medium">5 Photos • Click to view</span>
               </div>
-              <div class="grid grid-cols-5 gap-2">
+              <div class="grid grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-2.5">
                 <div onclick="openIntroModal(2)" title="Holding the Official Call" class="intro-photo-thumb aspect-square rounded-lg overflow-hidden border border-amber-200 bg-stone-100 cursor-pointer hover:ring-2 hover:ring-amber-500 transition">
                   <img src="/assets/images/intro/photo-2.jpg" onerror="this.src='https://i.ibb.co/bMqVVZqL/received-1778183986537355.jpg'" alt="Holding Call Letter" class="w-full h-full object-cover" loading="lazy" decoding="async" />
                 </div>
@@ -349,7 +349,7 @@
                 <div onclick="openIntroModal(5)" title="YSA District Family" class="intro-photo-thumb aspect-square rounded-lg overflow-hidden border border-amber-200 bg-stone-100 cursor-pointer hover:ring-2 hover:ring-amber-500 transition">
                   <img src="/assets/images/intro/photo-4.jpg" onerror="this.src='https://i.ibb.co/rKPvxrBH/Messenger-creation-2242403789659455.jpg'" alt="YSA District" class="w-full h-full object-cover" loading="lazy" decoding="async" />
                 </div>
-                <div onclick="openIntroModal(6)" title="Gathered by the Savior" class="intro-photo-thumb aspect-square rounded-lg overflow-hidden border border-amber-200 bg-stone-100 cursor-pointer hover:ring-2 hover:ring-amber-500 transition">
+                <div onclick="openIntroModal(6)" title="Gathered by the Savior" class="intro-photo-thumb col-span-2 sm:col-span-1 aspect-[2/1] sm:aspect-square rounded-lg overflow-hidden border border-amber-200 bg-stone-100 cursor-pointer hover:ring-2 hover:ring-amber-500 transition">
                   <img src="/assets/images/intro/photo-5.jpg" onerror="this.src='https://i.ibb.co/5gwwKS9q/IMG-20260906-120706.jpg'" alt="Gathered at Church" class="w-full h-full object-cover" loading="lazy" decoding="async" />
                 </div>
               </div>
@@ -422,7 +422,7 @@
     <div class="bg-white rounded-2xl border border-stone-200/90 shadow-sm overflow-hidden">
       
       <!-- Desktop Table Header (Hidden on Mobile) -->
-      <div class="hidden md:grid border-b border-stone-200 bg-stone-50 px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider" style="grid-template-columns: 48px minmax(220px, 1.4fr) minmax(200px, 2fr) 110px 70px; gap: 16px;">
+      <div class="inbox-desktop-row border-b border-stone-200 bg-stone-50 text-xs font-semibold text-stone-500 uppercase tracking-wider py-3">
         <div class="text-center">Photos</div>
         <div>Week & Subject</div>
         <div>Missionary Highlight</div>
@@ -468,25 +468,28 @@
     <div class="relative max-w-4xl w-full bg-stone-900 border border-stone-700 rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
       
       <!-- Modal Header -->
-      <div class="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-stone-800 text-stone-200">
-        <div class="flex items-center gap-2">
-          <span id="introModalIndex" class="text-xs px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30">1 / 7</span>
-          <h3 id="introModalTitle" class="font-serif text-sm sm:text-base font-bold text-white truncate max-w-xs sm:max-w-md">Official Mission Call Letter</h3>
+      <div class="flex items-center justify-between px-3 sm:px-6 py-2.5 sm:py-3 border-b border-stone-800 text-stone-200">
+        <div class="flex items-center gap-2 min-w-0">
+          <span id="introModalIndex" class="text-xs px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30 shrink-0">1 / 7</span>
+          <h3 id="introModalTitle" class="font-serif text-xs sm:text-base font-bold text-white truncate">Official Mission Call Letter</h3>
         </div>
-        <button onclick="closeIntroModal()" class="w-8 h-8 rounded-full bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white flex items-center justify-center transition">
-          ✕
-        </button>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <!-- Mobile Prev/Next in header so floating arrows don't block vertical documents -->
+          <button onclick="navigateIntroModal(-1)" class="sm:hidden w-7 h-7 rounded-md bg-stone-800 hover:bg-stone-700 text-stone-300 flex items-center justify-center text-xs" title="Previous photo">&#10094;</button>
+          <button onclick="navigateIntroModal(1)" class="sm:hidden w-7 h-7 rounded-md bg-stone-800 hover:bg-stone-700 text-stone-300 flex items-center justify-center text-xs" title="Next photo">&#10095;</button>
+          <button onclick="closeIntroModal()" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white flex items-center justify-center transition text-xs sm:text-sm ml-1" title="Close">✕</button>
+        </div>
       </div>
 
       <!-- Modal Image Container -->
-      <div class="relative flex-1 overflow-auto flex items-center justify-center p-2 sm:p-4 bg-stone-950 min-h-[300px]">
-        <img id="introModalImg" src="" alt="" class="max-w-full max-h-[68vh] object-contain rounded shadow-lg" />
+      <div class="relative flex-1 overflow-auto flex items-center justify-center p-2 sm:p-4 bg-stone-950 min-h-[260px] sm:min-h-[300px]">
+        <img id="introModalImg" src="" alt="" class="max-w-full max-h-[68vh] object-contain rounded shadow-lg select-none" />
         
-        <!-- Nav Controls -->
-        <button onclick="navigateIntroModal(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-stone-900/80 hover:bg-stone-800 text-white flex items-center justify-center shadow-lg border border-stone-700 transition">
+        <!-- Desktop Nav Controls (hidden on small mobile to avoid blocking vertical documents) -->
+        <button onclick="navigateIntroModal(-1)" class="hidden sm:flex absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-stone-900/80 hover:bg-stone-800 text-white items-center justify-center shadow-lg border border-stone-700 transition" title="Previous photo">
           &#10094;
         </button>
-        <button onclick="navigateIntroModal(1)" class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-stone-900/80 hover:bg-stone-800 text-white flex items-center justify-center shadow-lg border border-stone-700 transition">
+        <button onclick="navigateIntroModal(1)" class="hidden sm:flex absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-stone-900/80 hover:bg-stone-800 text-white items-center justify-center shadow-lg border border-stone-700 transition" title="Next photo">
           &#10095;
         </button>
       </div>
