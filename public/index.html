@@ -205,6 +205,8 @@
 
       <div class="w-full md:w-auto shrink-0">
         <form onsubmit="handleSubscribe(event)" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <!-- Bot Honeypot Field (Invisible to users, catches automated spam bots) -->
+          <input type="text" name="hp_website" id="hpWebsiteInput" style="display:none !important; opacity:0; position:absolute; left:-9999px;" tabindex="-1" autocomplete="off" />
           <input
             type="email"
             id="subscribeEmailInput"
@@ -215,7 +217,7 @@
           <button
             type="submit"
             id="subscribeSubmitBtn"
-            class="shrink-0 text-xs font-semibold px-4 py-2.5 bg-amber-700 hover:bg-amber-600 text-white rounded-lg shadow transition duration-150 flex items-center justify-center gap-1.5"
+            class="shrink-0 text-xs font-semibold px-4 py-2.5 bg-amber-700 hover:bg-amber-600 text-white rounded-lg shadow transition duration-150 flex items-center justify-center gap-1.5 cursor-pointer"
           >
             <span>Subscribe</span>
             <span class="text-amber-400">&rarr;</span>

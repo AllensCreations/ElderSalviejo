@@ -8,6 +8,7 @@
  */
 
 const { addEncouragement, getEncouragementsForSlug, initDatabase } = require('../lib/turso');
+const { checkRateLimit, isHoneypotTriggered } = require('../lib/rate-limiter');
 
 module.exports = async function handler(req, res) {
   // CORS Preflight
@@ -38,6 +39,14 @@ module.exports = async function handler(req, res) {
     }
 
     if (req.method === 'POST') {
+      // IP Rate Limiting: Max 6 encouragement notes per minute
+      const { limited } = checkRateLimit(req, 6, 60000);
+      if (limited) {
+        return res.status(429).json({
+          error: 'Too many submissions. Please wait a moment before posting another encouragement note.'
+        });
+      }
+
       let body = req.body;
       if (typeof body === 'string') {
         try {
@@ -45,6 +54,14 @@ module.exports = async function handler(req, res) {
         } catch (_) {
           return res.status(400).json({ error: 'Invalid JSON request body' });
         }
+      }
+
+      // Honeypot check
+      if (isHoneypotTriggered(body)) {
+        return res.status(200).json({
+          success: true,
+          message: 'Your encouragement note has been sent to Elder Salviejo!'
+        });
       }
 
       const { slug, authorName, relationship, message } = body || {};

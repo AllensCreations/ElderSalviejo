@@ -200,7 +200,20 @@ TURSO_AUTH_TOKEN=your-turso-token
 INGEST_SECRET=generate-a-strong-random-token
 ```
 
-### 3. Local Development & Testing
+### 3. API Reference & Utilities
+
+| Endpoint | Method | Auth | Description |
+| :--- | :--- | :--- | :--- |
+| `/api/weeks` | `GET` | Public | Lists all weekly missionary journals (descending) |
+| `/api/weeks/[slug]` | `GET` | Public | Returns complete details, reflections, and polaroids for a single week |
+| `/api/gallery` | `GET` | Public | Aggregates all Polaroid images across `gallery` and `journal_weeks` (newest first) |
+| `/api/search?q=query` | `GET` | Public | Fast full-text search across journal reflections, scripture notes, and gallery captions |
+| `/api/subscribe` | `POST` | Public (Rate Limited) | Subscribes an email with anti-bot honeypot and IP rate limiting |
+| `/api/encouragements` | `GET, POST` | Public (Rate Limited) | Reads/posts family encouragement notes with spam protection |
+| `/api/backup?token=...` | `GET` | Bearer / Token | Exports a full database keepsake backup JSON (with optional `&download=true` or `&github=true`) |
+| `/api/ingest` | `POST` | Bearer Token | Ingests weekly journals or photo albums directly from Google Apps Script |
+
+### 4. Local Development & Testing
 Start the local server:
 ```bash
 npm start
@@ -208,6 +221,7 @@ npm start
 * **Index Vault**: Visit `http://localhost:3000`
 * **Polaroid Gallery**: Visit `http://localhost:3000/gallery`
 * **Digital Memory Book**: Visit `http://localhost:3000/book`
+* **Official Mission Call**: Visit `http://localhost:3000/call`
 
 ---
 

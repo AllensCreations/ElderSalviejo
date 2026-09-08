@@ -245,15 +245,17 @@ function filterWeeks() {
   renderWeeks(filtered);
 }
 
-// Subscribe email submission
+// Subscribe email submission (With Bot & Spam Protection)
 async function handleSubscribe(e) {
   e.preventDefault();
   const input = document.getElementById('subscribeEmailInput');
+  const hpInput = document.getElementById('hpWebsiteInput');
   const btn = document.getElementById('subscribeSubmitBtn');
   const feedback = document.getElementById('subscribeFeedback');
   if (!input || !btn || !feedback) return;
 
   const email = input.value.trim();
+  const hpWebsite = hpInput ? hpInput.value : '';
   if (!email) return;
 
   btn.disabled = true;
@@ -265,7 +267,7 @@ async function handleSubscribe(e) {
     const res = await fetch('/api/subscribe', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
+      body: JSON.stringify({ email, hp_website: hpWebsite })
     });
     const data = await res.json();
     if (res.ok && data.success) {
