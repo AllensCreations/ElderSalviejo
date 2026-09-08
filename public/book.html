@@ -8,6 +8,12 @@
   <!-- Website Favicon & App Icon -->
   <link rel="icon" type="image/x-icon" href="/Icon.ico" />
   <link rel="shortcut icon" type="image/x-icon" href="/Icon.ico" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#d97706" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Elder Salviejo" />
+  <link rel="apple-touch-icon" href="/assets/images/elder-salviejo.jpg" />
   
   <!-- Precompiled & Minified Production Stylesheets (Zero Render-Blocking JS) -->
   <link rel="stylesheet" href="/css/tailwind.min.css" />
@@ -394,5 +400,12 @@
 
   <!-- External Script to Populate Weekly Chapters -->
   <script src="/js/book.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
 </body>
 </html>

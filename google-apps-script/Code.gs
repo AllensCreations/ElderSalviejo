@@ -222,11 +222,13 @@ function processWeeklyDiaryEmails() {
       const gallerySlug = generateSlug(galleryTitle, date);
       const cleanRawSubject = subject.replace(/[\(\[]?\s*073000\s*[\)\]]?/gi, '').trim();
 
+      const galleryCategory = extractGalleryCategory(subject);
       const galleryEntries = encodedImages.map((img, idx) => ({
         day: `PHOTO_${idx + 1}`,
         text: '',
         image: img.dataUri,
-        imageFilename: img.filename
+        imageFilename: img.filename,
+        category: galleryCategory
       }));
 
       const payload = {
@@ -239,14 +241,15 @@ function processWeeklyDiaryEmails() {
         totalEntries: galleryEntries.length,
         imageCount: encodedImages.length,
         verse: null,
-        isGallery: true
+        isGallery: true,
+        category: galleryCategory
       };
 
       const ingestResult = sendPayloadToVercel(payload);
       if (ingestResult) {
         thread.addLabel(processedLabel);
         thread.markRead();
-        Logger.log(`Successfully ingested and tagged Gallery thread: "${subject}"`);
+        Logger.log(`Successfully ingested and tagged Gallery thread: "${subject}" [Category: ${galleryCategory}]`);
         const galleryUrl = `${getSiteUrl()}/gallery`;
         sendGallerySuccessReplyToSender(thread, sender, payload, galleryUrl);
       } else {
@@ -261,6 +264,11 @@ function processWeeklyDiaryEmails() {
     // -------------------------------------------------------------
     // 3. Parse daily markdown blocks & weekly scripture verse
     const parsedData = parseDiaryContent(body, encodedImages);
+    const diaryCategory = extractGalleryCategory(subject);
+    const taggedEntries = parsedData.entries.map(e => ({
+      ...e,
+      category: diaryCategory !== 'Mission' ? diaryCategory : 'P-Day Journal'
+    }));
     
     // Generate a clean slug & title (completely stripping any secret code and duplicate prefixes)
     const weekTitle = cleanSubjectTitle(subject, '159266') || `Week of ${Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd')}`;
@@ -276,11 +284,12 @@ function processWeeklyDiaryEmails() {
       publishedAt: date.toISOString(),
       rawSubject: cleanRawSubject,
       sender: sender,
-      entries: parsedData.entries,
-      totalEntries: parsedData.entries.length,
+      entries: taggedEntries,
+      totalEntries: taggedEntries.length,
       imageCount: encodedImages.length,
       verse: parsedData.verse,
-      isGallery: false
+      isGallery: false,
+      category: diaryCategory !== 'Mission' ? diaryCategory : 'P-Day Journal'
     };
     
     // 5. Send POST request to Vercel API and Turso SQLite
@@ -854,6 +863,35 @@ function cleanSubjectTitle(rawSubject, secretCode) {
   clean = clean.replace(/\(Philippines Dumaguete Mission\)/gi, '');
   clean = clean.replace(/^[-—:\s]+|[-—:\s]+$/g, '').trim();
   return clean || 'Weekly Missionary Journal';
+}
+
+/**
+ * Feature 3: Discreet Gallery Album Filters via Email Subject
+ * Extracts clean category tag from subject line (e.g. 073000 Baptisms, 073000 Companions, etc.)
+ */
+function extractGalleryCategory(subject) {
+  if (!subject) return 'Mission';
+  const clean = subject.replace(/[\(\[]?\s*(?:073000|159266)\s*[\)\]]?/gi, '').trim();
+
+  // Keyword pattern matching
+  if (/baptism/i.test(clean)) return 'Baptisms';
+  if (/companion/i.test(clean)) return 'Companions';
+  if (/service|community/i.test(clean)) return 'Service';
+  if (/district|zone|conference/i.test(clean)) return 'District & Zone';
+  if (/transfer/i.test(clean)) return 'Transfers';
+  if (/teaching|investigator|lesson/i.test(clean)) return 'Teaching';
+  if (/p-?day|preparation/i.test(clean)) return 'P-Day';
+
+  // Extract explicit tag before hyphen or colon: e.g. "Baptisms - Cebu" -> "Baptisms"
+  const tagMatch = clean.match(/^([a-zA-Z\s]{2,20})(?:[-–—:]|$)/);
+  if (tagMatch && tagMatch[1].trim()) {
+    const candidate = tagMatch[1].trim();
+    if (!/^(re|fwd|weekly|reflection|journal|photo|photos|gallery|update)$/i.test(candidate)) {
+      return candidate.charAt(0).toUpperCase() + candidate.slice(1);
+    }
+  }
+
+  return 'Mission';
 }
 
 /**

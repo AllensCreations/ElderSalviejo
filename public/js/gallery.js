@@ -1,10 +1,14 @@
 /**
- * Gallery Controller: Polaroid Photo Gallery
- * Strictly images only, no text, scrollable masonry with responsive lightbox.
+ * Gallery Controller: Pinned Polaroid Photo Gallery
+ * Strictly images only, pinned board layout (compact on desktop, scrollable on mobile),
+ * dynamic album filtering, and vintage camera date stamp in lightbox.
  */
 
-let galleryPhotos = [];
+let allPhotos = [];
+let filteredPhotos = [];
+let activeCategory = 'All';
 let activeLightboxIndex = 0;
+let showDateStamp = localStorage.getItem('galleryDateStamp') !== 'false';
 let touchStartX = 0;
 let touchEndX = 0;
 
@@ -19,17 +23,20 @@ const TILT_CLASSES = [
 document.addEventListener('DOMContentLoaded', () => {
   loadGallery();
   setupKeyboardAndTouch();
+  updateDateStampUi();
 });
 
 async function loadGallery() {
   const skeleton = document.getElementById('gallerySkeleton');
   const grid = document.getElementById('galleryGrid');
   const empty = document.getElementById('galleryEmpty');
+  const filters = document.getElementById('galleryFilters');
   const countText = document.getElementById('galleryCountText');
 
   if (skeleton) skeleton.classList.remove('hidden');
   if (grid) grid.classList.add('hidden');
   if (empty) empty.classList.add('hidden');
+  if (filters) filters.classList.add('hidden');
   if (countText) countText.textContent = 'Checking photos...';
 
   try {
@@ -38,15 +45,74 @@ async function loadGallery() {
     const data = await res.json();
 
     if (data && Array.isArray(data.photos) && data.photos.length > 0) {
-      galleryPhotos = data.photos;
+      allPhotos = data.photos;
     } else {
-      galleryPhotos = [];
+      allPhotos = [];
     }
   } catch (err) {
     console.warn('Could not fetch /api/gallery:', err);
-    galleryPhotos = [];
+    allPhotos = [];
   }
 
+  filteredPhotos = [...allPhotos];
+  renderFilters();
+  renderGallery();
+}
+
+function renderFilters() {
+  const filtersEl = document.getElementById('galleryFilters');
+  if (!filtersEl) return;
+
+  if (!allPhotos || allPhotos.length === 0) {
+    filtersEl.classList.add('hidden');
+    return;
+  }
+
+  // Extract unique categories
+  const categories = ['All'];
+  allPhotos.forEach(p => {
+    const cat = p.category || (p.isGalleryUpload ? 'Mission' : 'P-Day Journal');
+    if (cat && !categories.includes(cat)) {
+      categories.push(cat);
+    }
+  });
+
+  // Only show filter bar if there is more than 1 distinct category
+  if (categories.length <= 1) {
+    filtersEl.classList.add('hidden');
+    return;
+  }
+
+  filtersEl.innerHTML = categories.map(cat => {
+    const isActive = cat === activeCategory;
+    const activeClass = isActive
+      ? 'bg-amber-600 text-white font-semibold shadow-xs'
+      : 'bg-stone-900/90 text-stone-300 hover:bg-stone-800 border border-stone-800';
+
+    return `
+      <button 
+        onclick="setCategory('${escapeAttr(cat)}')" 
+        class="px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${activeClass}"
+      >
+        ${escapeHtml(cat)}
+      </button>
+    `;
+  }).join('');
+
+  filtersEl.classList.remove('hidden');
+}
+
+function setCategory(cat) {
+  activeCategory = cat;
+  if (cat === 'All') {
+    filteredPhotos = [...allPhotos];
+  } else {
+    filteredPhotos = allPhotos.filter(p => {
+      const pCat = p.category || (p.isGalleryUpload ? 'Mission' : 'P-Day Journal');
+      return pCat === cat;
+    });
+  }
+  renderFilters();
   renderGallery();
 }
 
@@ -58,39 +124,44 @@ function renderGallery() {
 
   if (skeleton) skeleton.classList.add('hidden');
 
-  if (!galleryPhotos || galleryPhotos.length === 0) {
+  if (!filteredPhotos || filteredPhotos.length === 0) {
+    if (grid) grid.classList.add('hidden');
     if (empty) empty.classList.remove('hidden');
-    if (countText) countText.textContent = '0 Photos';
+    if (countText) countText.textContent = '0 Polaroids';
     return;
   }
 
+  if (empty) empty.classList.add('hidden');
   if (countText) {
-    countText.textContent = `${galleryPhotos.length} Polaroid${galleryPhotos.length === 1 ? '' : 's'}`;
+    countText.textContent = `${filteredPhotos.length} Polaroid${filteredPhotos.length === 1 ? '' : 's'}`;
   }
 
   if (!grid) return;
 
-  grid.innerHTML = galleryPhotos.map((item, index) => {
+  // Render pinned polaroid board (strictly images only, no text)
+  grid.innerHTML = filteredPhotos.map((item, index) => {
     const tiltClass = TILT_CLASSES[index % TILT_CLASSES.length];
     const imgSrc = item.src || item.thumb || '';
 
     return `
       <div 
-        class="polaroid-frame ${tiltClass}" 
+        class="polaroid-pinned-card ${tiltClass} max-w-[240px] w-full" 
         onclick="openLightbox(${index})"
         role="button"
         tabindex="0"
         aria-label="View photo in lightbox"
         onkeydown="if(event.key==='Enter') openLightbox(${index})"
       >
-        <div class="polaroid-photo-wrap">
-          <img 
-            src="${imgSrc}" 
-            alt="Elder Salviejo Polaroid" 
-            loading="lazy"
-            decoding="async"
-            onerror="this.src='/assets/images/elder-salviejo.jpg'"
-          />
+        <div class="polaroid-pin"></div>
+        <div class="polaroid-frame">
+          <div class="polaroid-photo-wrap">
+            <img 
+              src="${escapeAttr(imgSrc)}" 
+              alt="Elder Salviejo Polaroid" 
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
         </div>
       </div>
     `;
@@ -99,10 +170,10 @@ function renderGallery() {
   grid.classList.remove('hidden');
 }
 
-/* Lightbox Implementation */
+/* Lightbox Implementation with Feature 6 Date Stamp */
 function openLightbox(index) {
-  if (!galleryPhotos || galleryPhotos.length === 0) return;
-  activeLightboxIndex = (index >= 0 && index < galleryPhotos.length) ? index : 0;
+  if (!filteredPhotos || filteredPhotos.length === 0) return;
+  activeLightboxIndex = (index >= 0 && index < filteredPhotos.length) ? index : 0;
 
   const modal = document.getElementById('lightboxModal');
   const img = document.getElementById('lightboxImg');
@@ -112,7 +183,7 @@ function openLightbox(index) {
 
   if (!modal || !img) return;
 
-  const photo = galleryPhotos[activeLightboxIndex];
+  const photo = filteredPhotos[activeLightboxIndex];
   const src = photo.src || photo.thumb || '';
 
   img.src = src;
@@ -121,12 +192,13 @@ function openLightbox(index) {
     downloadBtn.setAttribute('download', `elder-salviejo-polaroid-${activeLightboxIndex + 1}.jpg`);
   }
   if (indexEl) indexEl.textContent = activeLightboxIndex + 1;
-  if (totalEl) totalEl.textContent = galleryPhotos.length;
+  if (totalEl) totalEl.textContent = filteredPhotos.length;
+
+  updateDateStampText(photo.date);
 
   modal.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
 
-  // Smooth fade-in
   requestAnimationFrame(() => {
     modal.classList.remove('opacity-0');
     modal.classList.add('opacity-100');
@@ -153,15 +225,15 @@ function handleLightboxBackdrop(event) {
 }
 
 function navigateLightbox(direction) {
-  if (!galleryPhotos || galleryPhotos.length === 0) return;
+  if (!filteredPhotos || filteredPhotos.length === 0) return;
 
-  activeLightboxIndex = (activeLightboxIndex + direction + galleryPhotos.length) % galleryPhotos.length;
+  activeLightboxIndex = (activeLightboxIndex + direction + filteredPhotos.length) % filteredPhotos.length;
   
   const img = document.getElementById('lightboxImg');
   const downloadBtn = document.getElementById('lightboxDownloadBtn');
   const indexEl = document.getElementById('lightboxIndex');
 
-  const photo = galleryPhotos[activeLightboxIndex];
+  const photo = filteredPhotos[activeLightboxIndex];
   const src = photo.src || photo.thumb || '';
 
   if (img) {
@@ -176,6 +248,56 @@ function navigateLightbox(direction) {
     downloadBtn.setAttribute('download', `elder-salviejo-polaroid-${activeLightboxIndex + 1}.jpg`);
   }
   if (indexEl) indexEl.textContent = activeLightboxIndex + 1;
+
+  updateDateStampText(photo.date);
+}
+
+/* Feature 6: Vintage Camera Date Stamp Logic */
+function toggleDateStamp() {
+  showDateStamp = !showDateStamp;
+  localStorage.setItem('galleryDateStamp', showDateStamp);
+  updateDateStampUi();
+}
+
+function updateDateStampUi() {
+  const stamp = document.getElementById('lightboxDateStamp');
+  const btn = document.getElementById('dateStampToggleBtn');
+  if (stamp) {
+    stamp.style.display = showDateStamp ? 'block' : 'none';
+  }
+  if (btn) {
+    if (showDateStamp) {
+      btn.classList.add('text-amber-400');
+      btn.classList.remove('text-stone-400');
+    } else {
+      btn.classList.remove('text-amber-400');
+      btn.classList.add('text-stone-400');
+    }
+  }
+}
+
+function updateDateStampText(dateStr) {
+  const stamp = document.getElementById('lightboxDateStamp');
+  if (!stamp) return;
+
+  if (!dateStr) {
+    stamp.textContent = '';
+    return;
+  }
+
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) {
+      stamp.textContent = '';
+      return;
+    }
+    const yy = String(d.getFullYear()).slice(-2);
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    stamp.textContent = `'${yy} ${mm} ${dd}`;
+  } catch (_) {
+    stamp.textContent = '';
+  }
 }
 
 function setupKeyboardAndTouch() {
@@ -192,7 +314,6 @@ function setupKeyboardAndTouch() {
     }
   });
 
-  // Touch Swipe for Mobile Navigation
   const modal = document.getElementById('lightboxModal');
   if (modal) {
     modal.addEventListener('touchstart', (e) => {
@@ -212,11 +333,25 @@ function handleSwipe() {
 
   if (Math.abs(diff) > swipeThreshold) {
     if (diff > 0) {
-      // Swiped right -> go to previous
       navigateLightbox(-1);
     } else {
-      // Swiped left -> go to next
       navigateLightbox(1);
     }
   }
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function escapeAttr(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }

@@ -7,6 +7,12 @@
   <meta name="description" content="Polaroid photo gallery of Elder Salviejo serving in the Philippines Dumaguete Mission. Pure images, scrollable polaroids, and visual missionary memories." />
   
   <link rel="icon" type="image/x-icon" href="/Icon.ico" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#d97706" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Elder Salviejo" />
+  <link rel="apple-touch-icon" href="/assets/images/elder-salviejo.jpg" />
   
   <!-- Tailwind CSS & Main Custom CSS -->
   <link rel="stylesheet" href="/css/tailwind.min.css" />
@@ -18,27 +24,60 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
 
   <style>
-    /* Authentic Polaroid Card Styling (Strictly Images Only, No Text) */
-    .polaroid-frame {
-      background: #ffffff;
-      padding: clamp(8px, 1.8vw, 14px);
-      padding-bottom: clamp(26px, 5.5vw, 44px);
-      border-radius: 2px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.15);
-      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, z-index 0.25s ease;
-      cursor: pointer;
+    /* Pinned Polaroid Board Styling */
+    .polaroid-pinned-card {
       position: relative;
-      break-inside: avoid;
-      display: inline-block;
-      width: 100%;
+      padding-top: 10px;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), z-index 0.25s ease;
+      cursor: pointer;
       user-select: none;
       -webkit-user-select: none;
     }
 
-    .polaroid-frame:hover {
-      transform: scale(1.03) rotate(0deg) !important;
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.25);
+    .polaroid-pinned-card:hover {
+      transform: scale(1.05) rotate(0deg) !important;
       z-index: 30;
+    }
+
+    /* Authentic 3D Pushpin / Thumbtack */
+    .polaroid-pin {
+      position: absolute;
+      top: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fbbf24, #d97706 60%, #78350f 100%);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5), inset 0 1px 1.5px rgba(255, 255, 255, 0.75);
+      z-index: 20;
+    }
+
+    .polaroid-pin::after {
+      content: '';
+      position: absolute;
+      top: 11px;
+      left: 5px;
+      width: 3px;
+      height: 5px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 50%;
+      filter: blur(1px);
+    }
+
+    /* Authentic Polaroid Photo Frame (Strictly No Text) */
+    .polaroid-frame {
+      background: #ffffff;
+      padding: 9px;
+      padding-bottom: 34px;
+      border-radius: 2px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      transition: box-shadow 0.25s ease;
+    }
+
+    .polaroid-pinned-card:hover .polaroid-frame {
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.55), 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
     .polaroid-photo-wrap {
@@ -47,20 +86,22 @@
       background-color: #1c1917;
       border: 1px solid rgba(0, 0, 0, 0.08);
       border-radius: 1px;
+      aspect-ratio: 1 / 1;
     }
 
     .polaroid-photo-wrap img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
       display: block;
       transition: transform 0.35s ease;
     }
 
-    .polaroid-frame:hover .polaroid-photo-wrap img {
-      transform: scale(1.02);
+    .polaroid-pinned-card:hover .polaroid-photo-wrap img {
+      transform: scale(1.03);
     }
 
-    /* Natural Polaroid slight tilts */
+    /* Natural Subtle Pinboard Tilts */
     .tilt-neg-2 { transform: rotate(-2.2deg); }
     .tilt-neg-1 { transform: rotate(-1.1deg); }
     .tilt-pos-1 { transform: rotate(1.2deg); }
@@ -69,10 +110,20 @@
 
     /* Lightbox Modal Dynamic Auto-Sizing */
     .lightbox-image {
-      max-width: min(94vw, 1200px);
-      max-height: min(84dvh, 85vh);
+      max-width: min(92vw, 1100px);
+      max-height: min(80dvh, 82vh);
       object-fit: contain;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85);
+    }
+
+    /* Vintage 90s Quartz Camera Date Stamp */
+    .vintage-date-stamp {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      color: #ff851b;
+      text-shadow: 0 0 6px rgba(255, 133, 27, 0.95), 0 0 12px rgba(255, 100, 0, 0.6);
+      letter-spacing: 0.16em;
+      font-weight: 700;
+      user-select: none;
     }
   </style>
 </head>
@@ -128,7 +179,7 @@
     </div>
   </header>
 
-  <!-- Hero Header -->
+  <!-- Hero Header (Dignified, Public-Ready) -->
   <section class="border-b border-stone-800/80 bg-gradient-to-b from-stone-950 to-[#141210] py-6 sm:py-9 px-4 sm:px-6">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-end justify-between gap-4">
       
@@ -141,13 +192,13 @@
           <span>Polaroid Gallery</span>
         </h1>
         <p class="text-xs sm:text-sm text-stone-400 mt-1 max-w-xl">
-          Visual missionary journey of Elder Salviejo. Pure polaroids, unscripted memories, and missionary life.
+          Visual missionary journey of Elder Salviejo. Pinned polaroids, unscripted memories, and mission routines.
         </p>
       </div>
 
-      <!-- Live Photo Counter & jsDelivr CDN Badges -->
+      <!-- Live Photo Counter & Edge CDN Badges -->
       <div class="flex flex-wrap items-center gap-2 self-start sm:self-auto">
-        <a href="https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-stone-900/90 hover:bg-stone-800 border border-stone-800 rounded-xl shadow-xs text-xs font-mono text-amber-300 transition" title="View dedicated jsDelivr Edge CDN folder">
+        <a href="https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-stone-900/90 hover:bg-stone-800 border border-stone-800 rounded-xl shadow-xs text-xs font-mono text-amber-300 transition" title="Direct jsDelivr Edge CDN folder">
           <span>⚡</span>
           <span>jsDelivr Folder</span>
           <svg class="w-3 h-3 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
@@ -161,56 +212,65 @@
     </div>
   </section>
 
-  <!-- Gallery Main Scrollable Container -->
+  <!-- Gallery Main Container -->
   <main class="max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-10 flex-1 w-full">
 
-    <!-- Loading Skeleton -->
-    <div id="gallerySkeleton" class="columns-1 xs:columns-2 sm:columns-3 md:columns-3 lg:columns-4 xl:columns-5 gap-4 sm:gap-6 space-y-4 sm:space-y-6">
-      <div class="polaroid-frame tilt-neg-1 animate-pulse"><div class="polaroid-photo-wrap aspect-square bg-stone-800"></div></div>
-      <div class="polaroid-frame tilt-pos-1 animate-pulse"><div class="polaroid-photo-wrap aspect-[4/5] bg-stone-800"></div></div>
-      <div class="polaroid-frame tilt-neg-2 animate-pulse"><div class="polaroid-photo-wrap aspect-square bg-stone-800"></div></div>
-      <div class="polaroid-frame tilt-pos-2 animate-pulse"><div class="polaroid-photo-wrap aspect-[3/4] bg-stone-800"></div></div>
-      <div class="polaroid-frame tilt-zero animate-pulse"><div class="polaroid-photo-wrap aspect-square bg-stone-800"></div></div>
-      <div class="polaroid-frame tilt-neg-1 animate-pulse"><div class="polaroid-photo-wrap aspect-[4/5] bg-stone-800"></div></div>
-    </div>
-
-    <!-- Live Polaroid Masonry Grid (Pure Images, No Text) -->
-    <div id="galleryGrid" class="columns-1 xs:columns-2 sm:columns-3 md:columns-3 lg:columns-4 xl:columns-5 gap-4 sm:gap-6 space-y-4 sm:space-y-6 hidden">
+    <!-- Discreet Album Filter Pills (Feature 3) -->
+    <div id="galleryFilters" class="flex flex-wrap items-center gap-2 mb-8 hidden">
       <!-- Populated via public/js/gallery.js -->
     </div>
 
-    <!-- Empty State Fallback (Gallery starts clean with no presaved images) -->
-    <div id="galleryEmpty" class="hidden text-center py-20 bg-stone-900/40 rounded-2xl border border-stone-800/80 p-6 max-w-xl mx-auto">
-      <span class="text-4xl block mb-3">📸</span>
-      <h3 class="text-lg font-serif font-bold text-stone-200">The Polaroid Gallery is Ready!</h3>
-      <p class="text-xs text-stone-400 mt-2 leading-relaxed">
-        Photos will appear here automatically when sent via email. No presaved demo images are displayed.
-      </p>
-      <div class="mt-4 flex flex-col sm:flex-row items-center justify-center gap-3 text-xs">
-        <div class="px-3 py-2 bg-stone-800/70 border border-amber-500/30 rounded-lg text-amber-300">
-          <strong class="font-mono">073000</strong>: Direct Photo Upload
-        </div>
-        <div class="px-3 py-2 bg-stone-800/70 border border-stone-700 rounded-lg text-stone-300">
-          <strong class="font-mono">159266</strong>: Weekly Diary Photos
-        </div>
+    <!-- Loading Skeleton (Pinned Cards) -->
+    <div id="gallerySkeleton" class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 sm:gap-7 justify-items-center">
+      <div class="polaroid-pinned-card tilt-neg-1 max-w-[240px] w-full animate-pulse"><div class="polaroid-pin"></div><div class="polaroid-frame"><div class="polaroid-photo-wrap bg-stone-800"></div></div></div>
+      <div class="polaroid-pinned-card tilt-pos-1 max-w-[240px] w-full animate-pulse"><div class="polaroid-pin"></div><div class="polaroid-frame"><div class="polaroid-photo-wrap bg-stone-800"></div></div></div>
+      <div class="polaroid-pinned-card tilt-neg-2 max-w-[240px] w-full animate-pulse"><div class="polaroid-pin"></div><div class="polaroid-frame"><div class="polaroid-photo-wrap bg-stone-800"></div></div></div>
+      <div class="polaroid-pinned-card tilt-pos-2 max-w-[240px] w-full animate-pulse"><div class="polaroid-pin"></div><div class="polaroid-frame"><div class="polaroid-photo-wrap bg-stone-800"></div></div></div>
+      <div class="polaroid-pinned-card tilt-zero max-w-[240px] w-full animate-pulse"><div class="polaroid-pin"></div><div class="polaroid-frame"><div class="polaroid-photo-wrap bg-stone-800"></div></div></div>
+      <div class="polaroid-pinned-card tilt-neg-1 max-w-[240px] w-full animate-pulse"><div class="polaroid-pin"></div><div class="polaroid-frame"><div class="polaroid-photo-wrap bg-stone-800"></div></div></div>
+    </div>
+
+    <!-- Live Polaroid Pinned Board Grid (Auto-Sizes: Scrollable on mobile, compact pinned cards on wide screens) -->
+    <div id="galleryGrid" class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 sm:gap-7 justify-items-center hidden">
+      <!-- Populated via public/js/gallery.js -->
+    </div>
+
+    <!-- Empty State (Dignified & Public-Ready with No Passcode Instructions) -->
+    <div id="galleryEmpty" class="hidden text-center py-20 px-6 max-w-md mx-auto">
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-stone-800/90 border border-stone-700/80 flex items-center justify-center text-3xl shadow-inner">
+        📷
       </div>
-      <p class="text-[11px] text-stone-500 mt-4">
-        All photos are backed up to your dedicated GitHub & jsDelivr edge CDN folder (<code class="text-stone-400 font-mono">vault/gallery/</code>).
+      <h3 class="text-xl font-serif font-bold text-stone-100">Elder Salviejo’s Polaroid Wall</h3>
+      <p class="text-xs sm:text-sm text-stone-400 mt-2 leading-relaxed">
+        Missionary photographs from the Philippines Dumaguete Mission will be pinned here as Elder Salviejo serves in the field.
       </p>
+      <div class="mt-5 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-900 border border-stone-800 text-[11px] text-stone-400">
+        <span>🇵🇭</span>
+        <span>Philippines Dumaguete Mission</span>
+      </div>
     </div>
 
   </main>
 
-  <!-- Interactive Lightbox Modal (Zero-Overlap, Universal Screen Sizing) -->
-  <div id="lightboxModal" class="fixed inset-0 z-50 bg-black/92 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 opacity-0 transition-opacity duration-200" onclick="handleLightboxBackdrop(event)">
+  <!-- Interactive Lightbox Modal (With Feature 6: Vintage Date Stamp) -->
+  <div id="lightboxModal" class="fixed inset-0 z-50 bg-black/94 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 opacity-0 transition-opacity duration-200" onclick="handleLightboxBackdrop(event)">
     
     <!-- Top Bar Controls -->
     <div class="absolute top-3 right-3 sm:top-5 sm:right-6 flex items-center gap-2 z-50">
-      <a id="lightboxDownloadBtn" href="#" target="_blank" download class="p-2.5 bg-stone-800/80 hover:bg-stone-700 text-stone-200 rounded-full border border-stone-700/80 transition" title="Open / Download Original">
+      <!-- Feature 6: Date Stamp Toggle Button -->
+      <button id="dateStampToggleBtn" onclick="toggleDateStamp()" class="inline-flex items-center gap-1 px-3 py-1.5 bg-stone-800/80 hover:bg-stone-700 text-amber-400 rounded-full border border-stone-700/80 text-xs font-mono transition" title="Toggle Vintage 90s Quartz Date Stamp">
+        <span>🕒</span>
+        <span class="hidden sm:inline">Date Stamp</span>
+      </button>
+
+      <!-- Download Button -->
+      <a id="lightboxDownloadBtn" href="#" target="_blank" download class="p-2.5 bg-stone-800/80 hover:bg-stone-700 text-stone-200 rounded-full border border-stone-700/80 transition" title="Download Original">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
         </svg>
       </a>
+
+      <!-- Close Button -->
       <button onclick="closeLightbox()" class="p-2.5 bg-stone-800/80 hover:bg-stone-700 text-stone-200 hover:text-white rounded-full border border-stone-700/80 transition" title="Close (Esc)">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -232,9 +292,13 @@
       </svg>
     </button>
 
-    <!-- Centered Polaroid Lightbox Frame -->
+    <!-- Centered Lightbox Image Container with Vintage Date Stamp Overlay -->
     <div class="relative max-w-full max-h-full flex items-center justify-center" onclick="event.stopPropagation()">
-      <img id="lightboxImg" src="" alt="Polaroid" class="lightbox-image rounded shadow-2xl transition-transform duration-200" />
+      <img id="lightboxImg" src="" alt="Polaroid" class="lightbox-image rounded-xs transition-transform duration-200" />
+      <!-- Vintage 90s Camera Orange Quartz Date Stamp (Toggleable) -->
+      <div id="lightboxDateStamp" class="vintage-date-stamp absolute bottom-3 right-3 sm:bottom-4 sm:right-5 text-xs sm:text-sm tracking-widest pointer-events-none drop-shadow-md">
+        '26 09 08
+      </div>
     </div>
 
     <!-- Bottom Counter -->
@@ -251,5 +315,14 @@
 
   <!-- Gallery Logic Scripts -->
   <script src="/js/gallery.js"></script>
+
+  <!-- PWA Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
 </body>
 </html>

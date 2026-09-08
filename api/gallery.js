@@ -32,6 +32,7 @@ module.exports = async function handler(req, res) {
               id: item.id || `cdn-${item.filename}`,
               src: item.src || item.cdnUrl,
               date: item.uploadedAt,
+              category: item.category || (item.source === '073000' ? 'Mission' : 'P-Day Journal'),
               isGalleryUpload: item.source === '073000',
               source: item.source
             }));
