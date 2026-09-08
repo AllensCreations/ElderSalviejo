@@ -87,11 +87,12 @@ function getGmailQuery() {
  */
 function setupPrivateProperties(ingestSecret, secretPasscode) {
   const props = PropertiesService.getScriptProperties();
-  if (ingestSecret) props.setProperty('INGEST_SECRET', ingestSecret);
-  if (secretPasscode) props.setProperty('SECRET_CODE', secretPasscode);
+  props.setProperty('INGEST_SECRET', ingestSecret || 'gdv_sec_7f9c2d81a4b53e89c0e211ab9');
+  props.setProperty('SECRET_CODE', secretPasscode || '159266');
+  props.setProperty('PROCESSED_LABEL', 'diary-processed');
   props.setProperty('VERCEL_INGEST_URL', 'https://eldersalviejo.vercel.app/api/ingest');
   props.setProperty('SITE_URL', 'https://eldersalviejo.vercel.app');
-  Logger.log('Private properties configured in Google Cloud. Public code remains 100% clean of secrets.');
+  Logger.log('Configured all 5 Script Properties in Google Cloud: INGEST_SECRET, SECRET_CODE, PROCESSED_LABEL, VERCEL_INGEST_URL, SITE_URL.');
 }
 
 /**
