@@ -62,13 +62,14 @@
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
         color-adjust: exact !important;
+        box-sizing: border-box !important;
       }
 
       html, body {
         width: var(--a4-width) !important;
         background: #f4f1ea !important;
         color: #1c1917 !important;
-        font-size: 10pt !important;
+        font-size: 9.5pt !important;
         line-height: 1.45 !important;
         margin: 0 !important;
         padding: 0 !important;
@@ -86,49 +87,55 @@
         display: block !important;
       }
 
-      /* Single-page A4 Book Cover without overflow */
+      /* Single-page A4 Book Cover: Scaled cleanly to never overflow */
       .book-cover {
         page-break-before: auto !important;
         page-break-after: always !important;
         break-after: page !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
-        height: 270mm !important;
-        max-height: 270mm !important;
-        min-height: 270mm !important;
-        border: 4px double #78350f !important;
+        min-height: 245mm !important;
+        height: auto !important;
+        max-height: 260mm !important;
+        border: 3px double #78350f !important;
         background-color: #fdfbf7 !important;
         border-radius: 0 !important;
         box-shadow: none !important;
-        padding: 10mm 12mm !important;
+        padding: 8mm 10mm !important;
         box-sizing: border-box !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: space-between !important;
         margin: 0 !important;
+        overflow: hidden !important;
       }
 
-      /* Each Chapter starts on a fresh A4 Page, maintaining the parchment color template */
+      /* Chapters start cleanly on fresh page and break between paragraphs without overlap */
       .book-chapter {
         page-break-before: always !important;
         break-before: page !important;
+        page-break-inside: auto !important;
+        break-inside: auto !important;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
-        border-radius: 0 !important;
+        border-radius: 6px !important;
         border: 1px solid #fde68a !important;
         background-color: #fdfbf7 !important;
-        padding: 12mm 14mm !important;
-        margin: 0 !important;
+        padding: 10mm 12mm !important;
+        margin: 0 0 8mm 0 !important;
         box-sizing: border-box !important;
       }
 
       .avoid-break {
         break-inside: avoid !important;
         page-break-inside: avoid !important;
+        margin-bottom: 10px !important;
       }
 
       .missionary-nametag {
         background-color: #0a0a0a !important;
         color: #ffffff !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
       }
       .missionary-nametag .tag-name,
       .missionary-nametag .tag-christ {
@@ -143,14 +150,32 @@
 
       /* Image height and natural aspect ratio safety */
       img {
-        max-height: 80mm !important;
+        max-height: 65mm !important;
         width: auto !important;
         max-width: 100% !important;
         height: auto !important;
         object-fit: contain !important;
         display: block !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
+        margin: 0 auto !important;
+      }
+
+      /* Feature Visuals Grid side-by-side in print */
+      .grid {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 12px !important;
+      }
+      .grid > * {
+        flex: 1 1 50% !important;
+        max-width: 50% !important;
+        box-sizing: border-box !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      h1, h2, h3 {
+        break-after: avoid !important;
+        page-break-after: avoid !important;
       }
     }
   </style>
