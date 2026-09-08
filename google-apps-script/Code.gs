@@ -613,13 +613,37 @@ function parseDiaryContent(bodyText, encodedImages) {
         imageFilename: encodedImages[i] ? encodedImages[i].filename : null
       });
     }
+
+    // BONUS / EXTRA PHOTOS HANDLING:
+    // If more photos are attached than day headers written (e.g. 7+ photos or only 3 days with 7 photos),
+    // append each bonus photo as its own entry so NO photo is ever omitted or lost!
+    if (encodedImages.length > matches.length) {
+      for (let j = matches.length; j < encodedImages.length; j++) {
+        entries.push({
+          day: `EXTRA PHOTO ${j - matches.length + 1}`,
+          text: '',
+          image: encodedImages[j].dataUri,
+          imageFilename: encodedImages[j].filename
+        });
+      }
+    }
   } else {
+    // If no day headers were written at all (pure text reflection)
     entries.push({
       day: 'MONDAY',
       text: cleanBody.trim(),
       image: encodedImages.length > 0 ? encodedImages[0].dataUri : null,
       imageFilename: encodedImages.length > 0 ? encodedImages[0].filename : null
     });
+    // Append remaining photos if multiple attachments
+    for (let k = 1; k < encodedImages.length; k++) {
+      entries.push({
+        day: `PHOTO ${k + 1}`,
+        text: '',
+        image: encodedImages[k].dataUri,
+        imageFilename: encodedImages[k].filename
+      });
+    }
   }
 
   return {

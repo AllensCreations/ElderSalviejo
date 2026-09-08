@@ -195,8 +195,9 @@ function renderWeek(week) {
   if (senderEl) senderEl.innerText = 'Elder Salviejo';
 
   const entries = Array.isArray(week.entries) ? week.entries : [];
+  const photoCount = entries.filter(e => e.cdnImage || e.image).length;
   const countEl = document.getElementById('entryCountBadge');
-  if (countEl) countEl.innerText = `📸 ${entries.length} Daily Routine Photos`;
+  if (countEl) countEl.innerText = `📸 ${photoCount || entries.length} Daily Routine Photo${(photoCount || entries.length) === 1 ? '' : 's'}`;
 
   // Render Scripture Card
   const verseRefEl = document.getElementById('verseReference');
@@ -276,7 +277,7 @@ function renderWeek(week) {
                 </h2>
               </div>
               <span class="text-[10px] sm:text-[11px] font-sans font-bold text-stone-700 uppercase tracking-wider bg-black/5 px-2.5 sm:px-3 py-1 rounded-full border border-black/5">
-                Day ${index + 1} of 7 • Daily Routine
+                ${dayClean.includes('EXTRA') || dayClean.includes('PHOTO') ? `Photo ${index + 1} of ${entries.length} • Additional Photo` : `Day ${index + 1} of ${entries.length} • Daily Routine`}
               </span>
             </div>
 
