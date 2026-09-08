@@ -92,7 +92,7 @@ async function fetchWeeks() {
           Unable to load missionary letters at this time. Please check your connection or try again.
         </p>
         <div class="mt-5 flex justify-center gap-3">
-          <button onclick="fetchWeeks()" class="px-5 py-2.5 bg-stone-900 hover:bg-stone-800 text-white text-xs font-semibold rounded-lg shadow-sm">
+          <button onclick="fetchWeeks()" class="px-5 py-2.5 bg-amber-700 hover:bg-amber-600 text-white text-xs font-semibold rounded-lg shadow-sm">
             Try Again
           </button>
         </div>
