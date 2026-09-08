@@ -16,6 +16,7 @@ module.exports = async function handler(req, res) {
   try {
     await initDatabase();
     const weeks = await getAllWeeks();
+    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
     return res.status(200).json({
       success: true,
       count: weeks.length,

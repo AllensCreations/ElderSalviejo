@@ -5,17 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Elder Mark Salviejo • Official Mission Call & Origin Story | Philippines Dumaguete Mission</title>
   
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Google Fonts: Inter, Playfair Display & Caveat handwriting -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
-
-  <!-- External Modular Stylesheets -->
+  <!-- Precompiled & Minified Production Stylesheets (Zero Render-Blocking JS) -->
+  <link rel="stylesheet" href="/css/tailwind.min.css" />
   <link rel="stylesheet" href="/css/main.css" />
   <link rel="stylesheet" href="/css/week.css" />
+
+  <!-- Google Fonts: Inter, Playfair Display & Caveat handwriting (Optimized Subset) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
 </head>
 <body class="week-view min-h-screen text-stone-800 antialiased font-sans flex flex-col selection:bg-amber-200 overflow-x-hidden">
 
@@ -31,6 +29,8 @@
             alt="Elder Salviejo"
             onerror="this.src='https://i.ibb.co/Xrpks0Hm/received-1633857454919246.jpg'"
             loading="eager"
+            fetchpriority="high"
+            decoding="async"
           />
         </div>
         <div class="flex items-center gap-1.5 truncate">
@@ -265,6 +265,7 @@
               onerror="this.src='https://i.ibb.co/HWRwq7L/Mark-Salviejo-Mission-Call-Letter-page-0001.jpg'"
               class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300"
               loading="lazy"
+              decoding="async"
             />
             <div class="absolute inset-0 bg-stone-950/15 group-hover:bg-transparent transition"></div>
             <span class="absolute bottom-3 right-3 px-2.5 py-1 bg-stone-900/90 text-white text-xs font-semibold rounded-md shadow flex items-center gap-1.5 backdrop-blur-xs">
@@ -290,6 +291,7 @@
               onerror="this.src='https://i.ibb.co/mCqcbT3D/overview-2246341-page-0001.jpg'"
               class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-300"
               loading="lazy"
+              decoding="async"
             />
             <span class="absolute bottom-3 right-3 px-2.5 py-1 bg-stone-900/90 text-white text-xs font-semibold rounded-md shadow flex items-center gap-1.5 backdrop-blur-xs">
               🗺️ Enlarge Boundary Map
@@ -309,7 +311,7 @@
         <!-- Photo 1: Holding Call Letter -->
         <div onclick="openIntroModal(2)" class="polaroid-card group cursor-pointer hover:shadow-xl transition duration-300 max-w-none mb-0">
           <div class="aspect-square overflow-hidden rounded bg-stone-100 border border-stone-200">
-            <img src="/assets/images/intro/photo-2.jpg" onerror="this.src='https://i.ibb.co/bMqVVZqL/received-1778183986537355.jpg'" alt="Holding the Call Letter" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+            <img src="/assets/images/intro/photo-2.jpg" onerror="this.src='https://i.ibb.co/bMqVVZqL/received-1778183986537355.jpg'" alt="Holding the Call Letter" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" decoding="async" />
           </div>
           <div class="mt-2.5 text-center font-hand text-xl text-stone-800 font-bold">
             Holding My Call Letter! 📜
@@ -319,7 +321,7 @@
         <!-- Photo 2: Spire of Faith -->
         <div onclick="openIntroModal(3)" class="polaroid-card group cursor-pointer hover:shadow-xl transition duration-300 max-w-none mb-0">
           <div class="aspect-square overflow-hidden rounded bg-stone-100 border border-stone-200">
-            <img src="/assets/images/intro/photo-1.jpg" onerror="this.src='https://i.ibb.co/7JShV8Cy/received-1420724736611243.jpg'" alt="Spire of Faith" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+            <img src="/assets/images/intro/photo-1.jpg" onerror="this.src='https://i.ibb.co/7JShV8Cy/received-1420724736611243.jpg'" alt="Spire of Faith" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" decoding="async" />
           </div>
           <div class="mt-2.5 text-center font-hand text-xl text-stone-800 font-bold">
             Beneath the Meetinghouse Spire ⛪
@@ -329,7 +331,7 @@
         <!-- Photo 3: Rejoicing Together -->
         <div onclick="openIntroModal(4)" class="polaroid-card group cursor-pointer hover:shadow-xl transition duration-300 max-w-none mb-0">
           <div class="aspect-square overflow-hidden rounded bg-stone-100 border border-stone-200">
-            <img src="/assets/images/intro/photo-3.jpg" onerror="this.src='https://i.ibb.co/n8M8VDR8/received-4536366903287651.jpg'" alt="Rejoicing in the Gospel" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+            <img src="/assets/images/intro/photo-3.jpg" onerror="this.src='https://i.ibb.co/n8M8VDR8/received-4536366903287651.jpg'" alt="Rejoicing in the Gospel" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" decoding="async" />
           </div>
           <div class="mt-2.5 text-center font-hand text-xl text-stone-800 font-bold">
             Rejoicing in the Gospel! 🎉
@@ -339,7 +341,7 @@
         <!-- Photo 4: YSA District Family -->
         <div onclick="openIntroModal(5)" class="polaroid-card group cursor-pointer hover:shadow-xl transition duration-300 max-w-none mb-0 sm:col-span-2 lg:col-span-1">
           <div class="aspect-square overflow-hidden rounded bg-stone-100 border border-stone-200">
-            <img src="/assets/images/intro/photo-4.jpg" onerror="this.src='https://i.ibb.co/rKPvxrBH/Messenger-creation-2242403789659455.jpg'" alt="YSA District Family" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+            <img src="/assets/images/intro/photo-4.jpg" onerror="this.src='https://i.ibb.co/rKPvxrBH/Messenger-creation-2242403789659455.jpg'" alt="YSA District Family" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" decoding="async" />
           </div>
           <div class="mt-2.5 text-center font-hand text-xl text-stone-800 font-bold">
             Our YSA District Family 💛
@@ -349,7 +351,7 @@
         <!-- Photo 5: Gathered by the Savior -->
         <div onclick="openIntroModal(6)" class="polaroid-card group cursor-pointer hover:shadow-xl transition duration-300 max-w-none mb-0 sm:col-span-2 lg:col-span-2">
           <div class="aspect-square sm:aspect-[16/9] overflow-hidden rounded bg-stone-100 border border-stone-200">
-            <img src="/assets/images/intro/photo-5.jpg" onerror="this.src='https://i.ibb.co/5gwwKS9q/IMG-20260906-120706.jpg'" alt="Gathered by the Savior" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+            <img src="/assets/images/intro/photo-5.jpg" onerror="this.src='https://i.ibb.co/5gwwKS9q/IMG-20260906-120706.jpg'" alt="Gathered by the Savior" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" decoding="async" />
           </div>
           <div class="mt-2.5 text-center font-hand text-xl text-stone-800 font-bold">
             Gathered by the Savior inside the Chapel 🙏

@@ -27,21 +27,42 @@ async function fetchWeeks() {
   const container = document.getElementById('weeksList');
   if (!container) return;
 
-  container.innerHTML = `
-    <div class="py-16 text-center text-stone-500">
-      <svg class="animate-spin h-8 w-8 mx-auto mb-3 text-amber-600" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-      </svg>
-      <p class="font-medium text-sm">Loading Elder Salviejo's missionary letters...</p>
-    </div>
-  `;
+  // SWR: Instantly render cached letters if available (0ms perceived load)
+  try {
+    const cached = localStorage.getItem('gdv_cached_weeks');
+    if (cached) {
+      const cachedWeeks = JSON.parse(cached);
+      if (Array.isArray(cachedWeeks) && cachedWeeks.length > 0 && allWeeks.length === 0) {
+        allWeeks = cachedWeeks;
+        const countEl = document.getElementById('totalWeeksCount');
+        if (countEl) countEl.innerText = allWeeks.length;
+        renderWeeks(allWeeks);
+      }
+    }
+  } catch (_) {}
+
+  // Only show the loading spinner if we had no cached letters to display
+  if (allWeeks.length === 0) {
+    container.innerHTML = `
+      <div class="py-16 text-center text-stone-500">
+        <svg class="animate-spin h-8 w-8 mx-auto mb-3 text-amber-600" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+        </svg>
+        <p class="font-medium text-sm">Loading Elder Salviejo's missionary letters...</p>
+      </div>
+    `;
+  }
 
   try {
     const response = await fetch('/api/weeks');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
     allWeeks = data.weeks || [];
+
+    try {
+      localStorage.setItem('gdv_cached_weeks', JSON.stringify(allWeeks));
+    } catch (_) {}
 
     const countEl = document.getElementById('totalWeeksCount');
     if (countEl) countEl.innerText = allWeeks.length;

@@ -93,12 +93,28 @@ async function loadWeek() {
     return;
   }
 
+  // Instant SWR: render from sessionStorage if previously loaded
+  try {
+    const cached = sessionStorage.getItem(`gdv_week_${slug}`);
+    if (cached) {
+      const cachedWeek = JSON.parse(cached);
+      if (cachedWeek && cachedWeek.title) {
+        renderWeek(cachedWeek);
+      }
+    }
+  } catch (_) {}
+
   try {
     const res = await fetch(`/api/weeks/${encodeURIComponent(slug)}`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
 
     if (!data.week) throw new Error('Week data not found in response');
+    
+    try {
+      sessionStorage.setItem(`gdv_week_${slug}`, JSON.stringify(data.week));
+    } catch (_) {}
+
     renderWeek(data.week);
   } catch (err) {
     console.warn('API error, attempting jsDelivr CDN week fallback:', err);
@@ -228,6 +244,7 @@ function renderWeek(week) {
                   src="${entry.cdnImage || entry.image}"
                   alt="${escapeHtml(dayClean)} missionary photograph"
                   loading="lazy"
+                  decoding="async"
                   draggable="false"
                   oncontextmenu="return false;"
                   onerror="if (this.src !== '${entry.image || ''}') { this.src = '${entry.image || ''}'; }"
