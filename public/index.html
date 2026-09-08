@@ -150,14 +150,22 @@
         </div>
 
         <!-- Right Column: Status & Stats Badges -->
-        <div class="flex items-center justify-center sm:justify-start lg:justify-end gap-3 shrink-0 border-t lg:border-t-0 pt-4 lg:pt-0 border-amber-200/60 w-full lg:w-auto">
-          <div class="text-center px-4 py-2.5 bg-white rounded-xl border border-amber-200 shadow-sm min-w-[105px]">
-            <span id="totalWeeksCount" class="block text-2xl font-bold text-amber-900 leading-tight">0</span>
-            <span class="text-[11px] font-semibold text-stone-500 uppercase tracking-wider">Archived Letters</span>
+        <div class="flex flex-wrap items-center justify-center sm:justify-start lg:justify-end gap-2.5 shrink-0 border-t lg:border-t-0 pt-4 lg:pt-0 border-amber-200/60 w-full lg:w-auto">
+          <div class="text-center px-3.5 py-2 bg-white rounded-xl border border-amber-200 shadow-2xs min-w-[90px]">
+            <span id="totalWeeksCount" class="block text-xl font-bold text-amber-900 leading-tight">0</span>
+            <span class="text-[10px] font-semibold text-stone-500 uppercase tracking-wider">Journals</span>
           </div>
-          <div class="text-center px-4 py-2.5 bg-white rounded-xl border border-amber-200 shadow-sm min-w-[105px]">
-            <span class="block text-2xl font-bold text-emerald-700 leading-tight">Live</span>
-            <span class="text-[11px] font-semibold text-stone-500 uppercase tracking-wider">Vault Status</span>
+          <div class="text-center px-3.5 py-2 bg-white rounded-xl border border-amber-200 shadow-2xs min-w-[90px]">
+            <span id="totalPhotosCount" class="block text-xl font-bold text-amber-900 leading-tight">0</span>
+            <span class="text-[10px] font-semibold text-stone-500 uppercase tracking-wider">Polaroids</span>
+          </div>
+          <div class="text-center px-3.5 py-2 bg-white rounded-xl border border-amber-200 shadow-2xs min-w-[90px]">
+            <span id="missionMonthBadge" class="block text-xl font-bold text-amber-900 leading-tight">Month 1</span>
+            <span class="text-[10px] font-semibold text-stone-500 uppercase tracking-wider">of 24 Months</span>
+          </div>
+          <div class="text-center px-3.5 py-2 bg-white rounded-xl border border-amber-200 shadow-2xs min-w-[80px]">
+            <span class="block text-xl font-bold text-emerald-700 leading-tight">Live</span>
+            <span class="text-[10px] font-semibold text-stone-500 uppercase tracking-wider">Vault</span>
           </div>
         </div>
 
@@ -187,6 +195,47 @@
         <!-- Live Digital Countdown / Service Progress Bar -->
         <div id="countdownDisplay" class="flex items-center justify-center sm:justify-start md:justify-end w-full md:w-auto shrink-0">
           <!-- Populated dynamically by countdown.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Missionary Areas & Transfer Timeline (Suggestion 2) -->
+    <section class="bg-[#fdfbf7] border border-[#e5dfd3] rounded-2xl p-5 sm:p-6 mb-8 shadow-xs">
+      <div class="flex items-center justify-between gap-4 mb-4">
+        <div class="flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-lg bg-amber-100 border border-amber-300 text-amber-800 flex items-center justify-center font-bold text-xs">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </span>
+          <div>
+            <h3 class="font-serif text-sm sm:text-base font-bold text-stone-900">Mission Journey & Area History</h3>
+            <p class="text-[11px] text-stone-500">Philippines Dumaguete Mission • Negros Oriental & Siquijor</p>
+          </div>
+        </div>
+        <span class="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 border border-amber-200">
+          Field Status: Active
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-1 text-xs">
+        <div class="p-3 bg-white rounded-xl border border-amber-200/90 shadow-2xs">
+          <div class="text-[10px] font-bold text-amber-800 uppercase tracking-wider mb-0.5">Current Assignment</div>
+          <div class="font-serif font-bold text-stone-900 text-sm">Dumaguete City / Sibulan</div>
+          <div class="text-stone-500 text-[11px] mt-0.5">Philippines Dumaguete Mission</div>
+        </div>
+        <div class="p-3 bg-white rounded-xl border border-stone-200/80 shadow-2xs">
+          <div class="text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-0.5">District & Zone</div>
+          <div class="font-serif font-bold text-stone-900 text-sm">Dumaguete Zone</div>
+          <div class="text-stone-500 text-[11px] mt-0.5">Negros Island</div>
+        </div>
+        <div class="p-3 bg-white rounded-xl border border-stone-200/80 shadow-2xs">
+          <div class="text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-0.5">Primary Language</div>
+          <div class="font-serif font-bold text-stone-900 text-sm">Cebuano (Bisaya) & English</div>
+          <div class="text-stone-500 text-[11px] mt-0.5">Central Visayas</div>
+        </div>
+        <div class="p-3 bg-white rounded-xl border border-stone-200/80 shadow-2xs">
+          <div class="text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-0.5">Mission Duration</div>
+          <div class="font-serif font-bold text-stone-900 text-sm">24 Months (2 Years)</div>
+          <div class="text-stone-500 text-[11px] mt-0.5">Full-Time Missionary Service</div>
         </div>
       </div>
     </section>

@@ -1,12 +1,10 @@
 {
-  "name": "Elder Salviejo — Mission Vault",
+  "name": "Elder Salviejo • Missionary Journal Vault",
   "short_name": "Elder Salviejo",
-  "description": "Philippines Dumaguete Mission Letters & Polaroid Photo Gallery",
+  "description": "Philippines Dumaguete Mission Weekly Journal & Polaroid Photo Vault",
   "start_url": "/",
-  "scope": "/",
   "display": "standalone",
-  "orientation": "portrait-primary",
-  "background_color": "#141210",
+  "background_color": "#1c1917",
   "theme_color": "#d97706",
   "icons": [
     {
@@ -20,11 +18,6 @@
       "sizes": "512x512",
       "type": "image/jpeg",
       "purpose": "any maskable"
-    },
-    {
-      "src": "/Icon.ico",
-      "sizes": "48x48 32x32 16x16",
-      "type": "image/x-icon"
     }
   ]
 }

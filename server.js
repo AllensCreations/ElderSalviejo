@@ -19,6 +19,8 @@ const subscribersHandler = require('./api/subscribers');
 const galleryHandler = require('./api/gallery');
 const trackingMessageHandler = require('./api/tracking/message');
 const trackingBroadcastHandler = require('./api/tracking/broadcast');
+const encouragementsHandler = require('./api/encouragements');
+const statsHandler = require('./api/stats');
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
@@ -97,6 +99,17 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/api/tracking/broadcast') {
       if (req.method === 'POST') req.body = await readBody();
       return await trackingBroadcastHandler(req, res);
+    }
+
+    // 1f. API: /api/encouragements
+    if (pathname === '/api/encouragements') {
+      if (req.method === 'POST') req.body = await readBody();
+      return await encouragementsHandler(req, res);
+    }
+
+    // 1g. API: GET /api/stats
+    if (pathname === '/api/stats') {
+      return await statsHandler(req, res);
     }
 
     // 2. API: GET /api/weeks

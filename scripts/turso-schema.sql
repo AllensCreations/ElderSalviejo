@@ -51,3 +51,15 @@ CREATE TABLE IF NOT EXISTS broadcast_logs (
 
 CREATE INDEX IF NOT EXISTS idx_broadcast_logs_slug ON broadcast_logs(week_slug);
 CREATE INDEX IF NOT EXISTS idx_broadcast_logs_recipient ON broadcast_logs(week_slug, recipient_email);
+
+-- Family & Friends Notes / Encouragement Messages table
+CREATE TABLE IF NOT EXISTS family_encouragements (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  week_slug TEXT NOT NULL,
+  author_name TEXT NOT NULL,
+  relationship TEXT DEFAULT 'Family & Friends',
+  message TEXT NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_family_encouragements_slug ON family_encouragements(week_slug);

@@ -339,6 +339,119 @@ function copyShareLink() {
   setTimeout(() => { btn.innerHTML = original; }, 2000);
 }
 
+/* -------------------------------------------------------------
+ * Family & Friends Encouragement Notes Logic (Suggestion 1)
+ * ------------------------------------------------------------- */
+async function loadEncouragements(slug) {
+  const targetSlug = slug || getSlugFromPath();
+  if (!targetSlug) return;
+
+  const loadingEl = document.getElementById('encouragementsLoading');
+  const emptyEl = document.getElementById('encouragementsEmpty');
+  const listEl = document.getElementById('encouragementsList');
+
+  try {
+    const res = await fetch(`/api/encouragements?slug=${encodeURIComponent(targetSlug)}`);
+    if (res.ok) {
+      const data = await res.json();
+      const notes = data.encouragements || [];
+
+      if (loadingEl) loadingEl.classList.add('hidden');
+
+      if (notes.length === 0) {
+        if (emptyEl) emptyEl.classList.remove('hidden');
+        if (listEl) listEl.classList.add('hidden');
+        return;
+      }
+
+      if (emptyEl) emptyEl.classList.add('hidden');
+      if (listEl) {
+        listEl.innerHTML = notes.map(note => {
+          const dateStr = note.createdAt
+            ? new Date(note.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+            : '';
+          return `
+            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-amber-200/90 shadow-2xs">
+              <div class="flex items-center justify-between gap-2 mb-1.5">
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-xs sm:text-sm text-stone-900">${escapeHtml(note.authorName || 'Friend')}</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-semibold border border-amber-200">
+                    ${escapeHtml(note.relationship || 'Family & Friends')}
+                  </span>
+                </div>
+                ${dateStr ? `<span class="text-[10px] text-stone-400 font-mono">${escapeHtml(dateStr)}</span>` : ''}
+              </div>
+              <p class="text-xs text-stone-700 leading-relaxed">${escapeHtml(note.message)}</p>
+            </div>
+          `;
+        }).join('');
+        listEl.classList.remove('hidden');
+      }
+    }
+  } catch (err) {
+    if (loadingEl) loadingEl.classList.add('hidden');
+  }
+}
+
+async function handleEncouragementSubmit(event) {
+  event.preventDefault();
+  const slug = getSlugFromPath();
+  if (!slug) return;
+
+  const authorInput = document.getElementById('encAuthorInput');
+  const relInput = document.getElementById('encRelInput');
+  const msgInput = document.getElementById('encMessageInput');
+  const submitBtn = document.getElementById('encSubmitBtn');
+  const feedbackEl = document.getElementById('encFeedback');
+
+  const authorName = authorInput ? authorInput.value.trim() : '';
+  const relationship = relInput ? relInput.value : 'Family';
+  const message = msgInput ? msgInput.value.trim() : '';
+
+  if (!message) return;
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Sending...';
+  }
+
+  try {
+    const res = await fetch('/api/encouragements', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug, authorName, relationship, message })
+    });
+
+    const data = await res.json();
+    if (res.ok && data.success) {
+      if (feedbackEl) {
+        feedbackEl.textContent = 'Note sent to Elder Salviejo!';
+        feedbackEl.className = 'text-xs font-semibold text-emerald-700';
+        feedbackEl.classList.remove('hidden');
+      }
+      if (msgInput) msgInput.value = '';
+      await loadEncouragements(slug);
+    } else {
+      if (feedbackEl) {
+        feedbackEl.textContent = data.error || 'Could not send note.';
+        feedbackEl.className = 'text-xs font-semibold text-red-600';
+        feedbackEl.classList.remove('hidden');
+      }
+    }
+  } catch (err) {
+    if (feedbackEl) {
+      feedbackEl.textContent = 'Network error. Please try again.';
+      feedbackEl.className = 'text-xs font-semibold text-red-600';
+      feedbackEl.classList.remove('hidden');
+    }
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span>Send Note</span><span class="text-amber-300">&rarr;</span>';
+    }
+  }
+}
+
 function escapeHtml(str) {
   if (!str) return '';
   return String(str)
@@ -359,4 +472,8 @@ document.addEventListener('keydown', function(e) {
 document.addEventListener('DOMContentLoaded', () => {
   setupImageProtection();
   loadWeek();
+  const slug = getSlugFromPath();
+  if (slug) {
+    loadEncouragements(slug);
+  }
 });
