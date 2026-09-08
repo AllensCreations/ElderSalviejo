@@ -8,8 +8,8 @@
 const { getWeekBySlugOrId, initDatabase } = require('../../lib/turso');
 
 module.exports = async function handler(req, res) {
-  if (req.method !== 'GET') {
-    res.setHeader('Allow', ['GET']);
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    res.setHeader('Allow', ['GET', 'HEAD']);
     return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
   }
 
@@ -28,7 +28,7 @@ module.exports = async function handler(req, res) {
       return res.status(404).json({ error: `Week not found with identifier: ${id}` });
     }
 
-    res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=86400');
+    res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=86400');
     return res.status(200).json({
       success: true,
       week

@@ -8,15 +8,15 @@
 const { getAllWeeks, initDatabase } = require('../../lib/turso');
 
 module.exports = async function handler(req, res) {
-  if (req.method !== 'GET') {
-    res.setHeader('Allow', ['GET']);
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    res.setHeader('Allow', ['GET', 'HEAD']);
     return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
   }
 
   try {
     await initDatabase();
     const weeks = await getAllWeeks();
-    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
+    res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
     return res.status(200).json({
       success: true,
       count: weeks.length,
