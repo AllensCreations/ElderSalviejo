@@ -54,7 +54,29 @@
     /* Print Setup: Strictly Enforce A4 Portrait & Preserve Authentic Color Template */
     @page {
       size: A4 portrait;
-      margin: 12mm 14mm 12mm 14mm;
+      margin: 15mm 15mm 15mm 15mm;
+      @bottom-right {
+        content: "Page " counter(page);
+        font-family: 'Inter', sans-serif;
+        font-size: 8pt;
+        color: #78716c;
+      }
+      @bottom-left {
+        content: "Elder Salviejo • Philippines Dumaguete Mission";
+        font-family: 'Playfair Display', serif;
+        font-size: 8pt;
+        color: #78716c;
+      }
+    }
+
+    @page :first {
+      margin: 10mm 12mm 10mm 12mm;
+      @bottom-right { content: normal; }
+      @bottom-left { content: normal; }
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     @media print {
@@ -73,6 +95,8 @@
         line-height: 1.45 !important;
         margin: 0 !important;
         padding: 0 !important;
+        orphans: 3 !important;
+        widows: 3 !important;
       }
 
       .no-print {
@@ -108,6 +132,20 @@
         justify-content: space-between !important;
         margin: 0 !important;
         overflow: hidden !important;
+      }
+
+      /* Table of Contents */
+      .book-toc {
+        page-break-before: always !important;
+        break-before: page !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        border-radius: 0 !important;
+        background-color: #fdfbf7 !important;
+        padding: 10mm 12mm !important;
+        margin: 0 0 8mm 0 !important;
       }
 
       /* Chapters start cleanly on fresh page and break between paragraphs without overlap */
@@ -150,7 +188,7 @@
 
       /* Image height and natural aspect ratio safety */
       img {
-        max-height: 65mm !important;
+        max-height: 60mm !important;
         width: auto !important;
         max-width: 100% !important;
         height: auto !important;
@@ -173,7 +211,7 @@
         page-break-inside: avoid !important;
       }
 
-      h1, h2, h3 {
+      h1, h2, h3, h4 {
         break-after: avoid !important;
         page-break-after: avoid !important;
       }
@@ -330,9 +368,55 @@
     </section>
 
     <!-- =================================================================== -->
+    <!-- TABLE OF CONTENTS / JOURNAL INDEX                                   -->
+    <!-- =================================================================== -->
+    <section id="bookTableOfContents" class="book-toc book-chapter bg-[#fdfbf7] border border-amber-200/90 rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-md space-y-6">
+      <div class="border-b border-amber-200 pb-3 flex items-center justify-between">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-800">Mission Record</span>
+          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-stone-900 mt-0.5">
+            Table of Contents
+          </h2>
+        </div>
+        <div class="text-xs text-stone-500 font-medium">
+          <span>Philippines Dumaguete Mission</span>
+        </div>
+      </div>
+
+      <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">
+        Chronological index of missionary reflections, weekly letters, and official records.
+      </p>
+
+      <div id="tocEntriesList" class="space-y-3 pt-2">
+        <!-- Static First Entry -->
+        <a href="#chapter-calling" class="group flex items-baseline justify-between gap-4 p-2.5 rounded-lg hover:bg-amber-50/80 border border-transparent hover:border-amber-200 transition text-stone-800">
+          <div class="flex items-baseline gap-2 min-w-0">
+            <span class="font-serif font-bold text-amber-900 text-sm">Chapter I.</span>
+            <span class="font-medium text-xs sm:text-sm text-stone-900 group-hover:text-amber-800 truncate">The Calling & Origin Story</span>
+          </div>
+          <div class="border-b border-dotted border-stone-300 flex-1 mx-2"></div>
+          <span class="text-xs font-mono text-stone-500 shrink-0">Dec 11, 2026</span>
+        </a>
+
+        <!-- Dynamic entries will be inserted here by book.js -->
+        <div id="tocDynamicWeeks" class="space-y-2"></div>
+
+        <!-- Static Epilogue Entry -->
+        <a href="#chapter-epilogue" class="group flex items-baseline justify-between gap-4 p-2.5 rounded-lg hover:bg-amber-50/80 border border-transparent hover:border-amber-200 transition text-stone-800">
+          <div class="flex items-baseline gap-2 min-w-0">
+            <span class="font-serif font-bold text-amber-900 text-sm">Epilogue.</span>
+            <span class="font-medium text-xs sm:text-sm text-stone-900 group-hover:text-amber-800 truncate">Homecoming, Testimony & Good Works</span>
+          </div>
+          <div class="border-b border-dotted border-stone-300 flex-1 mx-2"></div>
+          <span class="text-xs font-mono text-stone-500 shrink-0">Alma 7:24</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
     <!-- CHAPTER 1: OFFICIAL CALL & PERSONAL TESTIMONY                       -->
     <!-- =================================================================== -->
-    <section class="book-chapter bg-[#fdfbf7] border border-amber-200/90 rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-md space-y-8">
+    <section id="chapter-calling" class="book-chapter bg-[#fdfbf7] border border-amber-200/90 rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-md space-y-8">
       
       <div class="border-b border-amber-200 pb-4 flex items-center justify-between">
         <div>
@@ -435,7 +519,7 @@
     <!-- =================================================================== -->
     <!-- EPILOGUE & HOMECOMING PAGE                                          -->
     <!-- =================================================================== -->
-    <section class="book-chapter bg-[#fdfbf7] border border-amber-200/90 rounded-2xl sm:rounded-3xl p-8 sm:p-12 text-center shadow-md space-y-6">
+    <section id="chapter-epilogue" class="book-chapter bg-[#fdfbf7] border border-amber-200/90 rounded-2xl sm:rounded-3xl p-8 sm:p-12 text-center shadow-md space-y-6">
       <div class="inline-block text-amber-800"><svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg></div>
       <h3 class="font-serif text-2xl font-bold text-stone-900">
         "And see that ye have faith, hope, and charity, and then ye will always abound in good works."
@@ -450,6 +534,19 @@
 
   </main>
 
+  <!-- Floating Jump-to-TOC Button (Screen Only) -->
+  <aside class="no-print fixed bottom-6 right-6 z-30 flex flex-col gap-2">
+    <a
+      href="#bookTableOfContents"
+      class="bg-stone-900/90 hover:bg-stone-900 text-stone-100 hover:text-amber-300 backdrop-blur-md px-3.5 py-2 rounded-full shadow-lg border border-stone-700/80 text-xs font-medium flex items-center gap-1.5 transition transform hover:scale-105"
+      title="Jump to Table of Contents"
+    >
+      <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+      </svg>
+      <span>Contents</span>
+    </a>
+  </aside>
 
   <!-- Unified Missionary Footer -->
   <footer class="no-print mt-auto border-t border-stone-800 bg-stone-900 text-stone-400 py-6 text-xs">
