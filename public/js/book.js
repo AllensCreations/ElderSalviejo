@@ -8,6 +8,7 @@
   async function loadCompleteBook() {
     const container = document.getElementById('bookWeeklyChapters');
     const loadingState = document.getElementById('bookLoadingState');
+    const tocDynamic = document.getElementById('tocDynamicWeeks');
     if (!container) return;
 
     try {
@@ -30,6 +31,14 @@
       if (loadingState) loadingState.remove();
 
       if (!weeks || weeks.length === 0) {
+        if (tocDynamic) {
+          tocDynamic.innerHTML = `
+            <div class="p-2.5 rounded-lg bg-amber-50/50 border border-amber-200/60 text-xs italic text-stone-600">
+              Weekly field letters will appear here as they are published following MTC entrance (Dec 11, 2026).
+            </div>
+          `;
+        }
+
         container.innerHTML = `
           <div class="bg-[#fdfbf7] border border-amber-200/90 rounded-2xl sm:rounded-3xl p-8 sm:p-12 text-center shadow-md avoid-break">
             <svg class="w-10 h-10 mx-auto mb-3 text-amber-800/60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
@@ -50,6 +59,28 @@
       // 2. Fetch full details for each week in chronological order
       // (Sort oldest to newest for a classic book reading experience)
       const sortedWeeks = [...weeks].sort((a, b) => new Date(a.publishedAt) - new Date(b.publishedAt));
+
+      // 3. Populate Table of Contents
+      if (tocDynamic) {
+        tocDynamic.innerHTML = sortedWeeks.map((w, idx) => {
+          const chapNum = idx + 2;
+          const chapId = `chapter-week-${w.slug || idx + 1}`;
+          const title = w.title || `Weekly Letter #${idx + 1}`;
+          const dateStr = w.publishedAt
+            ? new Date(w.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+            : `Week ${idx + 1}`;
+          return `
+            <a href="#${chapId}" class="group flex items-baseline justify-between gap-4 p-2.5 rounded-lg hover:bg-amber-50/80 border border-transparent hover:border-amber-200 transition text-stone-800">
+              <div class="flex items-baseline gap-2 min-w-0">
+                <span class="font-serif font-bold text-amber-900 text-sm">Chapter ${chapNum}.</span>
+                <span class="font-medium text-xs sm:text-sm text-stone-900 group-hover:text-amber-800 truncate">${escapeHtml(title)}</span>
+              </div>
+              <div class="border-b border-dotted border-stone-300 flex-1 mx-2"></div>
+              <span class="text-xs font-mono text-stone-500 shrink-0">${escapeHtml(dateStr)}</span>
+            </a>
+          `;
+        }).join('');
+      }
 
       let chaptersHtml = '';
 
@@ -82,9 +113,10 @@
           : (typeof weekDetails.entries === 'string' ? JSON.parse(weekDetails.entries || '[]') : []);
 
         const verse = weekDetails.verse;
+        const chapId = `chapter-week-${w.slug || i + 1}`;
 
         chaptersHtml += `
-          <article class="book-chapter bg-[#fdfbf7] border border-amber-200/90 rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-md space-y-6">
+          <article id="${chapId}" class="book-chapter bg-[#fdfbf7] border border-amber-200/90 rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-md space-y-6">
             
             <!-- Chapter Header -->
             <div class="border-b border-amber-200 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
