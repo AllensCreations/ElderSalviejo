@@ -41,23 +41,39 @@
       box-sizing: border-box;
     }
 
-    /* Full-Page Book Cover */
+    /* Screen Book Cover */
     .book-cover {
-      min-height: calc(100vh - 6rem);
+      width: 100%;
+      min-height: 10in;
       box-sizing: border-box;
-      background: radial-gradient(circle at center, #fdfaf3 0%, #f5efe1 100%);
+      background: #fbf7ee;
+      padding: 0.35in;
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
     }
 
-    @media (min-width: 768px) {
-      .book-cover {
-        min-height: calc(var(--letter-height) - 1.2in);
-      }
+    .cover-ornate-frame {
+      width: 100%;
+      min-height: calc(10in - 0.7in);
+      box-sizing: border-box;
+      border: 4px double #78350f;
+      outline: 2px solid #b45309;
+      outline-offset: -8px;
+      padding: 2.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      background: radial-gradient(circle at center, #ffffff 0%, #faf4e8 100%);
+      border-radius: 1rem;
+      position: relative;
     }
 
     /* Print Setup: Strictly Enforce US Letter Portrait */
     @page {
       size: letter portrait;
-      margin: 0.45in 0.5in 0.45in 0.5in;
+      margin: 0.5in 0.5in 0.5in 0.5in;
       @bottom-right {
         content: "Page " counter(page);
         font-family: 'Inter', sans-serif;
@@ -72,28 +88,16 @@
       }
     }
 
+    /* First page (Cover): Zero margin for exact 8.5 x 11 in full bleed */
     @page :first {
-      margin: 0.35in 0.4in 0.35in 0.4in;
-      @bottom-right { content: normal; }
-      @bottom-left { content: normal; }
+      size: letter portrait;
+      margin: 0 !important;
+      @bottom-right { content: normal !important; }
+      @bottom-left { content: normal !important; }
     }
 
     html {
       scroll-behavior: smooth;
-    }
-
-    /* Vintage Woodcut / Kraft paper styling flourishes */
-    .woodcut-border {
-      border: 3px double #78350f;
-      outline: 1px solid #b45309;
-      outline-offset: -8px;
-    }
-
-    .woodcut-corner {
-      position: absolute;
-      width: 24px;
-      height: 24px;
-      color: #92400e;
     }
 
     @media print {
@@ -105,8 +109,9 @@
       }
 
       html, body {
-        width: var(--letter-width) !important;
-        background: #f5efe1 !important;
+        width: 8.5in !important;
+        height: auto !important;
+        background: #ffffff !important;
         color: #1c1917 !important;
         font-size: 9.5pt !important;
         line-height: 1.45 !important;
@@ -120,37 +125,55 @@
         display: none !important;
       }
 
-      main {
-        max-width: 100% !important;
-        width: 100% !important;
+      main.letter-page {
+        width: 8.5in !important;
+        max-width: 8.5in !important;
         margin: 0 !important;
         padding: 0 !important;
         display: block !important;
       }
 
-      /* Full Page US Letter Book Cover */
+      /* Exact Full-Bleed US Letter Cover Page */
       .book-cover {
         page-break-before: auto !important;
         page-break-after: always !important;
         break-after: page !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
-        min-height: 9.8in !important;
-        height: 9.8in !important;
-        max-height: 10.2in !important;
-        background: #fdfaf3 !important;
-        border: 4px double #78350f !important;
-        outline: 2px solid #92400e !important;
-        outline-offset: -10px !important;
+        width: 8.5in !important;
+        height: 11in !important;
+        min-height: 11in !important;
+        max-height: 11in !important;
+        margin: 0 !important;
+        padding: 0.45in !important;
+        box-sizing: border-box !important;
+        background: #fbf7ee !important;
+        border: none !important;
         border-radius: 0 !important;
         box-shadow: none !important;
-        padding: 0.4in !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        overflow: hidden !important;
+      }
+
+      .cover-ornate-frame {
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 100% !important;
+        max-height: 100% !important;
         box-sizing: border-box !important;
+        border: 4px double #78350f !important;
+        outline: 2px solid #b45309 !important;
+        outline-offset: -8px !important;
+        padding: 0.5in 0.4in !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: space-between !important;
-        margin: 0 !important;
-        overflow: hidden !important;
+        align-items: center !important;
+        text-align: center !important;
+        background: radial-gradient(circle at center, #ffffff 0%, #faf4e8 100%) !important;
+        border-radius: 0 !important;
       }
 
       /* Table of Contents */
@@ -316,92 +339,94 @@
   <main class="letter-page px-4 sm:px-0 py-6 sm:py-10 flex-1 space-y-10 sm:space-y-12">
 
     <!-- =================================================================== -->
-    <!-- BOOK COVER PAGE (Full-Page Rustic Woodcut Journal Keepsake)         -->
+    <!-- BOOK COVER PAGE (Full-Bleed US Letter Rustic Woodcut Keepsake)      -->
     <!-- =================================================================== -->
-    <section class="book-cover woodcut-border bg-[#fbf7ee] rounded-2xl sm:rounded-3xl p-6 sm:p-10 md:p-12 text-center shadow-xl relative overflow-hidden flex flex-col justify-between">
-      
-      <!-- Top Church & Mission Header with Woodcut Ornaments -->
-      <div class="space-y-2 pt-2 sm:pt-4">
-        <div class="flex items-center justify-center gap-3 text-amber-900/80">
-          <span class="text-xs">✦ ✦ ✦</span>
-          <p class="text-[11px] sm:text-xs font-serif uppercase tracking-[0.3em] font-bold text-amber-950">
-            The Church of Jesus Christ of Latter-day Saints
-          </p>
-          <span class="text-xs">✦ ✦ ✦</span>
-        </div>
-        <p class="text-xs sm:text-sm font-sans tracking-[0.25em] text-amber-900/80 uppercase font-semibold">
-          Philippines Dumaguete Mission &bull; 2026&ndash;2028
-        </p>
-        <div class="w-32 h-0.5 bg-gradient-to-r from-transparent via-amber-800 to-transparent mx-auto mt-2"></div>
-      </div>
-
-      <!-- Center Title Block (Fills full vertical space with balanced hierarchy) -->
-      <div class="my-auto py-6 sm:py-8 space-y-6 sm:space-y-8">
+    <section class="book-cover">
+      <div class="cover-ornate-frame">
         
-        <!-- Authentic Missionary Nametag & Avatar in Ornate Seal Frame -->
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 pb-2">
-          <div class="profile-avatar-hero w-24 h-24 sm:w-28 sm:h-28 shrink-0 shadow-2xl border-4 border-amber-500/90 rounded-2xl ring-4 ring-amber-900/20 bg-amber-100/50">
-            <img
-              src="/assets/images/elder-salviejo.jpg"
-              alt="Elder Salviejo"
-              onerror="this.src='https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/public/assets/images/elder-salviejo.jpg'"
-              loading="eager"
-              fetchpriority="high"
-              decoding="async"
-              class="w-full h-full object-cover rounded-xl"
-            />
+        <!-- Top Church & Mission Header with Woodcut Ornaments -->
+        <div class="space-y-2 w-full pt-1">
+          <div class="flex items-center justify-center gap-2 sm:gap-3 text-amber-900/80">
+            <span class="text-xs">✦ ✦ ✦</span>
+            <p class="text-[11px] sm:text-xs font-serif uppercase tracking-[0.28em] font-bold text-amber-950">
+              The Church of Jesus Christ of Latter-day Saints
+            </p>
+            <span class="text-xs">✦ ✦ ✦</span>
           </div>
-          <div class="missionary-nametag scale-105 sm:scale-115 shadow-2xl border-2 border-stone-800">
-            <span class="tag-name">ELDER SALVIEJO</span>
-            <div class="tag-divider"></div>
-            <span class="tag-church">The Church of</span>
-            <span class="tag-christ">Jesus Christ</span>
-            <span class="tag-church">of Latter-day Saints</span>
-          </div>
-        </div>
-
-        <!-- Main Title with Engraved Classic Serif Typography -->
-        <div class="space-y-3 pt-2">
-          <div class="flex items-center justify-center gap-3">
-            <div class="w-12 sm:w-20 h-0.5 bg-amber-800/60"></div>
-            <span class="text-amber-800 font-serif text-sm italic">The Missionary Chronicle</span>
-            <div class="w-12 sm:w-20 h-0.5 bg-amber-800/60"></div>
-          </div>
-          <h1 class="font-serif text-3xl sm:text-5xl md:text-6xl font-black text-stone-900 tracking-tight leading-tight uppercase drop-shadow-xs">
-            Weekly Journal Vault
-          </h1>
-          <p class="font-serif italic text-base sm:text-xl text-amber-950 font-medium max-w-xl mx-auto px-4 leading-relaxed">
-            &ldquo;The Lord does not call the qualified, He qualifies the called.&rdquo;
+          <p class="text-xs sm:text-sm font-sans tracking-[0.22em] text-amber-900/80 uppercase font-semibold">
+            Philippines Dumaguete Mission &bull; 2026&ndash;2028
           </p>
+          <div class="w-36 h-0.5 bg-gradient-to-r from-transparent via-amber-800 to-transparent mx-auto mt-2"></div>
         </div>
 
-        <!-- Pillar Scripture Box (Engraved Kraft Border) -->
-        <div class="max-w-lg mx-auto p-4 sm:p-5 bg-amber-100/60 border-2 border-amber-700/50 rounded-xl shadow-xs relative">
-          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#fbf7ee] px-3 py-0.5 border border-amber-600/60 rounded-full text-[10px] font-bold uppercase tracking-widest text-amber-900">
-            Moroni 10:5
+        <!-- Center Title Block (Fills vertical height with balanced symmetry) -->
+        <div class="my-auto py-4 sm:py-6 w-full max-w-xl space-y-5 sm:space-y-6">
+          
+          <!-- Large Medallion Avatar & Missionary Nametag -->
+          <div class="flex flex-col items-center justify-center gap-3">
+            <div class="profile-avatar-hero w-28 h-28 sm:w-32 sm:h-32 shrink-0 shadow-2xl border-4 border-amber-600/90 rounded-full ring-4 ring-amber-900/30 p-1 bg-amber-100/60 mx-auto">
+              <img
+                src="/assets/images/elder-salviejo.jpg"
+                alt="Elder Salviejo"
+                onerror="this.src='https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/public/assets/images/elder-salviejo.jpg'"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                class="w-full h-full object-cover rounded-full"
+              />
+            </div>
+            <div class="missionary-nametag scale-110 sm:scale-120 shadow-2xl border-2 border-stone-800 mt-2">
+              <span class="tag-name">ELDER SALVIEJO</span>
+              <div class="tag-divider"></div>
+              <span class="tag-church">The Church of</span>
+              <span class="tag-christ">Jesus Christ</span>
+              <span class="tag-church">of Latter-day Saints</span>
+            </div>
           </div>
-          <blockquote class="font-serif italic text-stone-900 text-xs sm:text-sm leading-relaxed mt-1">
-            &ldquo;And by the power of the Holy Ghost ye may know the truth of all things.&rdquo;
-          </blockquote>
+
+          <!-- Main Title with Engraved Classic Serif Typography -->
+          <div class="space-y-2 pt-1">
+            <div class="flex items-center justify-center gap-3">
+              <div class="w-10 sm:w-16 h-0.5 bg-amber-800/60"></div>
+              <span class="text-amber-800 font-serif text-xs sm:text-sm italic">The Missionary Chronicle</span>
+              <div class="w-10 sm:w-16 h-0.5 bg-amber-800/60"></div>
+            </div>
+            <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-black text-stone-900 tracking-tight leading-tight uppercase drop-shadow-xs">
+              Weekly Journal Vault
+            </h1>
+            <p class="font-serif italic text-sm sm:text-lg text-amber-950 font-medium max-w-lg mx-auto leading-relaxed">
+              &ldquo;The Lord does not call the qualified, He qualifies the called.&rdquo;
+            </p>
+          </div>
+
+          <!-- Pillar Scripture Box (Engraved Kraft Border) -->
+          <div class="p-3.5 sm:p-4 bg-amber-100/70 border-2 border-amber-700/60 rounded-xl shadow-xs relative max-w-md mx-auto">
+            <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#faf4e8] px-3 py-0.5 border border-amber-600/70 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-amber-900">
+              Moroni 10:5
+            </div>
+            <blockquote class="font-serif italic text-stone-900 text-xs sm:text-sm leading-relaxed mt-1">
+              &ldquo;And by the power of the Holy Ghost ye may know the truth of all things.&rdquo;
+            </blockquote>
+          </div>
+
+          <div class="inline-flex items-center gap-2 sm:gap-3 text-stone-600 text-[11px] sm:text-xs font-mono uppercase tracking-widest">
+            <span>24-Month Keepsake</span>
+            <span>&bull;</span>
+            <span>Field Reflections</span>
+            <span>&bull;</span>
+            <span>Permanent Archive</span>
+          </div>
+
         </div>
 
-        <div class="inline-flex items-center gap-3 text-stone-600 text-xs font-mono uppercase tracking-widest">
-          <span>24-Month Keepsake</span>
-          <span>&bull;</span>
-          <span>Field Reflections</span>
-          <span>&bull;</span>
-          <span>Permanent Archive</span>
+        <!-- Bottom Book Dedication Footer with Woodcut Trim -->
+        <div class="w-full pt-3 sm:pt-4 border-t-2 border-amber-900/40 text-xs text-stone-700 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <span class="font-serif font-bold text-amber-950 text-sm">Elder Mark Allen Bongolan Salviejo</span>
+          <span class="text-stone-500 font-sans tracking-wider uppercase text-[11px]">Philippines Dumaguete Mission</span>
+          <span class="font-hand text-base sm:text-lg text-amber-900 font-bold">Permanent Family Keepsake</span>
         </div>
 
       </div>
-
-      <!-- Bottom Book Dedication Footer with Woodcut Trim -->
-      <div class="pt-4 sm:pt-6 border-t-2 border-amber-900/30 text-xs text-stone-700 flex flex-col sm:flex-row items-center justify-between gap-2">
-        <span class="font-serif font-semibold text-amber-950">Elder Mark Allen Bongolan Salviejo</span>
-        <span class="text-stone-500 font-sans tracking-wider uppercase text-[11px]">Philippines Dumaguete Mission</span>
-        <span class="font-hand text-base text-amber-900 font-bold">Permanent Family Keepsake</span>
-      </div>
-
     </section>
 
     <!-- =================================================================== -->
