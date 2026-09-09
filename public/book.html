@@ -26,35 +26,38 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
 
   <style>
-    /* Strict A4 Document Dimensions (Screen & Print) */
+    /* Strict US Letter Document Dimensions (Screen & Print) */
     :root {
-      --a4-width: 210mm;
-      --a4-height: 297mm;
+      --letter-width: 8.5in;
+      --letter-height: 11in;
     }
 
-    /* Screen Preview: Emulate authentic A4 Page Sheets */
-    .a4-page {
+    /* Screen Preview: Emulate authentic US Letter Page Sheets */
+    .letter-page {
       width: 100%;
-      max-width: var(--a4-width);
+      max-width: var(--letter-width);
       margin-left: auto;
       margin-right: auto;
       box-sizing: border-box;
     }
 
+    /* Full-Page Book Cover */
     .book-cover {
-      min-height: 720px;
+      min-height: calc(100vh - 6rem);
+      box-sizing: border-box;
+      background: radial-gradient(circle at center, #fdfaf3 0%, #f5efe1 100%);
     }
 
     @media (min-width: 768px) {
       .book-cover {
-        min-height: calc(var(--a4-height) - 10mm);
+        min-height: calc(var(--letter-height) - 1.2in);
       }
     }
 
-    /* Print Setup: Strictly Enforce A4 Portrait & Preserve Authentic Color Template */
+    /* Print Setup: Strictly Enforce US Letter Portrait */
     @page {
-      size: A4 portrait;
-      margin: 15mm 15mm 15mm 15mm;
+      size: letter portrait;
+      margin: 0.45in 0.5in 0.45in 0.5in;
       @bottom-right {
         content: "Page " counter(page);
         font-family: 'Inter', sans-serif;
@@ -70,13 +73,27 @@
     }
 
     @page :first {
-      margin: 10mm 12mm 10mm 12mm;
+      margin: 0.35in 0.4in 0.35in 0.4in;
       @bottom-right { content: normal; }
       @bottom-left { content: normal; }
     }
 
     html {
       scroll-behavior: smooth;
+    }
+
+    /* Vintage Woodcut / Kraft paper styling flourishes */
+    .woodcut-border {
+      border: 3px double #78350f;
+      outline: 1px solid #b45309;
+      outline-offset: -8px;
+    }
+
+    .woodcut-corner {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      color: #92400e;
     }
 
     @media print {
@@ -88,8 +105,8 @@
       }
 
       html, body {
-        width: var(--a4-width) !important;
-        background: #f4f1ea !important;
+        width: var(--letter-width) !important;
+        background: #f5efe1 !important;
         color: #1c1917 !important;
         font-size: 9.5pt !important;
         line-height: 1.45 !important;
@@ -111,21 +128,23 @@
         display: block !important;
       }
 
-      /* Single-page A4 Book Cover: Scaled cleanly to never overflow */
+      /* Full Page US Letter Book Cover */
       .book-cover {
         page-break-before: auto !important;
         page-break-after: always !important;
         break-after: page !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
-        min-height: 245mm !important;
-        height: auto !important;
-        max-height: 260mm !important;
-        border: 3px double #78350f !important;
-        background-color: #fdfbf7 !important;
+        min-height: 9.8in !important;
+        height: 9.8in !important;
+        max-height: 10.2in !important;
+        background: #fdfaf3 !important;
+        border: 4px double #78350f !important;
+        outline: 2px solid #92400e !important;
+        outline-offset: -10px !important;
         border-radius: 0 !important;
         box-shadow: none !important;
-        padding: 8mm 10mm !important;
+        padding: 0.4in !important;
         box-sizing: border-box !important;
         display: flex !important;
         flex-direction: column !important;
@@ -144,8 +163,8 @@
         break-inside: avoid !important;
         border-radius: 0 !important;
         background-color: #fdfbf7 !important;
-        padding: 10mm 12mm !important;
-        margin: 0 0 8mm 0 !important;
+        padding: 0.4in !important;
+        margin: 0 0 0.3in 0 !important;
       }
 
       /* Chapters start cleanly on fresh page and break between paragraphs without overlap */
@@ -158,15 +177,15 @@
         border-radius: 6px !important;
         border: 1px solid #fde68a !important;
         background-color: #fdfbf7 !important;
-        padding: 10mm 12mm !important;
-        margin: 0 0 8mm 0 !important;
+        padding: 0.4in !important;
+        margin: 0 0 0.3in 0 !important;
         box-sizing: border-box !important;
       }
 
       .avoid-break {
         break-inside: avoid !important;
         page-break-inside: avoid !important;
-        margin-bottom: 10px !important;
+        margin-bottom: 8px !important;
       }
 
       .missionary-nametag {
@@ -188,7 +207,7 @@
 
       /* Image height and natural aspect ratio safety */
       img {
-        max-height: 60mm !important;
+        max-height: 55mm !important;
         width: auto !important;
         max-width: 100% !important;
         height: auto !important;
@@ -276,7 +295,7 @@
         <button
           onclick="triggerPrintWithPreload(this)"
           class="text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 shadow-xs flex items-center gap-1.5 transition cursor-pointer"
-          title="Print or Save complete book as PDF (A4 Portrait)"
+          title="Print or Save complete book as PDF (US Letter Portrait 8.5x11 in)"
         >
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
@@ -290,33 +309,38 @@
 
   <!-- Helpful Print Banner (Hidden when printed) -->
   <div class="no-print bg-amber-50/90 border-b border-amber-200 px-4 py-2.5 text-center text-xs text-amber-900 font-medium">
-    <strong>A4 Sized Keepsake:</strong> Formatted strictly for <strong>A4 Portrait</strong> paper. When printing, select <strong>Paper Size: A4</strong> in your print dialog.
+    <strong>US Letter Keepsake:</strong> Formatted strictly for <strong>US Letter Portrait (8.5 &times; 11 in)</strong> paper. In your print/PDF dialog, select <strong>Paper Size: Letter</strong>.
   </div>
 
-  <!-- Book Viewport Container (Strict A4 Width) -->
-  <main class="a4-page px-4 sm:px-0 py-6 sm:py-10 flex-1 space-y-10 sm:space-y-12">
+  <!-- Book Viewport Container (Strict US Letter Width) -->
+  <main class="letter-page px-4 sm:px-0 py-6 sm:py-10 flex-1 space-y-10 sm:space-y-12">
 
     <!-- =================================================================== -->
-    <!-- BOOK COVER PAGE                                                     -->
+    <!-- BOOK COVER PAGE (Full-Page Rustic Woodcut Journal Keepsake)         -->
     <!-- =================================================================== -->
-    <section class="book-cover bg-[#fdfbf7] border-4 border-double border-amber-900/40 rounded-2xl sm:rounded-3xl p-6 sm:p-12 text-center shadow-xl relative overflow-hidden flex flex-col justify-between">
+    <section class="book-cover woodcut-border bg-[#fbf7ee] rounded-2xl sm:rounded-3xl p-6 sm:p-10 md:p-12 text-center shadow-xl relative overflow-hidden flex flex-col justify-between">
       
-      <!-- Top Church & Mission Header -->
-      <div class="space-y-2">
-        <p class="text-xs font-serif uppercase tracking-[0.25em] text-amber-900 font-semibold">
-          The Church of Jesus Christ of Latter-day Saints
+      <!-- Top Church & Mission Header with Woodcut Ornaments -->
+      <div class="space-y-2 pt-2 sm:pt-4">
+        <div class="flex items-center justify-center gap-3 text-amber-900/80">
+          <span class="text-xs">✦ ✦ ✦</span>
+          <p class="text-[11px] sm:text-xs font-serif uppercase tracking-[0.3em] font-bold text-amber-950">
+            The Church of Jesus Christ of Latter-day Saints
+          </p>
+          <span class="text-xs">✦ ✦ ✦</span>
+        </div>
+        <p class="text-xs sm:text-sm font-sans tracking-[0.25em] text-amber-900/80 uppercase font-semibold">
+          Philippines Dumaguete Mission &bull; 2026&ndash;2028
         </p>
-        <p class="text-sm font-sans tracking-widest text-stone-500 uppercase font-medium">
-          Philippines Dumaguete Mission • 2026–2028
-        </p>
+        <div class="w-32 h-0.5 bg-gradient-to-r from-transparent via-amber-800 to-transparent mx-auto mt-2"></div>
       </div>
 
-      <!-- Center Title Block -->
-      <div class="my-auto py-8 space-y-6">
+      <!-- Center Title Block (Fills full vertical space with balanced hierarchy) -->
+      <div class="my-auto py-6 sm:py-8 space-y-6 sm:space-y-8">
         
-        <!-- Authentic Missionary Nametag & Avatar (Side-by-side) -->
-        <div class="flex flex-row items-center justify-center gap-4 pb-2">
-          <div class="profile-avatar-hero w-20 h-20 sm:w-24 sm:h-24 shrink-0 shadow-lg border-2 border-amber-400">
+        <!-- Authentic Missionary Nametag & Avatar in Ornate Seal Frame -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 pb-2">
+          <div class="profile-avatar-hero w-24 h-24 sm:w-28 sm:h-28 shrink-0 shadow-2xl border-4 border-amber-500/90 rounded-2xl ring-4 ring-amber-900/20 bg-amber-100/50">
             <img
               src="/assets/images/elder-salviejo.jpg"
               alt="Elder Salviejo"
@@ -324,9 +348,10 @@
               loading="eager"
               fetchpriority="high"
               decoding="async"
+              class="w-full h-full object-cover rounded-xl"
             />
           </div>
-          <div class="missionary-nametag scale-100 sm:scale-110 shadow-lg">
+          <div class="missionary-nametag scale-105 sm:scale-115 shadow-2xl border-2 border-stone-800">
             <span class="tag-name">ELDER SALVIEJO</span>
             <div class="tag-divider"></div>
             <span class="tag-church">The Church of</span>
@@ -335,40 +360,52 @@
           </div>
         </div>
 
+        <!-- Main Title with Engraved Classic Serif Typography -->
         <div class="space-y-3 pt-2">
-          <div class="inline-block w-16 h-0.5 bg-amber-700/60 mx-auto"></div>
-          <h1 class="font-serif text-3xl sm:text-5xl font-bold text-stone-900 tracking-tight leading-tight">
-            The Missionary Journals & Letters
+          <div class="flex items-center justify-center gap-3">
+            <div class="w-12 sm:w-20 h-0.5 bg-amber-800/60"></div>
+            <span class="text-amber-800 font-serif text-sm italic">The Missionary Chronicle</span>
+            <div class="w-12 sm:w-20 h-0.5 bg-amber-800/60"></div>
+          </div>
+          <h1 class="font-serif text-3xl sm:text-5xl md:text-6xl font-black text-stone-900 tracking-tight leading-tight uppercase drop-shadow-xs">
+            Weekly Journal Vault
           </h1>
-          <p class="font-serif italic text-lg sm:text-xl text-amber-950 font-medium max-w-xl mx-auto">
-            “The Lord does not call the qualified, He qualifies the called.”
+          <p class="font-serif italic text-base sm:text-xl text-amber-950 font-medium max-w-xl mx-auto px-4 leading-relaxed">
+            &ldquo;The Lord does not call the qualified, He qualifies the called.&rdquo;
           </p>
-          <div class="inline-block w-16 h-0.5 bg-amber-700/60 mx-auto"></div>
         </div>
 
-        <!-- Pillar Scripture Box -->
-        <div class="max-w-md mx-auto p-4 bg-amber-50/80 border border-amber-300/80 rounded-xl shadow-xs">
-          <p class="text-[10px] font-bold uppercase tracking-widest text-amber-900 mb-1">
+        <!-- Pillar Scripture Box (Engraved Kraft Border) -->
+        <div class="max-w-lg mx-auto p-4 sm:p-5 bg-amber-100/60 border-2 border-amber-700/50 rounded-xl shadow-xs relative">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#fbf7ee] px-3 py-0.5 border border-amber-600/60 rounded-full text-[10px] font-bold uppercase tracking-widest text-amber-900">
             Moroni 10:5
-          </p>
-          <blockquote class="font-serif italic text-stone-800 text-xs sm:text-sm">
-            “And by the power of the Holy Ghost ye may know the truth of all things.”
+          </div>
+          <blockquote class="font-serif italic text-stone-900 text-xs sm:text-sm leading-relaxed mt-1">
+            &ldquo;And by the power of the Holy Ghost ye may know the truth of all things.&rdquo;
           </blockquote>
+        </div>
+
+        <div class="inline-flex items-center gap-3 text-stone-600 text-xs font-mono uppercase tracking-widest">
+          <span>24-Month Keepsake</span>
+          <span>&bull;</span>
+          <span>Field Reflections</span>
+          <span>&bull;</span>
+          <span>Permanent Archive</span>
         </div>
 
       </div>
 
-      <!-- Bottom Book Dedication Footer -->
-      <div class="pt-6 border-t border-amber-200/80 text-xs text-stone-500 flex flex-col sm:flex-row items-center justify-between gap-2">
-        <span>Elder Mark Allen Bongolan Salviejo</span>
-        <span>Philippines Dumaguete Mission</span>
-        <span>Permanent Family Keepsake</span>
+      <!-- Bottom Book Dedication Footer with Woodcut Trim -->
+      <div class="pt-4 sm:pt-6 border-t-2 border-amber-900/30 text-xs text-stone-700 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <span class="font-serif font-semibold text-amber-950">Elder Mark Allen Bongolan Salviejo</span>
+        <span class="text-stone-500 font-sans tracking-wider uppercase text-[11px]">Philippines Dumaguete Mission</span>
+        <span class="font-hand text-base text-amber-900 font-bold">Permanent Family Keepsake</span>
       </div>
 
     </section>
 
     <!-- =================================================================== -->
-    <!-- TABLE OF CONTENTS / JOURNAL INDEX                                   -->
+    <!-- TABLE OF CONTENTS / JOURNAL INDEX (2-Column Letter Layout)          -->
     <!-- =================================================================== -->
     <section id="bookTableOfContents" class="book-toc book-chapter bg-[#fdfbf7] border border-amber-200/90 rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-md space-y-6">
       <div class="border-b border-amber-200 pb-3 flex items-center justify-between">
@@ -384,30 +421,30 @@
       </div>
 
       <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">
-        Chronological index of missionary reflections, weekly letters, and official records.
+        Chronological index of missionary reflections, weekly letters, and official records formatted across US Letter spreads.
       </p>
 
-      <div id="tocEntriesList" class="space-y-3 pt-2">
+      <div id="tocEntriesList" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 pt-2">
         <!-- Static First Entry -->
-        <a href="#chapter-calling" class="group flex items-baseline justify-between gap-4 p-2.5 rounded-lg hover:bg-amber-50/80 border border-transparent hover:border-amber-200 transition text-stone-800">
+        <a href="#chapter-calling" class="group flex items-baseline justify-between gap-3 p-2.5 rounded-lg hover:bg-amber-50/80 border border-transparent hover:border-amber-200 transition text-stone-800">
           <div class="flex items-baseline gap-2 min-w-0">
-            <span class="font-serif font-bold text-amber-900 text-sm">Chapter I.</span>
+            <span class="font-serif font-bold text-amber-900 text-sm">Ch. I.</span>
             <span class="font-medium text-xs sm:text-sm text-stone-900 group-hover:text-amber-800 truncate">The Calling & Origin Story</span>
           </div>
-          <div class="border-b border-dotted border-stone-300 flex-1 mx-2"></div>
+          <div class="border-b border-dotted border-stone-300 flex-1 mx-1"></div>
           <span class="text-xs font-mono text-stone-500 shrink-0">Dec 11, 2026</span>
         </a>
 
         <!-- Dynamic entries will be inserted here by book.js -->
-        <div id="tocDynamicWeeks" class="space-y-2"></div>
+        <div id="tocDynamicWeeks" class="contents"></div>
 
         <!-- Static Epilogue Entry -->
-        <a href="#chapter-epilogue" class="group flex items-baseline justify-between gap-4 p-2.5 rounded-lg hover:bg-amber-50/80 border border-transparent hover:border-amber-200 transition text-stone-800">
+        <a href="#chapter-epilogue" class="group flex items-baseline justify-between gap-3 p-2.5 rounded-lg hover:bg-amber-50/80 border border-transparent hover:border-amber-200 transition text-stone-800">
           <div class="flex items-baseline gap-2 min-w-0">
             <span class="font-serif font-bold text-amber-900 text-sm">Epilogue.</span>
-            <span class="font-medium text-xs sm:text-sm text-stone-900 group-hover:text-amber-800 truncate">Homecoming, Testimony & Good Works</span>
+            <span class="font-medium text-xs sm:text-sm text-stone-900 group-hover:text-amber-800 truncate">Homecoming & Testimony</span>
           </div>
-          <div class="border-b border-dotted border-stone-300 flex-1 mx-2"></div>
+          <div class="border-b border-dotted border-stone-300 flex-1 mx-1"></div>
           <span class="text-xs font-mono text-stone-500 shrink-0">Alma 7:24</span>
         </a>
       </div>

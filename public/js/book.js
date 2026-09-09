@@ -70,12 +70,12 @@
             ? new Date(w.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
             : `Week ${idx + 1}`;
           return `
-            <a href="#${chapId}" class="group flex items-baseline justify-between gap-4 p-2.5 rounded-lg hover:bg-amber-50/80 border border-transparent hover:border-amber-200 transition text-stone-800">
+            <a href="#${chapId}" class="group flex items-baseline justify-between gap-3 p-2.5 rounded-lg hover:bg-amber-50/80 border border-transparent hover:border-amber-200 transition text-stone-800">
               <div class="flex items-baseline gap-2 min-w-0">
-                <span class="font-serif font-bold text-amber-900 text-sm">Chapter ${chapNum}.</span>
+                <span class="font-serif font-bold text-amber-900 text-sm">Ch. ${chapNum}.</span>
                 <span class="font-medium text-xs sm:text-sm text-stone-900 group-hover:text-amber-800 truncate">${escapeHtml(title)}</span>
               </div>
-              <div class="border-b border-dotted border-stone-300 flex-1 mx-2"></div>
+              <div class="border-b border-dotted border-stone-300 flex-1 mx-1"></div>
               <span class="text-xs font-mono text-stone-500 shrink-0">${escapeHtml(dateStr)}</span>
             </a>
           `;
@@ -143,40 +143,53 @@
               </div>
             ` : ''}
 
-            <!-- Daily Entries & Reflections -->
+            <!-- Daily Entries & Reflections (Optimized for US Letter real estate) -->
             <div class="space-y-6">
               ${entries.map((entry, idx) => `
-                <div class="avoid-break space-y-3 pt-2">
+                <div class="avoid-break border-t border-amber-100/80 pt-4 first:border-t-0 first:pt-0">
                   ${entry.day ? `
-                    <h3 class="font-serif text-base sm:text-lg font-bold text-stone-900 border-b border-amber-100 pb-1 flex items-center gap-2">
-                      <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                    <h3 class="font-serif text-base sm:text-lg font-bold text-stone-900 pb-2 flex items-center gap-2">
+                      <span class="w-2.5 h-2.5 rounded-full bg-amber-600"></span>
                       <span>${escapeHtml(entry.day)}</span>
                       ${entry.date ? `<span class="text-xs font-sans text-stone-500 font-normal">(${escapeHtml(entry.date)})</span>` : ''}
                     </h3>
                   ` : ''}
 
-                  ${entry.text ? `
-                    <p class="text-xs sm:text-sm text-stone-700 leading-relaxed whitespace-pre-line">
-                      ${escapeHtml(entry.text)}
-                    </p>
-                  ` : ''}
-
                   ${entry.image ? `
-                    <div class="my-4 text-center avoid-break">
-                      <div class="inline-block p-2.5 sm:p-3 bg-white border border-amber-200/90 rounded-xl shadow-xs max-w-full">
-                        <img
-                          src="${escapeHtml(entry.image)}"
-                          alt="Week Photo"
-                          class="max-h-80 w-auto max-w-full mx-auto rounded-lg object-contain"
-                          loading="eager"
-                          decoding="async"
-                        />
-                        ${entry.caption ? `
-                          <p class="text-xs text-stone-600 italic mt-2 font-hand text-base">${escapeHtml(entry.caption)}</p>
+                    <!-- 2-Column Space Utilization: Text Reflection + Polaroid Photo Spread -->
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-start mt-2">
+                      <div class="md:col-span-7 space-y-2">
+                        ${entry.text ? `
+                          <p class="text-xs sm:text-sm text-stone-700 leading-relaxed whitespace-pre-line">
+                            ${escapeHtml(entry.text)}
+                          </p>
                         ` : ''}
                       </div>
+                      <div class="md:col-span-5 text-center avoid-break">
+                        <div class="inline-block p-2.5 sm:p-3 bg-white border border-amber-200/90 rounded-xl shadow-md rotate-1 hover:rotate-0 transition transform duration-200 max-w-full">
+                          <img
+                            src="${escapeHtml(entry.image)}"
+                            alt="Week Photo"
+                            class="max-h-56 sm:max-h-64 w-auto max-w-full mx-auto rounded-lg object-contain"
+                            loading="eager"
+                            decoding="async"
+                          />
+                          ${entry.caption ? `
+                            <p class="text-xs text-stone-600 italic mt-2 font-hand text-base">${escapeHtml(entry.caption)}</p>
+                          ` : ''}
+                        </div>
+                      </div>
                     </div>
-                  ` : ''}
+                  ` : `
+                    <!-- Full Width Clean Typography Reflection -->
+                    <div class="mt-1">
+                      ${entry.text ? `
+                        <p class="text-xs sm:text-sm text-stone-700 leading-relaxed whitespace-pre-line">
+                          ${escapeHtml(entry.text)}
+                        </p>
+                      ` : ''}
+                    </div>
+                  `}
                 </div>
               `).join('')}
             </div>
