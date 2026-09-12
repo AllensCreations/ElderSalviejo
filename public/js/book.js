@@ -5,11 +5,11 @@
  * appendix into true WYSIWYG 8.5 x 11 in book sheets.
  * 
  * Features:
- * - Full photographic gallery appendix integrated into book print PDF
- * - Strict aspect ratio preservation (anti-cropping) for all photos and plates
+ * - Dynamic, unique editorial cluster layouts for the print PDF gallery (4 to 6 plates/sheet)
+ * - Auto-adjusting aspect ratios preserving 100% of authentic photo dimensions
  * - Interactive ratio-locked click-to-zoom lightbox with drag/pan across all sheets
  * - Verified camera capture timestamps and multi-tier CDN fallback failover
- * - Adaptive layout pagination ensuring zero overflow in print and PDF
+ * - Strict 8.5x11in letter sheet containment ensuring zero vertical overflow
  */
 
 (function () {
@@ -249,8 +249,7 @@
         container.innerHTML = chaptersHtml;
       }
 
-      // 3. Compile & Append the Photographic Archive Appendix (Gallery in Print PDF)
-      const appendixStartPage = runningPageNum;
+      // 3. Compile & Append the Dynamic Clustered Photographic Archive Appendix
       runningPageNum = await loadGalleryAppendix(runningPageNum);
 
       // 4. Update Final Epilogue Page Number
@@ -358,8 +357,56 @@
   }
 
   /**
-   * Loads and paginates all gallery photos adaptively into 8.5x11 in sheets
-   * ensuring zero vertical overflow and preserving true photo aspect ratios.
+   * Plans varied, dense editorial cluster compositions across sheets.
+   * For 38 photos, generates 7 unique sheets with 5-6 photos per sheet.
+   */
+  function planClusterSheets(total) {
+    const plans = [];
+    let remaining = total;
+    let idx = 0;
+    const PATTERNS_5 = ['hero-left', 'split-5', 'hero-right', 'split-5'];
+    let pattern5Idx = 0;
+
+    while (remaining > 0) {
+      let count = 5;
+      if (remaining === 6 || remaining === 12 || remaining === 18) {
+        count = 6;
+      } else if (remaining === 4) {
+        count = 4;
+      } else if (remaining === 5) {
+        count = 5;
+      } else if (remaining >= 11 && remaining % 6 === 5) {
+        count = 6;
+      } else {
+        count = (idx % 2 === 1) ? 6 : 5;
+        if (remaining - count < 4 && remaining - count > 0) {
+          // Adjust so remaining doesn't leave an orphaned 1-3 items
+          count = remaining - 4;
+          if (count > 6) count = 5;
+        }
+      }
+
+      count = Math.min(count, remaining);
+      let type;
+      if (count === 6) {
+        type = 'mosaic-6';
+      } else if (count === 4) {
+        type = 'quad-4';
+      } else {
+        type = PATTERNS_5[pattern5Idx % PATTERNS_5.length];
+        pattern5Idx++;
+      }
+
+      plans.push({ type, count });
+      remaining -= count;
+      idx++;
+    }
+
+    return plans;
+  }
+
+  /**
+   * Loads and clusters all gallery photos into unique, ratio-auto-adjusting editorial sheets.
    */
   async function loadGalleryAppendix(startPageNum) {
     const appendixContainer = document.getElementById('bookGalleryAppendix');
@@ -392,7 +439,7 @@
       return startPageNum;
     }
 
-    // Sort chronologically (newest first or stable order)
+    // Sort chronologically (newest first)
     galleryPhotos.sort((a, b) => {
       const timeA = a && a.dateTime ? new Date(a.dateTime).getTime() : 0;
       const timeB = b && b.dateTime ? new Date(b.dateTime).getTime() : 0;
@@ -416,30 +463,31 @@
       caption: p.caption || p.text || 'Official archival documentary missionary photograph preserved in the Philippines Dumaguete Mission registry.'
     }));
 
-    // Adaptive Sheet Pagination:
-    // 4 plates per sheet (2x2 grid) guarantees ample room on 8.5 x 11 in sheets
-    // so portrait and landscape photos fit at their authentic ratio with zero sheet overflow.
-    const PHOTOS_PER_SHEET = 4;
-    const totalSheets = Math.ceil(galleryPhotos.length / PHOTOS_PER_SHEET);
+    // Generate cluster plan for dense 4-6 plates per sheet
+    const clusterPlan = planClusterSheets(galleryPhotos.length);
     let appendixHtml = '';
     let currentPage = startPageNum;
+    let photoOffset = 0;
 
-    for (let sIdx = 0; sIdx < totalSheets; sIdx++) {
-      const sheetPhotos = galleryPhotos.slice(sIdx * PHOTOS_PER_SHEET, (sIdx + 1) * PHOTOS_PER_SHEET);
+    for (let sIdx = 0; sIdx < clusterPlan.length; sIdx++) {
+      const plan = clusterPlan[sIdx];
+      const sheetPhotos = galleryPhotos.slice(photoOffset, photoOffset + plan.count);
       const sheetPageNum = String(currentPage++).padStart(2, '0');
-      const startPlateNum = sIdx * PHOTOS_PER_SHEET + 1;
-      const endPlateNum = Math.min((sIdx + 1) * PHOTOS_PER_SHEET, galleryPhotos.length);
+      const startPlateNum = photoOffset + 1;
+      const endPlateNum = photoOffset + sheetPhotos.length;
       const isFirstSheet = sIdx === 0;
 
+      const clusterContentHtml = renderClusterLayout(plan.type, sheetPhotos, photoOffset);
+
       appendixHtml += `
-        <section ${isFirstSheet ? 'id="appendix-gallery"' : ''} class="book-sheet">
+        <section ${isFirstSheet ? 'id="appendix-gallery"' : ''} class="book-sheet flex flex-col justify-between">
           <!-- Sheet Header -->
-          <div class="border-b border-stone-200 pb-3 flex items-baseline justify-between">
+          <div class="border-b border-stone-200 pb-2.5 flex items-baseline justify-between shrink-0">
             <div>
               <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">
-                Appendix 01 • Part ${sIdx + 1} of ${totalSheets}
+                Appendix 01 • Part ${sIdx + 1} of ${clusterPlan.length} • Editorial Cluster
               </span>
-              <h2 class="font-serif text-2xl sm:text-3xl font-bold text-stone-900 mt-0.5">
+              <h2 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5">
                 Photographic Archive & Field Plates
               </h2>
             </div>
@@ -448,66 +496,128 @@
             </div>
           </div>
 
-          <!-- Sheet Body: Adaptive 2x2 Grid with Uncropped Ratios -->
-          <div class="flex-1 py-3 sm:py-4">
-            <div class="grid grid-cols-2 gap-3.5 sm:gap-4 h-full items-start">
-              ${sheetPhotos.map((p, pIdx) => {
-                const globalIndex = sIdx * PHOTOS_PER_SHEET + pIdx;
-                return renderGalleryAppendixCard(p, globalIndex);
-              }).join('')}
-            </div>
+          <!-- Sheet Body: Unique Asymmetric Cluster (Auto-Adjusted Ratios) -->
+          <div class="flex-1 py-3 sm:py-3.5 min-h-0 overflow-hidden">
+            ${clusterContentHtml}
           </div>
 
           <!-- Sheet Footer -->
-          <div class="pt-3 border-t border-stone-200 flex items-center justify-between font-mono text-[11px] text-stone-500">
+          <div class="pt-2.5 border-t border-stone-200 flex items-center justify-between font-mono text-[11px] text-stone-500 shrink-0">
             <span>Appendix 01 • Elder Mark Salviejo • Dumaguete Archive</span>
             <span>Page ${sheetPageNum}</span>
           </div>
         </section>
       `;
+
+      photoOffset += plan.count;
     }
 
     appendixContainer.innerHTML = appendixHtml;
     return currentPage;
   }
 
-  function renderGalleryAppendixCard(p, globalIndex) {
+  /**
+   * Renders the chosen cluster layout with auto-adjusting aspect ratios.
+   */
+  function renderClusterLayout(type, photos, startIndex) {
+    if (type === 'hero-left') {
+      const hero = photos[0];
+      const rest = photos.slice(1);
+      return `
+        <div class="cluster-grid-hero-left h-full">
+          <div class="cluster-hero-cell h-full">
+            ${renderClusterCard(hero, startIndex, true)}
+          </div>
+          ${rest.map((p, idx) => renderClusterCard(p, startIndex + 1 + idx, false)).join('')}
+        </div>
+      `;
+    }
+
+    if (type === 'hero-right') {
+      const rest = photos.slice(0, 4);
+      const hero = photos[4];
+      return `
+        <div class="cluster-grid-hero-right h-full">
+          ${rest.map((p, idx) => renderClusterCard(p, startIndex + idx, false)).join('')}
+          <div class="cluster-hero-cell h-full">
+            ${renderClusterCard(hero, startIndex + 4, true)}
+          </div>
+        </div>
+      `;
+    }
+
+    if (type === 'split-5') {
+      const top2 = photos.slice(0, 2);
+      const bot3 = photos.slice(2, 5);
+      return `
+        <div class="cluster-grid-split-5 h-full">
+          <div class="cluster-split-top-2">
+            ${top2.map((p, idx) => renderClusterCard(p, startIndex + idx, false)).join('')}
+          </div>
+          <div class="cluster-split-bottom-3">
+            ${bot3.map((p, idx) => renderClusterCard(p, startIndex + 2 + idx, false)).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    if (type === 'quad-4') {
+      const hero = photos[0];
+      const rest = photos.slice(1);
+      return `
+        <div class="grid grid-cols-2 gap-2.5 sm:gap-3 h-full">
+          <div class="h-full">
+            ${renderClusterCard(hero, startIndex, true)}
+          </div>
+          <div class="grid grid-rows-3 gap-2.5 sm:gap-3 h-full">
+            ${rest.map((p, idx) => renderClusterCard(p, startIndex + 1 + idx, false)).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // Default: 'mosaic-6' (3 columns x 2 rows)
+    return `
+      <div class="cluster-grid-mosaic-6 h-full">
+        ${photos.map((p, idx) => renderClusterCard(p, startIndex + idx, false)).join('')}
+      </div>
+    `;
+  }
+
+  function renderClusterCard(p, globalIndex, isHero = false) {
     const shotNumber = String(globalIndex + 1).padStart(3, '0');
     const imgSrc = p.src || p.localSrc || `/vault/gallery/photos/${p.filename}`;
-    const cdnFallback = p.cdnSrc || `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${p.filename}`;
-    const legacyCdn = p.legacyCdnSrc || `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${p.filename}`;
+    const cdnFallback = p.cdnSrc || (p.filename ? `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${p.filename}` : '');
+    const legacyCdn = p.legacyCdnSrc || (p.filename ? `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${p.filename}` : '');
     const stampText = p.archivalStamp || p.capturedDateTime || (p.capturedDate ? `${p.capturedDate} • ${p.capturedTime}` : 'DUMAGUETE • 2026');
-    const caption = p.caption || p.text || '';
 
     return `
       <div
-        class="polaroid-frame cursor-pointer group flex flex-col justify-between hover:border-stone-400 transition duration-150 avoid-break"
+        class="polaroid-frame cluster-card cursor-pointer group hover:border-stone-400 transition duration-150 avoid-break"
         onclick="openAppendixPlate(${globalIndex})"
         title="Plate #${shotNumber} (Click to inspect in ratio-locked zoom lightbox)"
       >
-        <!-- Snug Ratio-Preserving Wrap -->
-        <div class="polaroid-photo-wrap flex-1 flex items-center justify-center bg-stone-100/70 overflow-hidden rounded-xs p-1" style="min-height: 135px; max-height: 185px;">
+        <!-- Ratio Auto-Adjusting Snug Photo Wrap -->
+        <div class="polaroid-photo-wrap flex-1 flex items-center justify-center overflow-hidden rounded-xs bg-stone-100/70 p-1 min-h-0">
           <img
             src="${escapeAttr(imgSrc)}"
             alt="Plate #${shotNumber}"
-            class="book-plate-img w-full h-auto max-h-[175px] object-contain rounded-xs group-hover:scale-101 transition duration-150"
+            class="book-plate-img w-full h-full max-h-full object-contain rounded-xs group-hover:scale-101 transition duration-150"
             loading="eager"
             decoding="async"
             onerror="handleBookImgError(this, '${escapeAttr(cdnFallback)}', '${escapeAttr(legacyCdn)}')"
           />
         </div>
 
-        <!-- Polaroid Archival Stamp & Truncated Note -->
-        <div class="pt-2 border-t border-stone-100 mt-2">
+        <!-- Compact Metadata Strip -->
+        <div class="pt-1.5 border-t border-stone-100 mt-1.5 shrink-0">
           <div class="flex items-center justify-between font-mono text-[10px]">
-            <span class="font-bold text-stone-900">#${shotNumber}</span>
+            <span class="font-bold text-stone-900 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full ${isHero ? 'bg-red-800' : 'bg-stone-300'}"></span>
+              <span>#${shotNumber}</span>
+            </span>
             <span class="text-stone-500 truncate ml-1 text-[9px] uppercase tracking-wider">${escapeHtml(stampText)}</span>
           </div>
-          ${caption ? `
-            <p class="text-[11px] text-stone-600 line-clamp-1 font-sans mt-0.5" title="${escapeAttr(caption)}">
-              ${escapeHtml(caption)}
-            </p>
-          ` : ''}
         </div>
       </div>
     `;
