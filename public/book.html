@@ -5,34 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Elder Salviejo • Complete Missionary Journal Book | Philippines Dumaguete Mission</title>
   
-  <!-- Website Favicon & App Icon -->
   <link rel="icon" type="image/x-icon" href="/Icon.ico" />
   <link rel="shortcut icon" type="image/x-icon" href="/Icon.ico" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#d97706" />
+  <meta name="theme-color" content="#991b1b" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Elder Salviejo" />
   <link rel="apple-touch-icon" href="/assets/images/elder-salviejo.jpg" />
   
-  <!-- Precompiled & Minified Production Stylesheets (Zero Render-Blocking JS) -->
   <link rel="stylesheet" href="/css/tailwind.min.css" />
   <link rel="stylesheet" href="/css/main.css" />
   <link rel="stylesheet" href="/css/week.css" />
 
-  <!-- Google Fonts: Inter, Playfair Display & Caveat handwriting -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&display=swap" rel="stylesheet">
 
   <style>
-    /* Strict US Letter Document Dimensions (Screen & Print) */
     :root {
       --letter-width: 8.5in;
       --letter-height: 11in;
     }
 
-    /* Screen Preview: Emulate authentic US Letter Page Sheets */
     .letter-page {
       width: 100%;
       max-width: var(--letter-width);
@@ -41,54 +36,50 @@
       box-sizing: border-box;
     }
 
-    /* Screen Book Cover */
+    /* Screen Book Cover: Contemporary Museum Catalog */
     .book-cover {
       width: 100%;
       min-height: 10in;
       box-sizing: border-box;
-      background: #fbf7ee;
-      padding: 0.35in;
-      border-radius: 1.5rem;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      background: #ffffff;
+      padding: 0.5in;
+      border-radius: 12px;
+      border: 1px solid #e7e5e4;
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
     }
 
-    .cover-ornate-frame {
+    .cover-catalog-frame {
       width: 100%;
-      min-height: calc(10in - 0.7in);
+      min-height: calc(10in - 1in);
       box-sizing: border-box;
-      border: 4px double #78350f;
-      outline: 2px solid #b45309;
-      outline-offset: -8px;
-      padding: 2.5rem 1.5rem;
+      border: 1px solid #09090b;
+      padding: 3rem 2rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
       text-align: center;
-      background: radial-gradient(circle at center, #ffffff 0%, #faf4e8 100%);
-      border-radius: 1rem;
+      background: #ffffff;
       position: relative;
     }
 
-    /* Print Setup: Strictly Enforce US Letter Portrait */
     @page {
       size: letter portrait;
-      margin: 0.5in 0.5in 0.5in 0.5in;
+      margin: 0.5in;
       @bottom-right {
         content: "Page " counter(page);
-        font-family: 'Inter', sans-serif;
+        font-family: 'IBM Plex Mono', monospace;
         font-size: 8pt;
         color: #78716c;
       }
       @bottom-left {
         content: "Elder Salviejo • Philippines Dumaguete Mission";
-        font-family: 'Playfair Display', serif;
+        font-family: 'Newsreader', serif;
         font-size: 8pt;
         color: #78716c;
       }
     }
 
-    /* First page (Cover): Zero margin for exact 8.5 x 11 in full bleed */
     @page :first {
       size: letter portrait;
       margin: 0 !important;
@@ -96,15 +87,10 @@
       @bottom-left { content: normal !important; }
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     @media print {
       *, *:before, *:after {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
-        color-adjust: exact !important;
         box-sizing: border-box !important;
       }
 
@@ -112,13 +98,11 @@
         width: 8.5in !important;
         height: auto !important;
         background: #ffffff !important;
-        color: #1c1917 !important;
+        color: #0c0a09 !important;
         font-size: 9.5pt !important;
-        line-height: 1.45 !important;
+        line-height: 1.5 !important;
         margin: 0 !important;
         padding: 0 !important;
-        orphans: 3 !important;
-        widows: 3 !important;
       }
 
       .no-print {
@@ -133,140 +117,63 @@
         display: block !important;
       }
 
-      /* Exact Full-Bleed US Letter Cover Page */
       .book-cover {
-        page-break-before: auto !important;
         page-break-after: always !important;
         break-after: page !important;
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
         width: 8.5in !important;
         height: 11in !important;
         min-height: 11in !important;
-        max-height: 11in !important;
         margin: 0 !important;
-        padding: 0.45in !important;
-        box-sizing: border-box !important;
-        background: #fbf7ee !important;
+        padding: 0.6in !important;
         border: none !important;
         border-radius: 0 !important;
         box-shadow: none !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        overflow: hidden !important;
       }
 
-      .cover-ornate-frame {
-        width: 100% !important;
+      .cover-catalog-frame {
+        border: 1.5px solid #000000 !important;
         height: 100% !important;
-        min-height: 100% !important;
-        max-height: 100% !important;
-        box-sizing: border-box !important;
-        border: 4px double #78350f !important;
-        outline: 2px solid #b45309 !important;
-        outline-offset: -8px !important;
-        padding: 0.5in 0.4in !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        text-align: center !important;
-        background: radial-gradient(circle at center, #ffffff 0%, #faf4e8 100%) !important;
-        border-radius: 0 !important;
+        padding: 2.5rem 1.5rem !important;
       }
 
-      /* Table of Contents */
       .book-toc {
         page-break-before: always !important;
         break-before: page !important;
         page-break-after: always !important;
         break-after: page !important;
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
         border-radius: 0 !important;
-        background-color: #fdfbf7 !important;
+        border: 1px solid #e7e5e4 !important;
         padding: 0.4in !important;
-        margin: 0 0 0.3in 0 !important;
       }
 
-      /* Chapters start cleanly on fresh page and break between paragraphs without overlap */
       .book-chapter {
         page-break-before: always !important;
         break-before: page !important;
-        page-break-inside: auto !important;
-        break-inside: auto !important;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
-        border-radius: 6px !important;
-        border: 1px solid #fde68a !important;
-        background-color: #fdfbf7 !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        border: 1px solid #e7e5e4 !important;
         padding: 0.4in !important;
-        margin: 0 0 0.3in 0 !important;
-        box-sizing: border-box !important;
       }
 
       .avoid-break {
         break-inside: avoid !important;
         page-break-inside: avoid !important;
-        margin-bottom: 8px !important;
       }
 
-      .missionary-nametag {
-        background-color: #0a0a0a !important;
-        color: #ffffff !important;
-        break-inside: avoid !important;
-        page-break-inside: avoid !important;
-      }
-      .missionary-nametag .tag-name,
-      .missionary-nametag .tag-christ {
-        color: #ffffff !important;
-      }
-      .missionary-nametag .tag-church {
-        color: #d1d5db !important;
-      }
-      .missionary-nametag .tag-divider {
-        background-color: rgba(255, 255, 255, 0.5) !important;
-      }
-
-      /* Image height and natural aspect ratio safety */
       img {
-        max-height: 55mm !important;
-        width: auto !important;
-        max-width: 100% !important;
-        height: auto !important;
+        max-height: 60mm !important;
         object-fit: contain !important;
-        display: block !important;
-        margin: 0 auto !important;
-      }
-
-      /* Feature Visuals Grid side-by-side in print */
-      .grid {
-        display: flex !important;
-        flex-direction: row !important;
-        gap: 12px !important;
-      }
-      .grid > * {
-        flex: 1 1 50% !important;
-        max-width: 50% !important;
-        box-sizing: border-box !important;
-        break-inside: avoid !important;
-        page-break-inside: avoid !important;
-      }
-
-      h1, h2, h3, h4 {
-        break-after: avoid !important;
-        page-break-after: avoid !important;
       }
     }
   </style>
 </head>
-<body class="bg-stone-100 text-stone-800 antialiased font-sans min-h-screen flex flex-col selection:bg-amber-200">
+<body class="bg-stone-50 text-stone-900 antialiased font-sans min-h-screen flex flex-col selection:bg-red-100">
 
-  <!-- Sticky Top Action Bar (Hidden during printing) -->
-  <header class="no-print border-b border-stone-800 bg-stone-900 text-stone-100 shadow-md sticky top-0 z-40">
+  <!-- Translucent Archival Navigation Bar -->
+  <header class="archival-header no-print">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
       
-      <!-- Left: Elder Salviejo Profile & Brand -->
+      <!-- Brand -->
       <a href="/" class="flex items-center space-x-3 group min-w-0">
         <div class="profile-avatar-nav">
           <img
@@ -279,50 +186,48 @@
           />
         </div>
         <div class="min-w-0">
-          <h1 class="font-serif text-base sm:text-lg font-bold tracking-tight text-white group-hover:text-amber-300 transition flex items-center gap-2 truncate">
+          <h1 class="font-serif text-base sm:text-lg font-bold tracking-tight text-stone-900 group-hover:text-red-800 transition flex items-center gap-2 truncate">
             Elder Salviejo
-            <span class="hidden sm:inline-block text-[10px] font-sans font-medium px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
-              Journal Vault
+            <span class="hidden sm:inline-block font-mono text-[10px] font-medium px-2 py-0.5 rounded bg-stone-100 text-stone-700 border border-stone-200 uppercase tracking-wider">
+              Monograph
             </span>
           </h1>
-          <p class="text-xs text-stone-400 truncate hidden xs:block">Philippines Dumaguete Mission</p>
+          <p class="font-mono text-[11px] text-stone-500 truncate hidden xs:block">Philippines Dumaguete Mission</p>
         </div>
       </a>
 
-      <!-- Right: Navigation Action Links -->
+      <!-- Action Navigation Links -->
       <nav class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-        <a href="/" class="inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 transition" title="Weekly Journal Vault">
+        <a href="/" class="inline-flex items-center gap-1.5 text-xs bg-white hover:bg-stone-100 text-stone-700 hover:text-stone-900 font-mono uppercase tracking-wider px-3 py-1.5 rounded-md border border-stone-300 transition" title="Weekly Journal Vault">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
           <span class="hidden sm:inline">Vault</span>
         </a>
-        <a href="/gallery" class="inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 transition" title="Polaroid Photo Gallery">
+        <a href="/gallery" class="inline-flex items-center gap-1.5 text-xs bg-white hover:bg-stone-100 text-stone-700 hover:text-stone-900 font-mono uppercase tracking-wider px-3 py-1.5 rounded-md border border-stone-300 transition" title="Polaroid Photo Gallery">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
           <span>Gallery</span>
         </a>
-        <a href="/call" class="inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 transition" title="Official Mission Call & Origin Story">
+        <a href="/call" class="inline-flex items-center gap-1.5 text-xs bg-white hover:bg-stone-100 text-stone-700 hover:text-stone-900 font-mono uppercase tracking-wider px-3 py-1.5 rounded-md border border-stone-300 transition" title="Official Mission Call">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          <span class="hidden sm:inline">Mission Call</span>
+          <span class="hidden sm:inline">Call</span>
         </a>
-        <a href="/book" class="inline-flex items-center gap-1.5 text-xs bg-amber-600 text-white font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg shadow-xs transition" title="Complete Printable Missionary Book & PDF">
+        <a href="/book" class="inline-flex items-center gap-1.5 text-xs bg-stone-900 text-white font-mono uppercase tracking-wider px-3 py-1.5 rounded-md shadow-xs transition" title="Complete Printable Missionary Book & PDF">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
           </svg>
           <span class="hidden sm:inline">Book</span>
         </a>
         <button
-          onclick="triggerPrintWithPreload(this)"
-          class="text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 shadow-xs flex items-center gap-1.5 transition cursor-pointer"
-          title="Print or Save complete book as PDF (US Letter Portrait 8.5x11 in)"
+          onclick="window.print()"
+          class="text-xs bg-stone-900 hover:bg-stone-800 text-white font-mono uppercase tracking-wider px-3 py-1.5 rounded-md shadow-xs flex items-center gap-1.5 transition cursor-pointer"
+          title="Print or Save complete book as PDF"
         >
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-          </svg>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
           <span>Print PDF</span>
         </button>
       </nav>
@@ -330,52 +235,36 @@
     </div>
   </header>
 
-  <!-- Helpful Print Banner (Hidden when printed) -->
-  <div class="no-print bg-amber-50/90 border-b border-amber-200 px-4 py-2.5 text-center text-xs text-amber-900 font-medium">
-    <strong>US Letter Keepsake:</strong> Formatted strictly for <strong>US Letter Portrait (8.5 &times; 11 in)</strong> paper. In your print/PDF dialog, select <strong>Paper Size: Letter</strong>.
-  </div>
+  <!-- Book Viewport Container -->
+  <main class="letter-page px-4 sm:px-0 py-8 sm:py-12 flex-1 space-y-10 sm:space-y-12">
 
-  <!-- Book Viewport Container (Strict US Letter Width) -->
-  <main class="letter-page px-4 sm:px-0 py-6 sm:py-10 flex-1 space-y-10 sm:space-y-12">
-
-    <!-- =================================================================== -->
-    <!-- BOOK COVER PAGE (Full-Bleed US Letter Rustic Woodcut Keepsake)      -->
-    <!-- =================================================================== -->
+    <!-- BOOK COVER PAGE: Contemporary Swiss Museum Catalog -->
     <section class="book-cover">
-      <div class="cover-ornate-frame">
+      <div class="cover-catalog-frame">
         
-        <!-- Top Church & Mission Header with Woodcut Ornaments -->
-        <div class="space-y-2 w-full pt-1">
-          <div class="flex items-center justify-center gap-2 sm:gap-3 text-amber-900/80">
-            <span class="text-xs">✦ ✦ ✦</span>
-            <p class="text-[11px] sm:text-xs font-serif uppercase tracking-[0.28em] font-bold text-amber-950">
-              The Church of Jesus Christ of Latter-day Saints
-            </p>
-            <span class="text-xs">✦ ✦ ✦</span>
-          </div>
-          <p class="text-xs sm:text-sm font-sans tracking-[0.22em] text-amber-900/80 uppercase font-semibold">
-            Philippines Dumaguete Mission &bull; 2026&ndash;2028
+        <!-- Top Metadata Header -->
+        <div class="space-y-2 w-full pt-2">
+          <p class="font-mono text-xs uppercase tracking-[0.25em] text-stone-500 font-semibold">
+            The Church of Jesus Christ of Latter-day Saints
           </p>
-          <div class="w-36 h-0.5 bg-gradient-to-r from-transparent via-amber-800 to-transparent mx-auto mt-2"></div>
+          <p class="font-mono text-xs tracking-wider text-stone-900 uppercase font-medium">
+            Philippines Dumaguete Mission • 2026–2028
+          </p>
+          <div class="w-24 h-px bg-stone-900 mx-auto mt-4"></div>
         </div>
 
-        <!-- Center Title Block (Fills vertical height with balanced symmetry) -->
-        <div class="my-auto py-4 sm:py-6 w-full max-w-xl space-y-5 sm:space-y-6">
-          
-          <!-- Large Medallion Avatar & Missionary Nametag -->
-          <div class="flex flex-col items-center justify-center gap-3">
-            <div class="profile-avatar-hero w-28 h-28 sm:w-32 sm:h-32 shrink-0 shadow-2xl border-4 border-amber-600/90 rounded-full ring-4 ring-amber-900/30 p-1 bg-amber-100/60 mx-auto">
+        <!-- Center Identity Block -->
+        <div class="my-auto py-6 w-full max-w-xl space-y-6">
+          <div class="flex flex-col items-center justify-center gap-4">
+            <div class="profile-avatar-hero w-28 h-28 sm:w-32 sm:h-32 shrink-0 border border-stone-900 shadow-md">
               <img
                 src="/assets/images/elder-salviejo.jpg"
                 alt="Elder Salviejo"
                 onerror="this.src='https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/public/assets/images/elder-salviejo.jpg'"
-                loading="eager"
-                fetchpriority="high"
-                decoding="async"
-                class="w-full h-full object-cover rounded-full"
+                class="w-full h-full object-cover"
               />
             </div>
-            <div class="missionary-nametag scale-110 sm:scale-120 shadow-2xl border-2 border-stone-800 mt-2">
+            <div class="missionary-nametag scale-110 shadow-lg mt-1">
               <span class="tag-name">ELDER SALVIEJO</span>
               <div class="tag-divider"></div>
               <span class="tag-church">The Church of</span>
@@ -384,260 +273,154 @@
             </div>
           </div>
 
-          <!-- Main Title with Engraved Classic Serif Typography -->
-          <div class="space-y-2 pt-1">
-            <div class="flex items-center justify-center gap-3">
-              <div class="w-10 sm:w-16 h-0.5 bg-amber-800/60"></div>
-              <span class="text-amber-800 font-serif text-xs sm:text-sm italic">The Missionary Chronicle</span>
-              <div class="w-10 sm:w-16 h-0.5 bg-amber-800/60"></div>
-            </div>
-            <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-black text-stone-900 tracking-tight leading-tight uppercase drop-shadow-xs">
-              Weekly Journal Vault
+          <div class="space-y-3 pt-2">
+            <span class="font-mono text-xs uppercase tracking-widest text-red-800 font-semibold block">Field Chronicle & Monograph</span>
+            <h1 class="font-serif text-3xl sm:text-5xl font-bold text-stone-900 tracking-tight leading-tight uppercase">
+              Missionary Journal Vault
             </h1>
-            <p class="font-serif italic text-sm sm:text-lg text-amber-950 font-medium max-w-lg mx-auto leading-relaxed">
-              &ldquo;The Lord does not call the qualified, He qualifies the called.&rdquo;
+            <p class="font-serif italic text-base sm:text-lg text-stone-700 max-w-md mx-auto leading-relaxed">
+              “The Lord does not call the qualified, He qualifies the called.”
             </p>
           </div>
 
-          <!-- Pillar Scripture Box (Engraved Kraft Border) -->
-          <div class="p-3.5 sm:p-4 bg-amber-100/70 border-2 border-amber-700/60 rounded-xl shadow-xs relative max-w-md mx-auto">
-            <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#faf4e8] px-3 py-0.5 border border-amber-600/70 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-amber-900">
+          <div class="p-4 bg-stone-50 border border-stone-200 rounded-lg max-w-md mx-auto text-center font-mono text-xs text-stone-600">
+            <div class="text-[10px] uppercase font-bold tracking-widest text-red-800 mb-1">
               Moroni 10:5
             </div>
-            <blockquote class="font-serif italic text-stone-900 text-xs sm:text-sm leading-relaxed mt-1">
-              &ldquo;And by the power of the Holy Ghost ye may know the truth of all things.&rdquo;
+            <blockquote class="font-serif italic text-stone-800 text-xs sm:text-sm">
+              “And by the power of the Holy Ghost ye may know the truth of all things.”
             </blockquote>
           </div>
-
-          <div class="inline-flex items-center gap-2 sm:gap-3 text-stone-600 text-[11px] sm:text-xs font-mono uppercase tracking-widest">
-            <span>24-Month Keepsake</span>
-            <span>&bull;</span>
-            <span>Field Reflections</span>
-            <span>&bull;</span>
-            <span>Permanent Archive</span>
-          </div>
-
         </div>
 
-        <!-- Bottom Book Dedication Footer with Woodcut Trim -->
-        <div class="w-full pt-3 sm:pt-4 border-t-2 border-amber-900/40 text-xs text-stone-700 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span class="font-serif font-bold text-amber-950 text-sm">Elder Mark Allen Bongolan Salviejo</span>
-          <span class="text-stone-500 font-sans tracking-wider uppercase text-[11px]">Philippines Dumaguete Mission</span>
-          <span class="font-hand text-base sm:text-lg text-amber-900 font-bold">Permanent Family Keepsake</span>
+        <!-- Bottom Publication Footer -->
+        <div class="w-full pt-4 border-t border-stone-200 text-xs font-mono text-stone-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <span class="font-semibold text-stone-900 uppercase">Elder Mark Allen Bongolan Salviejo</span>
+          <span class="uppercase">Archival Monograph Edition</span>
+          <span>Permanent Record</span>
         </div>
 
       </div>
     </section>
 
-    <!-- =================================================================== -->
-    <!-- TABLE OF CONTENTS / JOURNAL INDEX (2-Column Letter Layout)          -->
-    <!-- =================================================================== -->
-    <section id="bookTableOfContents" class="book-toc book-chapter bg-[#fdfbf7] border border-amber-200/90 rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-md space-y-6">
-      <div class="border-b border-amber-200 pb-3 flex items-center justify-between">
+    <!-- TABLE OF CONTENTS -->
+    <section id="bookTableOfContents" class="book-toc book-chapter bg-white border border-stone-200 rounded-xl p-6 sm:p-10 shadow-xs space-y-6">
+      <div class="border-b border-stone-200 pb-3 flex items-baseline justify-between">
         <div>
-          <span class="text-xs font-bold uppercase tracking-widest text-amber-800">Mission Record</span>
+          <span class="font-mono text-xs uppercase font-bold tracking-widest text-stone-400">Archival Registry</span>
           <h2 class="font-serif text-2xl sm:text-3xl font-bold text-stone-900 mt-0.5">
             Table of Contents
           </h2>
         </div>
-        <div class="text-xs text-stone-500 font-medium">
+        <div class="font-mono text-xs text-stone-500">
           <span>Philippines Dumaguete Mission</span>
         </div>
       </div>
 
-      <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">
-        Chronological index of missionary reflections, weekly letters, and official records formatted across US Letter spreads.
+      <p class="text-xs sm:text-sm text-stone-600 leading-relaxed font-sans">
+        Chronological catalog of field letters, weekly missionary reports, scriptures, and documentary plates.
       </p>
 
-      <div id="tocEntriesList" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 pt-2">
-        <!-- Static First Entry -->
-        <a href="#chapter-calling" class="group flex items-baseline justify-between gap-3 p-2.5 rounded-lg hover:bg-amber-50/80 border border-transparent hover:border-amber-200 transition text-stone-800">
-          <div class="flex items-baseline gap-2 min-w-0">
-            <span class="font-serif font-bold text-amber-900 text-sm">Ch. I.</span>
-            <span class="font-medium text-xs sm:text-sm text-stone-900 group-hover:text-amber-800 truncate">The Calling & Origin Story</span>
+      <div class="space-y-1 pt-2">
+        <a href="#chapter-call" class="group flex items-baseline justify-between gap-3 py-2 px-3 rounded-md hover:bg-stone-50 border border-transparent hover:border-stone-200 transition text-stone-800">
+          <div class="flex items-baseline gap-2.5 min-w-0">
+            <span class="font-mono font-bold text-xs text-stone-900">CH 01.</span>
+            <span class="font-sans text-xs sm:text-sm text-stone-900 group-hover:text-red-800 font-medium">Official Missionary Call & Assignment</span>
           </div>
-          <div class="border-b border-dotted border-stone-300 flex-1 mx-1"></div>
-          <span class="text-xs font-mono text-stone-500 shrink-0">Dec 11, 2026</span>
+          <div class="border-b border-dotted border-stone-300 flex-1 mx-2"></div>
+          <span class="text-xs font-mono text-stone-500 shrink-0">Sept 2026</span>
         </a>
 
-        <!-- Dynamic entries will be inserted here by book.js -->
-        <div id="tocDynamicWeeks" class="contents"></div>
+        <div id="tocDynamicWeeks" class="space-y-1">
+          <!-- Injected by book.js -->
+        </div>
 
-        <!-- Static Epilogue Entry -->
-        <a href="#chapter-epilogue" class="group flex items-baseline justify-between gap-3 p-2.5 rounded-lg hover:bg-amber-50/80 border border-transparent hover:border-amber-200 transition text-stone-800">
-          <div class="flex items-baseline gap-2 min-w-0">
-            <span class="font-serif font-bold text-amber-900 text-sm">Epilogue.</span>
-            <span class="font-medium text-xs sm:text-sm text-stone-900 group-hover:text-amber-800 truncate">Homecoming & Testimony</span>
+        <a href="#chapter-epilogue" class="group flex items-baseline justify-between gap-3 py-2 px-3 rounded-md hover:bg-stone-50 border border-transparent hover:border-stone-200 transition text-stone-800">
+          <div class="flex items-baseline gap-2.5 min-w-0">
+            <span class="font-mono font-bold text-xs text-stone-900">FINIS.</span>
+            <span class="font-sans text-xs sm:text-sm text-stone-900 group-hover:text-red-800 font-medium">Epilogue & Release Testimony</span>
           </div>
-          <div class="border-b border-dotted border-stone-300 flex-1 mx-1"></div>
-          <span class="text-xs font-mono text-stone-500 shrink-0">Alma 7:24</span>
+          <div class="border-b border-dotted border-stone-300 flex-1 mx-2"></div>
+          <span class="text-xs font-mono text-stone-500 shrink-0">2028</span>
         </a>
       </div>
     </section>
 
-    <!-- =================================================================== -->
-    <!-- CHAPTER 1: OFFICIAL CALL & PERSONAL TESTIMONY                       -->
-    <!-- =================================================================== -->
-    <section id="chapter-calling" class="book-chapter bg-[#fdfbf7] border border-amber-200/90 rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-md space-y-8">
-      
-      <div class="border-b border-amber-200 pb-4 flex items-center justify-between">
+    <!-- CHAPTER 1: OFFICIAL MISSION CALL -->
+    <section id="chapter-call" class="book-chapter bg-white border border-stone-200 rounded-xl p-6 sm:p-10 shadow-xs space-y-6">
+      <div class="border-b border-stone-200 pb-3 flex items-baseline justify-between">
         <div>
-          <span class="text-xs font-bold uppercase tracking-widest text-amber-800">Chapter I</span>
-          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-stone-900 mt-1">
-            The Calling & Origin Story
+          <span class="font-mono text-xs uppercase font-bold tracking-widest text-stone-400">Chapter 01</span>
+          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-stone-900 mt-0.5">
+            Official Mission Call & Credentials
           </h2>
         </div>
-        <div class="text-right text-xs text-stone-500">
-          <div>Philippines Dumaguete Mission</div>
-          <div>MTC: December 11, 2026</div>
+        <div class="font-mono text-xs text-stone-500">
+          <span>Office of the First Presidency</span>
         </div>
       </div>
 
-      <!-- Personal Testimony -->
-      <div class="prose max-w-none text-stone-700 text-sm sm:text-base leading-relaxed space-y-4">
-        <blockquote class="font-serif italic text-base sm:text-lg text-stone-900 border-l-4 border-amber-500 pl-4 py-2 bg-amber-50/70 rounded-r-lg">
-          At first, wala akong desire na mag-mission. Pero in my darkest moments, binigyan ako ni Heavenly Father ng liwanag na hindi ko inakala na kailangan ko.
-        </blockquote>
-
-        <p>
-          Through the love ng YSA district ko, sa spirit ng YSA Conferences, at sa pagserve ko as an FSY Counselor, nasoften ni Heavenly Father yung puso ko at tinawag Niya ako sa Kanyang gawain.
-        </p>
-
-        <!-- Official Call Announcement Box -->
-        <div class="avoid-break p-5 bg-stone-900 text-stone-100 rounded-xl shadow border border-stone-800 my-6">
-          <div class="text-xs font-bold uppercase tracking-wider text-amber-400 mb-1">
-            Official Missionary Call Declaration
-          </div>
-          <p class="font-serif text-base sm:text-lg text-white">
-            Ako ay gitawag isip usa ka full-time missionary sa The Church of Jesus Christ of Latter-day Saints sa <strong class="text-amber-300 underline decoration-amber-400">Philippines Dumaguete Mission</strong>
-          </p>
-          <div class="mt-3 pt-3 border-t border-stone-800 flex flex-wrap items-center justify-between gap-2 text-xs text-stone-300">
-            <span>Assigned Language: <strong class="text-white">Cebuano</strong></span>
-            <span>MTC Entrance: <strong class="text-amber-300">December 11, 2026</strong></span>
-          </div>
-        </div>
-
-        <p>
-          Alam ko na totoo ang Atonement ni Jesus Christ, at Siya yung reason kung bakit may hope at faith ako to go. Such a huge privilege to be an instrument ng Panginoon to share His Gospel at ang love ni Jesus Christ sa mga tao sa Dumaguete Mission.
-        </p>
-
-        <p>
-          Sobrang thankful ako sa lahat ng support, guidance, at prayers ng family ko, friends, at leaders na laging nandiyan. I go with a grateful heart to serve, to love, at para maging instrument sa mga kamay ng Panginoon. Please keep me in your prayers!
-        </p>
-
-        <div class="pt-4 flex items-center justify-between">
-          <div>
-            <div class="font-serif text-lg font-bold text-stone-900">Here am I, send me.</div>
-            <div class="font-hand text-2xl text-amber-900">Elder Salviejo</div>
-          </div>
-          <div class="text-xs text-stone-500">
-            #CalledToServe • #PhilippinesDumagueteMission
-          </div>
+      <div class="p-4 bg-stone-50 border border-stone-200 rounded-lg text-xs font-mono">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+          <div><span class="text-stone-400 block text-[10px]">MISSION</span><strong class="text-stone-900">Dumaguete</strong></div>
+          <div><span class="text-stone-400 block text-[10px]">LANGUAGE</span><strong class="text-stone-900">Cebuano</strong></div>
+          <div><span class="text-stone-400 block text-[10px]">MTC INGEST</span><strong class="text-stone-900">Dec 11, 2026</strong></div>
+          <div><span class="text-stone-400 block text-[10px]">TERM</span><strong class="text-stone-900">24 Months</strong></div>
         </div>
       </div>
 
-      <!-- Feature Visuals (Call Letter + Map) -->
-      <div class="avoid-break grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6 border-t border-amber-200/80">
-        <div class="bg-amber-50/40 p-3 rounded-xl border border-amber-200/80 text-center">
-          <img
-            src="/assets/images/intro/call-letter.jpg"
-            alt="Official Call Letter"
-            onerror="this.src='https://i.ibb.co/HWRwq7L/Mark-Salviejo-Mission-Call-Letter-page-0001.jpg'"
-            class="w-full max-h-80 object-contain rounded-lg shadow-xs mx-auto"
-            loading="lazy"
-            decoding="async"
-          />
-          <p class="font-serif font-bold text-xs text-stone-800 mt-2">Official Mission Call Letter</p>
-          <p class="text-[11px] text-stone-500">Office of the First Presidency</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2 avoid-break">
+        <div class="bg-stone-50 p-3 rounded-lg border border-stone-200 text-center">
+          <img src="/assets/images/intro/call-letter.jpg" alt="Call Letter" onerror="this.src='https://i.ibb.co/6c2rV65h/letter-2246341-page-0001.jpg'" class="w-full max-h-72 object-contain mx-auto rounded" />
+          <p class="font-mono font-medium text-xs text-stone-700 mt-2">First Presidency Call Letter</p>
         </div>
-        <div class="bg-amber-50/40 p-3 rounded-xl border border-amber-200/80 text-center">
-          <img
-            src="/assets/images/intro/call-overview.jpg"
-            alt="Philippines Dumaguete Mission Map"
-            onerror="this.src='https://i.ibb.co/mCqcbT3D/overview-2246341-page-0001.jpg'"
-            class="w-full max-h-80 object-contain rounded-lg shadow-xs mx-auto"
-            loading="lazy"
-            decoding="async"
-          />
-          <p class="font-serif font-bold text-xs text-stone-800 mt-2">Philippines Dumaguete Mission Field Map</p>
-          <p class="text-[11px] text-stone-500">Official Field & Zone Boundaries</p>
+        <div class="bg-stone-50 p-3 rounded-lg border border-stone-200 text-center">
+          <img src="/assets/images/intro/call-overview.jpg" alt="Mission Map" onerror="this.src='https://i.ibb.co/mCqcbT3D/overview-2246341-page-0001.jpg'" class="w-full max-h-72 object-contain mx-auto rounded" />
+          <p class="font-mono font-medium text-xs text-stone-700 mt-2">Dumaguete Mission Boundaries</p>
         </div>
       </div>
-
     </section>
 
-    <!-- =================================================================== -->
-    <!-- DYNAMIC WEEKLY CHAPTERS (Loaded via API or local database)         -->
-    <!-- =================================================================== -->
+    <!-- DYNAMIC WEEKLY CHAPTERS -->
     <div id="bookWeeklyChapters" class="space-y-10 sm:space-y-12">
-      <!-- Loading placeholder -->
-      <div id="bookLoadingState" class="text-center py-12 bg-[#fdfbf7] rounded-2xl sm:rounded-3xl border border-amber-200/90 shadow-sm p-8">
-        <div class="w-10 h-10 border-3 border-amber-600 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-        <p class="text-sm font-serif font-bold text-stone-800">Compiling Weekly Missionary Journals...</p>
-        <p class="text-xs text-stone-500 mt-1">Gathering published reflections, scriptures, and photographs.</p>
+      <div id="bookLoadingState" class="text-center py-12 bg-white rounded-xl border border-stone-200 p-8 shadow-xs">
+        <p class="font-mono text-xs uppercase tracking-widest text-stone-400">Compiling publication chapters...</p>
       </div>
     </div>
 
-    <!-- =================================================================== -->
-    <!-- EPILOGUE & HOMECOMING PAGE                                          -->
-    <!-- =================================================================== -->
-    <section id="chapter-epilogue" class="book-chapter bg-[#fdfbf7] border border-amber-200/90 rounded-2xl sm:rounded-3xl p-8 sm:p-12 text-center shadow-md space-y-6">
-      <div class="inline-block text-amber-800"><svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg></div>
-      <h3 class="font-serif text-2xl font-bold text-stone-900">
-        "And see that ye have faith, hope, and charity, and then ye will always abound in good works."
+    <!-- EPILOGUE PAGE -->
+    <section id="chapter-epilogue" class="book-chapter bg-white border border-stone-200 rounded-xl p-8 sm:p-12 text-center shadow-xs space-y-6">
+      <h3 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 max-w-xl mx-auto">
+        “And see that ye have faith, hope, and charity, and then ye will always abound in good works.”
       </h3>
-      <p class="text-xs font-mono uppercase tracking-widest text-stone-500">
+      <p class="font-mono text-xs uppercase tracking-widest text-stone-500">
         Alma 7:24
       </p>
-      <div class="max-w-lg mx-auto text-xs text-stone-600 leading-relaxed pt-3 border-t border-amber-200">
-        Compiled with love and testimony for Elder Mark Salviejo, his family, ward leaders, and all faithful supporters of the Philippines Dumaguete Mission.
+      <div class="max-w-md mx-auto font-mono text-xs text-stone-500 pt-4 border-t border-stone-200">
+        Compiled with love and testimony for Elder Mark Salviejo • Philippines Dumaguete Mission
       </div>
     </section>
 
   </main>
 
-  <!-- Floating Jump-to-TOC Button (Screen Only) -->
-  <aside class="no-print fixed bottom-6 right-6 z-30 flex flex-col gap-2">
+  <aside class="no-print fixed bottom-6 right-6 z-30">
     <a
       href="#bookTableOfContents"
-      class="bg-stone-900/90 hover:bg-stone-900 text-stone-100 hover:text-amber-300 backdrop-blur-md px-3.5 py-2 rounded-full shadow-lg border border-stone-700/80 text-xs font-medium flex items-center gap-1.5 transition transform hover:scale-105"
-      title="Jump to Table of Contents"
+      class="bg-stone-900 text-white font-mono uppercase text-xs tracking-wider px-4 py-2.5 rounded-full shadow-lg border border-stone-800 flex items-center gap-2 hover:bg-stone-800 transition"
     >
-      <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
-      </svg>
-      <span>Contents</span>
+      <span>TOC</span>
+      <span>&uarr;</span>
     </a>
   </aside>
 
-  <!-- Unified Missionary Footer -->
-  <footer class="no-print mt-auto border-t border-stone-800 bg-stone-900 text-stone-400 py-6 text-xs">
+  <footer class="no-print mt-auto border-t border-stone-200 bg-white text-stone-500 py-6 text-xs font-mono">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-        <p>Elder Mark Salviejo &bull; Philippines Dumaguete Mission</p>
-      </div>
-      <div class="flex items-center gap-4 text-stone-400">
-        <span>Preserved with Testimony</span>
-        <span>&bull;</span>
-        <a href="https://github.com/AllensCreations/gmail-diary-vault" target="_blank" class="hover:text-amber-400 font-medium transition">
-          Missionary Vault
-        </a>
-      </div>
+      <p>Elder Mark Salviejo • Philippines Dumaguete Mission</p>
+      <p class="text-stone-400 text-[11px]">Monograph Publication • All Rights Reserved</p>
     </div>
   </footer>
 
-  <!-- Print & PDF Preload Helper -->
   <script src="/js/print-helper.js"></script>
-
-  <!-- External Script to Populate Weekly Chapters -->
   <script src="/js/book.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(() => {});
-      });
-    }
-  </script>
 </body>
 </html>

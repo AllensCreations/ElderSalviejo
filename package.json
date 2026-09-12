@@ -1,12 +1,13 @@
 {
   "name": "gmail-diary-vault",
-  "version": "1.0.0",
-  "description": "Serverless event-driven weekly diary pipeline bridging Gmail, Google Apps Script, Vercel API, Turso SQLite, and a dynamic polaroid/sticky-note viewer.",
+  "version": "2.0.0",
+  "description": "Serverless event-driven weekly diary pipeline bridging Gmail, Google Apps Script, Vercel API, Turso SQLite, and an archival editorial missionary journal vault.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
     "db:init": "node scripts/init-db.js",
+    "metadata:extract": "node scripts/extract-metadata.js",
     "test:ingest": "node sample-data/send-test-ingest.js"
   },
   "keywords": [

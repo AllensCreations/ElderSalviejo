@@ -1,23 +1,37 @@
 /* ==========================================================================
    Elder Salviejo • Weekly Missionary Journal Vault
-   Main Stylesheet - Base, Reset, Components, Image Protection & Responsive
+   Version 2.0 Archival Editorial & Documentary Design System
+   Anti-AI Slop • High-Contrast Ink • Natural Paper • Precision Typography
    ========================================================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&display=swap');
+
 :root {
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-serif: 'Playfair Display', Georgia, Cambria, 'Times New Roman', serif;
-  --font-hand: 'Caveat', 'Comic Sans MS', cursive;
-  
-  --bg-parchment: #f4f1ea;
-  --bg-cream: #fdfbf7;
-  --color-amber-primary: #d97706;
-  --color-amber-dark: #b45309;
-  --color-stone-dark: #1c1917;
-  --color-stone-text: #292524;
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Newsreader', Georgia, Cambria, 'Times New Roman', serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-hand: 'IBM Plex Mono', monospace; /* Retiring AI-slop cursive */
+
+  --bg-canvas: #fafaf9;
+  --bg-card: #ffffff;
+  --bg-subtle: #f5f5f4;
+  --bg-muted: #e7e5e4;
+
+  --color-ink: #0c0a09;
+  --color-ink-secondary: #44403c;
+  --color-ink-muted: #78716c;
+
+  --color-crimson: #991b1b;
+  --color-crimson-hover: #b91c1c;
+  --color-crimson-light: #fef2f2;
+  --color-crimson-border: #fecaca;
+
+  --border-archival: #e7e5e4;
+  --border-dark: #292524;
 }
 
 /* --------------------------------------------------------------------------
-   Global Reset & Layout Safety (Zero Overlap)
+   Global Reset & Layout Safety
    -------------------------------------------------------------------------- */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -27,6 +41,7 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   scroll-behavior: smooth;
+  background-color: var(--bg-canvas);
 }
 
 html, body {
@@ -34,37 +49,24 @@ html, body {
   padding: 0;
   width: 100%;
   min-height: 100%;
-  overflow-x: hidden; /* Prevent horizontal scrollbars or side overflow */
+  overflow-x: hidden;
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
-  -khtml-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
   user-select: none !important;
 }
 
 body {
   font-family: var(--font-sans);
-  color: var(--color-stone-text);
-  background-color: var(--bg-parchment);
-  background-image: radial-gradient(#e5dec9 0.8px, transparent 0.8px);
-  background-size: 20px 20px;
-  line-height: 1.5;
+  color: var(--color-ink);
+  background-color: var(--bg-canvas);
+  line-height: 1.6;
   display: flex;
   flex-direction: column;
-  -webkit-touch-callout: none !important;
-  -webkit-user-select: none !important;
-  user-select: none !important;
 }
 
 /* --------------------------------------------------------------------------
-   Global Security: Anti-Text-Selection, Anti-Image-Longpress & Anti-Drag
-   Protects missionary reflections, scriptures, and photos across all devices
+   Global Security & Image Protection
    -------------------------------------------------------------------------- */
-*, *:before, *:after {
-  -webkit-touch-callout: none;
-}
-
 img,
 svg,
 picture,
@@ -74,22 +76,16 @@ picture,
 .lightbox-image {
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
-  -khtml-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
   user-select: none !important;
   -webkit-user-drag: none !important;
   user-drag: none !important;
   pointer-events: auto;
 }
 
-/* Permit interactive form typing and search fields */
 input,
 textarea,
 [contenteditable="true"] {
   -webkit-user-select: text !important;
-  -moz-user-select: text !important;
-  -ms-user-select: text !important;
   user-select: text !important;
   -webkit-touch-callout: default !important;
 }
@@ -99,13 +95,13 @@ textarea,
    Authentic LDS Missionary name badge style
    -------------------------------------------------------------------------- */
 .missionary-nametag {
-  background: #0a0a0a;
+  background: #09090b;
   color: #ffffff;
-  border-radius: 8px;
-  padding: clamp(6px, 1.8vw, 11px) clamp(8px, 2.5vw, 18px);
-  border: 1px solid #2e2e2e;
-  border-top: 2px solid #a3a3a3;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: clamp(6px, 1.8vw, 10px) clamp(10px, 2.5vw, 18px);
+  border: 1px solid #27272a;
+  border-top: 2px solid #a1a1aa;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
   text-align: center;
   user-select: none;
   display: inline-flex;
@@ -118,10 +114,10 @@ textarea,
 }
 
 .missionary-nametag .tag-name {
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(11px, 3.2vw, 15px);
+  font-family: var(--font-sans);
+  font-size: clamp(11px, 3.2vw, 14px);
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   color: #ffffff;
   text-transform: uppercase;
   line-height: 1.15;
@@ -130,27 +126,27 @@ textarea,
 
 .missionary-nametag .tag-divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.35);
   margin: clamp(3px, 1vw, 5px) auto clamp(2px, 0.8vw, 4px) auto;
   width: 86%;
 }
 
 .missionary-nametag .tag-church {
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-sans);
   font-size: clamp(6.5px, 1.8vw, 8px);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: #d1d5db;
+  letter-spacing: 0.14em;
+  color: #d4d4d8;
   font-weight: 500;
   line-height: 1.25;
   white-space: nowrap;
 }
 
 .missionary-nametag .tag-christ {
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(8px, 2.3vw, 10.5px);
+  font-family: var(--font-sans);
+  font-size: clamp(8px, 2.3vw, 10px);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   color: #ffffff;
   font-weight: 700;
   line-height: 1.25;
@@ -158,25 +154,18 @@ textarea,
 }
 
 /* --------------------------------------------------------------------------
-   Elder Salviejo Profile Picture Avatars & Badges
+   Elder Salviejo Profile Picture Avatars
    -------------------------------------------------------------------------- */
 .profile-avatar-nav {
   position: relative;
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid #f59e0b;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-  background-color: #292524;
+  border: 1.5px solid #d6d3d1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-color: #1c1917;
   flex-shrink: 0;
-}
-
-@media (min-width: 640px) {
-  .profile-avatar-nav {
-    width: 40px;
-    height: 40px;
-  }
 }
 
 .profile-avatar-nav img {
@@ -189,13 +178,13 @@ textarea,
 
 .profile-avatar-hero {
   position: relative;
-  width: clamp(54px, 14vw, 105px);
-  height: clamp(54px, 14vw, 105px);
-  border-radius: clamp(12px, 2.5vw, 18px);
+  width: clamp(64px, 15vw, 100px);
+  height: clamp(64px, 15vw, 100px);
+  border-radius: 12px;
   overflow: hidden;
-  border: 3px solid #d97706;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-  background-color: #292524;
+  border: 1px solid #d6d3d1;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  background-color: #1c1917;
   flex-shrink: 0;
 }
 
@@ -207,178 +196,199 @@ textarea,
   display: block;
 }
 
-.profile-avatar-testimony {
-  position: relative;
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 2.5px solid #d97706;
-  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.25);
-  background-color: #292524;
-  margin: 0 auto 12px;
-}
-
-.profile-avatar-testimony img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 20%;
-  display: block;
+/* --------------------------------------------------------------------------
+   Translucent Archival Header
+   -------------------------------------------------------------------------- */
+.archival-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background-color: rgba(250, 250, 249, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-archival);
+  transition: all 0.2s ease;
 }
 
 /* --------------------------------------------------------------------------
-   Inbox Table & Card Row
-   Clean responsive layout with NO OVERLAP on any screen size
+   Editorial Ledger Row (Timeline Feed)
    -------------------------------------------------------------------------- */
-.inbox-card-row {
+.ledger-row {
   display: block;
   text-decoration: none;
   color: inherit;
   background-color: #ffffff;
-  border-bottom: 1px solid #e7e5e4;
-  transition: background-color 0.15s ease-in-out, transform 0.1s ease-in-out;
+  border: 1px solid var(--border-archival);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
 }
 
-.inbox-card-row:last-child {
-  border-bottom: none;
+.ledger-row:hover {
+  border-color: #d6d3d1;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+  transform: translateY(-2px);
 }
 
-.inbox-card-row:hover {
-  background: linear-gradient(90deg, rgba(254, 243, 199, 0.5) 0%, rgba(255, 255, 255, 0.95) 100%);
-}
-
-.inbox-desktop-row {
-  display: none;
-}
-
-.inbox-mobile-row {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 16px;
-}
-
-@media (min-width: 768px) {
-  .inbox-desktop-row {
-    display: grid;
-    grid-template-columns: 44px minmax(170px, 1.2fr) minmax(160px, 1.8fr) 100px 65px;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-  }
-  .inbox-mobile-row {
-    display: none;
-  }
-}
-
-@media (min-width: 1024px) {
-  .inbox-desktop-row {
-    grid-template-columns: 48px minmax(220px, 1.4fr) minmax(200px, 2fr) 110px 70px;
-    gap: 16px;
-    padding: 14px 20px;
-  }
+.ledger-row-active {
+  border-left: 3px solid var(--color-crimson);
 }
 
 /* --------------------------------------------------------------------------
-   Typography & Utility Helpers
+   Refined Modern Polaroid Component
+   -------------------------------------------------------------------------- */
+.polaroid-frame {
+  background: #ffffff;
+  padding: 10px 10px 14px 10px;
+  border-radius: 4px;
+  border: 1px solid #e7e5e4;
+  box-shadow: 0 6px 16px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.polaroid-frame:hover {
+  box-shadow: 0 16px 32px -4px rgba(0, 0, 0, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+.polaroid-photo-wrap {
+  position: relative;
+  overflow: hidden;
+  background-color: #1c1917;
+  border-radius: 2px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.polaroid-photo-wrap img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.polaroid-stamp {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: #78716c;
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 8px;
+  line-height: 1.3;
+}
+
+/* --------------------------------------------------------------------------
+   Slide-Over Reading Docket Panel
+   -------------------------------------------------------------------------- */
+.docket-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(12, 10, 9, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 50;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.docket-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.docket-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 720px;
+  background: #fafaf9;
+  z-index: 60;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.15);
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--border-archival);
+}
+
+.docket-panel.active {
+  transform: translateX(0);
+}
+
+.docket-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border-archival);
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.docket-body {
+  padding: 32px 28px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.docket-body p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--color-ink-secondary);
+  margin-bottom: 20px;
+}
+
+.docket-dropcap::first-letter {
+  font-family: var(--font-serif);
+  font-size: 3.4em;
+  line-height: 0.8;
+  float: left;
+  margin: 0.08em 0.15em 0 0;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+/* --------------------------------------------------------------------------
+   Typography Helpers
    -------------------------------------------------------------------------- */
 .font-sans { font-family: var(--font-sans); }
 .font-serif { font-family: var(--font-serif); }
-.font-hand { font-family: var(--font-hand); }
-
-.line-clamp-1 {
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+.font-mono { font-family: var(--font-mono); }
+.font-hand { font-family: var(--font-mono); }
 
 /* --------------------------------------------------------------------------
-   Scrollbar & Selection
+   Selection & Scrollbar
    -------------------------------------------------------------------------- */
 ::selection {
-  background-color: #fde68a;
-  color: #1c1917;
+  background-color: #fee2e2;
+  color: var(--color-crimson);
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1ede4;
+  background: #fafaf9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d6cdba;
-  border-radius: 4px;
+  background: #d6d3d1;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #b8ac94;
+  background: #a8a29e;
 }
-
-/* --------------------------------------------------------------------------
-   Introduction & Mission Call Gallery Styles
-   -------------------------------------------------------------------------- */
-.intro-card {
-  box-shadow: 0 4px 20px -2px rgba(180, 83, 9, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
-}
-
-.intro-photo-thumb {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.intro-photo-thumb:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.15);
-}
-
-#introModal {
-  transition: opacity 0.2s ease-in-out;
-}
-
-/* --------------------------------------------------------------------------
-   Washi Tape Styles - Positioned with safe clearance & zero viewport overflow
-   -------------------------------------------------------------------------- */
-.tape {
-  background: rgba(254, 243, 199, 0.85);
-  backdrop-filter: blur(2px);
-  border-left: 2px dashed rgba(217, 119, 6, 0.35);
-  border-right: 2px dashed rgba(217, 119, 6, 0.35);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  pointer-events: none;
-  z-index: 10;
-  max-width: 85vw;
-}
-
-/* --------------------------------------------------------------------------
-   Universal Dynamic Auto-Sizing & Viewport Boundary Protection
-   Eliminates UI collisions and overflows across ANY width (280px–3840px+)
-   and ANY height (e.g. mobile landscape < 500px, virtual keyboards, ultrawide)
-   -------------------------------------------------------------------------- */
-@media (max-width: 360px) {
-  .hero-profile-row {
-    gap: 8px !important;
-  }
-}
-
-@media (max-height: 520px) {
-  header.sticky {
-    position: relative !important;
-  }
-  .profile-avatar-hero {
-    width: 50px !important;
-    height: 50px !important;
-  }
-}
-

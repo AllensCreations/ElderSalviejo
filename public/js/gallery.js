@@ -1,7 +1,6 @@
 /**
- * Gallery Controller: Pinned Polaroid Photo Gallery
- * Strictly images only, pinned board layout (compact on desktop, scrollable on mobile),
- * dynamic album filtering, and vintage camera date stamp in lightbox.
+ * Gallery Controller: Archival Polaroid & Documentary Photo Gallery
+ * Version 2.0 Archival Edition with Enriched Date & Time Metadata
  */
 
 let allPhotos = [];
@@ -12,7 +11,7 @@ let showDateStamp = localStorage.getItem('galleryDateStamp') !== 'false';
 let touchStartX = 0;
 let touchEndX = 0;
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 24;
 let displayedCount = PAGE_SIZE;
 
 const TILT_CLASSES = [
@@ -33,45 +32,41 @@ async function loadGallery() {
   const skeleton = document.getElementById('gallerySkeleton');
   const grid = document.getElementById('galleryGrid');
   const empty = document.getElementById('galleryEmpty');
-  const filters = document.getElementById('galleryFilters');
   const countText = document.getElementById('galleryCountText');
   const loadMore = document.getElementById('galleryLoadMoreContainer');
 
-  // Helper: sort newest photos first
   const sortByNewest = (list) => {
     return list.sort((a, b) => {
-      const timeA = a && a.date ? new Date(a.date).getTime() : 0;
-      const timeB = b && b.date ? new Date(b.date).getTime() : 0;
+      const timeA = a && (a.dateTime || a.date) ? new Date(a.dateTime || a.date).getTime() : 0;
+      const timeB = b && (b.dateTime || b.date) ? new Date(b.dateTime || b.date).getTime() : 0;
       return timeB - timeA;
     });
   };
 
-  // 1. Instant SWR: Render from LocalStorage if previously loaded (0ms load, zero wait)
+  // 1. Instant SWR from LocalStorage
   try {
-    const cachedRaw = localStorage.getItem('gdv_cached_gallery');
+    const cachedRaw = localStorage.getItem('gdv_cached_gallery_v2');
     if (cachedRaw) {
       const cachedList = JSON.parse(cachedRaw);
       if (Array.isArray(cachedList) && cachedList.length > 0) {
         allPhotos = sortByNewest(cachedList);
         filteredPhotos = [...allPhotos];
-        if (countText) countText.textContent = `${allPhotos.length} Polaroid${allPhotos.length === 1 ? '' : 's'}`;
+        if (countText) countText.textContent = `${allPhotos.length} Plates`;
         renderFilters();
         renderGallery();
       }
     }
   } catch (_) {}
 
-  // Only show loading skeleton if we had no cached photos
   if (allPhotos.length === 0) {
     if (skeleton) skeleton.classList.remove('hidden');
     if (grid) grid.classList.add('hidden');
     if (empty) empty.classList.add('hidden');
-    if (filters) filters.classList.add('hidden');
     if (loadMore) loadMore.classList.add('hidden');
-    if (countText) countText.textContent = 'Checking photos...';
+    if (countText) countText.textContent = 'Loading plates...';
   }
 
-  // 2. Fetch fresh gallery data in background
+  // 2. Fetch fresh gallery data
   try {
     const res = await fetch('/api/gallery');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -80,97 +75,73 @@ async function loadGallery() {
     if (data && Array.isArray(data.photos)) {
       allPhotos = sortByNewest(data.photos);
       try {
-        localStorage.setItem('gdv_cached_gallery', JSON.stringify(allPhotos));
+        localStorage.setItem('gdv_cached_gallery_v2', JSON.stringify(allPhotos));
       } catch (_) {}
     }
   } catch (err) {
-    console.warn('Could not fetch /api/gallery, using cached photos if available:', err);
+    console.warn('Could not fetch /api/gallery, using fallback:', err);
     if (allPhotos.length === 0) {
-      // CDN Fallback
       try {
-        const cdnRes = await fetch('https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/index.json');
-        if (cdnRes.ok) {
-          const cdnData = await cdnRes.json();
-          if (Array.isArray(cdnData)) {
-            allPhotos = sortByNewest(cdnData.map(item => ({
-              id: item.id || `cdn-${item.filename}`,
-              src: item.src || item.cdnUrl,
-              date: item.uploadedAt,
-              category: item.category || 'Mission',
-              caption: item.caption || item.text || '',
-              album: item.album || item.category || '',
-              isGalleryUpload: true,
-              source: 'gallery'
-            })));
-            try {
-              localStorage.setItem('gdv_cached_gallery', JSON.stringify(allPhotos));
-            } catch (_) {}
+        const localRes = await fetch('/vault/gallery/index.json');
+        if (localRes.ok) {
+          const localData = await localRes.json();
+          if (Array.isArray(localData)) {
+            allPhotos = sortByNewest(localData);
           }
         }
       } catch (_) {}
     }
   }
 
-  displayedCount = PAGE_SIZE;
-  filteredPhotos = [...allPhotos];
+  filteredPhotos = filterByCategory(allPhotos, activeCategory);
+  if (countText) {
+    countText.textContent = `${allPhotos.length} Plates`;
+  }
   renderFilters();
   renderGallery();
 }
 
-function renderFilters() {
-  const filtersEl = document.getElementById('galleryFilters');
-  if (!filtersEl) return;
-
-  if (!allPhotos || allPhotos.length === 0) {
-    filtersEl.classList.add('hidden');
-    return;
-  }
-
-  // Extract unique categories
-  const categories = ['All'];
-  allPhotos.forEach(p => {
-    const cat = p.category || (p.isGalleryUpload ? 'Mission' : 'P-Day Journal');
-    if (cat && !categories.includes(cat)) {
-      categories.push(cat);
-    }
+function filterByCategory(list, cat) {
+  if (cat === 'All') return list;
+  return list.filter(p => {
+    const pCat = p.category || (p.isGalleryUpload ? 'Mission' : 'P-Day Journal');
+    return pCat === cat;
   });
+}
 
-  // Only show filter bar if there is more than 1 distinct category
-  if (categories.length <= 1) {
-    filtersEl.classList.add('hidden');
-    return;
-  }
+function renderFilters() {
+  const container = document.getElementById('galleryFilters');
+  if (!container) return;
 
-  filtersEl.innerHTML = categories.map(cat => {
+  const cats = ['All', 'Mission', 'P-Day Journal', 'Companions', 'Service'];
+  
+  container.innerHTML = cats.map(cat => {
     const isActive = cat === activeCategory;
-    const activeClass = isActive
-      ? 'bg-amber-600 text-white font-semibold shadow-xs'
-      : 'bg-white hover:bg-stone-50 text-stone-700 hover:text-stone-900 border border-amber-200/90 shadow-2xs';
+    const count = cat === 'All' ? allPhotos.length : allPhotos.filter(p => (p.category || 'Mission') === cat).length;
+    if (count === 0 && cat !== 'All') return '';
 
     return `
       <button 
-        onclick="setCategory('${escapeAttr(cat)}')" 
-        class="px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${activeClass}"
+        onclick="setCategory('${cat}')"
+        class="text-xs font-mono uppercase tracking-wider px-3 py-1.5 rounded-md transition duration-150 flex items-center gap-1.5 ${
+          isActive 
+            ? 'bg-stone-900 text-white font-semibold shadow-xs' 
+            : 'bg-white hover:bg-stone-100 text-stone-600 hover:text-stone-900 border border-stone-200'
+        }"
       >
-        ${escapeHtml(cat)}
+        <span>${cat}</span>
+        <span class="text-[10px] opacity-60">(${count})</span>
       </button>
     `;
   }).join('');
 
-  filtersEl.classList.remove('hidden');
+  container.classList.remove('hidden');
 }
 
 function setCategory(cat) {
   activeCategory = cat;
-  displayedCount = PAGE_SIZE; // Reset pagination for category switch
-  if (cat === 'All') {
-    filteredPhotos = [...allPhotos];
-  } else {
-    filteredPhotos = allPhotos.filter(p => {
-      const pCat = p.category || (p.isGalleryUpload ? 'Mission' : 'P-Day Journal');
-      return pCat === cat;
-    });
-  }
+  filteredPhotos = filterByCategory(allPhotos, activeCategory);
+  displayedCount = PAGE_SIZE;
   renderFilters();
   renderGallery();
 }
@@ -195,24 +166,43 @@ function renderGallery() {
     if (grid) grid.classList.add('hidden');
     if (empty) empty.classList.remove('hidden');
     if (loadMoreContainer) loadMoreContainer.classList.add('hidden');
-    if (countText) countText.textContent = '0 Polaroids';
+    if (countText) countText.textContent = '0 Plates';
     return;
   }
 
   if (empty) empty.classList.add('hidden');
   if (countText) {
-    countText.textContent = `${filteredPhotos.length} Polaroid${filteredPhotos.length === 1 ? '' : 's'}`;
+    countText.textContent = `${filteredPhotos.length} Plates`;
   }
 
   if (!grid) return;
 
   const visiblePhotos = filteredPhotos.slice(0, displayedCount);
 
-  // Render pinned polaroid board (strictly images only, no text)
+  // Render refined modern polaroid cards with Date & Time stamp in IBM Plex Mono
   grid.innerHTML = visiblePhotos.map((item, index) => {
     const tiltClass = TILT_CLASSES[index % TILT_CLASSES.length];
-    const imgSrc = item.src || item.thumb || '';
+    const imgSrc = item.src || item.localSrc || item.thumb || '';
     const isPriority = index < 4;
+
+    // Date & Time Stamp formatting
+    let stampText = item.archivalStamp;
+    if (!stampText) {
+      if (item.capturedDateTime) {
+        stampText = item.capturedDateTime;
+      } else if (item.date || item.dateTime) {
+        const d = new Date(item.date || item.dateTime);
+        if (!isNaN(d.getTime())) {
+          stampText = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        } else {
+          stampText = 'DUMAGUETE • 2026';
+        }
+      } else {
+        stampText = 'DUMAGUETE • 2026';
+      }
+    }
+
+    const shotNumber = String(index + 1).padStart(3, '0');
 
     return `
       <div 
@@ -220,19 +210,23 @@ function renderGallery() {
         onclick="openLightbox(${index})"
         role="button"
         tabindex="0"
-        aria-label="View photo in lightbox"
+        aria-label="View photo plate in lightbox"
         onkeydown="if(event.key==='Enter') openLightbox(${index})"
       >
         <div class="polaroid-pin"></div>
         <div class="polaroid-frame">
-          <div class="polaroid-photo-wrap">
+          <div class="polaroid-photo-wrap aspect-4/3 sm:aspect-square">
             <img 
               src="${escapeAttr(imgSrc)}" 
-              alt="Elder Salviejo Polaroid" 
+              alt="Elder Salviejo Plate ${shotNumber}" 
               loading="${isPriority ? 'eager' : 'lazy'}"
               ${isPriority ? 'fetchpriority="high"' : ''}
               decoding="async"
             />
+          </div>
+          <div class="polaroid-stamp flex items-center justify-between px-1 pt-2">
+            <span class="font-mono text-[10px] text-stone-400">#${shotNumber}</span>
+            <span class="font-mono text-[10px] font-medium tracking-wide text-stone-700 truncate ml-1">${escapeHtml(stampText)}</span>
           </div>
         </div>
       </div>
@@ -241,20 +235,19 @@ function renderGallery() {
 
   grid.classList.remove('hidden');
 
-  // Handle Load More Controls
   if (loadMoreContainer) {
     if (filteredPhotos.length > displayedCount) {
       loadMoreContainer.classList.remove('hidden');
       if (loadMoreBtn) loadMoreBtn.classList.remove('hidden');
       if (progressText) {
-        progressText.textContent = `Showing ${visiblePhotos.length} of ${filteredPhotos.length} polaroids`;
+        progressText.textContent = `Showing ${visiblePhotos.length} of ${filteredPhotos.length} plates`;
       }
     } else {
       if (filteredPhotos.length > PAGE_SIZE) {
         loadMoreContainer.classList.remove('hidden');
         if (loadMoreBtn) loadMoreBtn.classList.add('hidden');
         if (progressText) {
-          progressText.textContent = `Showing all ${filteredPhotos.length} polaroids`;
+          progressText.textContent = `All ${filteredPhotos.length} plates loaded`;
         }
       } else {
         loadMoreContainer.classList.add('hidden');
@@ -263,69 +256,26 @@ function renderGallery() {
   }
 }
 
-function updateLightboxDetails(photo) {
-  if (!photo) return;
-  const captionBox = document.getElementById('lightboxCaptionBox');
-  const catBadge = document.getElementById('lightboxCategoryBadge');
-  const captionText = document.getElementById('lightboxCaptionText');
-  const dateText = document.getElementById('lightboxDateText');
-
-  const caption = photo.caption || photo.text || '';
-  const category = photo.category || photo.album || (photo.isGalleryUpload ? 'Mission' : 'P-Day Journal');
-
-  if (catBadge) {
-    catBadge.textContent = category;
-  }
-  if (captionText) {
-    captionText.textContent = caption || 'Memories from the Philippines Dumaguete Mission.';
-  }
-  if (dateText) {
-    if (photo.date) {
-      try {
-        const d = new Date(photo.date);
-        if (!isNaN(d.getTime())) {
-          dateText.textContent = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        } else {
-          dateText.textContent = '';
-        }
-      } catch (_) {
-        dateText.textContent = '';
-      }
-    } else {
-      dateText.textContent = '';
-    }
-  }
-
-  if (captionBox) {
-    captionBox.classList.remove('hidden');
-  }
-}
-
-/* Lightbox Implementation with Feature 6 Date Stamp */
+// Lightbox with Archival Metadata Inspector
 function openLightbox(index) {
   if (!filteredPhotos || filteredPhotos.length === 0) return;
   activeLightboxIndex = (index >= 0 && index < filteredPhotos.length) ? index : 0;
 
   const modal = document.getElementById('lightboxModal');
   const img = document.getElementById('lightboxImg');
-  const downloadBtn = document.getElementById('lightboxDownloadBtn');
   const indexEl = document.getElementById('lightboxIndex');
   const totalEl = document.getElementById('lightboxTotal');
 
   if (!modal || !img) return;
 
   const photo = filteredPhotos[activeLightboxIndex];
-  const src = photo.src || photo.thumb || '';
+  const src = photo.src || photo.localSrc || photo.thumb || '';
 
   img.src = src;
-  if (downloadBtn) {
-    downloadBtn.href = src;
-    downloadBtn.setAttribute('download', `elder-salviejo-polaroid-${activeLightboxIndex + 1}.jpg`);
-  }
   if (indexEl) indexEl.textContent = activeLightboxIndex + 1;
   if (totalEl) totalEl.textContent = filteredPhotos.length;
 
-  updateDateStampText(photo.date);
+  updateDateStampText(photo);
   updateLightboxDetails(photo);
 
   modal.classList.remove('hidden');
@@ -335,6 +285,106 @@ function openLightbox(index) {
     modal.classList.remove('opacity-0');
     modal.classList.add('opacity-100');
   });
+}
+
+function updateLightboxDetails(photo) {
+  const catBadge = document.getElementById('lightboxCatBadge');
+  const captionText = document.getElementById('lightboxCaptionText');
+  const dateText = document.getElementById('lightboxDateText');
+  const timeText = document.getElementById('lightboxTimeText');
+  const exifBadge = document.getElementById('lightboxExifBadge');
+
+  const caption = photo.caption || photo.text || '';
+  const category = photo.category || photo.album || 'Mission';
+
+  if (catBadge) catBadge.textContent = category;
+  if (captionText) {
+    captionText.textContent = caption || 'Archival missionary photograph from the field in the Philippines Dumaguete Mission.';
+  }
+
+  const dtString = photo.capturedDateTime || photo.archivalStamp;
+  if (dateText) {
+    if (photo.capturedDate) {
+      dateText.textContent = photo.capturedDate;
+    } else if (photo.date || photo.dateTime) {
+      const d = new Date(photo.date || photo.dateTime);
+      dateText.textContent = isNaN(d.getTime()) ? '2026' : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    } else {
+      dateText.textContent = '2026';
+    }
+  }
+
+  if (timeText) {
+    if (photo.capturedTime) {
+      timeText.textContent = photo.capturedTime + ' (PHT)';
+    } else if (photo.dateTime) {
+      const d = new Date(photo.dateTime);
+      timeText.textContent = isNaN(d.getTime()) ? '' : d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) + ' (PHT)';
+    } else {
+      timeText.textContent = '';
+    }
+  }
+
+  if (exifBadge) {
+    if (photo.isExif) {
+      exifBadge.classList.remove('hidden');
+    } else {
+      exifBadge.classList.add('hidden');
+    }
+  }
+}
+
+function updateDateStampText(photo) {
+  const stamp = document.getElementById('lightboxDateStamp');
+  if (!stamp) return;
+
+  if (photo.archivalStamp) {
+    stamp.textContent = photo.archivalStamp;
+    return;
+  }
+
+  if (photo.capturedDateTime) {
+    stamp.textContent = photo.capturedDateTime;
+    return;
+  }
+
+  if (photo.date || photo.dateTime) {
+    try {
+      const d = new Date(photo.date || photo.dateTime);
+      if (!isNaN(d.getTime())) {
+        const yy = String(d.getFullYear()).slice(-2);
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        stamp.textContent = `'${yy} ${mm} ${dd}`;
+        return;
+      }
+    } catch (_) {}
+  }
+
+  stamp.textContent = 'DGT • 2026';
+}
+
+function toggleDateStamp() {
+  showDateStamp = !showDateStamp;
+  localStorage.setItem('galleryDateStamp', showDateStamp);
+  updateDateStampUi();
+}
+
+function updateDateStampUi() {
+  const stamp = document.getElementById('lightboxDateStamp');
+  const btn = document.getElementById('dateStampToggleBtn');
+  if (stamp) {
+    stamp.style.display = showDateStamp ? 'block' : 'none';
+  }
+  if (btn) {
+    if (showDateStamp) {
+      btn.classList.add('text-red-400');
+      btn.classList.remove('text-stone-400');
+    } else {
+      btn.classList.remove('text-red-400');
+      btn.classList.add('text-stone-400');
+    }
+  }
 }
 
 function closeLightbox() {
@@ -358,79 +408,22 @@ function handleLightboxBackdrop(event) {
 
 function navigateLightbox(direction) {
   if (!filteredPhotos || filteredPhotos.length === 0) return;
-
   activeLightboxIndex = (activeLightboxIndex + direction + filteredPhotos.length) % filteredPhotos.length;
-  
-  const img = document.getElementById('lightboxImg');
-  const downloadBtn = document.getElementById('lightboxDownloadBtn');
-  const indexEl = document.getElementById('lightboxIndex');
 
+  const img = document.getElementById('lightboxImg');
+  const indexEl = document.getElementById('lightboxIndex');
   const photo = filteredPhotos[activeLightboxIndex];
-  const src = photo.src || photo.thumb || '';
+  const src = photo.src || photo.localSrc || photo.thumb || '';
 
   if (img) {
     img.style.opacity = '0.5';
     img.src = src;
-    img.onload = () => {
-      img.style.opacity = '1';
-    };
-  }
-  if (downloadBtn) {
-    downloadBtn.href = src;
-    downloadBtn.setAttribute('download', `elder-salviejo-polaroid-${activeLightboxIndex + 1}.jpg`);
+    img.onload = () => { img.style.opacity = '1'; };
   }
   if (indexEl) indexEl.textContent = activeLightboxIndex + 1;
 
-  updateDateStampText(photo.date);
+  updateDateStampText(photo);
   updateLightboxDetails(photo);
-}
-
-/* Feature 6: Vintage Camera Date Stamp Logic */
-function toggleDateStamp() {
-  showDateStamp = !showDateStamp;
-  localStorage.setItem('galleryDateStamp', showDateStamp);
-  updateDateStampUi();
-}
-
-function updateDateStampUi() {
-  const stamp = document.getElementById('lightboxDateStamp');
-  const btn = document.getElementById('dateStampToggleBtn');
-  if (stamp) {
-    stamp.style.display = showDateStamp ? 'block' : 'none';
-  }
-  if (btn) {
-    if (showDateStamp) {
-      btn.classList.add('text-amber-400');
-      btn.classList.remove('text-stone-400');
-    } else {
-      btn.classList.remove('text-amber-400');
-      btn.classList.add('text-stone-400');
-    }
-  }
-}
-
-function updateDateStampText(dateStr) {
-  const stamp = document.getElementById('lightboxDateStamp');
-  if (!stamp) return;
-
-  if (!dateStr) {
-    stamp.textContent = '';
-    return;
-  }
-
-  try {
-    const d = new Date(dateStr);
-    if (isNaN(d.getTime())) {
-      stamp.textContent = '';
-      return;
-    }
-    const yy = String(d.getFullYear()).slice(-2);
-    const mm = String(d.getMonth() + 1).padStart(2, '0');
-    const dd = String(d.getDate()).padStart(2, '0');
-    stamp.textContent = `'${yy} ${mm} ${dd}`;
-  } catch (_) {
-    stamp.textContent = '';
-  }
 }
 
 function setupKeyboardAndTouch() {
@@ -438,13 +431,9 @@ function setupKeyboardAndTouch() {
     const modal = document.getElementById('lightboxModal');
     if (!modal || modal.classList.contains('hidden')) return;
 
-    if (e.key === 'Escape') {
-      closeLightbox();
-    } else if (e.key === 'ArrowLeft') {
-      navigateLightbox(-1);
-    } else if (e.key === 'ArrowRight') {
-      navigateLightbox(1);
-    }
+    if (e.key === 'Escape') closeLightbox();
+    else if (e.key === 'ArrowLeft') navigateLightbox(-1);
+    else if (e.key === 'ArrowRight') navigateLightbox(1);
   });
 
   const modal = document.getElementById('lightboxModal');
@@ -461,30 +450,19 @@ function setupKeyboardAndTouch() {
 }
 
 function handleSwipe() {
-  const swipeThreshold = 50;
   const diff = touchEndX - touchStartX;
-
-  if (Math.abs(diff) > swipeThreshold) {
-    if (diff > 0) {
-      navigateLightbox(-1);
-    } else {
-      navigateLightbox(1);
-    }
+  if (Math.abs(diff) > 50) {
+    if (diff > 0) navigateLightbox(-1);
+    else navigateLightbox(1);
   }
 }
 
 function escapeHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+  if (!str || typeof str !== 'string') return '';
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
 }
 
 function escapeAttr(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
+  if (!str || typeof str !== 'string') return '';
+  return str.replace(/"/g, '&quot;');
 }

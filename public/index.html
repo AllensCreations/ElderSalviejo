@@ -5,32 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Elder Salviejo • Weekly Missionary Journal Vault | Philippines Dumaguete Mission</title>
   
-  <!-- Website Favicon & App Icon -->
   <link rel="icon" type="image/x-icon" href="/Icon.ico" />
   <link rel="shortcut icon" type="image/x-icon" href="/Icon.ico" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#d97706" />
+  <meta name="theme-color" content="#991b1b" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Elder Salviejo" />
   <link rel="apple-touch-icon" href="/assets/images/elder-salviejo.jpg" />
   
-  <!-- Precompiled & Minified Production Stylesheets (Zero Render-Blocking JS) -->
   <link rel="stylesheet" href="/css/tailwind.min.css" />
   <link rel="stylesheet" href="/css/main.css" />
 
-  <!-- Google Fonts: Inter, Playfair Display & Caveat handwriting (Optimized Subset) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&display=swap" rel="stylesheet">
 </head>
-<body class="bg-[#f4f1ea] min-h-screen text-stone-800 antialiased font-sans flex flex-col overflow-x-hidden">
+<body class="min-h-screen text-stone-900 antialiased flex flex-col overflow-x-hidden">
 
-  <!-- Header / Navigation Bar -->
-  <header class="no-print border-b border-stone-800 bg-stone-900 text-stone-100 shadow-md sticky top-0 z-40">
+  <!-- Translucent Archival Navigation Bar -->
+  <header class="archival-header no-print">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
       
-      <!-- Left: Elder Salviejo Profile & Brand -->
+      <!-- Brand & Missionary Calling -->
       <a href="/" class="flex items-center space-x-3 group min-w-0">
         <div class="profile-avatar-nav">
           <img
@@ -43,66 +40,64 @@
           />
         </div>
         <div class="min-w-0">
-          <h1 class="font-serif text-base sm:text-lg font-bold tracking-tight text-white group-hover:text-amber-300 transition flex items-center gap-2 truncate">
+          <h1 class="font-serif text-base sm:text-lg font-bold tracking-tight text-stone-900 group-hover:text-red-800 transition flex items-center gap-2 truncate">
             Elder Salviejo
-            <span class="hidden sm:inline-block text-[10px] font-sans font-medium px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
-              Journal Vault
+            <span class="hidden sm:inline-block font-mono text-[10px] font-medium px-2 py-0.5 rounded bg-stone-100 text-stone-700 border border-stone-200 uppercase tracking-wider">
+              Archive v2.0
             </span>
           </h1>
-          <p class="text-xs text-stone-400 truncate hidden xs:block">Philippines Dumaguete Mission</p>
+          <p class="font-mono text-[11px] text-stone-500 truncate hidden xs:block">Philippines Dumaguete Mission</p>
         </div>
       </a>
 
-      <!-- Right: Navigation Action Links -->
+      <!-- Action Navigation Links -->
       <nav class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-        <a href="/" class="inline-flex items-center gap-1.5 text-xs bg-amber-600 text-white font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg shadow-xs transition" title="Weekly Journal Vault">
+        <a href="/" class="inline-flex items-center gap-1.5 text-xs bg-stone-900 text-white font-mono uppercase tracking-wider px-3 py-1.5 rounded-md shadow-xs transition" title="Weekly Journal Vault">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
           <span class="hidden sm:inline">Vault</span>
         </a>
-        <a href="/gallery" class="inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 transition" title="Polaroid Photo Gallery">
+        <a href="/gallery" class="inline-flex items-center gap-1.5 text-xs bg-white hover:bg-stone-100 text-stone-700 hover:text-stone-900 font-mono uppercase tracking-wider px-3 py-1.5 rounded-md border border-stone-300 transition" title="Polaroid Photo Gallery">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
           <span>Gallery</span>
         </a>
-        <a href="/call" class="inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 transition" title="Official Mission Call & Origin Story">
+        <a href="/call" class="inline-flex items-center gap-1.5 text-xs bg-white hover:bg-stone-100 text-stone-700 hover:text-stone-900 font-mono uppercase tracking-wider px-3 py-1.5 rounded-md border border-stone-300 transition" title="Official Mission Call">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          <span class="hidden sm:inline">Mission Call</span>
+          <span class="hidden sm:inline">Call</span>
         </a>
-        <a href="/book" class="inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 transition" title="Complete Printable Missionary Book & PDF">
+        <a href="/book" class="inline-flex items-center gap-1.5 text-xs bg-white hover:bg-stone-100 text-stone-700 hover:text-stone-900 font-mono uppercase tracking-wider px-3 py-1.5 rounded-md border border-stone-300 transition" title="Printable Missionary Book & PDF">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
           </svg>
           <span class="hidden sm:inline">Book</span>
         </a>
-        <button onclick="fetchWeeks()" class="flex items-center justify-center gap-1 text-xs bg-amber-600 hover:bg-amber-500 text-white font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg shadow-xs transition duration-150" title="Refresh Letters">
+        <button onclick="fetchWeeks()" class="flex items-center justify-center gap-1 text-xs bg-stone-100 hover:bg-stone-200 text-stone-800 font-mono uppercase tracking-wider px-2.5 sm:px-3 py-1.5 rounded-md border border-stone-300 transition" title="Synchronize Letters">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
           </svg>
-          <span class="hidden sm:inline">Refresh</span>
+          <span class="hidden sm:inline">Sync</span>
         </button>
       </nav>
 
     </div>
   </header>
 
-  <!-- Main Container -->
+  <!-- Main Document Container -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full">
 
-    <!-- Mission & Elder Salviejo Hero Profile Card (Responsive, Zero-Overlap) -->
-    <section class="bg-gradient-to-br from-[#fefbf6] to-[#f8f3e8] border border-amber-200/90 rounded-2xl p-4 sm:p-8 mb-8 shadow-sm">
+    <!-- Mission & Elder Salviejo Archival Hero Profile Card -->
+    <section class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 mb-8 shadow-xs">
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         
-        <!-- Left Column: Elder Salviejo Profile & Mission Info -->
+        <!-- Left: Profile, Nametag & Calling -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-6 flex-1 min-w-0">
           
-          <!-- Image and Nametag (ALWAYS beside each other on all screen sizes) -->
-          <div class="flex flex-row items-center gap-3 sm:gap-4 shrink-0">
-            <!-- Large Profile Picture -->
+          <div class="flex flex-row items-center gap-4 shrink-0">
             <div class="profile-avatar-hero shrink-0">
               <img
                 src="/assets/images/elder-salviejo.jpg"
@@ -114,8 +109,8 @@
               />
             </div>
 
-            <!-- Authentic Missionary Nametag (Elder Salviejo at Top) -->
-            <div class="missionary-nametag shrink-0 shadow-md">
+            <!-- Authentic Missionary Nametag -->
+            <div class="missionary-nametag shrink-0">
               <span class="tag-name">ELDER SALVIEJO</span>
               <div class="tag-divider"></div>
               <span class="tag-church">The Church of</span>
@@ -124,106 +119,106 @@
             </div>
           </div>
 
-          <!-- Mission Description & Details -->
+          <!-- Mission Description -->
           <div class="flex-1 min-w-0">
-            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-100 border border-amber-200 text-amber-900 text-xs font-semibold uppercase tracking-wider mb-2">
-              <svg class="w-3.5 h-3.5 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Philippines Dumaguete Mission</span>
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-stone-100 border border-stone-200 text-stone-700 text-xs font-mono uppercase tracking-wider mb-2">
+              <svg class="w-3.5 h-3.5 text-stone-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              <span>Philippines Dumaguete Mission</span>
             </div>
-            <h2 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 leading-tight">
-              Weekly Missionary Letters & Photo Vault
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight leading-tight">
+              Weekly Missionary Letters & Documentary Plates
             </h2>
             <p class="text-xs sm:text-sm text-stone-600 mt-2 leading-relaxed max-w-2xl">
-              On every Preparation Day (P-Day), Elder Salviejo shares weekly missionary reflections, scripture study insights, teaching experiences, and daily routine photographs from the field in the Philippines Dumaguete Mission. All letters are permanently archived here for family, friends, and supporters.
+              On every Preparation Day (P-Day), Elder Salviejo chronicles weekly teaching journeys, scripture study insights, and daily routine photography from Negros Oriental. Preserved permanently in this archival repository for family, friends, and supporters.
             </p>
-            <div class="mt-4 flex flex-wrap items-center gap-2.5">
-              <a href="/call" class="inline-flex items-center gap-2 text-xs font-semibold text-amber-900 hover:text-amber-950 bg-amber-100 hover:bg-amber-200/90 px-3.5 py-2 rounded-lg border border-amber-300 shadow-2xs transition">
-                <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><span>Official Mission Call</span>
-                <span class="text-amber-700">&rarr;</span>
+            <div class="mt-4 flex flex-wrap items-center gap-3">
+              <a href="/call" class="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-stone-800 hover:text-stone-950 bg-stone-100 hover:bg-stone-200 px-3 py-1.5 rounded border border-stone-300 transition">
+                <span>Official Mission Call</span>
+                <span>&rarr;</span>
               </a>
-              <a href="/gallery" class="inline-flex items-center gap-2 text-xs font-semibold text-stone-800 hover:text-stone-900 bg-white hover:bg-stone-50 px-3.5 py-2 rounded-lg border border-amber-200 shadow-2xs transition">
-                <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><span>Polaroid Photo Gallery</span>
-                <span class="text-amber-700">&rarr;</span>
+              <a href="/gallery" class="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-stone-800 hover:text-stone-950 bg-stone-100 hover:bg-stone-200 px-3 py-1.5 rounded border border-stone-300 transition">
+                <span>Polaroid Photo Gallery</span>
+                <span>&rarr;</span>
               </a>
             </div>
           </div>
 
         </div>
 
-        <!-- Right Column: Status & Stats Badges -->
-        <div class="flex flex-wrap items-center justify-center sm:justify-start lg:justify-end gap-2.5 shrink-0 border-t lg:border-t-0 pt-4 lg:pt-0 border-amber-200/60 w-full lg:w-auto">
-          <div class="text-center px-3.5 py-2 bg-white rounded-xl border border-amber-200 shadow-2xs min-w-[90px]">
-            <span id="totalPhotosCount" class="block text-xl font-bold text-amber-900 leading-tight">0</span>
-            <span class="text-[10px] font-semibold text-stone-500 uppercase tracking-wider">Polaroids</span>
+        <!-- Right: Archival Stats Badges -->
+        <div class="flex flex-wrap items-center justify-center sm:justify-start lg:justify-end gap-3 shrink-0 border-t lg:border-t-0 pt-4 lg:pt-0 border-stone-200 w-full lg:w-auto">
+          <div class="text-center px-4 py-2.5 bg-stone-50 rounded-lg border border-stone-200 min-w-[95px]">
+            <span id="totalPhotosCount" class="block text-2xl font-mono font-bold text-stone-900 leading-tight">38</span>
+            <span class="text-[10px] font-mono font-medium text-stone-500 uppercase tracking-wider">Photo Plates</span>
           </div>
-          <div class="text-center px-3.5 py-2 bg-white rounded-xl border border-amber-200 shadow-2xs min-w-[90px]">
-            <span id="missionMonthBadge" class="block text-xl font-bold text-amber-900 leading-tight">Month 1</span>
-            <span class="text-[10px] font-semibold text-stone-500 uppercase tracking-wider">of 24 Months</span>
+          <div class="text-center px-4 py-2.5 bg-stone-50 rounded-lg border border-stone-200 min-w-[95px]">
+            <span id="missionMonthBadge" class="block text-2xl font-mono font-bold text-stone-900 leading-tight">Month 1</span>
+            <span class="text-[10px] font-mono font-medium text-stone-500 uppercase tracking-wider">of 24 Months</span>
           </div>
         </div>
 
       </div>
 
       <!-- Missionary Journey Milestones & Live MTC Countdown Banner -->
-      <div class="mt-6 pt-5 border-t border-amber-200/80 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="mt-6 pt-5 border-t border-stone-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div class="flex items-center gap-3 min-w-0">
-          <div class="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-900 shrink-0">
-            <svg class="w-5 h-5 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="w-10 h-10 rounded-lg bg-stone-100 border border-stone-300 flex items-center justify-center text-stone-800 shrink-0">
+            <svg class="w-5 h-5 text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
           <div class="min-w-0">
             <div class="flex items-center gap-2">
-              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500/20 text-amber-900 border border-amber-500/30">
+              <span class="text-[10px] font-mono font-bold uppercase tracking-widest px-1.5 py-0.5 rounded bg-stone-200 text-stone-800">
                 Milestone
               </span>
-              <span id="countdownStatusBadge" class="text-xs font-medium text-stone-600 truncate">MTC Entrance Countdown</span>
+              <span id="countdownStatusBadge" class="text-xs font-mono text-stone-500 truncate">Upcoming Milestone</span>
             </div>
             <h3 id="countdownTitle" class="font-serif text-sm sm:text-base font-bold text-stone-900 mt-0.5 truncate">
-              Entering the Missionary Training Center (MTC)
+              Missionary Training Center Entrance
             </h3>
           </div>
         </div>
 
-        <!-- Live Digital Countdown / Service Progress Bar -->
         <div id="countdownDisplay" class="flex items-center justify-center sm:justify-start md:justify-end w-full md:w-auto shrink-0">
-          <!-- Populated dynamically by countdown.js -->
+          <!-- Populated by countdown.js -->
         </div>
       </div>
     </section>
 
-    <!-- Subscription Card (Clean Responsive Form) -->
-    <section class="bg-white/80 rounded-xl border border-amber-200/70 p-5 sm:p-6 mb-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-5">
+    <!-- Subscription Card -->
+    <section class="bg-white rounded-xl border border-stone-200 p-5 sm:p-6 mb-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-5">
       <div class="flex items-center gap-3.5">
-        <div class="w-11 h-11 rounded-full bg-amber-100 flex items-center justify-center text-amber-800 shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
+        <div class="w-10 h-10 rounded-lg bg-stone-100 flex items-center justify-center text-stone-700 shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        </div>
         <div>
           <h3 class="font-serif font-bold text-stone-900 text-sm sm:text-base">Stay Connected with Elder Salviejo</h3>
           <p class="text-xs text-stone-500 mt-0.5 max-w-xl">
-            Insert your email below to automatically receive an update on every Preparation Day (P-Day) whenever a new weekly journal is published.
+            Receive automated notifications on Preparation Days whenever a new weekly journal letter is deposited into the archive.
           </p>
         </div>
       </div>
 
       <div class="w-full md:w-auto shrink-0">
         <form onsubmit="handleSubscribe(event)" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-          <!-- Bot Honeypot Field (Invisible to users, catches automated spam bots) -->
           <input type="text" name="hp_website" id="hpWebsiteInput" style="display:none !important; opacity:0; position:absolute; left:-9999px;" tabindex="-1" autocomplete="off" />
           <input
             type="email"
             id="subscribeEmailInput"
             required
-            placeholder="Enter your email..."
-            class="w-full sm:w-64 text-xs px-3.5 py-2.5 rounded-lg border border-stone-300 bg-stone-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 shadow-sm"
+            placeholder="Enter your email address..."
+            class="w-full sm:w-64 text-xs font-mono px-3.5 py-2 rounded-md border border-stone-300 bg-stone-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-stone-900 shadow-2xs"
           />
           <button
             type="submit"
             id="subscribeSubmitBtn"
-            class="shrink-0 text-xs font-semibold px-4 py-2.5 bg-amber-700 hover:bg-amber-600 text-white rounded-lg shadow transition duration-150 flex items-center justify-center gap-1.5 cursor-pointer"
+            class="shrink-0 text-xs font-mono uppercase tracking-wider px-4 py-2 bg-stone-900 hover:bg-stone-800 text-white rounded-md shadow transition cursor-pointer"
           >
-            <span>Subscribe</span>
-            <span class="text-amber-400">&rarr;</span>
+            Subscribe
           </button>
         </form>
-        <p id="subscribeFeedback" class="text-[11px] mt-1.5 hidden font-medium"></p>
+        <p id="subscribeFeedback" class="text-[11px] font-mono mt-1.5 hidden"></p>
       </div>
     </section>
 
@@ -235,70 +230,80 @@
           id="searchInput"
           oninput="filterWeeks()"
           placeholder="Search reflections, scriptures, dates..."
-          class="w-full text-xs pl-8 pr-3 py-2.5 rounded-lg border border-stone-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 shadow-sm"
+          class="w-full text-xs font-mono pl-8 pr-3 py-2 rounded-md border border-stone-300 bg-white focus:outline-none focus:ring-1 focus:ring-stone-900 shadow-2xs"
         />
-        <svg class="w-4 h-4 text-stone-400 absolute left-2.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-4 h-4 text-stone-400 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
       </div>
       <div class="flex items-center justify-end gap-3 w-full sm:w-auto">
+        <span class="text-xs font-mono text-stone-500">
+          Showing <span id="displayedCount" class="font-semibold text-stone-900">0</span> Entries
+        </span>
         <a
           href="/book"
-          class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 bg-stone-100 hover:bg-amber-100 text-stone-700 hover:text-amber-900 border border-stone-300 hover:border-amber-300 rounded-lg shadow-2xs transition"
+          class="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider px-3 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-800 border border-stone-300 rounded-md transition"
           title="Open complete printable book layout"
         >
-          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg><span>Mission Book (PDF)</span>
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          <span>Monograph (PDF)</span>
         </a>
       </div>
     </div>
 
-    <!-- Letter Feed Container (Dual Responsive Layout: Desktop Grid + Mobile Cards) -->
-    <div class="bg-white rounded-2xl border border-stone-200/90 shadow-sm overflow-hidden">
-      
-      <!-- Desktop Table Header (Hidden on Mobile) -->
-      <div class="inbox-desktop-row border-b border-stone-200 bg-stone-50 text-xs font-semibold text-stone-500 uppercase tracking-wider py-3">
-        <div class="text-center">Photos</div>
-        <div>Week & Subject</div>
-        <div>Missionary Highlight</div>
-        <div>P-Day Sent</div>
-        <div class="text-right">View</div>
+    <!-- Letter Feed Container -->
+    <div id="weeksList" class="space-y-4">
+      <div class="py-16 text-center text-stone-500">
+        <p class="font-mono text-xs uppercase tracking-widest text-stone-400">Loading Missionary Journal Vault...</p>
       </div>
-
-      <!-- Rows Container (Populated via /js/index.js) -->
-      <div id="weeksList" class="divide-y divide-stone-200">
-        <!-- Loading Spinner -->
-        <div class="py-16 text-center text-stone-500">
-          <svg class="animate-spin h-8 w-8 mx-auto mb-3 text-amber-600" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-          </svg>
-          <p class="font-medium text-sm">Connecting to Missionary Journal Vault...</p>
-        </div>
-      </div>
-
     </div>
 
   </main>
 
-  <!-- Footer -->
-    <!-- Unified Missionary Footer -->
-  <footer class="no-print mt-auto border-t border-stone-800 bg-stone-900 text-stone-400 py-6 text-xs">
+  <!-- Slide-Over Reading Docket (Modal Panel) -->
+  <div id="docketBackdrop" class="docket-backdrop" onclick="closeDocket()"></div>
+  <aside id="docketPanel" class="docket-panel" aria-label="Reading Docket">
+    <div class="docket-header">
+      <div class="min-w-0">
+        <div id="docketMeta" class="font-mono text-xs text-stone-500 flex items-center gap-2 truncate">
+          <span>Week --</span>
+        </div>
+        <h2 id="docketTitle" class="font-serif text-lg sm:text-xl font-bold text-stone-900 truncate mt-0.5">
+          Weekly Journal Letter
+        </h2>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <button onclick="prevDocket()" class="p-1.5 rounded-md hover:bg-stone-100 text-stone-600 hover:text-stone-900 border border-stone-200 transition" title="Previous Week (Left Arrow)">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button onclick="nextDocket()" class="p-1.5 rounded-md hover:bg-stone-100 text-stone-600 hover:text-stone-900 border border-stone-200 transition" title="Next Week (Right Arrow)">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
+        <button onclick="closeDocket()" class="p-1.5 rounded-md hover:bg-stone-100 text-stone-600 hover:text-stone-900 border border-stone-200 transition ml-1" title="Close Docket (Escape)">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="docketContent" class="docket-body">
+      <!-- Injected by index.js -->
+    </div>
+  </aside>
+
+  <!-- Unified Missionary Footer -->
+  <footer class="no-print mt-auto border-t border-stone-200 bg-white text-stone-500 py-6 text-xs">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
       <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-        <p>Elder Mark Salviejo • Philippines Dumaguete Mission</p>
+        <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+        <p class="font-mono text-stone-800">Elder Mark Salviejo • Philippines Dumaguete Mission</p>
       </div>
-      <div class="flex items-center gap-4 text-stone-400">
-        <span>Preserved with Testimony</span>
+      <div class="flex items-center gap-4 text-stone-400 font-mono text-[11px]">
+        <span>Archival Edition v2.0</span>
         <span>•</span>
-        <a href="https://github.com/AllensCreations/gmail-diary-vault" target="_blank" class="hover:text-amber-400 font-medium transition">
-          Missionary Vault
-        </a>
+        <span>Documentary Vault</span>
       </div>
     </div>
   </footer>
 
-  <!-- External Scripts (Clean Separation & Global Security) -->
   <script src="/js/print-helper.js"></script>
   <script src="/js/countdown.js"></script>
   <script src="/js/index.js"></script>

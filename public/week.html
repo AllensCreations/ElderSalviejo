@@ -3,35 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Elder Salviejo • Weekly Journal Vault | Philippines Dumaguete Mission</title>
+  <title>Elder Salviejo • Weekly Journal Entry | Philippines Dumaguete Mission</title>
   
-  <!-- Website Favicon & App Icon -->
   <link rel="icon" type="image/x-icon" href="/Icon.ico" />
   <link rel="shortcut icon" type="image/x-icon" href="/Icon.ico" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#d97706" />
+  <meta name="theme-color" content="#991b1b" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Elder Salviejo" />
   <link rel="apple-touch-icon" href="/assets/images/elder-salviejo.jpg" />
   
-  <!-- Precompiled & Minified Production Stylesheets (Zero Render-Blocking JS) -->
   <link rel="stylesheet" href="/css/tailwind.min.css" />
   <link rel="stylesheet" href="/css/main.css" />
   <link rel="stylesheet" href="/css/week.css" />
 
-  <!-- Google Fonts: Inter, Playfair Display & Caveat handwriting (Optimized Subset) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&display=swap" rel="stylesheet">
 </head>
-<body class="week-view min-h-screen text-stone-800 antialiased font-sans flex flex-col selection:bg-amber-200 overflow-x-hidden">
+<body class="week-view min-h-screen text-stone-900 antialiased flex flex-col selection:bg-red-100 overflow-x-hidden">
 
-  <!-- Sticky Top Navigation Bar -->
-  <header class="no-print border-b border-stone-800 bg-stone-900 text-stone-100 shadow-md sticky top-0 z-40">
+  <!-- Translucent Archival Navigation Bar -->
+  <header class="archival-header no-print">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
       
-      <!-- Left: Elder Salviejo Profile & Brand -->
+      <!-- Brand -->
       <a href="/" class="flex items-center space-x-3 group min-w-0">
         <div class="profile-avatar-nav">
           <img
@@ -44,302 +41,115 @@
           />
         </div>
         <div class="min-w-0">
-          <h1 class="font-serif text-base sm:text-lg font-bold tracking-tight text-white group-hover:text-amber-300 transition flex items-center gap-2 truncate">
+          <h1 class="font-serif text-base sm:text-lg font-bold tracking-tight text-stone-900 group-hover:text-red-800 transition flex items-center gap-2 truncate">
             Elder Salviejo
-            <span class="hidden sm:inline-block text-[10px] font-sans font-medium px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
-              Journal Vault
+            <span class="hidden sm:inline-block font-mono text-[10px] font-medium px-2 py-0.5 rounded bg-stone-100 text-stone-700 border border-stone-200 uppercase tracking-wider">
+              Field Sheet
             </span>
           </h1>
-          <p class="text-xs text-stone-400 truncate hidden xs:block">Philippines Dumaguete Mission</p>
+          <p class="font-mono text-[11px] text-stone-500 truncate hidden xs:block">Philippines Dumaguete Mission</p>
         </div>
       </a>
 
-      <!-- Right: Navigation Action Links -->
+      <!-- Navigation Links -->
       <nav class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-        <a href="/" class="inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 transition" title="Weekly Journal Vault">
+        <a href="/" class="inline-flex items-center gap-1.5 text-xs bg-white hover:bg-stone-100 text-stone-700 hover:text-stone-900 font-mono uppercase tracking-wider px-3 py-1.5 rounded-md border border-stone-300 transition" title="Weekly Journal Vault">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
           <span class="hidden sm:inline">Vault</span>
         </a>
-        <a href="/gallery" class="inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 transition" title="Polaroid Photo Gallery">
+        <a href="/gallery" class="inline-flex items-center gap-1.5 text-xs bg-white hover:bg-stone-100 text-stone-700 hover:text-stone-900 font-mono uppercase tracking-wider px-3 py-1.5 rounded-md border border-stone-300 transition" title="Polaroid Photo Gallery">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
           <span>Gallery</span>
         </a>
-        <a href="/call" class="inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 transition" title="Official Mission Call & Origin Story">
+        <a href="/call" class="inline-flex items-center gap-1.5 text-xs bg-white hover:bg-stone-100 text-stone-700 hover:text-stone-900 font-mono uppercase tracking-wider px-3 py-1.5 rounded-md border border-stone-300 transition" title="Official Mission Call">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
           <span class="hidden sm:inline">Call</span>
         </a>
-        <a href="/book" class="inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 transition" title="Complete Printable Missionary Book & PDF">
+        <a href="/book" class="inline-flex items-center gap-1.5 text-xs bg-white hover:bg-stone-100 text-stone-700 hover:text-stone-900 font-mono uppercase tracking-wider px-3 py-1.5 rounded-md border border-stone-300 transition" title="Complete Printable Missionary Book & PDF">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
           </svg>
           <span class="hidden sm:inline">Book</span>
         </a>
-        <button onclick="triggerPrintWithPreload(this)" class="text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 shadow-xs flex items-center gap-1.5 transition cursor-pointer" title="Print or Save Letter as PDF">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-          </svg>
-          <span class="hidden sm:inline">Print</span>
+        <button onclick="window.print()" class="text-xs bg-stone-900 hover:bg-stone-800 text-white px-2.5 sm:px-3 py-1.5 rounded-md font-mono transition" title="Print this entry">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
         </button>
       </nav>
 
     </div>
   </header>
 
-  <!-- Main Scrollable Diary Container -->
+  <!-- Main Scrollable Container -->
   <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-1 w-full">
 
     <!-- Loading State -->
     <div id="loadingState" class="py-24 text-center">
-      <svg class="animate-spin h-10 w-10 mx-auto mb-4 text-amber-700" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-      </svg>
-      <h3 class="font-serif text-lg font-semibold text-stone-700">Retrieving Journal from Vault...</h3>
-      <p class="text-xs text-stone-500 mt-1">Loading weekly missionary reflections and photographs...</p>
+      <p class="font-mono text-xs uppercase tracking-widest text-stone-400 mb-2">[RETRIEVING_ENTRY]</p>
+      <h3 class="font-serif text-lg font-semibold text-stone-800">Accessing Journal Record...</h3>
     </div>
 
     <!-- Error State -->
-    <div id="errorState" class="hidden py-16 px-6 text-center bg-white/90 rounded-2xl border border-stone-300 shadow-sm max-w-lg mx-auto">
-      <svg class="w-12 h-12 mx-auto mb-2 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-      <h2 class="font-serif text-xl font-bold text-stone-800">Letter Not Found</h2>
-      <p id="errorMessage" class="text-stone-600 text-xs sm:text-sm mt-2 leading-relaxed">
-        Could not locate the requested weekly archive. It may have been renamed or has not yet been published.
-      </p>
-      <div class="mt-6 flex justify-center gap-3">
-        <a href="/" class="px-5 py-2.5 bg-amber-700 hover:bg-amber-600 text-white text-xs font-semibold rounded-lg shadow">
-          Back to Journal Vault
+    <div id="errorState" class="hidden py-16 px-6 text-center bg-white rounded-xl border border-stone-200 shadow-xs max-w-lg mx-auto">
+      <h2 class="font-serif text-xl font-bold text-stone-900">Entry Not Found</h2>
+      <p id="errorMessage" class="text-stone-600 text-xs sm:text-sm mt-2 font-sans"></p>
+      <div class="mt-6">
+        <a href="/" class="px-4 py-2 bg-stone-900 text-white text-xs font-mono uppercase tracking-wider rounded-md">
+          Return to Vault
         </a>
       </div>
     </div>
 
-    <!-- Diary Content View (Populated dynamically via /js/week.js) -->
-    <div id="diaryContent" class="hidden space-y-16">
+    <!-- Diary Content View -->
+    <div id="diaryContent" class="hidden space-y-12">
 
-      <!-- Week Header Paper Banner -->
-      <section class="relative bg-[#fdfbf7] border border-[#e5dfd3] rounded-2xl p-6 sm:p-10 shadow-lg text-center">
-        <!-- Top Washi Tape (Cleanly centered, no clipping) -->
-        <div class="tape absolute -top-3.5 left-1/2 -translate-x-1/2 w-52 h-7 rotate-[-1deg] text-center text-[10px] font-sans uppercase font-bold text-amber-900/80 pt-1 tracking-widest">
-          Philippines Dumaguete Mission
+      <!-- Week Header Archival Card -->
+      <section class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-10 shadow-xs text-center space-y-4">
+        <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-stone-500">
+          <span id="weekDateStamp">Preparation Day Archive</span>
         </div>
-        
-        <div class="space-y-3.5 pt-3">
-          
-          <!-- P-Day Badge -->
-          <div class="inline-flex items-center gap-2 text-xs font-semibold tracking-wider text-amber-900 uppercase px-3.5 py-1 rounded-full bg-amber-100/80 border border-amber-200">
-            
-            <span id="weekDateStamp">Weekly P-Day Archive</span>
-          </div>
 
-          <!-- Letter Title -->
-          <h1 id="weekTitle" class="font-serif text-3xl sm:text-5xl font-bold text-stone-900 tracking-tight leading-tight">
-            Weekly Missionary Journal
-          </h1>
+        <h1 id="weekTitle" class="font-serif text-3xl sm:text-4xl font-bold text-stone-900 tracking-tight leading-tight">
+          Weekly Missionary Journal
+        </h1>
 
-          <!-- Author Profile Bar & Print Keepsake Button -->
-          <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs sm:text-sm text-stone-600 font-medium pt-2">
-            <div class="flex items-center gap-2">
-              <div class="w-6 h-6 rounded-full overflow-hidden border border-amber-500 bg-stone-800 shrink-0">
-                <img
-                  src="/assets/images/elder-salviejo.jpg"
-                  alt="Elder Salviejo"
-                  onerror="this.src='https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/public/assets/images/elder-salviejo.jpg'"
-                  class="w-full h-full object-cover"
-                />
-              </div>
-              <span id="weekSender" class="font-bold text-stone-900">Elder Salviejo</span>
-            </div>
-            <span class="text-stone-300 hidden sm:inline">•</span>
-            <span class="text-amber-800 font-semibold">Philippines Dumaguete Mission</span>
-            <span class="text-stone-300 hidden sm:inline">•</span>
-            <span id="entryCountBadge">7 Daily Routine Photos</span>
-            <span class="text-stone-300 hidden sm:inline">•</span>
-            <button onclick="window.print()" class="no-print inline-flex items-center gap-1.5 px-3 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded-lg shadow-xs text-xs font-semibold transition cursor-pointer" title="Print this week's journal or save as PDF">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H9v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-              <span>Save / Print PDF</span>
-            </button>
-          </div>
-
+        <div class="flex flex-wrap items-center justify-center gap-3 text-xs font-mono text-stone-500 pt-2 border-t border-stone-100">
+          <span class="font-semibold text-stone-900">Elder Salviejo</span>
+          <span>•</span>
+          <span class="text-red-800 font-semibold">Philippines Dumaguete Mission</span>
+          <span>•</span>
+          <span id="entryCountBadge">7 Photo Plates</span>
         </div>
       </section>
 
-      <!-- 7 Days Grid / Feed (Rendered by /js/week.js) -->
-      <div id="entriesList" class="space-y-16 sm:space-y-20"></div>
+      <!-- Entries List -->
+      <div id="entriesList" class="space-y-10"></div>
 
-      <!-- Missionary Weekly Scripture & Testimony Card -->
-      <section id="weeklyVerseSection" class="pt-6 pb-8 max-w-2xl mx-auto">
-        <div class="scripture-card">
-          
-          <!-- Top Washi Tape -->
-          <div class="tape absolute -top-3.5 left-1/2 -translate-x-1/2 w-48 h-7 rotate-[-0.5deg] text-center text-[10px] font-sans uppercase font-bold text-amber-900/80 pt-1 tracking-widest">
-            Weekly Scripture
-          </div>
-
-          <!-- Elder Salviejo Testimony Avatar -->
-          <div class="profile-avatar-testimony mt-2">
-            <img
-              src="/assets/images/elder-salviejo.jpg"
-              alt="Elder Salviejo"
-              onerror="this.src='https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/public/assets/images/elder-salviejo.jpg'"
-              loading="lazy"
-            />
-          </div>
-
-          <!-- Scripture Reference Badge -->
-          <div class="inline-block px-4 py-1.5 bg-amber-200/80 border border-amber-300 rounded-full text-xs font-bold text-amber-950 uppercase tracking-wider mb-4 shadow-sm">
-            <span id="verseReference">Doctrine and Covenants 68:6</span>
-          </div>
-
-          <!-- Scripture Quote -->
-          <blockquote class="font-serif italic text-stone-900 text-lg sm:text-xl leading-relaxed max-w-xl mx-auto">
-            "<span id="verseText">Wherefore, be of good cheer, and do not fear, for I the Lord am with you, and will stand by you; and you shall bear record of me, even Jesus Christ, that I am the Son of the living God...</span>"
-          </blockquote>
-
-          <!-- Author Signoff -->
-          <div class="mt-6 pt-5 border-t border-amber-300/60 flex flex-col items-center">
-            <div class="font-hand text-3xl text-amber-950 font-bold">
-              With love and testimony,<br>
-              Elder Salviejo
-            </div>
-            <p class="text-xs text-amber-900/90 uppercase tracking-widest font-semibold mt-1">
-              Philippines Dumaguete Mission
-            </p>
-          </div>
-
-        </div>
+      <!-- Scripture Card -->
+      <section id="weeklyVerseSection" class="scripture-card">
+        <blockquote class="scripture-text">
+          “<span id="verseText"></span>”
+        </blockquote>
+        <span id="verseReference" class="scripture-ref"></span>
       </section>
-
-      <!-- Family & Friends Notes & Encouragement Box (Suggestion 1) -->
-      <section class="no-print pt-4 pb-8 max-w-2xl mx-auto">
-        <div class="bg-[#fdfbf7] border border-[#e5dfd3] rounded-2xl p-6 sm:p-8 shadow-md">
-          
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-800 shrink-0">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-              </svg>
-            </div>
-            <div>
-              <h3 class="font-serif text-lg sm:text-xl font-bold text-stone-900">Notes & Encouragement for Elder Salviejo</h3>
-              <p class="text-xs text-stone-600">Send love, prayers, or scripture encouragement for this week.</p>
-            </div>
-          </div>
-
-          <!-- Note Submission Form -->
-          <form onsubmit="handleEncouragementSubmit(event)" class="space-y-3 pt-2">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label class="block text-[11px] font-semibold text-stone-600 uppercase tracking-wider mb-1">Your Name</label>
-                <input
-                  type="text"
-                  id="encAuthorInput"
-                  required
-                  placeholder="e.g. Nanay Maria, Brother John"
-                  class="w-full text-xs px-3.5 py-2.5 rounded-lg border border-stone-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 shadow-2xs"
-                />
-              </div>
-              <div>
-                <label class="block text-[11px] font-semibold text-stone-600 uppercase tracking-wider mb-1">Relationship</label>
-                <select
-                  id="encRelInput"
-                  class="w-full text-xs px-3.5 py-2.5 rounded-lg border border-stone-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 shadow-2xs"
-                >
-                  <option value="Family">Family</option>
-                  <option value="Friend">Friend</option>
-                  <option value="Ward Member">Ward Member</option>
-                  <option value="Former Companion">Former Companion</option>
-                  <option value="Supporter">Mission Supporter</option>
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-[11px] font-semibold text-stone-600 uppercase tracking-wider mb-1">Message of Encouragement</label>
-              <textarea
-                id="encMessageInput"
-                required
-                rows="3"
-                placeholder="Write your note to Elder Salviejo..."
-                class="w-full text-xs px-3.5 py-2.5 rounded-lg border border-stone-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 shadow-2xs"
-              ></textarea>
-            </div>
-
-            <div class="flex items-center justify-between pt-1">
-              <span id="encFeedback" class="text-xs font-medium hidden"></span>
-              <button
-                type="submit"
-                id="encSubmitBtn"
-                class="ml-auto inline-flex items-center gap-1.5 px-4 py-2 bg-amber-700 hover:bg-amber-600 active:scale-98 text-white text-xs font-semibold rounded-lg shadow-sm transition cursor-pointer"
-              >
-                <span>Send Note</span>
-                <span class="text-amber-300">&rarr;</span>
-              </button>
-            </div>
-          </form>
-
-          <!-- Notes Feed Container -->
-          <div id="encouragementsFeed" class="mt-6 pt-5 border-t border-amber-200/80 space-y-3">
-            <div id="encouragementsLoading" class="text-center py-3 text-stone-400 text-xs">
-              Loading notes...
-            </div>
-            <div id="encouragementsEmpty" class="text-center py-3 text-stone-500 text-xs hidden">
-              Be the first to leave a message of encouragement for this week!
-            </div>
-            <div id="encouragementsList" class="space-y-2.5 hidden"></div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- Bottom Return Navigation Callout -->
-      <div class="no-print pt-2 pb-6 text-center">
-        <a
-          href="/"
-          class="inline-flex items-center gap-2 px-6 py-3 bg-amber-800 hover:bg-amber-700 text-white font-medium text-xs sm:text-sm rounded-xl shadow-md transition group"
-        >
-          <span class="text-amber-400 group-hover:-translate-x-0.5 transition">&larr;</span>
-          <span>Return to Elder Salviejo's Weekly Journal Vault</span>
-        </a>
-      </div>
 
     </div>
 
   </main>
 
-  <!-- Footer -->
-    <!-- Unified Missionary Footer -->
-  <footer class="no-print mt-auto border-t border-stone-800 bg-stone-900 text-stone-400 py-6 text-xs">
+  <!-- Unified Footer -->
+  <footer class="no-print mt-auto border-t border-stone-200 bg-white text-stone-500 py-6 text-xs font-mono">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-        <p>Elder Mark Salviejo • Philippines Dumaguete Mission</p>
-      </div>
-      <div class="flex items-center gap-4 text-stone-400">
-        <span>Preserved with Testimony</span>
-        <span>•</span>
-        <a href="https://github.com/AllensCreations/gmail-diary-vault" target="_blank" class="hover:text-amber-400 font-medium transition">
-          Missionary Vault
-        </a>
-      </div>
+      <p>Elder Mark Salviejo • Philippines Dumaguete Mission</p>
+      <p class="text-stone-400 text-[11px]">Field Permalink • All Rights Reserved</p>
     </div>
   </footer>
 
-  <!-- Print & PDF Preload Helper -->
-  <script src="/js/print-helper.js"></script>
-
-  <!-- External Script (Clean Separation) -->
   <script src="/js/week.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(() => {});
-      });
-    }
-  </script>
 </body>
 </html>

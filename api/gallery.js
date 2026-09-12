@@ -18,32 +18,52 @@ module.exports = async function handler(req, res) {
     await initDatabase();
     let photos = await getAllGalleryPhotos();
 
-    // If local/Turso has no photos, check the dedicated jsDelivr gallery index as a fallback
+    // If local/Turso has no photos, check local vault/gallery/index.json or CDN fallback
     if (!photos || photos.length === 0) {
-      try {
-        const cdnRes = await fetch('https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/index.json', {
-          headers: { 'User-Agent': 'ElderSalviejo-Vault/1.0' },
-          signal: AbortSignal.timeout(2500)
-        });
-        if (cdnRes.ok) {
-          const cdnData = await cdnRes.json();
-          if (Array.isArray(cdnData) && cdnData.length > 0) {
-            photos = cdnData.map(item => {
-              const isGallery = item.source === 'gallery' || Boolean(item.isGalleryUpload);
-              return {
-                id: item.id || `cdn-${item.filename}`,
-                src: item.src || item.cdnUrl,
-                date: item.uploadedAt,
-                category: item.category || (isGallery ? 'Mission' : 'P-Day Journal'),
-                caption: item.caption || item.text || '',
-                album: item.album || item.category || '',
-                isGalleryUpload: isGallery,
-                source: isGallery ? 'gallery' : 'journal'
-              };
-            });
+      const fs = require('fs');
+      const path = require('path');
+      const localIndexPath = path.join(__dirname, '..', 'vault', 'gallery', 'index.json');
+      let loadedData = null;
+
+      if (fs.existsSync(localIndexPath)) {
+        try {
+          loadedData = JSON.parse(fs.readFileSync(localIndexPath, 'utf8'));
+        } catch (_) {}
+      }
+
+      if (!loadedData || !Array.isArray(loadedData) || loadedData.length === 0) {
+        try {
+          const cdnRes = await fetch('https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/index.json', {
+            headers: { 'User-Agent': 'ElderSalviejo-Vault/1.0' },
+            signal: AbortSignal.timeout(2500)
+          });
+          if (cdnRes.ok) {
+            loadedData = await cdnRes.json();
           }
-        }
-      } catch (_) {}
+        } catch (_) {}
+      }
+
+      if (Array.isArray(loadedData) && loadedData.length > 0) {
+        photos = loadedData.map(item => {
+          const isGallery = item.source === 'gallery' || Boolean(item.isGalleryUpload);
+          return {
+            id: item.id || `cdn-${item.filename}`,
+            src: item.src || item.cdnUrl || item.localSrc,
+            date: item.dateTime || item.uploadedAt,
+            dateTime: item.dateTime || item.uploadedAt,
+            capturedDate: item.capturedDate || null,
+            capturedTime: item.capturedTime || null,
+            capturedDateTime: item.capturedDateTime || null,
+            archivalStamp: item.archivalStamp || null,
+            isExif: Boolean(item.isExif),
+            category: item.category || (isGallery ? 'Mission' : 'P-Day Journal'),
+            caption: item.caption || item.text || '',
+            album: item.album || item.category || '',
+            isGalleryUpload: isGallery,
+            source: isGallery ? 'gallery' : 'journal'
+          };
+        });
+      }
     }
 
     if (Array.isArray(photos)) {

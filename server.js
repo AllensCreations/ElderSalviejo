@@ -181,6 +181,16 @@ const server = http.createServer(async (req, res) => {
       return fs.createReadStream(filePath).pipe(res);
     }
 
+    // 7b. Static file serving from /vault
+    if (pathname.startsWith('/vault/')) {
+      const vaultFilePath = path.join(__dirname, pathname);
+      if (fs.existsSync(vaultFilePath) && fs.statSync(vaultFilePath).isFile()) {
+        const ext = path.extname(vaultFilePath).toLowerCase();
+        res.setHeader('Content-Type', MIME_TYPES[ext] || 'application/octet-stream');
+        return fs.createReadStream(vaultFilePath).pipe(res);
+      }
+    }
+
     // 404 Not Found
     res.status(404).json({ error: 'Page or Endpoint Not Found' });
   } catch (err) {

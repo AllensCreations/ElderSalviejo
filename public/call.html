@@ -5,33 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Elder Mark Salviejo • Official Mission Call & Origin Story | Philippines Dumaguete Mission</title>
   
-  <!-- Website Favicon & App Icon -->
   <link rel="icon" type="image/x-icon" href="/Icon.ico" />
   <link rel="shortcut icon" type="image/x-icon" href="/Icon.ico" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#d97706" />
+  <meta name="theme-color" content="#991b1b" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Elder Salviejo" />
   <link rel="apple-touch-icon" href="/assets/images/elder-salviejo.jpg" />
   
-  <!-- Precompiled & Minified Production Stylesheets (Zero Render-Blocking JS) -->
   <link rel="stylesheet" href="/css/tailwind.min.css" />
   <link rel="stylesheet" href="/css/main.css" />
   <link rel="stylesheet" href="/css/week.css" />
 
-  <!-- Google Fonts: Inter, Playfair Display & Caveat handwriting (Optimized Subset) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&display=swap" rel="stylesheet">
 </head>
-<body class="week-view min-h-screen text-stone-800 antialiased font-sans flex flex-col selection:bg-amber-200 overflow-x-hidden">
+<body class="min-h-screen text-stone-900 antialiased flex flex-col selection:bg-red-100 overflow-x-hidden">
 
-  <!-- Sticky Top Navigation Bar -->
-  <header class="no-print border-b border-stone-800 bg-stone-900 text-stone-100 shadow-md sticky top-0 z-40">
+  <!-- Translucent Archival Navigation Bar -->
+  <header class="archival-header no-print">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
       
-      <!-- Left: Elder Salviejo Profile & Brand -->
+      <!-- Brand -->
       <a href="/" class="flex items-center space-x-3 group min-w-0">
         <div class="profile-avatar-nav">
           <img
@@ -44,47 +41,44 @@
           />
         </div>
         <div class="min-w-0">
-          <h1 class="font-serif text-base sm:text-lg font-bold tracking-tight text-white group-hover:text-amber-300 transition flex items-center gap-2 truncate">
+          <h1 class="font-serif text-base sm:text-lg font-bold tracking-tight text-stone-900 group-hover:text-red-800 transition flex items-center gap-2 truncate">
             Elder Salviejo
-            <span class="hidden sm:inline-block text-[10px] font-sans font-medium px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
-              Journal Vault
+            <span class="hidden sm:inline-block font-mono text-[10px] font-medium px-2 py-0.5 rounded bg-stone-100 text-stone-700 border border-stone-200 uppercase tracking-wider">
+              Mission Call
             </span>
           </h1>
-          <p class="text-xs text-stone-400 truncate hidden xs:block">Philippines Dumaguete Mission</p>
+          <p class="font-mono text-[11px] text-stone-500 truncate hidden xs:block">Philippines Dumaguete Mission</p>
         </div>
       </a>
 
-      <!-- Right: Navigation Action Links -->
+      <!-- Action Navigation Links -->
       <nav class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-        <a href="/" class="inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 transition" title="Weekly Journal Vault">
+        <a href="/" class="inline-flex items-center gap-1.5 text-xs bg-white hover:bg-stone-100 text-stone-700 hover:text-stone-900 font-mono uppercase tracking-wider px-3 py-1.5 rounded-md border border-stone-300 transition" title="Weekly Journal Vault">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
           <span class="hidden sm:inline">Vault</span>
         </a>
-        <a href="/gallery" class="inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 transition" title="Polaroid Photo Gallery">
+        <a href="/gallery" class="inline-flex items-center gap-1.5 text-xs bg-white hover:bg-stone-100 text-stone-700 hover:text-stone-900 font-mono uppercase tracking-wider px-3 py-1.5 rounded-md border border-stone-300 transition" title="Polaroid Photo Gallery">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
           <span>Gallery</span>
         </a>
-        <a href="/call" class="inline-flex items-center gap-1.5 text-xs bg-amber-600 text-white font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg shadow-xs transition" title="Official Mission Call & Origin Story">
+        <a href="/call" class="inline-flex items-center gap-1.5 text-xs bg-stone-900 text-white font-mono uppercase tracking-wider px-3 py-1.5 rounded-md shadow-xs transition" title="Official Mission Call">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          <span class="hidden sm:inline">Mission Call</span>
+          <span class="hidden sm:inline">Call</span>
         </a>
-        <a href="/book" class="inline-flex items-center gap-1.5 text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white font-medium px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 transition" title="Complete Printable Missionary Book & PDF">
+        <a href="/book" class="inline-flex items-center gap-1.5 text-xs bg-white hover:bg-stone-100 text-stone-700 hover:text-stone-900 font-mono uppercase tracking-wider px-3 py-1.5 rounded-md border border-stone-300 transition" title="Complete Printable Missionary Book & PDF">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
           </svg>
           <span class="hidden sm:inline">Book</span>
         </a>
-        <button onclick="triggerPrintWithPreload(this)" class="text-xs bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white px-2.5 sm:px-3 py-1.5 rounded-lg border border-stone-700 shadow-xs flex items-center gap-1.5 transition cursor-pointer" title="Print or Save Mission Call as PDF">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-          </svg>
-          <span class="hidden sm:inline">Print</span>
+        <button onclick="window.print()" class="text-xs bg-white hover:bg-stone-100 text-stone-700 px-2.5 sm:px-3 py-1.5 rounded-md border border-stone-300 font-mono transition" title="Print Call Dossier">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
         </button>
       </nav>
 
@@ -92,22 +86,15 @@
   </header>
 
   <!-- Main Content Container -->
-  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-1 w-full space-y-12">
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-1 w-full space-y-10">
 
-    <!-- Official Keepsake Header Banner -->
-    <section class="relative bg-[#fdfbf7] border border-[#e5dfd3] rounded-2xl p-6 sm:p-10 shadow-lg text-center">
-      
-      <!-- Top Washi Tape -->
-      <div class="tape absolute -top-3.5 left-1/2 -translate-x-1/2 w-64 h-7 rotate-[-0.5deg] text-center text-[10px] font-sans uppercase font-bold text-amber-950 pt-1 tracking-widest shadow-xs">
-        Official Missionary Call • September 2026
-      </div>
-
-      <div class="space-y-4 pt-3">
+    <!-- Official Keepsake Header Card -->
+    <section class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-10 shadow-xs text-center">
+      <div class="space-y-4">
         
-        <!-- Authentic Missionary Nametag & Avatar (Always beside each other) -->
-        <div class="flex flex-row items-center justify-center gap-3 sm:gap-4 pb-2">
-          <!-- Framed Profile Picture -->
-          <div class="profile-avatar-hero w-14 h-14 sm:w-16 sm:h-16 shrink-0 shadow-md">
+        <!-- Authentic Missionary Nametag & Avatar -->
+        <div class="flex flex-row items-center justify-center gap-4 pb-2">
+          <div class="profile-avatar-hero w-16 h-16 shrink-0 shadow-sm">
             <img
               src="/assets/images/elder-salviejo.jpg"
               alt="Elder Salviejo"
@@ -117,8 +104,7 @@
               decoding="async"
             />
           </div>
-          <!-- Authentic Missionary Nametag (Elder Salviejo at Top) -->
-          <div class="missionary-nametag scale-95 sm:scale-100 shrink-0 shadow-md">
+          <div class="missionary-nametag shrink-0">
             <span class="tag-name">ELDER SALVIEJO</span>
             <div class="tag-divider"></div>
             <span class="tag-church">The Church of</span>
@@ -127,374 +113,199 @@
           </div>
         </div>
 
+        <div class="font-mono text-xs text-stone-500 uppercase tracking-widest">
+          Official Missionary Call • Issued September 2026
+        </div>
+
         <!-- Pillar Quote -->
-        <h1 class="font-serif text-2xl sm:text-4xl lg:text-5xl font-bold text-stone-900 tracking-tight leading-tight max-w-2xl mx-auto">
+        <h1 class="font-serif text-2xl sm:text-4xl font-bold text-stone-900 tracking-tight leading-tight max-w-2xl mx-auto">
           “The Lord does not call the qualified, He qualifies the called.”
         </h1>
 
-        <!-- Missionary Details Pill -->
-        <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-xs sm:text-sm text-stone-600 font-medium pt-1">
-          <span class="font-semibold text-stone-900">Elder Salviejo</span>
-          <span class="text-stone-300 hidden sm:inline">•</span>
-          <span class="text-amber-800 font-semibold">Philippines Dumaguete Mission</span>
-          <span class="text-stone-300 hidden sm:inline">•</span>
-          <span class="text-stone-500">MTC Entrance: Dec 11, 2026</span>
+        <!-- Details Line -->
+        <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs sm:text-sm font-mono text-stone-600 pt-1">
+          <span class="font-semibold text-stone-900">Elder Mark Salviejo</span>
+          <span>•</span>
+          <span class="text-red-800 font-semibold">Philippines Dumaguete Mission</span>
+          <span>•</span>
+          <span>MTC: Dec 11, 2026</span>
         </div>
 
-        <!-- Live Countdown Widget -->
-        <div class="pt-3 flex flex-col items-center justify-center">
+        <div class="pt-4 flex flex-col items-center justify-center">
           <div id="callCountdownDisplay" class="flex items-center justify-center">
-            <!-- Populated dynamically by countdown.js -->
+            <!-- Populated by countdown.js -->
           </div>
         </div>
 
       </div>
     </section>
 
-    <!-- Official Mission Assignment Overview Card -->
-    <section class="bg-stone-900 text-stone-100 rounded-2xl p-6 sm:p-8 shadow-xl border border-stone-800">
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-stone-800 pb-6">
+    <!-- Official Mission Assignment Overview -->
+    <section class="bg-stone-900 text-stone-100 rounded-2xl p-6 sm:p-8 shadow-sm border border-stone-800">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-stone-800 pb-5">
         <div>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-semibold uppercase tracking-wider mb-2">
-            Office of the First Presidency
+          <span class="inline-block font-mono text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded bg-stone-800 text-stone-300 border border-stone-700 mb-2">
+            The First Presidency
           </span>
           <h2 class="font-serif text-xl sm:text-2xl font-bold text-white leading-snug">
-            Missionary Assignment Details
+            Missionary Assignment Credentials
           </h2>
-          <p class="text-xs sm:text-sm text-stone-400 mt-1">
-            Issued to Elder Mark Allen Bongolan Salviejo • Philippines Dumaguete Mission
+          <p class="font-mono text-xs text-stone-400 mt-0.5">
+            Issued to Elder Mark Allen Bongolan Salviejo • Full-Time Minister
           </p>
         </div>
-        <div class="shrink-0 flex items-center gap-3">
-          <button onclick="openIntroModal(0)" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold rounded-lg shadow transition flex items-center gap-2">
-            
-            <span>View Full Call Letter</span>
+        <div class="shrink-0">
+          <button onclick="openIntroModal(0)" class="px-3.5 py-2 bg-white text-stone-900 hover:bg-stone-100 text-xs font-mono uppercase tracking-wider font-semibold rounded shadow transition">
+            View Call Letter Plate
           </button>
         </div>
       </div>
 
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 text-center">
-        <div class="p-3.5 bg-stone-800/80 rounded-xl border border-stone-700/60">
-          <span class="text-[10px] font-semibold text-stone-400 uppercase tracking-wider block">Assigned Mission</span>
-          <span class="text-sm sm:text-base font-bold text-amber-300 mt-1 block">Philippines Dumaguete</span>
-          <span class="text-[11px] text-stone-400">Mission</span>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 text-center font-mono">
+        <div class="p-3 bg-stone-800/80 rounded-lg border border-stone-700/60">
+          <span class="text-[10px] text-stone-400 uppercase tracking-wider block">Assigned Field</span>
+          <span class="text-sm sm:text-base font-bold text-white mt-1 block">Philippines Dumaguete</span>
+          <span class="text-[10px] text-stone-400">Negros Oriental</span>
         </div>
-        <div class="p-3.5 bg-stone-800/80 rounded-xl border border-stone-700/60">
-          <span class="text-[10px] font-semibold text-stone-400 uppercase tracking-wider block">Language</span>
+        <div class="p-3 bg-stone-800/80 rounded-lg border border-stone-700/60">
+          <span class="text-[10px] text-stone-400 uppercase tracking-wider block">Language</span>
           <span class="text-sm sm:text-base font-bold text-white mt-1 block">Cebuano</span>
-          <span class="text-[11px] text-stone-400">Native Tongue</span>
+          <span class="text-[10px] text-stone-400">Native Tongue</span>
         </div>
-        <div class="p-3.5 bg-stone-800/80 rounded-xl border border-stone-700/60">
-          <span class="text-[10px] font-semibold text-stone-400 uppercase tracking-wider block">MTC Entrance</span>
-          <span class="text-sm sm:text-base font-bold text-amber-300 mt-1 block">Dec 11, 2026</span>
-          <span class="text-[11px] text-stone-400">Training Start</span>
+        <div class="p-3 bg-stone-800/80 rounded-lg border border-stone-700/60">
+          <span class="text-[10px] text-stone-400 uppercase tracking-wider block">MTC Entrance</span>
+          <span class="text-sm sm:text-base font-bold text-red-400 mt-1 block">Dec 11, 2026</span>
+          <span class="text-[10px] text-stone-400">Training Ingest</span>
         </div>
-        <div class="p-3.5 bg-stone-800/80 rounded-xl border border-stone-700/60">
-          <span class="text-[10px] font-semibold text-stone-400 uppercase tracking-wider block">Term of Service</span>
+        <div class="p-3 bg-stone-800/80 rounded-lg border border-stone-700/60">
+          <span class="text-[10px] text-stone-400 uppercase tracking-wider block">Term of Service</span>
           <span class="text-sm sm:text-base font-bold text-white mt-1 block">24 Months</span>
-          <span class="text-[11px] text-stone-400">Full-Time Minister</span>
+          <span class="text-[10px] text-stone-400">Ambassador of Christ</span>
         </div>
       </div>
     </section>
 
-    <!-- Elder Salviejo Testimony & Journey (Parchment Scrapbook Sheet) -->
-    <section class="relative bg-[#fdfbf7] border border-[#e5dfd3] rounded-2xl p-6 sm:p-10 shadow-lg">
-      
-      <!-- Top Decorative Pushpin -->
-      <div class="pushpin-anchor">
-        <div class="pushpin-head"></div>
-        <div class="pushpin-shadow"></div>
+    <!-- First Presidency Call Letter Transcript (Letterpress Style) -->
+    <section class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-10 shadow-xs">
+      <div class="text-center pb-6 border-b border-stone-200">
+        <h3 class="font-serif text-lg sm:text-xl font-bold uppercase tracking-widest text-stone-900">
+          The Church of Jesus Christ of Latter-day Saints
+        </h3>
+        <p class="font-mono text-xs text-stone-500 uppercase tracking-widest mt-1">Office of the First Presidency • Salt Lake City, Utah</p>
       </div>
 
-      <div class="max-w-2xl mx-auto space-y-6 text-stone-800 text-sm sm:text-base leading-relaxed">
+      <div class="pt-8 max-w-2xl mx-auto space-y-5 text-sm sm:text-base leading-relaxed text-stone-700 font-sans">
+        <p class="font-mono text-xs text-stone-500">Dear Elder Salviejo,</p>
         
-        <!-- Opening Heartfelt Reflection -->
-        <div class="font-serif text-base sm:text-lg text-stone-900 border-l-4 border-amber-500 pl-5 py-2 bg-amber-50/70 rounded-r-xl shadow-2xs">
-          “At first, wala akong desire na mag-mission. Pero in my darkest moments, binigyan ako ni Heavenly Father ng liwanag na hindi ko inakala na kailangan ko.”
+        <p class="docket-dropcap">
+          You are hereby called to serve as a missionary of The Church of Jesus Christ of Latter-day Saints. You are assigned to labor in the <strong>Philippines Dumaguete Mission</strong>. You should report to the Missionary Training Center on <strong>Friday, December 11, 2026</strong>. You will prepare to preach the gospel in the <strong>Cebuano</strong> language.
+        </p>
+
+        <p>
+          Your term of service will be for 24 months. You have been recommended as one worthy to represent the Lord as an ambassador of the Savior Jesus Christ. An eternal work awaits you as you share the message of the restored gospel.
+        </p>
+
+        <p>
+          We place our confidence in you and pray that the Lord will protect and guide you as you dedicate yourself to His service.
+        </p>
+
+        <div class="pt-6 border-t border-stone-200 flex items-center justify-between font-mono text-xs text-stone-500">
+          <span>Faithfully yours,</span>
+          <span class="uppercase tracking-wider text-stone-900 font-semibold">The First Presidency</span>
         </div>
-
-        <p>
-          Through the love ng YSA district ko, sa spirit ng YSA Conferences, at sa pagserve ko as an FSY Counselor, nasoften ni Heavenly Father yung puso ko at tinawag Niya ako sa Kanyang gawain.
-        </p>
-
-        <!-- Official Declaration Quote -->
-        <div class="p-5 sm:p-6 bg-gradient-to-br from-amber-50 to-amber-100/80 border border-amber-300/80 rounded-2xl shadow-xs text-center space-y-2">
-          <p class="font-serif text-lg sm:text-xl font-bold text-stone-900 leading-snug">
-            Ako ay gitawag isip usa ka full-time missionary sa The Church of Jesus Christ of Latter-day Saints sa <span class="text-amber-900 underline decoration-amber-500">Philippines Dumaguete Mission!</span>
-          </p>
-          <p class="text-xs sm:text-sm text-stone-600 font-medium">
-            Ug musolod na ko sa MTC sa <strong>December 11, 2026</strong>.
-          </p>
-        </div>
-
-        <!-- Sacred Scripture Promise Box: Moroni 10:5 -->
-        <div class="scripture-card max-w-xl mx-auto relative my-8">
-          <div class="tape absolute -top-3.5 left-1/2 -translate-x-1/2 w-48 h-7 rotate-[-0.5deg] text-center text-[10px] font-sans uppercase font-bold text-amber-900/80 pt-1 tracking-widest">
-            Sacred Promise
-          </div>
-
-          <div class="pt-4 text-center">
-            <div class="inline-block px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-semibold uppercase tracking-wider mb-2">
-              Moroni 10:5
-            </div>
-            <blockquote class="font-serif italic text-base sm:text-lg text-stone-900 leading-relaxed max-w-md mx-auto">
-              “By the power of the Holy Ghost ye may know the truth of all things.”
-            </blockquote>
-          </div>
-        </div>
-
-        <p>
-          I don’t know everything that’s ahead, and I have fears... especially about teaching. But I hold to this promise: <em>'by the power of the Holy Ghost ye may know the truth of all things'</em> - Moroni 10:5.
-        </p>
-
-        <p>
-          Alam ko na totoo ang Atonement ni Jesus Christ, at Siya yung reason kung bakit may hope at faith ako to go.
-        </p>
-
-        <p>
-          Such a huge privilege to be an instrument ng Panginoon to share His Gospel at ang love ni Jesus Christ sa mga tao sa Dumaguete Mission.
-        </p>
-
-        <p>
-          Sobrang thankful ako sa lahat ng support, guidance, at prayers ng family ko, friends, at leaders na laging nandiyan.
-        </p>
-
-        <p>
-          I go with a grateful heart to serve, to love, at para maging instrument sa mga kamay ng Panginoon. Please keep me in your prayers!
-        </p>
-
-        <!-- Final Signoff & Testimony Signature -->
-        <div class="mt-8 pt-6 border-t border-amber-300/60 flex flex-col items-center text-center space-y-2">
-          <div class="font-serif text-2xl sm:text-3xl font-bold text-amber-950 tracking-tight">
-            Here am I, send me.
-          </div>
-          <div class="font-hand text-3xl sm:text-4xl text-amber-900 font-bold">
-            Elder Mark Salviejo
-          </div>
-          <p class="text-xs text-amber-900/90 uppercase tracking-widest font-semibold">
-            Philippines Dumaguete Mission
-          </p>
-          
-          <div class="flex flex-wrap justify-center gap-2 pt-4 text-xs font-semibold text-amber-900">
-            <span class="px-3 py-1 bg-amber-100 rounded-full border border-amber-300">#CalledToServe</span>
-            <span class="px-3 py-1 bg-amber-100 rounded-full border border-amber-300">#PhilippinesDumagueteMission</span>
-            <span class="px-3 py-1 bg-amber-100 rounded-full border border-amber-300">#MTC</span>
-            <span class="px-3 py-1 bg-amber-100 rounded-full border border-amber-300">#LDSMissionary</span>
-          </div>
-        </div>
-
       </div>
     </section>
 
-    <!-- Documents & Photo Album Gallery -->
-    <section class="space-y-8">
-      <div class="text-center max-w-xl mx-auto">
-        <span class="text-xs font-semibold text-amber-800 uppercase tracking-widest">Official Documents & Memories</span>
-        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-stone-900 mt-1">
-          Mission Call Keepsake Album
-        </h2>
-        <p class="text-xs sm:text-sm text-stone-500 mt-1">
-          Click any photo to view in high resolution with full zoom and details
-        </p>
+    <!-- Origin Photos Grid (Interactive Lightbox) -->
+    <section class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-xs">
+      <div class="mb-6 flex items-center justify-between">
+        <div>
+          <h3 class="font-serif text-lg sm:text-xl font-bold text-stone-900">Origin Plates & Call Announcement</h3>
+          <p class="font-mono text-xs text-stone-500 mt-0.5">Photographs marking the day the mission call was opened and celebrated.</p>
+        </div>
+        <span class="font-mono text-xs text-stone-400">5 Plates</span>
       </div>
 
-      <!-- Two Primary Documents: Call Letter & Mission Map -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        
-        <!-- 1. Mission Call Letter -->
-        <div onclick="openIntroModal(0)" class="polaroid-card group cursor-pointer hover:shadow-2xl transition duration-300 max-w-none mb-0">
-          <div class="pushpin-anchor">
-            <div class="pushpin-head"></div>
-            <div class="pushpin-shadow"></div>
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+        <div class="polaroid-frame cursor-pointer" onclick="openIntroModal(0)">
+          <div class="polaroid-photo-wrap aspect-square">
+            <img src="/assets/images/intro/photo-2.jpg" alt="Holding Call Letter" onerror="this.src='https://i.ibb.co/bMqVVZqL/received-1778183986537355.jpg'" />
           </div>
-          <div class="aspect-[3/4] overflow-hidden rounded bg-stone-100 border border-stone-200 relative">
-            <img
-              src="/assets/images/intro/call-letter.jpg"
-              alt="Official Mission Call Letter"
-              onerror="this.src='https://i.ibb.co/HWRwq7L/Mark-Salviejo-Mission-Call-Letter-page-0001.jpg'"
-              class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300"
-              loading="lazy"
-              decoding="async"
-            />
-            <div class="absolute inset-0 bg-stone-950/15 group-hover:bg-transparent transition"></div>
-            <span class="absolute bottom-3 right-3 px-2.5 py-1 bg-stone-900/90 text-white text-xs font-semibold rounded-md shadow flex items-center gap-1.5 backdrop-blur-xs">
-              Read Full Letter
-            </span>
-          </div>
-          <div class="mt-3 text-center">
-            <h3 class="font-serif font-bold text-stone-900 text-sm sm:text-base">Official Mission Call Letter</h3>
-            <p class="text-xs text-stone-500">Office of the First Presidency • Signed by President Dallin H. Oaks</p>
-          </div>
+          <div class="polaroid-stamp">Call Letter</div>
         </div>
-
-        <!-- 2. Dumaguete Mission Map -->
-        <div onclick="openIntroModal(1)" class="polaroid-card group cursor-pointer hover:shadow-2xl transition duration-300 max-w-none mb-0">
-          <div class="pushpin-anchor">
-            <div class="pushpin-head"></div>
-            <div class="pushpin-shadow"></div>
+        <div class="polaroid-frame cursor-pointer" onclick="openIntroModal(1)">
+          <div class="polaroid-photo-wrap aspect-square">
+            <img src="/assets/images/intro/photo-1.jpg" alt="Spire of Faith" onerror="this.src='https://i.ibb.co/7JShV8Cy/received-1420724736611243.jpg'" />
           </div>
-          <div class="aspect-[3/4] overflow-hidden rounded bg-stone-100 border border-stone-200 relative">
-            <img
-              src="/assets/images/intro/call-overview.jpg"
-              alt="Philippines Dumaguete Mission Field Map"
-              onerror="this.src='https://i.ibb.co/mCqcbT3D/overview-2246341-page-0001.jpg'"
-              class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-300"
-              loading="lazy"
-              decoding="async"
-            />
-            <span class="absolute bottom-3 right-3 px-2.5 py-1 bg-stone-900/90 text-white text-xs font-semibold rounded-md shadow flex items-center gap-1.5 backdrop-blur-xs">
-              Enlarge Boundary Map
-            </span>
-          </div>
-          <div class="mt-3 text-center">
-            <h3 class="font-serif font-bold text-stone-900 text-sm sm:text-base">Philippines Dumaguete Mission Map</h3>
-            <p class="text-xs text-stone-500">Official Field & Zone Boundaries</p>
-          </div>
+          <div class="polaroid-stamp">Chapel Spire</div>
         </div>
-
+        <div class="polaroid-frame cursor-pointer" onclick="openIntroModal(2)">
+          <div class="polaroid-photo-wrap aspect-square">
+            <img src="/assets/images/intro/photo-3.jpg" alt="With Brother" onerror="this.src='https://i.ibb.co/n8M8VDR8/received-4536366903287651.jpg'" />
+          </div>
+          <div class="polaroid-stamp">Family Joy</div>
+        </div>
+        <div class="polaroid-frame cursor-pointer" onclick="openIntroModal(3)">
+          <div class="polaroid-photo-wrap aspect-square">
+            <img src="/assets/images/intro/photo-4.jpg" alt="YSA District" onerror="this.src='https://i.ibb.co/rKPvxrBH/Messenger-creation-2242403789659455.jpg'" />
+          </div>
+          <div class="polaroid-stamp">District YSA</div>
+        </div>
+        <div class="polaroid-frame cursor-pointer" onclick="openIntroModal(4)">
+          <div class="polaroid-photo-wrap aspect-square">
+            <img src="/assets/images/intro/photo-5.jpg" alt="Chapel Hall" onerror="this.src='https://i.ibb.co/5gwwKS9q/IMG-20260906-120706.jpg'" />
+          </div>
+          <div class="polaroid-stamp">Sep 06 • 12:07</div>
+        </div>
       </div>
-
-      <!-- 5 Celebration & YSA Photos in Scrapbook Polaroids -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
-        
-        <!-- Photo 1: Holding Call Letter -->
-        <div onclick="openIntroModal(2)" class="polaroid-card group cursor-pointer hover:shadow-xl transition duration-300 max-w-none mb-0">
-          <div class="aspect-square overflow-hidden rounded bg-stone-100 border border-stone-200">
-            <img src="/assets/images/intro/photo-2.jpg" onerror="this.src='https://i.ibb.co/bMqVVZqL/received-1778183986537355.jpg'" alt="Holding the Call Letter" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" decoding="async" />
-          </div>
-          <div class="mt-2.5 text-center font-hand text-xl text-stone-800 font-bold">
-            Holding My Call Letter
-          </div>
-        </div>
-
-        <!-- Photo 2: Spire of Faith -->
-        <div onclick="openIntroModal(3)" class="polaroid-card group cursor-pointer hover:shadow-xl transition duration-300 max-w-none mb-0">
-          <div class="aspect-square overflow-hidden rounded bg-stone-100 border border-stone-200">
-            <img src="/assets/images/intro/photo-1.jpg" onerror="this.src='https://i.ibb.co/7JShV8Cy/received-1420724736611243.jpg'" alt="Spire of Faith" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" decoding="async" />
-          </div>
-          <div class="mt-2.5 text-center font-hand text-xl text-stone-800 font-bold">
-            Beneath the Meetinghouse Spire
-          </div>
-        </div>
-
-        <!-- Photo 3: Rejoicing Together -->
-        <div onclick="openIntroModal(4)" class="polaroid-card group cursor-pointer hover:shadow-xl transition duration-300 max-w-none mb-0">
-          <div class="aspect-square overflow-hidden rounded bg-stone-100 border border-stone-200">
-            <img src="/assets/images/intro/photo-3.jpg" onerror="this.src='https://i.ibb.co/n8M8VDR8/received-4536366903287651.jpg'" alt="Rejoicing in the Gospel" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" decoding="async" />
-          </div>
-          <div class="mt-2.5 text-center font-hand text-xl text-stone-800 font-bold">
-            Rejoicing in the Gospel
-          </div>
-        </div>
-
-        <!-- Photo 4: YSA District Family -->
-        <div onclick="openIntroModal(5)" class="polaroid-card group cursor-pointer hover:shadow-xl transition duration-300 max-w-none mb-0">
-          <div class="aspect-square overflow-hidden rounded bg-stone-100 border border-stone-200">
-            <img src="/assets/images/intro/photo-4.jpg" onerror="this.src='https://i.ibb.co/rKPvxrBH/Messenger-creation-2242403789659455.jpg'" alt="YSA District Family" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" decoding="async" />
-          </div>
-          <div class="mt-2.5 text-center font-hand text-xl text-stone-800 font-bold">
-            Our YSA District Family
-          </div>
-        </div>
-
-        <!-- Photo 5: Gathered by the Savior -->
-        <div onclick="openIntroModal(6)" class="polaroid-card group cursor-pointer hover:shadow-xl transition duration-300 max-w-none mb-0 sm:col-span-2 lg:col-span-2">
-          <div class="aspect-square sm:aspect-[16/9] overflow-hidden rounded bg-stone-100 border border-stone-200">
-            <img src="/assets/images/intro/photo-5.jpg" onerror="this.src='https://i.ibb.co/5gwwKS9q/IMG-20260906-120706.jpg'" alt="Gathered by the Savior" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" decoding="async" />
-          </div>
-          <div class="mt-2.5 text-center font-hand text-xl text-stone-800 font-bold">
-            Gathered inside the Chapel
-          </div>
-        </div>
-
-      </div>
-
     </section>
-
-    <!-- Bottom Navigation Callout -->
-    <div class="text-center pt-8 border-t border-stone-300/80">
-      <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-amber-800 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-md transition">
-        <span>← Return to Elder Salviejo's Weekly Journal Vault</span>
-      </a>
-    </div>
 
   </main>
 
-  <!-- Footer -->
-    <!-- Unified Missionary Footer -->
-  <footer class="no-print mt-auto border-t border-stone-800 bg-stone-900 text-stone-400 py-6 text-xs">
+  <!-- Lightbox Modal for Intro Photos -->
+  <div id="introModal" class="fixed inset-0 z-50 bg-stone-950/95 backdrop-blur-md hidden flex flex-col justify-between p-4 sm:p-6" onclick="handleIntroModalBackdrop(event)">
+    <div class="flex items-center justify-between text-stone-300 font-mono text-xs max-w-4xl mx-auto w-full border-b border-stone-800 pb-3">
+      <span id="introModalIndex">1 / 5</span>
+      <button onclick="closeIntroModal()" class="p-1.5 rounded hover:bg-stone-900 border border-stone-800 text-stone-300">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    
+    <div class="flex-1 flex items-center justify-center my-4 overflow-hidden relative">
+      <button onclick="navigateIntroModal(-1)" class="absolute left-2 sm:left-4 z-20 p-2.5 rounded-full bg-stone-900/80 text-white border border-stone-800">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      
+      <img id="introModalImg" src="" alt="Call plate" class="lightbox-image rounded-sm border border-stone-800" />
+      
+      <button onclick="navigateIntroModal(1)" class="absolute right-2 sm:right-4 z-20 p-2.5 rounded-full bg-stone-900/80 text-white border border-stone-800">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <div class="max-w-xl mx-auto text-center text-stone-300 font-mono text-xs">
+      <h4 id="introModalTitle" class="font-bold text-white text-sm"></h4>
+      <p id="introModalCaption" class="text-stone-400 mt-1 font-sans"></p>
+    </div>
+  </div>
+
+  <!-- Unified Footer -->
+  <footer class="no-print mt-auto border-t border-stone-200 bg-white text-stone-500 py-6 text-xs">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
       <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-        <p>Elder Mark Salviejo • Philippines Dumaguete Mission</p>
+        <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+        <p class="font-mono text-stone-800">Elder Mark Salviejo • Philippines Dumaguete Mission</p>
       </div>
-      <div class="flex items-center gap-4 text-stone-400">
-        <span>Preserved with Testimony</span>
+      <div class="flex items-center gap-4 text-stone-400 font-mono text-[11px]">
+        <span>Official Mission Dossier</span>
         <span>•</span>
-        <a href="https://github.com/AllensCreations/gmail-diary-vault" target="_blank" class="hover:text-amber-400 font-medium transition">
-          Missionary Vault
-        </a>
+        <span>Philippines Dumaguete Mission</span>
       </div>
     </div>
   </footer>
 
-  <!-- Lightbox Modal for Keepsake Gallery -->
-  <div id="introModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-sm" onclick="handleIntroModalBackdrop(event)">
-    <div class="relative max-w-4xl w-full bg-stone-900 border border-stone-700 rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
-      
-      <!-- Modal Header -->
-      <div class="flex items-center justify-between px-3 sm:px-6 py-2.5 sm:py-3 border-b border-stone-800 text-stone-200">
-        <div class="flex items-center gap-2 min-w-0">
-          <span id="introModalIndex" class="text-xs px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30 shrink-0">1 / 7</span>
-          <h3 id="introModalTitle" class="font-serif text-xs sm:text-base font-bold text-white truncate">Official Mission Call Letter</h3>
-        </div>
-        <div class="flex items-center gap-1.5 shrink-0">
-          <!-- Mobile Prev/Next in header so floating arrows don't block vertical documents -->
-          <button onclick="navigateIntroModal(-1)" class="sm:hidden w-7 h-7 rounded-md bg-stone-800 hover:bg-stone-700 text-stone-300 flex items-center justify-center text-xs" title="Previous photo">&#10094;</button>
-          <button onclick="navigateIntroModal(1)" class="sm:hidden w-7 h-7 rounded-md bg-stone-800 hover:bg-stone-700 text-stone-300 flex items-center justify-center text-xs" title="Next photo">&#10095;</button>
-          <button onclick="closeIntroModal()" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white flex items-center justify-center transition text-xs sm:text-sm ml-1" title="Close"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
-        </div>
-      </div>
-
-      <!-- Modal Image Container -->
-      <div class="relative flex-1 overflow-auto flex items-center justify-center p-2 sm:p-4 bg-stone-950 min-h-[260px] sm:min-h-[300px]">
-        <img id="introModalImg" src="" alt="" class="max-w-full max-h-[68vh] object-contain rounded shadow-lg select-none" />
-        
-        <!-- Desktop Nav Controls (hidden on small mobile to avoid blocking vertical documents) -->
-        <button onclick="navigateIntroModal(-1)" class="hidden sm:flex absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-stone-900/80 hover:bg-stone-800 text-white items-center justify-center shadow-lg border border-stone-700 transition" title="Previous photo">
-          &#10094;
-        </button>
-        <button onclick="navigateIntroModal(1)" class="hidden sm:flex absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-stone-900/80 hover:bg-stone-800 text-white items-center justify-center shadow-lg border border-stone-700 transition" title="Next photo">
-          &#10095;
-        </button>
-      </div>
-
-      <!-- Modal Caption Bar -->
-      <div class="px-4 sm:px-6 py-3 bg-stone-900 border-t border-stone-800 text-stone-300 text-xs sm:text-sm flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-        <p id="introModalCaption" class="leading-relaxed"></p>
-        <div class="shrink-0 text-stone-500 text-[11px]">
-          Philippines Dumaguete Mission
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Interactive Gallery & Sharing Script -->
   <script>
     const INTRO_GALLERY = [
-      {
-        src: '/assets/images/intro/call-letter.jpg',
-        fallback: 'https://i.ibb.co/HWRwq7L/Mark-Salviejo-Mission-Call-Letter-page-0001.jpg',
-        title: 'Official Mission Call Letter',
-        caption: 'Office of the First Presidency • Signed by President Dallin H. Oaks. Elder Mark Allen Bongolan Salviejo called to the Philippines Dumaguete Mission.'
-      },
-      {
-        src: '/assets/images/intro/call-overview.jpg',
-        fallback: 'https://i.ibb.co/mCqcbT3D/overview-2246341-page-0001.jpg',
-        title: 'Philippines Dumaguete Mission Field Map',
-        caption: 'Official Philippines Dumaguete Mission field boundary map.'
-      },
       {
         src: '/assets/images/intro/photo-2.jpg',
         fallback: 'https://i.ibb.co/bMqVVZqL/received-1778183986537355.jpg',
@@ -586,54 +397,8 @@
         if (e.key === 'ArrowRight') navigateIntroModal(1);
       }
     });
-
-    // Mobile touch swipe gestures for Lightbox Modal
-    (function setupIntroModalSwipe() {
-      let touchStartX = 0;
-      let touchStartY = 0;
-      window.addEventListener('touchstart', (e) => {
-        const modal = document.getElementById('introModal');
-        if (modal && !modal.classList.contains('hidden') && e.touches && e.touches[0]) {
-          touchStartX = e.touches[0].clientX;
-          touchStartY = e.touches[0].clientY;
-        }
-      }, { passive: true });
-
-      window.addEventListener('touchend', (e) => {
-        const modal = document.getElementById('introModal');
-        if (modal && !modal.classList.contains('hidden') && e.changedTouches && e.changedTouches[0]) {
-          const diffX = e.changedTouches[0].clientX - touchStartX;
-          const diffY = e.changedTouches[0].clientY - touchStartY;
-          if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY)) {
-            if (diffX < 0) navigateIntroModal(1);
-            else navigateIntroModal(-1);
-          }
-        }
-      }, { passive: true });
-    })();
-
-    async function copyShareLink() {
-      const btn = document.getElementById('shareBtn');
-      try {
-        await navigator.clipboard.writeText(window.location.href);
-        if (btn) {
-          const original = btn.innerHTML;
-          btn.innerHTML = '<span>Link Copied!</span>';
-          setTimeout(() => { btn.innerHTML = original; }, 2500);
-        }
-      } catch (_) {
-        prompt('Copy this link to share:', window.location.href);
-      }
-    }
   </script>
   <script src="/js/print-helper.js"></script>
   <script src="/js/countdown.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(() => {});
-      });
-    }
-  </script>
 </body>
 </html>

@@ -1,60 +1,8 @@
 /**
  * Elder Salviejo • Weekly Missionary Journal Vault
- * Week View Client Application - Scrapbook, Polaroids, Scripture & Anti-Overlap
+ * Week View Client Application - Version 2.0 Archival Editorial Edition
+ * Enriched with Image Date & Time Metadata
  */
-
-// Daily pastel themes for alternating journal sheets
-const DAY_THEMES = {
-  MONDAY: {
-    bg: 'bg-[#fef9c3]', // Butter yellow
-    border: 'border-yellow-200',
-    tapeRotate: '-rotate-2',
-    photoRotate: 'rotate-1',
-    pinColor: 'bg-red-500'
-  },
-  TUESDAY: {
-    bg: 'bg-[#dcfce7]', // Soft mint
-    border: 'border-emerald-200',
-    tapeRotate: 'rotate-2',
-    photoRotate: '-rotate-1',
-    pinColor: 'bg-emerald-600'
-  },
-  WEDNESDAY: {
-    bg: 'bg-[#e0f2fe]', // Sky blue
-    border: 'border-sky-200',
-    tapeRotate: '-rotate-2',
-    photoRotate: 'rotate-1',
-    pinColor: 'bg-blue-600'
-  },
-  THURSDAY: {
-    bg: 'bg-[#ffedd5]', // Warm peach
-    border: 'border-orange-200',
-    tapeRotate: 'rotate-1',
-    photoRotate: '-rotate-1',
-    pinColor: 'bg-amber-600'
-  },
-  FRIDAY: {
-    bg: 'bg-[#f3e8ff]', // Soft lavender
-    border: 'border-purple-200',
-    tapeRotate: '-rotate-2',
-    photoRotate: 'rotate-1',
-    pinColor: 'bg-purple-600'
-  },
-  SATURDAY: {
-    bg: 'bg-[#ffe4e6]', // Soft rose
-    border: 'border-rose-200',
-    tapeRotate: 'rotate-2',
-    photoRotate: '-rotate-1',
-    pinColor: 'bg-rose-600'
-  },
-  SUNDAY: {
-    bg: 'bg-[#fef08a]', // Golden honey
-    border: 'border-amber-300',
-    tapeRotate: '-rotate-1',
-    photoRotate: 'rotate-1',
-    pinColor: 'bg-yellow-600'
-  }
-};
 
 function setupImageProtection() {
   document.addEventListener('contextmenu', function (e) {
@@ -93,118 +41,86 @@ async function loadWeek() {
     return;
   }
 
-  // Instant SWR: render from localStorage if previously loaded (0ms perceived load)
+  // Instant SWR cache
   try {
-    const cached = localStorage.getItem(`gdv_week_${slug}`) || sessionStorage.getItem(`gdv_week_${slug}`);
+    const cached = localStorage.getItem(`gdv_week_${slug}`);
     if (cached) {
       const cachedWeek = JSON.parse(cached);
-      if (cachedWeek && cachedWeek.title) {
-        renderWeek(cachedWeek);
-      }
+      if (cachedWeek) renderWeek(cachedWeek);
     }
   } catch (_) {}
 
   try {
-    const res = await fetch(`/api/weeks/${encodeURIComponent(slug)}`);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-
-    if (!data.week) throw new Error('Week data not found in response');
-    
-    try {
-      localStorage.setItem(`gdv_week_${slug}`, JSON.stringify(data.week));
-      sessionStorage.setItem(`gdv_week_${slug}`, JSON.stringify(data.week));
-    } catch (_) {}
-
-    renderWeek(data.week);
-  } catch (err) {
-    console.warn('API error, attempting jsDelivr CDN week fallback:', err);
-    try {
-      const cdnUrl = `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/diaries/${encodeURIComponent(slug)}.json`;
-      const cdnRes = await fetch(cdnUrl);
-      if (cdnRes.ok) {
-        const cdnWeek = await cdnRes.json();
-        renderWeek(cdnWeek);
+    const response = await fetch(`/api/weeks/${encodeURIComponent(slug)}`);
+    if (!response.ok) {
+      if (response.status === 404) {
+        showError('The requested weekly journal entry was not found in the archive.');
         return;
       }
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    const week = data.week;
+    if (!week) {
+      showError('Empty response from archive.');
+      return;
+    }
+
+    try {
+      localStorage.setItem(`gdv_week_${slug}`, JSON.stringify(week));
     } catch (_) {}
 
-    if (slug === 'sample' || slug === 'demo') {
-      loadSamplePayload();
-    } else {
-      showError(`Could not load week "${escapeHtml(slug)}": ${err.message}`);
-    }
+    renderWeek(week);
+  } catch (err) {
+    console.warn('API error, attempting sample fallback:', err);
+    loadSamplePayload();
   }
 }
 
 async function loadSamplePayload() {
   try {
     const res = await fetch('/sample-data/sample-payload.json');
-    if (res.ok) {
-      const sample = await res.json();
-      renderWeek(sample);
-      return;
-    }
-  } catch (_) {}
-
-  // Fallback sample
-  renderWeek({
-    title: "Trial & Missionary Routine (Demo)",
-    publishedAt: new Date().toISOString(),
-    sender: "Elder Salviejo",
-    entries: [
-      {
-        day: "Monday",
-        text: "Preparation day! Did laundry, bought groceries at the local market, and spent quality time studying the scriptures with my companion.",
-        image: ""
-      }
-    ],
-    verse: {
-      reference: "Doctrine and Covenants 68:6",
-      text: "Wherefore, be of good cheer, and do not fear, for I the Lord am with you, and will stand by you; and you shall bear record of me, even Jesus Christ, that I am the Son of the living God..."
-    }
-  });
+    if (!res.ok) throw new Error('Failed to load sample payload');
+    const sample = await res.json();
+    renderWeek(sample);
+  } catch (err) {
+    showError('Unable to load weekly journal entries.');
+  }
 }
 
 function renderWeek(week) {
   const loadingEl = document.getElementById('loadingState');
-  const errorEl = document.getElementById('errorState');
   const contentEl = document.getElementById('diaryContent');
-
   if (loadingEl) loadingEl.classList.add('hidden');
-  if (errorEl) errorEl.classList.add('hidden');
   if (contentEl) contentEl.classList.remove('hidden');
 
-  const title = week.title || 'Weekly Missionary Journal';
-  document.title = `${title} | Elder Salviejo • Philippines Dumaguete Mission`;
-
   const titleEl = document.getElementById('weekTitle');
-  if (titleEl) titleEl.innerText = title;
+  if (titleEl) titleEl.innerText = week.title || 'Weekly Missionary Journal';
 
-  const pubDate = new Date(week.publishedAt || Date.now());
   const dateStampEl = document.getElementById('weekDateStamp');
   if (dateStampEl) {
+    const pubDate = new Date(week.publishedAt || week.createdAt || Date.now());
     dateStampEl.innerText = pubDate.toLocaleDateString('en-US', {
       weekday: 'long',
+      year: 'numeric',
       month: 'long',
-      day: 'numeric',
-      year: 'numeric'
+      day: 'numeric'
     });
   }
 
-  const senderEl = document.getElementById('weekSender');
-  if (senderEl) senderEl.innerText = 'Elder Salviejo';
+  const entries = Array.isArray(week.entries)
+    ? week.entries
+    : (typeof week.entries === 'string' ? JSON.parse(week.entries || '[]') : []);
 
-  const entries = Array.isArray(week.entries) ? week.entries : [];
-  const photoCount = entries.filter(e => e.cdnImage || e.image).length;
   const countEl = document.getElementById('entryCountBadge');
-  if (countEl) countEl.innerText = `${photoCount || entries.length} Daily Routine Photo${(photoCount || entries.length) === 1 ? '' : 's'}`;
+  if (countEl) countEl.innerText = `${entries.length} Photo Plates`;
 
-  // Render Scripture Card
+  // Scripture Card
   const verseRefEl = document.getElementById('verseReference');
   const verseTextEl = document.getElementById('verseText');
   if (week.verse && (week.verse.text || week.verse.reference)) {
-    if (verseRefEl) verseRefEl.innerText = week.verse.reference || 'Weekly Scripture';
+    if (verseRefEl) verseRefEl.innerText = week.verse.reference || 'Weekly Scripture Reflection';
     if (verseTextEl) verseTextEl.innerText = week.verse.text || '';
   } else {
     if (verseRefEl) verseRefEl.innerText = 'Doctrine and Covenants 68:6';
@@ -217,85 +133,57 @@ function renderWeek(week) {
 
   container.innerHTML = entries.map((entry, index) => {
     const dayClean = cleanDayName(entry.day, index);
-    const theme = DAY_THEMES[dayClean] || DAY_THEMES.MONDAY;
     const cleanText = cleanEntryText(entry.text);
+    const stampText = entry.archivalStamp || entry.capturedDateTime || (entry.time ? `${dayClean} • ${entry.time} (PHT)` : `${dayClean} • 2026`);
 
     return `
-      <article class="relative max-w-3xl mx-auto">
+      <article class="journal-sheet mb-12">
         
-        <!-- Journal Page Sheet (Safe padding and zero clipping) -->
-        <div class="journal-sheet ${theme.bg} border ${theme.border}">
-          
-          <!-- Top Washi Tapes (Positioned safely away from pushpin) -->
-          <div class="tape absolute -top-3 left-4 sm:left-8 w-20 sm:w-28 h-6 ${theme.tapeRotate}"></div>
-          <div class="tape absolute -top-3 right-4 sm:right-8 w-20 sm:w-28 h-6 ${theme.tapeRotate === 'rotate-2' ? '-rotate-2' : 'rotate-2'}"></div>
-
-          <!-- Polaroid Photo Card (Naturally follows photo aspect ratio) -->
-          <div class="polaroid-card ${theme.photoRotate}">
-            
-            <!-- 3D Pushpin Fastening Polaroid to Paper Sheet -->
-            <div class="pushpin-anchor">
-              <div class="pushpin-head"></div>
-              <div class="pushpin-shadow"></div>
-            </div>
-
-            <!-- Polaroid Photo Frame -->
-            <div class="polaroid-photo-frame">
-              ${(entry.cdnImage || entry.image) ? `
-                <img
-                  src="${entry.cdnImage || entry.image}"
-                  alt="${escapeHtml(dayClean)} missionary photograph"
-                  loading="lazy"
-                  decoding="async"
-                  draggable="false"
-                  oncontextmenu="return false;"
-                  onerror="if (this.src !== '${entry.image || ''}') { this.src = '${entry.image || ''}'; }"
-                />
-              ` : `
-                <div class="text-stone-400 text-xs font-medium text-center py-12 px-6">
-                  <svg class="w-8 h-8 mx-auto mb-2 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                  No photograph attached for ${escapeHtml(dayClean)}
-                </div>
-              `}
-            </div>
-
-            <!-- Handwritten Polaroid Caption (No filename!) -->
-            <div class="polaroid-caption">
-              ${escapeHtml(dayClean)} • Missionary Work
-            </div>
-
+        <!-- Day Heading -->
+        <div class="flex items-center justify-between gap-3 border-b border-stone-200 pb-3 mb-6">
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded bg-stone-100 text-stone-800 border border-stone-300">
+              ${escapeHtml(dayClean)}
+            </span>
+            ${entry.date ? `<span class="font-mono text-xs text-stone-500">${escapeHtml(entry.date)}</span>` : ''}
           </div>
-
-          <!-- Notes Section: Placed cleanly below polaroid with clear separation (100% readable) -->
-          <div class="space-y-4 pt-2">
-            
-            <!-- Clean Day Header (pure MONDAY, no dashes) -->
-            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-black/10 pb-3">
-              <div class="flex items-center gap-2 sm:gap-2.5">
-                <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${theme.pinColor} shadow-sm"></span>
-                <h2 class="font-serif text-xl sm:text-3xl font-bold tracking-wide text-stone-900 uppercase">
-                  ${escapeHtml(dayClean)}
-                </h2>
-              </div>
-              <span class="text-[10px] sm:text-[11px] font-sans font-bold text-stone-700 uppercase tracking-wider bg-black/5 px-2.5 sm:px-3 py-1 rounded-full border border-black/5">
-                ${dayClean.includes('EXTRA') || dayClean.includes('PHOTO') ? `Photo ${index + 1} of ${entries.length} • Additional Photo` : `Day ${index + 1} of ${entries.length} • Daily Routine`}
-              </span>
-            </div>
-
-            <!-- Reflection Body Text -->
-            <div class="journal-entry-body">
-              ${escapeHtml(cleanText || 'No reflection recorded for this day.')}
-            </div>
-
-            <!-- Daily Footer Signature -->
-            <div class="pt-4 border-t border-black/5 flex flex-wrap items-center justify-between gap-2 text-xs text-stone-500 font-hand text-lg">
-              <span>Elder Salviejo • Daily missionary routine</span>
-              <span class="text-amber-900 font-bold">Philippines Dumaguete Mission</span>
-            </div>
-
-          </div>
-
+          <span class="font-mono text-[11px] text-stone-500 uppercase tracking-widest">
+            ${escapeHtml(stampText)}
+          </span>
         </div>
+
+        <!-- Reflection Body -->
+        <div class="max-w-2xl mx-auto space-y-4 mb-8">
+          <p class="${index === 0 ? 'docket-dropcap' : ''} text-stone-700 text-sm sm:text-base leading-relaxed font-sans">
+            ${escapeHtml(cleanText || 'No reflection recorded for this day.')}
+          </p>
+        </div>
+
+        <!-- Polaroid Photo Frame with Date/Time Stamp -->
+        ${(entry.cdnImage || entry.image) ? `
+          <div class="polaroid-card">
+            <div class="polaroid-photo-frame">
+              <img
+                src="${entry.cdnImage || entry.image}"
+                alt="${escapeHtml(dayClean)} missionary photograph"
+                loading="lazy"
+                decoding="async"
+                draggable="false"
+                oncontextmenu="return false;"
+              />
+            </div>
+            <div class="polaroid-caption">
+              ${escapeHtml(stampText)}
+            </div>
+          </div>
+        ` : ''}
+
+        <!-- Footer stamp -->
+        <div class="pt-4 border-t border-stone-100 flex items-center justify-between font-mono text-xs text-stone-400">
+          <span>Day ${index + 1} of ${entries.length} • Dumaguete Field Record</span>
+          <span>Elder Salviejo</span>
+        </div>
+
       </article>
     `;
   }).join('');
@@ -303,17 +191,12 @@ function renderWeek(week) {
 
 function cleanDayName(rawDay, index) {
   if (!rawDay) return `DAY ${index + 1}`;
-  let clean = String(rawDay)
-    .replace(/^[-—#*~:\s]+|[-—#*~:\s]+$/g, '')
-    .trim()
-    .toUpperCase();
-  return clean || `DAY ${index + 1}`;
+  return String(rawDay).replace(/^[-—#*~:\s]+|[-—#*~:\s]+$/g, '').trim().toUpperCase() || `DAY ${index + 1}`;
 }
 
 function cleanEntryText(rawText) {
   if (!rawText) return '';
   let text = String(rawText).trim();
-  // Strip duplicate leading "-MONDAY-", "MONDAY:", etc.
   text = text.replace(/^\s*[-—#*~]*\s*(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s*[-—#*~:]*\s*/i, '');
   text = text.replace(/^[-—:\s]+/, '');
   return text.trim();
@@ -331,150 +214,7 @@ function showError(msg) {
   if (msgEl) msgEl.innerText = msg;
 }
 
-function copyShareLink() {
-  navigator.clipboard.writeText(window.location.href);
-  const btn = document.getElementById('shareBtn');
-  if (!btn) return;
-  const original = btn.innerHTML;
-  btn.innerText = 'Copied Link!';
-  setTimeout(() => { btn.innerHTML = original; }, 2000);
-}
-
-/* -------------------------------------------------------------
- * Family & Friends Encouragement Notes Logic (Suggestion 1)
- * ------------------------------------------------------------- */
-async function loadEncouragements(slug) {
-  const targetSlug = slug || getSlugFromPath();
-  if (!targetSlug) return;
-
-  const loadingEl = document.getElementById('encouragementsLoading');
-  const emptyEl = document.getElementById('encouragementsEmpty');
-  const listEl = document.getElementById('encouragementsList');
-
-  try {
-    const res = await fetch(`/api/encouragements?slug=${encodeURIComponent(targetSlug)}`);
-    if (res.ok) {
-      const data = await res.json();
-      const notes = data.encouragements || [];
-
-      if (loadingEl) loadingEl.classList.add('hidden');
-
-      if (notes.length === 0) {
-        if (emptyEl) emptyEl.classList.remove('hidden');
-        if (listEl) listEl.classList.add('hidden');
-        return;
-      }
-
-      if (emptyEl) emptyEl.classList.add('hidden');
-      if (listEl) {
-        listEl.innerHTML = notes.map(note => {
-          const dateStr = note.createdAt
-            ? new Date(note.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-            : '';
-          return `
-            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-amber-200/90 shadow-2xs">
-              <div class="flex items-center justify-between gap-2 mb-1.5">
-                <div class="flex items-center gap-2">
-                  <span class="font-bold text-xs sm:text-sm text-stone-900">${escapeHtml(note.authorName || 'Friend')}</span>
-                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-semibold border border-amber-200">
-                    ${escapeHtml(note.relationship || 'Family & Friends')}
-                  </span>
-                </div>
-                ${dateStr ? `<span class="text-[10px] text-stone-400 font-mono">${escapeHtml(dateStr)}</span>` : ''}
-              </div>
-              <p class="text-xs text-stone-700 leading-relaxed">${escapeHtml(note.message)}</p>
-            </div>
-          `;
-        }).join('');
-        listEl.classList.remove('hidden');
-      }
-    }
-  } catch (err) {
-    if (loadingEl) loadingEl.classList.add('hidden');
-  }
-}
-
-async function handleEncouragementSubmit(event) {
-  event.preventDefault();
-  const slug = getSlugFromPath();
-  if (!slug) return;
-
-  const authorInput = document.getElementById('encAuthorInput');
-  const relInput = document.getElementById('encRelInput');
-  const msgInput = document.getElementById('encMessageInput');
-  const submitBtn = document.getElementById('encSubmitBtn');
-  const feedbackEl = document.getElementById('encFeedback');
-
-  const authorName = authorInput ? authorInput.value.trim() : '';
-  const relationship = relInput ? relInput.value : 'Family';
-  const message = msgInput ? msgInput.value.trim() : '';
-
-  if (!message) return;
-
-  if (submitBtn) {
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = 'Sending...';
-  }
-
-  try {
-    const res = await fetch('/api/encouragements', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug, authorName, relationship, message })
-    });
-
-    const data = await res.json();
-    if (res.ok && data.success) {
-      if (feedbackEl) {
-        feedbackEl.textContent = 'Note sent to Elder Salviejo!';
-        feedbackEl.className = 'text-xs font-semibold text-emerald-700';
-        feedbackEl.classList.remove('hidden');
-      }
-      if (msgInput) msgInput.value = '';
-      await loadEncouragements(slug);
-    } else {
-      if (feedbackEl) {
-        feedbackEl.textContent = data.error || 'Could not send note.';
-        feedbackEl.className = 'text-xs font-semibold text-red-600';
-        feedbackEl.classList.remove('hidden');
-      }
-    }
-  } catch (err) {
-    if (feedbackEl) {
-      feedbackEl.textContent = 'Network error. Please try again.';
-      feedbackEl.className = 'text-xs font-semibold text-red-600';
-      feedbackEl.classList.remove('hidden');
-    }
-  } finally {
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = '<span>Send Note</span><span class="text-amber-300">&rarr;</span>';
-    }
-  }
-}
-
-function escapeHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
-
-// Keyboard shortcuts: Esc to go back, P to print
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    window.location.href = '/';
-  }
-});
-
 document.addEventListener('DOMContentLoaded', () => {
   setupImageProtection();
   loadWeek();
-  const slug = getSlugFromPath();
-  if (slug) {
-    loadEncouragements(slug);
-  }
 });
