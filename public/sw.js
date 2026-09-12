@@ -9,7 +9,7 @@
  * 4. PWA offline support & 1-tap installation
  */
 
-const CACHE_VERSION = 'v6';
+const CACHE_VERSION = 'v7';
 const STATIC_CACHE = `elder-salviejo-shell-${CACHE_VERSION}`;
 const IMAGE_CACHE = `elder-salviejo-images-${CACHE_VERSION}`;
 const DATA_CACHE = `elder-salviejo-data-${CACHE_VERSION}`;
@@ -17,7 +17,6 @@ const DATA_CACHE = `elder-salviejo-data-${CACHE_VERSION}`;
 const STATIC_SHELL = [
   '/',
   '/gallery',
-  '/call',
   '/book',
   '/css/tailwind.min.css',
   '/css/main.css',
@@ -65,7 +64,7 @@ function isImageRequest(request, url) {
     url.hostname.includes('jsdelivr.net') ||
     url.hostname.includes('ibb.co') ||
     url.pathname.includes('/assets/images/') ||
-    url.pathname.includes('/vault/photos/')
+    url.pathname.includes('/vault/')
   );
 }
 

@@ -1,14 +1,22 @@
 {
   "version": 2,
   "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/call",
+      "destination": "/book#chapter-call",
+      "permanent": false
+    },
+    {
+      "source": "/mission-call",
+      "destination": "/book#chapter-call",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/week/:slug*",
       "destination": "/week"
-    },
-    {
-      "source": "/mission-call",
-      "destination": "/call"
     },
     {
       "source": "/book",
@@ -20,6 +28,15 @@
     }
   ],
   "headers": [
+    {
+      "source": "/vault/gallery/photos/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
     {
       "source": "/assets/(.*)",
       "headers": [
