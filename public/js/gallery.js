@@ -213,10 +213,12 @@ function renderGallery() {
       >
         <div class="polaroid-pin"></div>
         <div class="polaroid-frame">
-          <div class="polaroid-photo-wrap aspect-4-3">
+          <!-- Snug Ratio-Preserving Wrap -->
+          <div class="polaroid-photo-wrap overflow-hidden rounded-xs bg-stone-100/70 p-1 flex items-center justify-center">
             <img 
               src="${escapeAttr(imgSrc)}" 
               alt="Elder Salviejo Plate ${shotNumber}" 
+              class="w-full h-auto object-contain rounded-xs group-hover:scale-101 transition duration-150"
               loading="${isPriority ? 'eager' : 'lazy'}"
               ${isPriority ? 'fetchpriority="high"' : ''}
               decoding="async"
@@ -259,179 +261,40 @@ function openLightbox(index) {
   if (!filteredPhotos || filteredPhotos.length === 0) return;
   activeLightboxIndex = (index >= 0 && index < filteredPhotos.length) ? index : 0;
 
-  const modal = document.getElementById('lightboxModal');
-  const img = document.getElementById('lightboxImg');
-  const indexEl = document.getElementById('lightboxIndex');
-  const totalEl = document.getElementById('lightboxTotal');
+  const items = filteredPhotos.map((p, idx) => ({
+    src: p.src || p.localSrc || `/vault/gallery/photos/${p.filename}`,
+    fallback: p.cdnSrc || (p.filename ? `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${p.filename}` : ''),
+    legacyCdnSrc: p.legacyCdnSrc || (p.filename ? `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${p.filename}` : ''),
+    title: `Plate #${String(idx + 1).padStart(3, '0')}`,
+    category: p.category || p.album || 'Missionary Gallery',
+    capturedDate: p.capturedDate || '2026',
+    capturedTime: p.capturedTime || '12:07 PM',
+    archivalStamp: p.archivalStamp || p.capturedDateTime || (p.capturedDate ? `${p.capturedDate} • ${p.capturedTime}` : 'DUMAGUETE • 2026'),
+    caption: p.caption || p.text || 'Official archival documentary missionary photograph preserved in the Philippines Dumaguete Mission registry.'
+  }));
 
-  if (!modal || !img) return;
-
-  const photo = filteredPhotos[activeLightboxIndex];
-  const src = photo.src || photo.localSrc || `/vault/gallery/photos/${photo.filename}`;
-  const cdnFallback = photo.cdnSrc || `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${photo.filename}`;
-  const legacyCdn = photo.legacyCdnSrc || `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${photo.filename}`;
-
-  img.src = src;
-  img.onerror = () => { handleGalleryImgError(img, cdnFallback, legacyCdn); };
-
-  if (indexEl) indexEl.textContent = activeLightboxIndex + 1;
-  if (totalEl) totalEl.textContent = filteredPhotos.length;
-
-  updateDateStampText(photo);
-  updateLightboxDetails(photo);
-
-  modal.classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
-
-  requestAnimationFrame(() => {
-    modal.classList.remove('opacity-0');
-    modal.classList.add('opacity-100');
-  });
-}
-
-function updateLightboxDetails(photo) {
-  const catBadge = document.getElementById('lightboxCatBadge');
-  const captionText = document.getElementById('lightboxCaptionText');
-  const dateText = document.getElementById('lightboxDateText');
-  const timeText = document.getElementById('lightboxTimeText');
-  const exifBadge = document.getElementById('lightboxExifBadge');
-
-  const caption = photo.caption || photo.text || '';
-  const category = photo.category || photo.album || 'Mission';
-
-  if (catBadge) catBadge.textContent = category;
-  if (captionText) {
-    captionText.textContent = caption || 'Archival missionary photograph from the field in the Philippines Dumaguete Mission.';
-  }
-
-  if (dateText) {
-    dateText.textContent = photo.capturedDate || '2026';
-  }
-
-  if (timeText) {
-    timeText.textContent = photo.capturedTime ? `${photo.capturedTime} (PHT)` : '12:00 PM (PHT)';
-  }
-
-  if (exifBadge) {
-    if (photo.isExif) {
-      exifBadge.classList.remove('hidden');
-    } else {
-      exifBadge.classList.add('hidden');
-    }
-  }
-}
-
-function updateDateStampText(photo) {
-  const stamp = document.getElementById('lightboxDateStamp');
-  if (!stamp) return;
-
-  if (photo.archivalStamp) {
-    stamp.textContent = photo.archivalStamp;
-    return;
-  }
-
-  if (photo.capturedDateTime) {
-    stamp.textContent = photo.capturedDateTime;
-    return;
-  }
-
-  stamp.textContent = 'DGT • 2026';
-}
-
-function toggleDateStamp() {
-  showDateStamp = !showDateStamp;
-  localStorage.setItem('galleryDateStamp', showDateStamp);
-  updateDateStampUi();
-}
-
-function updateDateStampUi() {
-  const stamp = document.getElementById('lightboxDateStamp');
-  const btn = document.getElementById('dateStampToggleBtn');
-  if (stamp) {
-    stamp.style.display = showDateStamp ? 'block' : 'none';
-  }
-  if (btn) {
-    if (showDateStamp) {
-      btn.classList.add('text-red-400');
-      btn.classList.remove('text-stone-400');
-    } else {
-      btn.classList.remove('text-red-400');
-      btn.classList.add('text-stone-400');
-    }
+  if (window.UniversalLightbox) {
+    window.UniversalLightbox.open({ items, index: activeLightboxIndex });
   }
 }
 
 function closeLightbox() {
-  const modal = document.getElementById('lightboxModal');
-  if (!modal) return;
-
-  modal.classList.remove('opacity-100');
-  modal.classList.add('opacity-0');
-
-  setTimeout(() => {
-    modal.classList.add('hidden');
-    document.body.style.overflow = '';
-  }, 180);
+  if (window.UniversalLightbox) window.UniversalLightbox.close();
 }
 
-function handleLightboxBackdrop(event) {
-  if (event.target.id === 'lightboxModal') {
-    closeLightbox();
+function navigateLightbox(dir) {
+  if (window.UniversalLightbox) {
+    if (dir > 0) window.UniversalLightbox.next();
+    else window.UniversalLightbox.prev();
   }
 }
 
-function navigateLightbox(direction) {
-  if (!filteredPhotos || filteredPhotos.length === 0) return;
-  activeLightboxIndex = (activeLightboxIndex + direction + filteredPhotos.length) % filteredPhotos.length;
-
-  const img = document.getElementById('lightboxImg');
-  const indexEl = document.getElementById('lightboxIndex');
-  const photo = filteredPhotos[activeLightboxIndex];
-  const src = photo.src || photo.localSrc || `/vault/gallery/photos/${photo.filename}`;
-  const cdnFallback = photo.cdnSrc || `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${photo.filename}`;
-  const legacyCdn = photo.legacyCdnSrc || `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${photo.filename}`;
-
-  if (img) {
-    img.style.opacity = '0.5';
-    img.src = src;
-    img.onerror = () => { handleGalleryImgError(img, cdnFallback, legacyCdn); };
-    img.onload = () => { img.style.opacity = '1'; };
-  }
-  if (indexEl) indexEl.textContent = activeLightboxIndex + 1;
-
-  updateDateStampText(photo);
-  updateLightboxDetails(photo);
+function toggleDateStamp() {
+  if (window.UniversalLightbox) window.UniversalLightbox.toggleStamp();
 }
 
 function setupKeyboardAndTouch() {
-  window.addEventListener('keydown', (e) => {
-    const modal = document.getElementById('lightboxModal');
-    if (!modal || modal.classList.contains('hidden')) return;
-
-    if (e.key === 'Escape') closeLightbox();
-    else if (e.key === 'ArrowLeft') navigateLightbox(-1);
-    else if (e.key === 'ArrowRight') navigateLightbox(1);
-  });
-
-  const modal = document.getElementById('lightboxModal');
-  if (modal) {
-    modal.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    modal.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-    }, { passive: true });
-  }
-}
-
-function handleSwipe() {
-  const diff = touchEndX - touchStartX;
-  if (Math.abs(diff) > 50) {
-    if (diff > 0) navigateLightbox(-1);
-    else navigateLightbox(1);
-  }
+  // Handled automatically inside UniversalLightbox
 }
 
 function escapeHtml(str) {

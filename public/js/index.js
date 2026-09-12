@@ -31,6 +31,23 @@ function setupImageProtection() {
   }, false);
 }
 
+window.openDocketPlate = function (src, day, timeStamp, text) {
+  if (window.UniversalLightbox && src) {
+    window.UniversalLightbox.open({
+      items: [{
+        src: src,
+        title: `${day} Plate`,
+        category: 'Weekly Missionary Journal',
+        capturedDate: timeStamp,
+        capturedTime: '',
+        archivalStamp: timeStamp,
+        caption: text || 'Weekly missionary reflection from Negros Oriental.'
+      }],
+      index: 0
+    });
+  }
+};
+
 // Fetch total polaroid count for stats badge
 async function fetchStats() {
   try {
@@ -319,12 +336,17 @@ function renderDocketBody(week, entries) {
 
           ${entry.image ? `
             <div class="mt-5 max-w-md mx-auto">
-              <div class="polaroid-frame">
-                <div class="polaroid-photo-wrap">
-                  <img src="${entry.image}" alt="${day} Photo Plate" loading="lazy" />
+              <div
+                class="polaroid-frame cursor-pointer group hover:border-stone-400 transition"
+                onclick="openDocketPlate('${escapeAttr(entry.image)}', '${escapeAttr(day)}', '${escapeAttr(timeStamp)}', '${escapeAttr(text)}')"
+                title="Click to inspect photo in ratio-locked zoom lightbox"
+              >
+                <div class="polaroid-photo-wrap overflow-hidden rounded-xs bg-stone-100/70 p-1 flex items-center justify-center max-h-[340px]">
+                  <img src="${entry.image}" alt="${day} Photo Plate" class="w-full h-auto max-h-[320px] object-contain rounded-xs group-hover:scale-101 transition duration-150" loading="lazy" />
                 </div>
-                <div class="polaroid-stamp">
-                  ${timeStamp}
+                <div class="polaroid-stamp flex items-center justify-between px-1 pt-1.5">
+                  <span class="truncate">${timeStamp}</span>
+                  <span class="text-stone-400 text-[10px] group-hover:text-stone-900 ml-1">&rarr;</span>
                 </div>
               </div>
             </div>

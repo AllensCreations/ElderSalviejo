@@ -254,10 +254,14 @@ textarea,
 }
 
 /* --------------------------------------------------------------------------
-   Aspect Ratio & Containment Utilities
+   Aspect Ratio & Containment Utilities (Anti-Cropping / Natural Ratios)
    -------------------------------------------------------------------------- */
 .aspect-4-3 {
   aspect-ratio: 4 / 3;
+}
+
+.aspect-3-4 {
+  aspect-ratio: 3 / 4;
 }
 
 .aspect-square {
@@ -271,10 +275,9 @@ textarea,
 .polaroid-photo-wrap {
   position: relative;
   overflow: hidden;
-  background-color: #18181b;
+  background-color: #f5f5f4;
   border-radius: 2px;
   width: 100%;
-  min-height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -282,11 +285,30 @@ textarea,
 
 .polaroid-photo-wrap img {
   width: 100%;
-  height: 100%;
+  height: auto;
   max-width: 100%;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
+  aspect-ratio: auto;
   transition: opacity 0.2s ease;
+}
+
+/* Snug Polaroid: Frame hugs the natural dimensions of the photo without black bars */
+.polaroid-snug {
+  display: flex;
+  flex-direction: column;
+}
+
+.polaroid-snug .polaroid-photo-wrap {
+  background-color: transparent;
+  min-height: 0;
+  width: 100%;
+}
+
+.polaroid-snug .polaroid-photo-wrap img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 
 .polaroid-stamp {
@@ -299,6 +321,57 @@ textarea,
   text-transform: uppercase;
   margin-top: 8px;
   line-height: 1.3;
+}
+
+/* --------------------------------------------------------------------------
+   Universal Archival Lightbox & Ratio-Preserving Zoom Canvas
+   -------------------------------------------------------------------------- */
+.universal-lightbox-canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+}
+
+.universal-lightbox-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  max-height: 100%;
+  touch-action: none;
+}
+
+.universal-lightbox-img {
+  max-width: min(92vw, 1100px);
+  max-height: min(74dvh, 76vh);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  aspect-ratio: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85);
+  border-radius: 2px;
+  transform-origin: center center;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+  will-change: transform;
+}
+
+.universal-lightbox-img.zoomed {
+  cursor: grab;
+}
+
+.universal-lightbox-img.zoomed:active,
+.universal-lightbox-img.cursor-grabbing {
+  cursor: grabbing !important;
+}
+
+.universal-lightbox-img:not(.zoomed) {
+  cursor: zoom-in;
 }
 
 /* --------------------------------------------------------------------------

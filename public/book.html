@@ -166,9 +166,21 @@
         page-break-inside: avoid !important;
       }
 
-      img {
-        max-height: 58mm !important;
+      .polaroid-frame img,
+      .book-plate-img {
+        max-height: 68mm !important;
+        width: auto !important;
+        max-width: 100% !important;
         object-fit: contain !important;
+        aspect-ratio: auto !important;
+      }
+
+      .profile-avatar-hero img,
+      .profile-avatar-nav img {
+        width: 100% !important;
+        height: 100% !important;
+        max-height: none !important;
+        object-fit: cover !important;
       }
     }
   </style>
@@ -381,6 +393,17 @@
             <!-- Dynamically populated from book.js -->
           </div>
 
+          <a href="#appendix-gallery" class="group flex items-baseline justify-between gap-3 py-2 px-2.5 rounded-md hover:bg-stone-50 border border-transparent hover:border-stone-200 transition text-stone-800">
+            <div class="flex items-baseline gap-2.5 min-w-0">
+              <span class="font-mono font-bold text-xs text-stone-900 shrink-0">APP 01.</span>
+              <span class="text-xs sm:text-sm text-stone-900 group-hover:text-red-800 font-medium truncate">
+                Photographic Archive Appendix • Field Plates
+              </span>
+            </div>
+            <div class="border-b border-dotted border-stone-300 flex-1 mx-2"></div>
+            <span id="tocGalleryPlatesCount" class="text-xs font-mono text-stone-500 shrink-0">38 Plates</span>
+          </a>
+
           <a href="#chapter-epilogue" class="group flex items-baseline justify-between gap-3 py-2 px-2.5 rounded-md hover:bg-stone-50 border border-transparent hover:border-stone-200 transition text-stone-800">
             <div class="flex items-baseline gap-2.5 min-w-0">
               <span class="font-mono font-bold text-xs text-stone-900 shrink-0">FINIS.</span>
@@ -470,10 +493,10 @@
           </div>
         </div>
 
-        <!-- Call Letter Plate & Mission Map (Side by Side) -->
+        <!-- Call Letter Plate & Mission Map (Side by Side in Authentic Letter Ratio) -->
         <div class="grid grid-cols-2 gap-3.5 avoid-break">
-          <div class="bg-stone-50 p-2.5 rounded-lg border border-stone-200 text-center cursor-pointer group" onclick="openIntroModal(0)" title="Click to view full plate in lightbox">
-            <div class="aspect-4-3 overflow-hidden rounded bg-white border border-stone-200 flex items-center justify-center">
+          <div class="bg-stone-50 p-2.5 rounded-lg border border-stone-200 text-center cursor-pointer group" onclick="openCallDocument(0)" title="Click to inspect Call Letter in ratio-locked zoom lightbox">
+            <div class="aspect-letter max-h-[230px] mx-auto overflow-hidden rounded bg-white border border-stone-200 flex items-center justify-center shadow-xs">
               <img
                 src="/assets/images/intro/call-letter.jpg"
                 alt="First Presidency Call Letter"
@@ -487,8 +510,8 @@
             </p>
           </div>
 
-          <div class="bg-stone-50 p-2.5 rounded-lg border border-stone-200 text-center cursor-pointer group" onclick="openIntroModal(1)" title="Click to view full plate in lightbox">
-            <div class="aspect-4-3 overflow-hidden rounded bg-white border border-stone-200 flex items-center justify-center">
+          <div class="bg-stone-50 p-2.5 rounded-lg border border-stone-200 text-center cursor-pointer group" onclick="openCallDocument(1)" title="Click to inspect Boundaries Map in ratio-locked zoom lightbox">
+            <div class="aspect-letter max-h-[230px] mx-auto overflow-hidden rounded bg-white border border-stone-200 flex items-center justify-center shadow-xs">
               <img
                 src="/assets/images/intro/call-overview.jpg"
                 alt="Philippines Dumaguete Mission Boundaries"
@@ -537,17 +560,17 @@
           Documentary plates captured at the chapel meetinghouse on <strong>September 6, 2026 at 12:07 PM PHT</strong> marking the opening of the official call letter with family and fellow district young single adults.
         </p>
 
-        <!-- 5 Origin Documentary Plates Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 avoid-break">
+        <!-- 5 Origin Documentary Plates Grid (Preserving True 3:4 Portrait & 4:3 Landscape Ratios) -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 avoid-break">
           
-          <!-- Plate 1: Holding Call Letter -->
-          <div class="polaroid-frame cursor-pointer group" onclick="openIntroModal(0)" title="Holding Call Letter">
-            <div class="polaroid-photo-wrap aspect-square overflow-hidden bg-stone-100">
+          <!-- Plate 1: Holding Call Letter (3:4 Portrait) -->
+          <div class="polaroid-frame cursor-pointer group" onclick="openOriginPlate(0)" title="Holding Call Letter (Click to zoom)">
+            <div class="polaroid-photo-wrap aspect-3-4 overflow-hidden bg-stone-100/60 flex items-center justify-center">
               <img
                 src="/assets/images/intro/photo-2.jpg"
                 alt="Holding Call Letter"
                 onerror="this.src='https://i.ibb.co/bMqVVZqL/received-1778183986537355.jpg'"
-                class="w-full h-full object-cover group-hover:scale-103 transition duration-200"
+                class="w-full h-full object-contain group-hover:scale-103 transition duration-200"
               />
             </div>
             <div class="polaroid-stamp flex items-center justify-between">
@@ -556,14 +579,14 @@
             </div>
           </div>
 
-          <!-- Plate 2: Spire of Faith -->
-          <div class="polaroid-frame cursor-pointer group" onclick="openIntroModal(1)" title="Spire of Faith">
-            <div class="polaroid-photo-wrap aspect-square overflow-hidden bg-stone-100">
+          <!-- Plate 2: Spire of Faith (3:4 Portrait) -->
+          <div class="polaroid-frame cursor-pointer group" onclick="openOriginPlate(1)" title="Spire of Faith (Click to zoom)">
+            <div class="polaroid-photo-wrap aspect-3-4 overflow-hidden bg-stone-100/60 flex items-center justify-center">
               <img
                 src="/assets/images/intro/photo-1.jpg"
                 alt="Spire of Faith"
                 onerror="this.src='https://i.ibb.co/7JShV8Cy/received-1420724736611243.jpg'"
-                class="w-full h-full object-cover group-hover:scale-103 transition duration-200"
+                class="w-full h-full object-contain group-hover:scale-103 transition duration-200"
               />
             </div>
             <div class="polaroid-stamp flex items-center justify-between">
@@ -572,14 +595,14 @@
             </div>
           </div>
 
-          <!-- Plate 3: Family Joy -->
-          <div class="polaroid-frame cursor-pointer group" onclick="openIntroModal(2)" title="Family Joy">
-            <div class="polaroid-photo-wrap aspect-square overflow-hidden bg-stone-100">
+          <!-- Plate 3: Family Joy (3:4 Portrait) -->
+          <div class="polaroid-frame cursor-pointer group" onclick="openOriginPlate(2)" title="Family Joy (Click to zoom)">
+            <div class="polaroid-photo-wrap aspect-3-4 overflow-hidden bg-stone-100/60 flex items-center justify-center">
               <img
                 src="/assets/images/intro/photo-3.jpg"
                 alt="With Brother"
                 onerror="this.src='https://i.ibb.co/n8M8VDR8/received-4536366903287651.jpg'"
-                class="w-full h-full object-cover group-hover:scale-103 transition duration-200"
+                class="w-full h-full object-contain group-hover:scale-103 transition duration-200"
               />
             </div>
             <div class="polaroid-stamp flex items-center justify-between">
@@ -588,14 +611,14 @@
             </div>
           </div>
 
-          <!-- Plate 4: YSA District -->
-          <div class="polaroid-frame cursor-pointer group" onclick="openIntroModal(3)" title="YSA District Family">
-            <div class="polaroid-photo-wrap aspect-square overflow-hidden bg-stone-100">
+          <!-- Plate 4: YSA District (3:4 Portrait) -->
+          <div class="polaroid-frame cursor-pointer group" onclick="openOriginPlate(3)" title="YSA District Family (Click to zoom)">
+            <div class="polaroid-photo-wrap aspect-3-4 overflow-hidden bg-stone-100/60 flex items-center justify-center">
               <img
                 src="/assets/images/intro/photo-4.jpg"
                 alt="YSA District"
                 onerror="this.src='https://i.ibb.co/rKPvxrBH/Messenger-creation-2242403789659455.jpg'"
-                class="w-full h-full object-cover group-hover:scale-103 transition duration-200"
+                class="w-full h-full object-contain group-hover:scale-103 transition duration-200"
               />
             </div>
             <div class="polaroid-stamp flex items-center justify-between">
@@ -604,18 +627,18 @@
             </div>
           </div>
 
-          <!-- Plate 5: Chapel Hall by Christ Painting -->
-          <div class="polaroid-frame cursor-pointer group sm:col-span-2" onclick="openIntroModal(4)" title="Gathered by the Savior">
-            <div class="polaroid-photo-wrap aspect-4-3 overflow-hidden bg-stone-100">
+          <!-- Plate 5: Chapel Hall by Christ Painting (4:3 Landscape Feature) -->
+          <div class="polaroid-frame cursor-pointer group col-span-2 sm:col-span-4" onclick="openOriginPlate(4)" title="Gathered by the Savior (Click to zoom)">
+            <div class="polaroid-photo-wrap aspect-4-3 max-h-[220px] overflow-hidden bg-stone-100/60 flex items-center justify-center">
               <img
                 src="/assets/images/intro/photo-5.jpg"
                 alt="Chapel Hall by Christ Painting"
                 onerror="this.src='https://i.ibb.co/5gwwKS9q/IMG-20260906-120706.jpg'"
-                class="w-full h-full object-cover group-hover:scale-103 transition duration-200"
+                class="w-full h-full object-contain group-hover:scale-102 transition duration-200"
               />
             </div>
             <div class="polaroid-stamp flex items-center justify-between">
-              <span class="truncate">Gathered by the Savior • Chapel Hall</span>
+              <span class="truncate font-medium text-stone-800">Gathered by the Savior • Chapel Hall</span>
               <span class="font-mono text-[9px] text-stone-400 ml-1">SEP 06 • 12:07 PHT</span>
             </div>
           </div>
@@ -639,6 +662,14 @@
       <div id="bookLoadingState" class="book-sheet text-center py-16">
         <p class="font-mono text-xs uppercase tracking-widest text-stone-400">Compiling publication chapters...</p>
       </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- APPENDIX: PHOTOGRAPHIC ARCHIVE & FIELD PLATES (INJECTED BY BOOK.JS) -->
+    <!-- ========================================== -->
+    <div id="bookGalleryAppendix" class="space-y-8 sm:space-y-10">
+      <!-- Adaptive photographic appendix sheets populated by book.js -->
     </div>
 
 
@@ -692,7 +723,7 @@
       <!-- Sheet Footer -->
       <div class="pt-3 border-t border-stone-200 flex items-center justify-between font-mono text-[11px] text-stone-500">
         <span>Permanent Archival Record • Finis</span>
-        <span>Soli Deo Gloria</span>
+        <span id="epiloguePageNum">Finis • Page XX</span>
       </div>
     </section>
 
@@ -701,35 +732,11 @@
   <!-- Interactive Lightbox Modal for Call Letter & Origin Plates -->
   <div id="introModal" class="fixed inset-0 z-50 bg-stone-950/95 backdrop-blur-md hidden flex flex-col justify-between p-4 sm:p-6 no-print" onclick="handleIntroModalBackdrop(event)">
     <div class="flex items-center justify-between text-stone-300 font-mono text-xs max-w-4xl mx-auto w-full border-b border-stone-800 pb-3">
-      <span id="introModalIndex">1 / 5</span>
-      <button onclick="closeIntroModal()" class="p-1.5 rounded hover:bg-stone-900 border border-stone-800 text-stone-300 transition">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
-    </div>
-    
-    <div class="flex-1 flex items-center justify-center my-4 overflow-hidden relative">
-      <button onclick="navigateIntroModal(-1)" class="absolute left-2 sm:left-4 z-20 p-2.5 rounded-full bg-stone-900/80 text-white border border-stone-800 hover:bg-stone-800 transition">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-      </button>
-      
-      <img id="introModalImg" src="" alt="Call plate" class="lightbox-image rounded-sm border border-stone-800" />
-      
-      <button onclick="navigateIntroModal(1)" class="absolute right-2 sm:right-4 z-20 p-2.5 rounded-full bg-stone-900/80 text-white border border-stone-800 hover:bg-stone-800 transition">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-      </button>
-    </div>
-
-    <div class="max-w-xl mx-auto text-center text-stone-300 font-mono text-xs">
-      <h4 id="introModalTitle" class="font-bold text-white text-sm"></h4>
-      <p id="introModalCaption" class="text-stone-400 mt-1 font-sans"></p>
-    </div>
-  </div>
-
   <!-- Quick Floating Back to Top / TOC Button -->
   <aside class="no-print fixed bottom-6 right-6 z-30">
     <a
       href="#bookTableOfContents"
-      class="bg-stone-900 text-white font-mono uppercase text-xs tracking-wider px-4 py-2.5 rounded-full shadow-lg border border-stone-800 flex items-center gap-2 hover:bg-stone-800 transition"
+      class="bg-stone-900 text-white font-mono uppercase text-xs tracking-wider px-4 py-2.5 rounded-full shadow-lg border border-stone-800 flex items-center gap-2 hover:bg-stone-800 transition cursor-pointer"
       title="Back to Table of Contents"
     >
       <span>TOC</span>
@@ -746,100 +753,101 @@
   </footer>
 
   <script>
-    // Call Letter & Origin Plates Gallery definition
-    const INTRO_GALLERY = [
+    // Official Call Credentials Collection
+    const CALL_DOCUMENTS = [
+      {
+        src: '/assets/images/intro/call-letter.jpg',
+        fallback: 'https://i.ibb.co/6c2rV65h/letter-2246341-page-0001.jpg',
+        title: 'Official Missionary Call Letter',
+        category: 'First Presidency Call',
+        capturedDate: 'Sep 06, 2026',
+        capturedTime: '12:07 PM',
+        archivalStamp: 'SEP 06, 2026 • 12:07 PHT',
+        caption: 'Official calling letter from the First Presidency of The Church of Jesus Christ of Latter-day Saints, assigning Elder Mark Allen Bongolan Salviejo to labor in the Philippines Dumaguete Mission speaking Cebuano.'
+      },
+      {
+        src: '/assets/images/intro/call-overview.jpg',
+        fallback: 'https://i.ibb.co/mCqcbT3D/overview-2246341-page-0001.jpg',
+        title: 'Philippines Dumaguete Mission Boundaries & Overview',
+        category: 'Mission Dossier',
+        capturedDate: 'Sep 06, 2026',
+        capturedTime: '12:07 PM',
+        archivalStamp: 'DUMAGUETE • NEGROS ORIENTAL',
+        caption: 'Official territorial map and geographic boundary overview for the Philippines Dumaguete Mission covering Negros Oriental and surrounding archipelagic zones.'
+      }
+    ];
+
+    // Origin Story Plates Collection
+    const ORIGIN_PLATES = [
       {
         src: '/assets/images/intro/photo-2.jpg',
         fallback: 'https://i.ibb.co/bMqVVZqL/received-1778183986537355.jpg',
         title: 'Holding the Official Call Letter',
-        caption: 'Elder Mark Salviejo outside the chapel of The Church of Jesus Christ of Latter-day Saints with his mission call letter. Captured Sep 06, 2026 • 12:07 PM PHT.'
+        category: 'Origin Documentary',
+        capturedDate: 'Sep 06, 2026',
+        capturedTime: '12:07 PM',
+        archivalStamp: 'SEP 06, 2026 • 12:07 PHT',
+        caption: 'Elder Mark Salviejo outside the chapel of The Church of Jesus Christ of Latter-day Saints holding his mission call letter. Captured Sep 06, 2026 • 12:07 PM PHT.'
       },
       {
         src: '/assets/images/intro/photo-1.jpg',
         fallback: 'https://i.ibb.co/7JShV8Cy/received-1420724736611243.jpg',
         title: 'Spire of Faith',
-        caption: 'Elder Salviejo outside the church meetinghouse beneath the chapel spire. Captured Sep 06, 2026 • 12:07 PM PHT.'
+        category: 'Origin Documentary',
+        capturedDate: 'Sep 06, 2026',
+        capturedTime: '12:07 PM',
+        archivalStamp: 'SEP 06, 2026 • 12:07 PHT',
+        caption: 'Elder Salviejo outside the church meetinghouse beneath the chapel spire, ready to dedicate 24 months in full-time consecrated service.'
       },
       {
         src: '/assets/images/intro/photo-3.jpg',
         fallback: 'https://i.ibb.co/n8M8VDR8/received-4536366903287651.jpg',
         title: 'Rejoicing in the Gospel',
-        caption: 'Celebrating the mission call announcement with brother and district friends. Captured Sep 06, 2026 • 12:07 PM PHT.'
+        category: 'Origin Documentary',
+        capturedDate: 'Sep 06, 2026',
+        capturedTime: '12:07 PM',
+        archivalStamp: 'SEP 06, 2026 • 12:07 PHT',
+        caption: 'Celebrating the mission call announcement with brother and district friends outside the chapel hall.'
       },
       {
         src: '/assets/images/intro/photo-4.jpg',
         fallback: 'https://i.ibb.co/rKPvxrBH/Messenger-creation-2242403789659455.jpg',
         title: 'YSA District Family',
-        caption: 'The young single adults district group outside the chapel meetinghouse. Captured Sep 06, 2026 • 12:07 PM PHT.'
+        category: 'Origin Documentary',
+        capturedDate: 'Sep 06, 2026',
+        capturedTime: '12:07 PM',
+        archivalStamp: 'SEP 06, 2026 • 12:07 PHT',
+        caption: 'The young single adults district family outside the chapel meetinghouse cheering on Elder Salviejo’s mission call to Dumaguete.'
       },
       {
         src: '/assets/images/intro/photo-5.jpg',
         fallback: 'https://i.ibb.co/5gwwKS9q/IMG-20260906-120706.jpg',
         title: 'Gathered by the Savior',
-        caption: 'Gathered together inside the chapel hall next to the painting of Jesus Christ. Captured Sep 06, 2026 • 12:07 PM PHT.'
+        category: 'Origin Documentary',
+        capturedDate: 'Sep 06, 2026',
+        capturedTime: '12:07 PM',
+        archivalStamp: 'SEP 06, 2026 • 12:07 PHT',
+        caption: 'Gathered together inside the chapel hall beneath the painting of Jesus Christ following the call reading.'
       }
     ];
 
-    let currentIntroModalIndex = 0;
-
-    function openIntroModal(index) {
-      if (index < 0 || index >= INTRO_GALLERY.length) return;
-      currentIntroModalIndex = index;
-      updateIntroModalContent();
-      const modal = document.getElementById('introModal');
-      if (modal) {
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
+    function openCallDocument(idx) {
+      if (window.UniversalLightbox) {
+        window.UniversalLightbox.open({ items: CALL_DOCUMENTS, index: idx });
       }
     }
 
-    function closeIntroModal() {
-      const modal = document.getElementById('introModal');
-      if (modal) {
-        modal.classList.add('hidden');
-        document.body.style.overflow = '';
+    function openOriginPlate(idx) {
+      if (window.UniversalLightbox) {
+        window.UniversalLightbox.open({ items: ORIGIN_PLATES, index: idx });
       }
     }
 
-    function navigateIntroModal(dir) {
-      currentIntroModalIndex = (currentIntroModalIndex + dir + INTRO_GALLERY.length) % INTRO_GALLERY.length;
-      updateIntroModalContent();
+    function openIntroModal(idx) {
+      openOriginPlate(idx);
     }
-
-    function handleIntroModalBackdrop(e) {
-      if (e.target && e.target.id === 'introModal') {
-        closeIntroModal();
-      }
-    }
-
-    function updateIntroModalContent() {
-      const item = INTRO_GALLERY[currentIntroModalIndex];
-      if (!item) return;
-
-      const imgEl = document.getElementById('introModalImg');
-      const titleEl = document.getElementById('introModalTitle');
-      const captionEl = document.getElementById('introModalCaption');
-      const indexEl = document.getElementById('introModalIndex');
-
-      if (imgEl) {
-        imgEl.src = item.src;
-        imgEl.alt = item.title;
-        imgEl.onerror = () => { imgEl.src = item.fallback; };
-      }
-      if (titleEl) titleEl.innerText = item.title;
-      if (captionEl) captionEl.innerText = item.caption;
-      if (indexEl) indexEl.innerText = `${currentIntroModalIndex + 1} / ${INTRO_GALLERY.length}`;
-    }
-
-    window.addEventListener('keydown', (e) => {
-      const modal = document.getElementById('introModal');
-      if (modal && !modal.classList.contains('hidden')) {
-        if (e.key === 'Escape') closeIntroModal();
-        if (e.key === 'ArrowLeft') navigateIntroModal(-1);
-        if (e.key === 'ArrowRight') navigateIntroModal(1);
-      }
-    });
   </script>
+  <script src="/js/lightbox.js"></script>
   <script src="/js/print-helper.js"></script>
   <script src="/js/book.js"></script>
 </body>

@@ -208,90 +208,6 @@
 
   </main>
 
-  <!-- Darkroom Inspection Lightbox Modal -->
-  <div 
-    id="lightboxModal" 
-    class="fixed inset-0 z-50 bg-stone-950/95 backdrop-blur-md hidden opacity-0 transition-opacity duration-200 flex flex-col justify-between p-4 sm:p-6"
-    onclick="handleLightboxBackdrop(event)"
-    role="dialog"
-    aria-modal="true"
-  >
-    <!-- Lightbox Header Bar -->
-    <div class="flex items-center justify-between text-stone-300 text-xs font-mono w-full max-w-5xl mx-auto shrink-0 pb-3 border-b border-stone-800">
-      <div class="flex items-center gap-3">
-        <span class="text-stone-400">PLATE <span id="lightboxIndex" class="text-white font-bold">1</span> OF <span id="lightboxTotal" class="text-stone-200">38</span></span>
-        <span id="lightboxCatBadge" class="px-2 py-0.5 rounded bg-stone-800 text-stone-300 text-[10px] uppercase font-semibold"></span>
-        <span id="lightboxExifBadge" class="px-2 py-0.5 rounded bg-red-950 text-red-300 border border-red-800 text-[10px] uppercase font-semibold hidden">EXIF SENSOR</span>
-      </div>
-      
-      <div class="flex items-center gap-2">
-        <button 
-          id="dateStampToggleBtn" 
-          onclick="toggleDateStamp()" 
-          class="px-2.5 py-1 rounded bg-stone-900 border border-stone-800 text-stone-300 hover:text-white transition"
-          title="Toggle camera stamp on photo"
-        >
-          STAMP
-        </button>
-        <button 
-          onclick="closeLightbox()" 
-          class="p-1.5 rounded bg-stone-900 border border-stone-800 text-stone-300 hover:text-white transition"
-          title="Close (Escape)"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- Center Inspection Canvas -->
-    <div class="relative flex-1 flex items-center justify-center my-4 overflow-hidden">
-      <button 
-        onclick="navigateLightbox(-1)" 
-        class="absolute left-2 sm:left-4 z-20 p-2.5 rounded-full bg-stone-900/80 hover:bg-stone-900 text-white border border-stone-800 transition"
-        title="Previous (Left Arrow)"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-      </button>
-
-      <div class="relative inline-block max-w-full max-h-full">
-        <img 
-          id="lightboxImg" 
-          src="" 
-          alt="Missionary Photo Inspection" 
-          class="lightbox-image rounded-sm border border-stone-800"
-        />
-        <div 
-          id="lightboxDateStamp" 
-          class="absolute bottom-3 right-4 font-mono text-xs font-bold text-red-400 bg-stone-950/80 px-2 py-1 rounded border border-red-900/40 tracking-widest uppercase pointer-events-none"
-        ></div>
-      </div>
-
-      <button 
-        onclick="navigateLightbox(1)" 
-        class="absolute right-2 sm:right-4 z-20 p-2.5 rounded-full bg-stone-900/80 hover:bg-stone-900 text-white border border-stone-800 transition"
-        title="Next (Right Arrow)"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-      </button>
-    </div>
-
-    <!-- Bottom Archival Metadata Card -->
-    <div class="w-full max-w-2xl mx-auto bg-stone-900/90 border border-stone-800 rounded-lg p-3.5 text-center sm:text-left shrink-0">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-800 pb-2 mb-2 font-mono text-xs">
-        <div class="text-stone-400">
-          DATE: <span id="lightboxDateText" class="text-white font-medium"></span>
-          <span class="mx-1.5">•</span>
-          TIME: <span id="lightboxTimeText" class="text-stone-300 font-medium"></span>
-        </div>
-        <div class="text-stone-500 text-[11px] uppercase tracking-wider">
-          Philippines Dumaguete Mission
-        </div>
-      </div>
-      <p id="lightboxCaptionText" class="text-xs text-stone-300 leading-relaxed font-sans"></p>
-    </div>
-
-  </div>
-
   <!-- Unified Footer -->
   <footer class="no-print mt-auto border-t border-stone-200 bg-white text-stone-500 py-6 text-xs">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
@@ -307,6 +223,7 @@
     </div>
   </footer>
 
+  <script src="/js/lightbox.js"></script>
   <script src="/js/gallery.js"></script>
 </body>
 </html>

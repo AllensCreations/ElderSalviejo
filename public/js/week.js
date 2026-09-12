@@ -127,6 +127,35 @@ function renderWeek(week) {
     if (verseTextEl) verseTextEl.innerText = 'Wherefore, be of good cheer, and do not fear, for I the Lord am with you, and will stand by you; and you shall bear record of me, even Jesus Christ, that I am the Son of the living God...';
   }
 
+  // Build collection for UniversalLightbox
+  window.WEEK_PLATES = entries.map((entry, index) => {
+    const dayClean = cleanDayName(entry.day, index);
+    const timeStamp = entry.archivalStamp || entry.capturedDateTime || (entry.time ? `${dayClean} • ${entry.time} (PHT)` : `${dayClean} • 2026`);
+    return {
+      src: entry.cdnImage || entry.image,
+      title: `${dayClean} Field Plate`,
+      category: 'Weekly Missionary Journal',
+      capturedDate: entry.date,
+      capturedTime: entry.time,
+      archivalStamp: timeStamp,
+      caption: cleanEntryText(entry.text) || 'Weekly missionary reflection from Negros Oriental.'
+    };
+  });
+
+  window.openWeekPlate = function (idx) {
+    if (window.UniversalLightbox && window.WEEK_PLATES) {
+      const validItems = window.WEEK_PLATES.filter(p => Boolean(p.src));
+      const targetItem = window.WEEK_PLATES[idx];
+      const targetIndex = validItems.findIndex(p => p.src === targetItem?.src);
+      if (targetIndex !== -1) {
+        window.UniversalLightbox.open({
+          items: validItems,
+          index: targetIndex
+        });
+      }
+    }
+  };
+
   // Render Daily Journal Sheets
   const container = document.getElementById('entriesList');
   if (!container) return;
@@ -159,9 +188,13 @@ function renderWeek(week) {
           </p>
         </div>
 
-        <!-- Polaroid Photo Frame with Date/Time Stamp -->
+        <!-- Polaroid Photo Frame with Date/Time Stamp (Ratio Preserved & Click to Zoom) -->
         ${(entry.cdnImage || entry.image) ? `
-          <div class="polaroid-card">
+          <div
+            class="polaroid-card cursor-pointer group hover:border-stone-400 transition"
+            onclick="openWeekPlate(${index})"
+            title="Click to inspect photo in ratio-locked zoom lightbox"
+          >
             <div class="polaroid-photo-frame">
               <img
                 src="${entry.cdnImage || entry.image}"
@@ -172,8 +205,9 @@ function renderWeek(week) {
                 oncontextmenu="return false;"
               />
             </div>
-            <div class="polaroid-caption">
-              ${escapeHtml(stampText)}
+            <div class="polaroid-caption flex items-center justify-center gap-1.5">
+              <span>${escapeHtml(stampText)}</span>
+              <span class="no-print text-stone-400 text-[10px] group-hover:text-stone-900">&rarr;</span>
             </div>
           </div>
         ` : ''}
