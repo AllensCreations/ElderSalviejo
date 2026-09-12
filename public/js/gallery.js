@@ -1,6 +1,6 @@
 /**
  * Gallery Controller: Archival Polaroid & Documentary Photo Gallery
- * Version 2.0 Archival Edition with Enriched Date & Time Metadata
+ * Version 2.0 Archival Edition with Enriched Camera Capture Metadata & Multi-Tier Fallback
  */
 
 let allPhotos = [];
@@ -28,6 +28,19 @@ document.addEventListener('DOMContentLoaded', () => {
   updateDateStampUi();
 });
 
+// Image fallback handler to guarantee zero broken images
+window.handleGalleryImgError = function (img, cdnSrc, legacyCdnSrc) {
+  if (!img) return;
+  const count = parseInt(img.dataset.retryCount || '0', 10);
+  if (count === 0 && cdnSrc) {
+    img.dataset.retryCount = '1';
+    img.src = cdnSrc;
+  } else if (count === 1 && legacyCdnSrc) {
+    img.dataset.retryCount = '2';
+    img.src = legacyCdnSrc;
+  }
+};
+
 async function loadGallery() {
   const skeleton = document.getElementById('gallerySkeleton');
   const grid = document.getElementById('galleryGrid');
@@ -37,8 +50,8 @@ async function loadGallery() {
 
   const sortByNewest = (list) => {
     return list.sort((a, b) => {
-      const timeA = a && (a.dateTime || a.date) ? new Date(a.dateTime || a.date).getTime() : 0;
-      const timeB = b && (b.dateTime || b.date) ? new Date(b.dateTime || b.date).getTime() : 0;
+      const timeA = a && a.dateTime ? new Date(a.dateTime).getTime() : 0;
+      const timeB = b && b.dateTime ? new Date(b.dateTime).getTime() : 0;
       return timeB - timeA;
     });
   };
@@ -79,7 +92,7 @@ async function loadGallery() {
       } catch (_) {}
     }
   } catch (err) {
-    console.warn('Could not fetch /api/gallery, using fallback:', err);
+    console.warn('Could not fetch /api/gallery, attempting local vault fallback:', err);
     if (allPhotos.length === 0) {
       try {
         const localRes = await fetch('/vault/gallery/index.json');
@@ -104,7 +117,7 @@ async function loadGallery() {
 function filterByCategory(list, cat) {
   if (cat === 'All') return list;
   return list.filter(p => {
-    const pCat = p.category || (p.isGalleryUpload ? 'Mission' : 'P-Day Journal');
+    const pCat = p.category || 'Mission';
     return pCat === cat;
   });
 }
@@ -113,7 +126,7 @@ function renderFilters() {
   const container = document.getElementById('galleryFilters');
   if (!container) return;
 
-  const cats = ['All', 'Mission', 'P-Day Journal', 'Companions', 'Service'];
+  const cats = ['All', 'Mission', 'Chapel & District', 'Companions'];
   
   container.innerHTML = cats.map(cat => {
     const isActive = cat === activeCategory;
@@ -179,29 +192,14 @@ function renderGallery() {
 
   const visiblePhotos = filteredPhotos.slice(0, displayedCount);
 
-  // Render refined modern polaroid cards with Date & Time stamp in IBM Plex Mono
   grid.innerHTML = visiblePhotos.map((item, index) => {
     const tiltClass = TILT_CLASSES[index % TILT_CLASSES.length];
-    const imgSrc = item.src || item.localSrc || item.thumb || '';
+    const imgSrc = item.src || item.localSrc || `/vault/gallery/photos/${item.filename}`;
+    const cdnFallback = item.cdnSrc || `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${item.filename}`;
+    const legacyCdnFallback = item.legacyCdnSrc || `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${item.filename}`;
     const isPriority = index < 4;
 
-    // Date & Time Stamp formatting
-    let stampText = item.archivalStamp;
-    if (!stampText) {
-      if (item.capturedDateTime) {
-        stampText = item.capturedDateTime;
-      } else if (item.date || item.dateTime) {
-        const d = new Date(item.date || item.dateTime);
-        if (!isNaN(d.getTime())) {
-          stampText = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        } else {
-          stampText = 'DUMAGUETE • 2026';
-        }
-      } else {
-        stampText = 'DUMAGUETE • 2026';
-      }
-    }
-
+    const stampText = item.archivalStamp || item.capturedDateTime || (item.capturedDate ? `${item.capturedDate} • ${item.capturedTime}` : 'DUMAGUETE • 2026');
     const shotNumber = String(index + 1).padStart(3, '0');
 
     return `
@@ -215,13 +213,14 @@ function renderGallery() {
       >
         <div class="polaroid-pin"></div>
         <div class="polaroid-frame">
-          <div class="polaroid-photo-wrap aspect-4/3 sm:aspect-square">
+          <div class="polaroid-photo-wrap aspect-4-3">
             <img 
               src="${escapeAttr(imgSrc)}" 
               alt="Elder Salviejo Plate ${shotNumber}" 
               loading="${isPriority ? 'eager' : 'lazy'}"
               ${isPriority ? 'fetchpriority="high"' : ''}
               decoding="async"
+              onerror="handleGalleryImgError(this, '${escapeAttr(cdnFallback)}', '${escapeAttr(legacyCdnFallback)}')"
             />
           </div>
           <div class="polaroid-stamp flex items-center justify-between px-1 pt-2">
@@ -256,7 +255,6 @@ function renderGallery() {
   }
 }
 
-// Lightbox with Archival Metadata Inspector
 function openLightbox(index) {
   if (!filteredPhotos || filteredPhotos.length === 0) return;
   activeLightboxIndex = (index >= 0 && index < filteredPhotos.length) ? index : 0;
@@ -269,9 +267,13 @@ function openLightbox(index) {
   if (!modal || !img) return;
 
   const photo = filteredPhotos[activeLightboxIndex];
-  const src = photo.src || photo.localSrc || photo.thumb || '';
+  const src = photo.src || photo.localSrc || `/vault/gallery/photos/${photo.filename}`;
+  const cdnFallback = photo.cdnSrc || `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${photo.filename}`;
+  const legacyCdn = photo.legacyCdnSrc || `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${photo.filename}`;
 
   img.src = src;
+  img.onerror = () => { handleGalleryImgError(img, cdnFallback, legacyCdn); };
+
   if (indexEl) indexEl.textContent = activeLightboxIndex + 1;
   if (totalEl) totalEl.textContent = filteredPhotos.length;
 
@@ -302,27 +304,12 @@ function updateLightboxDetails(photo) {
     captionText.textContent = caption || 'Archival missionary photograph from the field in the Philippines Dumaguete Mission.';
   }
 
-  const dtString = photo.capturedDateTime || photo.archivalStamp;
   if (dateText) {
-    if (photo.capturedDate) {
-      dateText.textContent = photo.capturedDate;
-    } else if (photo.date || photo.dateTime) {
-      const d = new Date(photo.date || photo.dateTime);
-      dateText.textContent = isNaN(d.getTime()) ? '2026' : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    } else {
-      dateText.textContent = '2026';
-    }
+    dateText.textContent = photo.capturedDate || '2026';
   }
 
   if (timeText) {
-    if (photo.capturedTime) {
-      timeText.textContent = photo.capturedTime + ' (PHT)';
-    } else if (photo.dateTime) {
-      const d = new Date(photo.dateTime);
-      timeText.textContent = isNaN(d.getTime()) ? '' : d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) + ' (PHT)';
-    } else {
-      timeText.textContent = '';
-    }
+    timeText.textContent = photo.capturedTime ? `${photo.capturedTime} (PHT)` : '12:00 PM (PHT)';
   }
 
   if (exifBadge) {
@@ -346,19 +333,6 @@ function updateDateStampText(photo) {
   if (photo.capturedDateTime) {
     stamp.textContent = photo.capturedDateTime;
     return;
-  }
-
-  if (photo.date || photo.dateTime) {
-    try {
-      const d = new Date(photo.date || photo.dateTime);
-      if (!isNaN(d.getTime())) {
-        const yy = String(d.getFullYear()).slice(-2);
-        const mm = String(d.getMonth() + 1).padStart(2, '0');
-        const dd = String(d.getDate()).padStart(2, '0');
-        stamp.textContent = `'${yy} ${mm} ${dd}`;
-        return;
-      }
-    } catch (_) {}
   }
 
   stamp.textContent = 'DGT • 2026';
@@ -413,11 +387,14 @@ function navigateLightbox(direction) {
   const img = document.getElementById('lightboxImg');
   const indexEl = document.getElementById('lightboxIndex');
   const photo = filteredPhotos[activeLightboxIndex];
-  const src = photo.src || photo.localSrc || photo.thumb || '';
+  const src = photo.src || photo.localSrc || `/vault/gallery/photos/${photo.filename}`;
+  const cdnFallback = photo.cdnSrc || `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${photo.filename}`;
+  const legacyCdn = photo.legacyCdnSrc || `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${photo.filename}`;
 
   if (img) {
     img.style.opacity = '0.5';
     img.src = src;
+    img.onerror = () => { handleGalleryImgError(img, cdnFallback, legacyCdn); };
     img.onload = () => { img.style.opacity = '1'; };
   }
   if (indexEl) indexEl.textContent = activeLightboxIndex + 1;

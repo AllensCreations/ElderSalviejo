@@ -48,9 +48,12 @@ module.exports = async function handler(req, res) {
           const isGallery = item.source === 'gallery' || Boolean(item.isGalleryUpload);
           return {
             id: item.id || `cdn-${item.filename}`,
-            src: item.src || item.cdnUrl || item.localSrc,
-            date: item.dateTime || item.uploadedAt,
-            dateTime: item.dateTime || item.uploadedAt,
+            src: item.src || item.localSrc || item.cdnSrc,
+            localSrc: item.localSrc || item.src,
+            cdnSrc: item.cdnSrc || `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${item.filename}`,
+            legacyCdnSrc: item.legacyCdnSrc || `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${item.filename}`,
+            date: item.dateTime,
+            dateTime: item.dateTime,
             capturedDate: item.capturedDate || null,
             capturedTime: item.capturedTime || null,
             capturedDateTime: item.capturedDateTime || null,

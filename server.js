@@ -145,11 +145,10 @@ const server = http.createServer(async (req, res) => {
       return fs.createReadStream(galleryHtmlPath).pipe(res);
     }
 
-    // 5b. Frontend Clean Route: /call and /mission-call
-    if (pathname === '/call' || pathname === '/mission-call') {
-      const callHtmlPath = path.join(PUBLIC_DIR, 'call.html');
-      res.setHeader('Content-Type', 'text/html; charset=UTF-8');
-      return fs.createReadStream(callHtmlPath).pipe(res);
+    // 5b. Frontend Clean Route: /call and /mission-call -> Redirect to unified Book Chapter 1
+    if (pathname === '/call' || pathname === '/mission-call' || pathname === '/call.html') {
+      res.writeHead(302, { Location: '/book#chapter-call' });
+      return res.end();
     }
 
     // 5c. Frontend Clean Route: /book

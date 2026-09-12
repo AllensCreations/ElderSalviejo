@@ -205,7 +205,7 @@ function renderWeeks(weeks) {
           ${w.previewImage ? `
             <div class="w-full sm:w-44 md:w-36 shrink-0 self-center md:self-start">
               <div class="polaroid-frame">
-                <div class="polaroid-photo-wrap aspect-4/3 sm:aspect-square">
+                <div class="polaroid-photo-wrap aspect-4-3 sm:aspect-square">
                   <img src="${w.previewImage}" alt="Week ${weekNum} Plate" loading="lazy" />
                 </div>
                 <div class="polaroid-stamp">
