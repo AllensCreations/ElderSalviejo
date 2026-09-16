@@ -191,10 +191,10 @@
           chaptersHtml += `
             <section id="${chapId}" class="book-sheet">
               <!-- Sheet Header -->
-              <div class="border-b border-stone-200 pb-3 flex items-baseline justify-between">
+              <div class="sheet-header">
                 <div>
                   <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Chapter ${chapNum} • Part 1</span>
-                  <h2 class="font-serif text-2xl sm:text-3xl font-bold text-stone-900 mt-0.5">
+                  <h2 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5">
                     ${escapeHtml(weekDetails.title || `Weekly Letter #${i + 1}`)}
                   </h2>
                 </div>
@@ -204,11 +204,11 @@
               </div>
 
               <!-- Sheet Content -->
-              <div class="flex-1 py-3.5 space-y-4">
+              <div class="sheet-content space-y-3.5">
                 <!-- Scripture Study Focus -->
                 ${verse && (verse.reference || verse.text) ? `
-                  <div class="avoid-break p-3.5 bg-stone-50 border-l-3 border-l-red-800 border border-stone-200 rounded-md">
-                    <div class="font-mono text-[10px] uppercase font-bold tracking-widest text-red-800 mb-1">
+                  <div class="avoid-break p-3 bg-stone-50 border-l-3 border-l-red-800 border border-stone-200 rounded-md">
+                    <div class="font-mono text-[10px] uppercase font-bold tracking-widest text-red-800 mb-0.5">
                       Scripture Reflection • ${escapeHtml(verse.reference || '')}
                     </div>
                     <blockquote class="font-serif italic text-stone-800 text-xs sm:text-sm leading-relaxed">
@@ -218,13 +218,13 @@
                 ` : ''}
 
                 <!-- Entries Batch 1 -->
-                <div class="space-y-4">
+                <div class="space-y-3.5">
                   ${part1Entries.map((entry, eIdx) => renderEntryCard(entry, eIdx, chapNum)).join('')}
                 </div>
               </div>
 
               <!-- Sheet Footer -->
-              <div class="pt-3 border-t border-stone-200 flex items-center justify-between font-mono text-[11px] text-stone-500">
+              <div class="sheet-footer">
                 <span>Chapter ${chapNum} • Elder Mark Salviejo</span>
                 <span>Page ${page1Num}</span>
               </div>
@@ -237,7 +237,7 @@
             chaptersHtml += `
               <section class="book-sheet">
                 <!-- Sheet Header -->
-                <div class="border-b border-stone-200 pb-3 flex items-baseline justify-between">
+                <div class="sheet-header">
                   <div>
                     <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Chapter ${chapNum} • Part 2 (Cont.)</span>
                     <h3 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5">
@@ -250,14 +250,14 @@
                 </div>
 
                 <!-- Sheet Content -->
-                <div class="flex-1 py-3.5 space-y-4">
-                  <div class="space-y-4">
+                <div class="sheet-content space-y-3.5">
+                  <div class="space-y-3.5">
                     ${part2Entries.map((entry, eIdx) => renderEntryCard(entry, splitIndex + eIdx, chapNum)).join('')}
                   </div>
                 </div>
 
                 <!-- Sheet Footer -->
-                <div class="pt-3 border-t border-stone-200 flex items-center justify-between font-mono text-[11px] text-stone-500">
+                <div class="sheet-footer">
                   <span>Chapter ${chapNum} • Field Chronicle</span>
                   <span>Page ${page2Num}</span>
                 </div>
@@ -473,9 +473,9 @@
       const isFirstSheet = sIdx === 0;
 
       appendixHtml += `
-        <section ${isFirstSheet ? 'id="appendix-gallery"' : ''} class="book-sheet flex flex-col justify-between">
+        <section ${isFirstSheet ? 'id="appendix-gallery"' : ''} class="book-sheet">
           <!-- Sheet Header -->
-          <div class="border-b border-stone-200 pb-2.5 flex items-baseline justify-between shrink-0">
+          <div class="sheet-header">
             <div>
               <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">
                 Appendix 01 • Part ${sIdx + 1} of ${masonryPlan.length} • Field Archive
@@ -490,14 +490,14 @@
           </div>
 
           <!-- Sheet Body: 3-Column Masonry (Auto-Adjusted Proportions, 0% Cropping, Zero Dead Space) -->
-          <div class="flex-1 py-3 sm:py-3.5 min-h-0 overflow-hidden">
+          <div class="sheet-content">
             <div class="appendix-masonry-3col">
               ${sheetPhotos.map((p, pIdx) => renderAppendixCard(p, photoOffset + pIdx)).join('')}
             </div>
           </div>
 
           <!-- Sheet Footer -->
-          <div class="pt-2.5 border-t border-stone-200 flex items-center justify-between font-mono text-[11px] text-stone-500 shrink-0">
+          <div class="sheet-footer">
             <span>Appendix 01 • Elder Mark Salviejo • Dumaguete Archive</span>
             <span>Page ${sheetPageNum}</span>
           </div>
