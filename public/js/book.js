@@ -324,17 +324,18 @@
             <div class="sm:col-span-4 text-center avoid-break">
               <!-- Ratio-preserving clickable polaroid card -->
               <div
-                class="polaroid-frame inline-block max-w-full cursor-pointer group hover:border-stone-400 transition"
+                class="polaroid-frame inline-block w-full max-w-[240px] cursor-pointer group hover:border-stone-400 transition"
                 onclick="openWeeklyPlate(${weeklyPlateIdx})"
                 title="Click to inspect photo in ratio-locked zoom lightbox"
               >
-                <div class="polaroid-photo-wrap bg-stone-100/70 overflow-hidden rounded-xs p-1 flex items-center justify-center max-h-[210px]">
+                <div class="weekly-polaroid-wrap polaroid-photo-wrap overflow-hidden rounded-xs">
                   <img
                     src="${escapeAttr(imgSrc)}"
                     alt="${escapeAttr(dayName)} Plate"
-                    class="book-plate-img w-full h-auto max-h-[195px] object-contain rounded-xs group-hover:scale-101 transition duration-150"
+                    class="book-plate-img w-full h-full object-cover object-[center_25%] rounded-xs group-hover:scale-101 transition duration-150"
                     loading="eager"
                     decoding="async"
+                    onload="if (this.naturalHeight > this.naturalWidth) this.closest('.weekly-polaroid-wrap')?.classList.add('is-portrait')"
                     onerror="handleBookImgError(this, '${escapeAttr(cdnFallback)}', '${escapeAttr(legacyCdn)}')"
                   />
                 </div>
@@ -597,12 +598,12 @@
         onclick="openAppendixPlate(${globalIndex})"
         title="Plate #${shotNumber} (Click to inspect in ratio-locked zoom lightbox)"
       >
-        <!-- Ratio Auto-Adjusting Snug Photo Wrap -->
-        <div class="polaroid-photo-wrap flex-1 flex items-center justify-center overflow-hidden rounded-xs bg-stone-100/70 p-1 min-h-0">
+        <!-- Ratio Auto-Adjusting Snug Photo Wrap (Full-Bleed Cover) -->
+        <div class="polaroid-photo-wrap flex-1 flex items-center justify-center overflow-hidden rounded-xs bg-white min-h-0">
           <img
             src="${escapeAttr(imgSrc)}"
             alt="Plate #${shotNumber}"
-            class="book-plate-img w-full h-full max-h-full object-contain rounded-xs group-hover:scale-101 transition duration-150"
+            class="book-plate-img w-full h-full max-h-full object-cover object-[center_25%] rounded-xs group-hover:scale-101 transition duration-150"
             loading="eager"
             decoding="async"
             onerror="handleBookImgError(this, '${escapeAttr(cdnFallback)}', '${escapeAttr(legacyCdn)}')"

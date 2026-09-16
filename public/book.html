@@ -172,13 +172,43 @@
         page-break-inside: avoid !important;
       }
 
-      .polaroid-frame img,
+      .polaroid-frame {
+        box-shadow: none !important;
+        border: 1px solid #e7e5e4 !important;
+        background: #ffffff !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .cluster-card .polaroid-photo-wrap,
+      .weekly-polaroid-wrap {
+        background: transparent !important;
+        padding: 0 !important;
+      }
+
+      .cluster-card .polaroid-photo-wrap img,
+      .weekly-polaroid-wrap img,
       .book-plate-img {
-        max-height: 68mm !important;
-        width: auto !important;
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        object-fit: cover !important;
+        object-position: center 25% !important;
+      }
+
+      .cluster-hero-cell .book-plate-img {
+        max-height: 165mm !important;
+      }
+
+      .weekly-polaroid-wrap {
+        aspect-ratio: 4 / 3 !important;
+        width: 100% !important;
         max-width: 100% !important;
-        object-fit: contain !important;
-        aspect-ratio: auto !important;
+      }
+
+      .weekly-polaroid-wrap.is-portrait {
+        aspect-ratio: 3 / 4 !important;
+        max-height: 58mm !important;
       }
 
       .profile-avatar-hero img,
@@ -571,12 +601,12 @@
           
           <!-- Plate 1: Holding Call Letter (3:4 Portrait) -->
           <div class="polaroid-frame cursor-pointer group" onclick="openOriginPlate(0)" title="Holding Call Letter (Click to zoom)">
-            <div class="polaroid-photo-wrap aspect-3-4 overflow-hidden bg-stone-100/60 flex items-center justify-center">
+            <div class="polaroid-photo-wrap aspect-3-4 overflow-hidden bg-white flex items-center justify-center">
               <img
                 src="/assets/images/intro/photo-2.jpg"
                 alt="Holding Call Letter"
                 onerror="this.src='https://i.ibb.co/bMqVVZqL/received-1778183986537355.jpg'"
-                class="w-full h-full object-contain group-hover:scale-103 transition duration-200"
+                class="w-full h-full object-cover object-[center_25%] group-hover:scale-103 transition duration-200"
               />
             </div>
             <div class="polaroid-stamp flex items-center justify-between">
@@ -587,12 +617,12 @@
 
           <!-- Plate 2: Spire of Faith (3:4 Portrait) -->
           <div class="polaroid-frame cursor-pointer group" onclick="openOriginPlate(1)" title="Spire of Faith (Click to zoom)">
-            <div class="polaroid-photo-wrap aspect-3-4 overflow-hidden bg-stone-100/60 flex items-center justify-center">
+            <div class="polaroid-photo-wrap aspect-3-4 overflow-hidden bg-white flex items-center justify-center">
               <img
                 src="/assets/images/intro/photo-1.jpg"
                 alt="Spire of Faith"
                 onerror="this.src='https://i.ibb.co/7JShV8Cy/received-1420724736611243.jpg'"
-                class="w-full h-full object-contain group-hover:scale-103 transition duration-200"
+                class="w-full h-full object-cover object-[center_25%] group-hover:scale-103 transition duration-200"
               />
             </div>
             <div class="polaroid-stamp flex items-center justify-between">
@@ -603,12 +633,12 @@
 
           <!-- Plate 3: Family Joy (3:4 Portrait) -->
           <div class="polaroid-frame cursor-pointer group" onclick="openOriginPlate(2)" title="Family Joy (Click to zoom)">
-            <div class="polaroid-photo-wrap aspect-3-4 overflow-hidden bg-stone-100/60 flex items-center justify-center">
+            <div class="polaroid-photo-wrap aspect-3-4 overflow-hidden bg-white flex items-center justify-center">
               <img
                 src="/assets/images/intro/photo-3.jpg"
                 alt="With Brother"
                 onerror="this.src='https://i.ibb.co/n8M8VDR8/received-4536366903287651.jpg'"
-                class="w-full h-full object-contain group-hover:scale-103 transition duration-200"
+                class="w-full h-full object-cover object-[center_25%] group-hover:scale-103 transition duration-200"
               />
             </div>
             <div class="polaroid-stamp flex items-center justify-between">
@@ -619,12 +649,12 @@
 
           <!-- Plate 4: YSA District (3:4 Portrait) -->
           <div class="polaroid-frame cursor-pointer group" onclick="openOriginPlate(3)" title="YSA District Family (Click to zoom)">
-            <div class="polaroid-photo-wrap aspect-3-4 overflow-hidden bg-stone-100/60 flex items-center justify-center">
+            <div class="polaroid-photo-wrap aspect-3-4 overflow-hidden bg-white flex items-center justify-center">
               <img
                 src="/assets/images/intro/photo-4.jpg"
                 alt="YSA District"
                 onerror="this.src='https://i.ibb.co/rKPvxrBH/Messenger-creation-2242403789659455.jpg'"
-                class="w-full h-full object-contain group-hover:scale-103 transition duration-200"
+                class="w-full h-full object-cover object-[center_25%] group-hover:scale-103 transition duration-200"
               />
             </div>
             <div class="polaroid-stamp flex items-center justify-between">
@@ -635,12 +665,12 @@
 
           <!-- Plate 5: Chapel Hall by Christ Painting (4:3 Landscape Feature) -->
           <div class="polaroid-frame cursor-pointer group col-span-2 sm:col-span-4" onclick="openOriginPlate(4)" title="Gathered by the Savior (Click to zoom)">
-            <div class="polaroid-photo-wrap aspect-4-3 max-h-[220px] overflow-hidden bg-stone-100/60 flex items-center justify-center">
+            <div class="polaroid-photo-wrap aspect-4-3 max-h-[220px] overflow-hidden bg-white flex items-center justify-center">
               <img
                 src="/assets/images/intro/photo-5.jpg"
                 alt="Chapel Hall by Christ Painting"
                 onerror="this.src='https://i.ibb.co/5gwwKS9q/IMG-20260906-120706.jpg'"
-                class="w-full h-full object-contain group-hover:scale-102 transition duration-200"
+                class="w-full h-full object-cover object-[center_25%] group-hover:scale-102 transition duration-200"
               />
             </div>
             <div class="polaroid-stamp flex items-center justify-between">
