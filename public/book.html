@@ -180,35 +180,41 @@
         break-inside: avoid !important;
       }
 
-      .cluster-card .polaroid-photo-wrap,
-      .weekly-polaroid-wrap {
-        background: transparent !important;
+      .appendix-masonry-3col {
+        column-count: 3 !important;
+        column-gap: 4mm !important;
+        width: 100% !important;
+      }
+
+      .appendix-card,
+      .weekly-plate-card {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+        box-shadow: none !important;
+        border: 1px solid #e7e5e4 !important;
+        background: #ffffff !important;
+        margin-bottom: 4mm !important;
+      }
+
+      .appendix-card .polaroid-photo-wrap,
+      .weekly-snug-wrap {
+        background: #ffffff !important;
         padding: 0 !important;
       }
 
-      .cluster-card .polaroid-photo-wrap img,
-      .weekly-polaroid-wrap img,
+      .appendix-card .polaroid-photo-wrap img,
+      .weekly-snug-wrap img,
       .book-plate-img {
         width: 100% !important;
         height: 100% !important;
-        max-height: 100% !important;
-        object-fit: cover !important;
-        object-position: center 25% !important;
+        max-height: none !important;
+        object-fit: contain !important;
+        display: block !important;
       }
 
-      .cluster-hero-cell .book-plate-img {
-        max-height: 165mm !important;
-      }
-
-      .weekly-polaroid-wrap {
-        aspect-ratio: 4 / 3 !important;
-        width: 100% !important;
+      .weekly-plate-card {
+        width: fit-content !important;
         max-width: 100% !important;
-      }
-
-      .weekly-polaroid-wrap.is-portrait {
-        aspect-ratio: 3 / 4 !important;
-        max-height: 58mm !important;
       }
 
       .profile-avatar-hero img,
@@ -606,7 +612,7 @@
                 src="/assets/images/intro/photo-2.jpg"
                 alt="Holding Call Letter"
                 onerror="this.src='https://i.ibb.co/bMqVVZqL/received-1778183986537355.jpg'"
-                class="w-full h-full object-cover object-[center_25%] group-hover:scale-103 transition duration-200"
+                class="w-full h-full object-contain group-hover:scale-103 transition duration-200 block"
               />
             </div>
             <div class="polaroid-stamp flex items-center justify-between">
@@ -622,7 +628,7 @@
                 src="/assets/images/intro/photo-1.jpg"
                 alt="Spire of Faith"
                 onerror="this.src='https://i.ibb.co/7JShV8Cy/received-1420724736611243.jpg'"
-                class="w-full h-full object-cover object-[center_25%] group-hover:scale-103 transition duration-200"
+                class="w-full h-full object-contain group-hover:scale-103 transition duration-200 block"
               />
             </div>
             <div class="polaroid-stamp flex items-center justify-between">
@@ -638,7 +644,7 @@
                 src="/assets/images/intro/photo-3.jpg"
                 alt="With Brother"
                 onerror="this.src='https://i.ibb.co/n8M8VDR8/received-4536366903287651.jpg'"
-                class="w-full h-full object-cover object-[center_25%] group-hover:scale-103 transition duration-200"
+                class="w-full h-full object-contain group-hover:scale-103 transition duration-200 block"
               />
             </div>
             <div class="polaroid-stamp flex items-center justify-between">
@@ -654,7 +660,7 @@
                 src="/assets/images/intro/photo-4.jpg"
                 alt="YSA District"
                 onerror="this.src='https://i.ibb.co/rKPvxrBH/Messenger-creation-2242403789659455.jpg'"
-                class="w-full h-full object-cover object-[center_25%] group-hover:scale-103 transition duration-200"
+                class="w-full h-full object-contain group-hover:scale-103 transition duration-200 block"
               />
             </div>
             <div class="polaroid-stamp flex items-center justify-between">
@@ -670,7 +676,7 @@
                 src="/assets/images/intro/photo-5.jpg"
                 alt="Chapel Hall by Christ Painting"
                 onerror="this.src='https://i.ibb.co/5gwwKS9q/IMG-20260906-120706.jpg'"
-                class="w-full h-full object-cover object-[center_25%] group-hover:scale-102 transition duration-200"
+                class="w-full h-full object-contain group-hover:scale-102 transition duration-200 block"
               />
             </div>
             <div class="polaroid-stamp flex items-center justify-between">

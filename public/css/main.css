@@ -375,118 +375,93 @@ textarea,
 }
 
 /* --------------------------------------------------------------------------
-   Archival Editorial Cluster Templates for Book Print PDF
+   Archival 3-Column Masonry Layout for Book Print PDF Appendix
+   (Auto-Adjusting Natural Proportions, 0% Cropping, Zero Dead Space)
    -------------------------------------------------------------------------- */
-.cluster-grid-hero-left {
-  display: grid;
-  grid-template-columns: 1.12fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 10px;
+.appendix-masonry-3col {
+  column-count: 3;
+  column-gap: 12px;
+  width: 100%;
+}
+
+.appendix-card {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  margin-bottom: 12px;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 8px 10px 8px;
+  background: #ffffff;
+  border-radius: 4px;
+  border: 1px solid #e7e5e4;
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.06);
+}
+
+.appendix-card .polaroid-photo-wrap {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 2px;
+  overflow: hidden;
+  display: block;
+}
+
+.appendix-card .polaroid-photo-wrap img {
+  width: 100%;
   height: 100%;
-  min-height: 0;
+  object-fit: contain;
+  display: block;
 }
 
-.cluster-grid-hero-right {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1.12fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 10px;
-  height: 100%;
-  min-height: 0;
-}
-
-.cluster-hero-cell {
-  grid-row: span 2;
-}
-
-.cluster-grid-split-5 {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  height: 100%;
-  min-height: 0;
-}
-
-.cluster-split-top-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  flex: 1.05;
-  min-height: 0;
-}
-
-.cluster-split-bottom-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  flex: 0.95;
-  min-height: 0;
-}
-
-.cluster-grid-mosaic-6 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 10px;
-  height: 100%;
-  min-height: 0;
-}
-
-.cluster-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  min-height: 0;
+.weekly-plate-card {
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  padding: 8px 8px 10px 8px;
   box-sizing: border-box;
 }
 
-.cluster-card .polaroid-photo-wrap {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background-color: #ffffff;
-  border-radius: 2px;
-  padding: 0;
-}
-
-.cluster-card .polaroid-photo-wrap img {
-  width: 100%;
-  height: 100%;
-  max-height: 100%;
-  object-fit: cover;
-  object-position: center 25%;
-}
-
-.weekly-polaroid-wrap {
-  width: 100%;
-  aspect-ratio: 4 / 3;
+.weekly-snug-wrap {
   overflow: hidden;
   border-radius: 2px;
   background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 220px;
+  height: auto;
+  max-width: 100%;
 }
 
-.weekly-polaroid-wrap.is-portrait {
-  aspect-ratio: 3 / 4;
-  max-height: 220px;
-}
-
-.weekly-polaroid-wrap img {
+.weekly-snug-wrap img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center 25%;
+  object-fit: contain;
+  display: block;
 }
 
 @media print {
-  .cluster-hero-cell .book-plate-img {
-    max-height: 165mm !important;
+  .appendix-masonry-3col {
+    column-count: 3 !important;
+    column-gap: 4mm !important;
+    width: 100% !important;
+  }
+
+  .appendix-card,
+  .weekly-plate-card {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    box-shadow: none !important;
+    border: 1px solid #e7e5e4 !important;
+    background: #ffffff !important;
+  }
+
+  .appendix-card .polaroid-photo-wrap img,
+  .weekly-snug-wrap img {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    object-fit: contain !important;
   }
 }
 
