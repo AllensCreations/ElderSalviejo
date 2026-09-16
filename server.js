@@ -10,6 +10,8 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+const zlib = require('zlib');
+const crypto = require('crypto');
 
 const ingestHandler = require('./api/ingest');
 const weeksHandler = require('./api/weeks/index');
@@ -37,6 +39,61 @@ const MIME_TYPES = {
   '.ico': 'image/x-icon',
 };
 
+// High-speed static file server with Gzip/Deflate compression and ETags
+function serveStaticFile(req, res, filePath, explicitMime = null, cacheControl = null) {
+  try {
+    const stats = fs.statSync(filePath);
+    if (!stats.isFile()) {
+      res.statusCode = 404;
+      return res.end(JSON.stringify({ error: 'Not Found' }));
+    }
+
+    const ext = path.extname(filePath).toLowerCase();
+    const contentType = explicitMime || MIME_TYPES[ext] || 'application/octet-stream';
+    const etag = `"${stats.size.toString(16)}-${Math.floor(stats.mtimeMs).toString(16)}"`;
+
+    if (cacheControl) {
+      res.setHeader('Cache-Control', cacheControl);
+    } else if (filePath.includes('/assets/') || filePath.includes('/photos/')) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    } else if (['.css', '.js', '.ico', '.svg', '.png'].includes(ext)) {
+      res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=604800');
+    } else {
+      res.setHeader('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400');
+    }
+
+    res.setHeader('ETag', etag);
+
+    if (req.headers && req.headers['if-none-match'] === etag) {
+      res.statusCode = 304;
+      return res.end();
+    }
+
+    res.setHeader('Content-Type', contentType);
+
+    const acceptEncoding = (req.headers && req.headers['accept-encoding']) || '';
+    const isCompressible = /^(text\/|application\/javascript|application\/json|image\/svg\+xml)/.test(contentType);
+
+    if (isCompressible && acceptEncoding.includes('gzip')) {
+      res.setHeader('Content-Encoding', 'gzip');
+      const rawStream = fs.createReadStream(filePath);
+      const gzip = zlib.createGzip({ level: 6 });
+      return rawStream.pipe(gzip).pipe(res);
+    } else if (isCompressible && acceptEncoding.includes('deflate')) {
+      res.setHeader('Content-Encoding', 'deflate');
+      const rawStream = fs.createReadStream(filePath);
+      const deflate = zlib.createDeflate({ level: 6 });
+      return rawStream.pipe(deflate).pipe(res);
+    } else {
+      res.setHeader('Content-Length', stats.size);
+      return fs.createReadStream(filePath).pipe(res);
+    }
+  } catch (err) {
+    res.statusCode = 500;
+    return res.end(JSON.stringify({ error: 'Failed to serve static file', details: err.message }));
+  }
+}
+
 const server = http.createServer(async (req, res) => {
   const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   const pathname = parsedUrl.pathname;
@@ -50,6 +107,13 @@ const server = http.createServer(async (req, res) => {
   res.json = function (data) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(data));
+    return res;
+  };
+  res.send = function (data) {
+    if (!res.getHeader('Content-Type')) {
+      res.setHeader('Content-Type', 'text/html; charset=UTF-8');
+    }
+    res.end(data);
     return res;
   };
 
@@ -130,19 +194,18 @@ const server = http.createServer(async (req, res) => {
     }
 
     // 4. Sample data serving
+    // 4b. Sample data
     if (pathname === '/sample-data/sample-payload.json') {
       const samplePath = path.join(__dirname, 'sample-data', 'sample-payload.json');
       if (fs.existsSync(samplePath)) {
-        res.setHeader('Content-Type', 'application/json');
-        return fs.createReadStream(samplePath).pipe(res);
+        return serveStaticFile(req, res, samplePath, 'application/json');
       }
     }
 
     // 5. Frontend Clean Route: /gallery
     if (pathname === '/gallery') {
       const galleryHtmlPath = path.join(PUBLIC_DIR, 'gallery.html');
-      res.setHeader('Content-Type', 'text/html; charset=UTF-8');
-      return fs.createReadStream(galleryHtmlPath).pipe(res);
+      return serveStaticFile(req, res, galleryHtmlPath, 'text/html; charset=UTF-8', 'public, max-age=3600, stale-while-revalidate=86400');
     }
 
     // 5b. Frontend Clean Route: /call and /mission-call -> Redirect to unified Book Chapter 1
@@ -154,39 +217,32 @@ const server = http.createServer(async (req, res) => {
     // 5c. Frontend Clean Route: /book
     if (pathname === '/book') {
       const bookHtmlPath = path.join(PUBLIC_DIR, 'book.html');
-      res.setHeader('Content-Type', 'text/html; charset=UTF-8');
-      return fs.createReadStream(bookHtmlPath).pipe(res);
+      return serveStaticFile(req, res, bookHtmlPath, 'text/html; charset=UTF-8', 'public, max-age=3600, stale-while-revalidate=86400');
     }
 
     // 5d. Frontend Dynamic View: /week and /week/:id
     if (pathname === '/week' || pathname.startsWith('/week/')) {
       const weekHtmlPath = path.join(PUBLIC_DIR, 'week.html');
-      res.setHeader('Content-Type', 'text/html; charset=UTF-8');
-      return fs.createReadStream(weekHtmlPath).pipe(res);
+      return serveStaticFile(req, res, weekHtmlPath, 'text/html; charset=UTF-8', 'public, max-age=3600, stale-while-revalidate=86400');
     }
 
     // 6. Frontend Index Vault: /
     if (pathname === '/' || pathname === '/index.html') {
       const indexHtmlPath = path.join(PUBLIC_DIR, 'index.html');
-      res.setHeader('Content-Type', 'text/html; charset=UTF-8');
-      return fs.createReadStream(indexHtmlPath).pipe(res);
+      return serveStaticFile(req, res, indexHtmlPath, 'text/html; charset=UTF-8', 'public, max-age=3600, stale-while-revalidate=86400');
     }
 
     // 7. Static file serving from /public
     const filePath = path.join(PUBLIC_DIR, pathname);
     if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
-      const ext = path.extname(filePath).toLowerCase();
-      res.setHeader('Content-Type', MIME_TYPES[ext] || 'application/octet-stream');
-      return fs.createReadStream(filePath).pipe(res);
+      return serveStaticFile(req, res, filePath);
     }
 
     // 7b. Static file serving from /vault
     if (pathname.startsWith('/vault/')) {
       const vaultFilePath = path.join(__dirname, pathname);
       if (fs.existsSync(vaultFilePath) && fs.statSync(vaultFilePath).isFile()) {
-        const ext = path.extname(vaultFilePath).toLowerCase();
-        res.setHeader('Content-Type', MIME_TYPES[ext] || 'application/octet-stream');
-        return fs.createReadStream(vaultFilePath).pipe(res);
+        return serveStaticFile(req, res, vaultFilePath);
       }
     }
 

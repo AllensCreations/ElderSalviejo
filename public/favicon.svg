@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#991b1b"/>
+      <stop offset="100%" stop-color="#7f1d1d"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#g)"/>
+  <rect x="4" y="4" width="56" height="56" rx="11" fill="none" stroke="#fca5a5" stroke-width="1.5" stroke-opacity="0.3"/>
+  <!-- Archival Monogram ES / Cross & Seal -->
+  <path d="M22 20h20v4.5H27v7h13v4.5H27v7.5h15.5V50H22V20z" fill="#ffffff" font-weight="bold"/>
+  <circle cx="47" cy="46.5" r="3.5" fill="#fef08a"/>
+</svg>

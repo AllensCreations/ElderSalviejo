@@ -77,8 +77,8 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
-    return res.status(200).json({
+    const crypto = require('crypto');
+    const payload = JSON.stringify({
       success: true,
       count: photos.length,
       photos,
@@ -87,6 +87,20 @@ module.exports = async function handler(req, res) {
         index: 'https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/index.json'
       }
     });
+
+    const etag = '"' + crypto.createHash('md5').update(payload).digest('hex').slice(0, 16) + '"';
+    res.setHeader('ETag', etag);
+    res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
+
+    if (req.headers && req.headers['if-none-match'] === etag) {
+      return res.status(304).end();
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    if (res.send) {
+      return res.status(200).send(payload);
+    }
+    return res.status(200).end(payload);
   } catch (error) {
     console.error('Error fetching gallery photos:', error);
     return res.status(500).json({

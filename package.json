@@ -8,7 +8,8 @@
     "dev": "node server.js",
     "db:init": "node scripts/init-db.js",
     "metadata:extract": "node scripts/extract-metadata.js",
-    "test:ingest": "node sample-data/send-test-ingest.js"
+    "test:ingest": "node sample-data/send-test-ingest.js",
+    "test:perf": "node scripts/verify-performance.js"
   },
   "keywords": [
     "gmail",
