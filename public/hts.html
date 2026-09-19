@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Elder Salviejo • Complete Setup Guide (HTS)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root {
+      --bg: #fcfbf9;
+      --card-bg: #ffffff;
+      --border: #e7e5e4;
+      --border-dark: #d6d3d1;
+      --amber: #d97706;
+      --amber-dark: #b45309;
+      --amber-light: #fef3c7;
+      --charcoal: #1c1917;
+      --stone-800: #292524;
+      --stone-600: #57534e;
+      --stone-500: #78716c;
+      --stone-100: #f5f5f4;
+      --stone-50: #fafaf9;
+      --green-600: #059669;
+      --green-50: #ecfdf5;
+      --red-600: #dc2626;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--charcoal);
+      line-height: 1.6;
+      padding: 32px 16px 80px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    /* Monograph Dual-Hairline Frame Header */
+    .header {
+      background: var(--charcoal);
+      color: #ffffff;
+      border-radius: 12px;
+      padding: 36px 28px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      border-bottom: 3px solid var(--amber);
+      margin-bottom: 32px;
+      position: relative;
+    }
+    .header .tagline {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--amber);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .header h1 {
+      font-family: Georgia, serif;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .header p {
+      font-size: 14px;
+      color: #a8a29e;
+      font-style: italic;
+      font-family: Georgia, serif;
+    }
+    .badge-hidden {
+      display: inline-block;
+      margin-top: 14px;
+      background: rgba(217, 119, 6, 0.15);
+      border: 1px solid rgba(217, 119, 6, 0.35);
+      color: #fcd34d;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Tabs Navigation */
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+    .tab-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--stone-600);
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tab-btn:hover {
+      border-color: var(--amber);
+      color: var(--amber-dark);
+    }
+    .tab-btn.active {
+      background: var(--stone-800);
+      color: #ffffff;
+      border-color: var(--stone-800);
+    }
+
+    /* Content Cards */
+    .tab-pane {
+      display: none;
+    }
+    .tab-pane.active {
+      display: block;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+    .card h2 {
+      font-family: Georgia, serif;
+      font-size: 21px;
+      color: var(--charcoal);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--stone-800);
+      margin: 22px 0 8px;
+    }
+    .card p {
+      font-size: 14px;
+      color: var(--stone-600);
+      margin-bottom: 14px;
+      line-height: 1.65;
+    }
+    .card ul, .card ol {
+      margin: 0 0 16px 22px;
+      font-size: 14px;
+      color: var(--stone-600);
+    }
+    .card li {
+      margin-bottom: 8px;
+    }
+
+    /* Code Blocks & Callouts */
+    pre, code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+    }
+    code {
+      background: var(--stone-100);
+      color: var(--stone-800);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+    pre {
+      background: #18181b;
+      color: #f4f4f5;
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 12px 0 18px;
+      line-height: 1.5;
+    }
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      border: none;
+    }
+
+    .callout {
+      border-left: 4px solid var(--amber);
+      background: var(--stone-50);
+      padding: 16px 18px;
+      border-radius: 0 8px 8px 0;
+      margin: 18px 0;
+    }
+    .callout-success {
+      border-left-color: var(--green-600);
+      background: var(--green-50);
+    }
+    .callout strong {
+      color: var(--charcoal);
+    }
+
+    /* Step numbers */
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--amber-light);
+      color: var(--amber-dark);
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    /* Interactive Live Ingest Tester */
+    .tester-box {
+      background: var(--stone-50);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 16px;
+    }
+    .form-group {
+      margin-bottom: 14px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--stone-600);
+      margin-bottom: 6px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border-dark);
+      font-size: 14px;
+      font-family: inherit;
+      background: #ffffff;
+    }
+    .btn {
+      background: var(--amber);
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn:hover {
+      background: var(--amber-dark);
+    }
+    .tester-output {
+      margin-top: 14px;
+      padding: 14px;
+      background: #1c1917;
+      color: #34d399;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      max-height: 240px;
+      overflow-y: auto;
+      display: none;
+    }
+
+    /* Comparison Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: 13px;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+    th {
+      background: var(--stone-100);
+      color: var(--charcoal);
+      font-weight: 700;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--stone-500);
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Header Banner -->
+    <div class="header">
+      <p class="tagline">Philippines Dumaguete Mission</p>
+      <h1>Elder Salviejo • Pipeline Architecture & Setup Guide</h1>
+      <p>Official Missionary Journal & Photo Ingestion Engine Manual</p>
+      <span class="badge-hidden">Unlisted System Manual • /hts.html</span>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('tab-no-domain')">1. No Domain? (Zero-Cost Setup)</button>
+      <button class="tab-btn" onclick="switchTab('tab-apps-script')">2. Google Apps Script Setup</button>
+      <button class="tab-btn" onclick="switchTab('tab-cloudflare')">3. Cloudflare Setup (No Domain Needed)</button>
+      <button class="tab-btn" onclick="switchTab('tab-email-format')">4. Email Format Cheat Sheet</button>
+      <button class="tab-btn" onclick="switchTab('tab-tester')">5. Live Ingest Tester</button>
+      <button class="tab-btn" onclick="switchTab('tab-troubleshooting')">6. Troubleshooting Matrix</button>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- TAB 1: NO DOMAIN SETUP (WHAT IF I DONT HAVE A DOMAIN) -->
+    <!-- ========================================================= -->
+    <div id="tab-no-domain" class="tab-pane active">
+      <div class="card">
+        <h2>What if I don't have a domain?</h2>
+        <p>
+          <strong>Good news: You do NOT need to purchase or own a domain!</strong> The entire system is engineered to run 100% free with zero domain fees using one of two free pathways:
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Approach</th>
+              <th>Requires Domain?</th>
+              <th>Cost</th>
+              <th>Trigger Speed</th>
+              <th>How It Works</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Option A: Native Google Apps Script</strong></td>
+              <td><span style="color:var(--green-600); font-weight:700;">NO</span></td>
+              <td>$0.00 (Free)</td>
+              <td>Every 60 sec</td>
+              <td>Elder Salviejo emails your free <code>@gmail.com</code> receiver. Script checks inbox every minute.</td>
+            </tr>
+            <tr>
+              <td><strong>Option B: Cloudflare Workers (*.workers.dev)</strong></td>
+              <td><span style="color:var(--green-600); font-weight:700;">NO</span></td>
+              <td>$0.00 (Free)</td>
+              <td>Every 60 sec</td>
+              <td>Uses Cloudflare's free <code>your-account.workers.dev</code> subdomain to run an automated cron trigger.</td>
+            </tr>
+            <tr>
+              <td><strong>Option C: Cloudflare Email Routing</strong></td>
+              <td><span style="color:var(--stone-600);">YES</span> (Any domain)</td>
+              <td>Free via CF</td>
+              <td>0.0s (Sub-second)</td>
+              <td>Elder Salviejo emails <code>journal@yourdomain.com</code>. Cloudflare intercepts and triggers instantly.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout callout-success">
+          <strong>Recommended Recommendation:</strong> If you don't have a domain, use <strong>Option A (Google Apps Script with 1-Minute Trigger)</strong>. It runs directly inside your free Gmail account with zero extra configuration or external tools!
+        </div>
+
+        <h3>How Option A Operates Without a Domain:</h3>
+        <ol>
+          <li>You create a free Gmail account (e.g. <code>eldersalviejo.archive@gmail.com</code>).</li>
+          <li>You paste our <code>google-apps-script/Code.gs</code> code into <a href="https://script.google.com" target="_blank" style="color:var(--amber-dark);">script.google.com</a>.</li>
+          <li>You run <code>createNearInstantTrigger</code> once.</li>
+          <li>Google will automatically inspect the inbox every 60 seconds. Whenever an email arrives with passcode <code>159266</code> or <code>073000</code>, it is ingested, saved to Turso/GitHub, and confirmed!</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- TAB 2: GOOGLE APPS SCRIPT SETUP -->
+    <!-- ========================================================= -->
+    <div id="tab-apps-script" class="tab-pane">
+      <div class="card">
+        <h2>Google Apps Script: Complete Setup in 5 Steps</h2>
+        <p>This script runs inside your dedicated receiver Gmail account to monitor emails and transmit them to your website.</p>
+
+        <h3><span class="step-badge">1</span> Open Google Apps Script</h3>
+        <p>Log into your dummy Gmail receiver account, go to <a href="https://script.google.com" target="_blank" style="color:var(--amber-dark);">script.google.com</a>, and click <strong>+ New project</strong>. Name it <code>Elder Salviejo Diary Processor</code>.</p>
+
+        <h3><span class="step-badge">2</span> Copy Code.gs & Manifest</h3>
+        <ul>
+          <li>Replace the contents of <code>Code.gs</code> with the code in <code>google-apps-script/Code.gs</code> from this repository.</li>
+          <li>Click <strong>Project Settings</strong> (gear icon on the left) &gt; Check <strong>"Show 'appsscript.json' manifest file in editor"</strong>.</li>
+          <li>Open <code>appsscript.json</code> and replace it with <code>google-apps-script/appsscript.json</code>.</li>
+        </ul>
+
+        <h3><span class="step-badge">3</span> Configure Script Properties (Private Secrets)</h3>
+        <p>In <strong>Project Settings</strong>, scroll to <strong>Script Properties</strong> and add:</p>
+        <table>
+          <thead>
+            <tr><th>Property</th><th>Example Value</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>VERCEL_INGEST_URL</code></td>
+              <td><code>https://eldersalviejo.vercel.app/api/ingest</code></td>
+              <td>Your live production ingest endpoint</td>
+            </tr>
+            <tr>
+              <td><code>INGEST_SECRET</code></td>
+              <td><code>your-super-secret-token</code></td>
+              <td>Secret authorization token (must match server .env)</td>
+            </tr>
+            <tr>
+              <td><code>SECRET_DIARY_CODE</code></td>
+              <td><code>159266</code></td>
+              <td>Passcode filter for weekly journal reflections</td>
+            </tr>
+            <tr>
+              <td><code>SECRET_GALLERY_CODE</code></td>
+              <td><code>073000</code></td>
+              <td>Passcode filter for direct photo gallery uploads</td>
+            </tr>
+            <tr>
+              <td><code>SITE_URL</code></td>
+              <td><code>https://eldersalviejo.vercel.app</code></td>
+              <td>Public website address</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3><span class="step-badge">4</span> Activate the Near-Instant 1-Minute Trigger</h3>
+        <p>In the Apps Script toolbar function dropdown, select:</p>
+        <pre><code>createNearInstantTrigger</code></pre>
+        <p>Click <strong>Run</strong> and authorize permissions when prompted. The execution log will report:</p>
+        <pre><code>SUCCESS: Near-Instant 1-Minute Trigger active!
+The script will check your inbox every 60 seconds automatically.</code></pre>
+
+        <h3><span class="step-badge">5</span> Deploy as a Web App (For Instant Webhook Ping)</h3>
+        <ol>
+          <li>Click <strong>Deploy</strong> (blue button top right) &gt; <strong>New deployment</strong>.</li>
+          <li>Click gear icon &gt; Select <strong>Web app</strong>.</li>
+          <li>Execute as: <code>Me</code> | Who has access: <code>Anyone</code>.</li>
+          <li>Click <strong>Deploy</strong> and copy the <strong>Web App URL</strong>.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- TAB 3: CLOUDFLARE SETUP (NO DOMAIN NEEDED) -->
+    <!-- ========================================================= -->
+    <div id="tab-cloudflare" class="tab-pane">
+      <div class="card">
+        <h2>Cloudflare Workers: Setup With Free *.workers.dev</h2>
+        <p>
+          Cloudflare Workers gives every free account an unlimited <code>*.workers.dev</code> address. You can deploy our included worker script to serve as an ultra-reliable external cron or webhook dispatcher.
+        </p>
+
+        <h3>Deploying with Wrangler (Free Subdomain):</h3>
+        <ol>
+          <li>Open your local terminal in the project directory:
+            <pre><code>cd cloudflare</code></pre>
+          </li>
+          <li>Log into Cloudflare (opens a browser window):
+            <pre><code>npx wrangler login</code></pre>
+          </li>
+          <li>Store your private Google Apps Script Web App URL and Ingest Secret securely:
+            <pre><code>npx wrangler secret put APPS_SCRIPT_URL
+# Paste your Apps Script Web App URL: https://script.google.com/macros/s/.../exec
+
+npx wrangler secret put INGEST_SECRET
+# Paste your secret token</code></pre>
+          </li>
+          <li>Deploy to your free <code>*.workers.dev</code> subdomain:
+            <pre><code>npx wrangler deploy</code></pre>
+          </li>
+        </ol>
+
+        <div class="callout callout-success">
+          <strong>Instant Ping Endpoint:</strong> Once deployed, visiting <code>https://elder-salviejo-email-trigger.your-name.workers.dev/trigger</code> will instantly trigger your Google Apps Script without delay!
+        </div>
+
+        <h3>If You Acquire a Custom Domain Later:</h3>
+        <p>When you add a domain to Cloudflare, you can enable <strong>Cloudflare Email Routing</strong> in 2 minutes:</p>
+        <ol>
+          <li>Go to <strong>Email Routing</strong> &gt; <strong>Routes</strong> &gt; <strong>Create rule</strong>.</li>
+          <li>Custom Address: <code>journal@yourdomain.com</code></li>
+          <li>Action: <strong>Send to Worker</strong> &gt; Select <code>elder-salviejo-email-trigger</code>.</li>
+        </ol>
+        <p>Incoming emails to that address will invoke the worker in <strong>0.0 seconds</strong>.</p>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- TAB 4: EMAIL FORMAT CHEAT SHEET -->
+    <!-- ========================================================= -->
+    <div id="tab-email-format" class="tab-pane">
+      <div class="card">
+        <h2>Missionary Email Formatting Cheat Sheet</h2>
+        <p>Elder Salviejo can send two types of submissions to the receiver:</p>
+
+        <h3>Option A: Weekly Diary Reflection (P-Day Letter)</h3>
+        <ul>
+          <li><strong>To:</strong> Your receiver Gmail address (or Cloudflare custom address)</li>
+          <li><strong>Subject:</strong> <code>Weekly Reflection: Week 2 in Dumaguete 159266</code></li>
+          <li><strong>Body:</strong></li>
+        </ul>
+        <pre><code>-VERSE- (Alma 26:12)
+
+--- MONDAY ---
+Preparation day! Did laundry, companion study, and weekly email home.
+
+--- TUESDAY ---
+Proselyting in Sibulan. Taught an investigator family about the Book of Mormon.
+
+--- WEDNESDAY ---
+Service project repairing a bamboo garden fence for Nanay Elena.
+
+--- THURSDAY ---
+District Council meeting in Dumaguete City. Uplifting testimony meeting.
+
+--- FRIDAY ---
+Street contacting along Rizal Boulevard during sunset overlooking the ocean.
+
+--- SATURDAY ---
+Baptismal service preparation with district elders. Palpable spirit in chapel.
+
+--- SUNDAY ---
+Sacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior.</code></pre>
+        <ul>
+          <li><strong>Attachments:</strong> Up to 7 daily photos (Monday to Sunday).</li>
+        </ul>
+
+        <h3>Option B: Polaroid Photo Gallery Upload</h3>
+        <ul>
+          <li><strong>To:</strong> Your receiver Gmail address</li>
+          <li><strong>Subject:</strong> <code>Sibulan District Conference [Mission] 073000</code></li>
+          <li><strong>Body:</strong> <code>Spiritual zone gathering with our mission president and companions!</code></li>
+          <li><strong>Attachments:</strong> Any number of photos (1 to 50+ photos).</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- TAB 5: LIVE INGEST TESTER -->
+    <!-- ========================================================= -->
+    <div id="tab-tester" class="tab-pane">
+      <div class="card">
+        <h2>Interactive Ingestion Tester</h2>
+        <p>Test your live server's <code>/api/ingest</code> receiver right now from this page:</p>
+
+        <div class="tester-box">
+          <div class="form-group">
+            <label for="testTargetUrl">Target Ingest URL</label>
+            <input type="text" id="testTargetUrl" class="form-control" value="http://localhost:3000/api/ingest">
+          </div>
+          <div class="form-group">
+            <label for="testSecret">Ingest Secret</label>
+            <input type="password" id="testSecret" class="form-control" value="your-super-secret-token-change-me">
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button type="button" class="btn" onclick="runWebTest('diary')">Send Test Weekly Diary</button>
+            <button type="button" class="btn" style="background:var(--stone-800);" onclick="runWebTest('gallery')">Send Test Photo Gallery</button>
+          </div>
+          <div id="testerOutput" class="tester-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- TAB 6: TROUBLESHOOTING MATRIX -->
+    <!-- ========================================================= -->
+    <div id="tab-troubleshooting" class="tab-pane">
+      <div class="card">
+        <h2>Troubleshooting Matrix</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Symptom</th>
+              <th>Root Cause</th>
+              <th>Exact Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Email arrives in Gmail but nothing happens</strong></td>
+              <td>Script trigger is not configured or inactive</td>
+              <td>In Apps Script toolbar, select <code>createNearInstantTrigger</code> and click <strong>Run</strong>.</td>
+            </tr>
+            <tr>
+              <td><strong>Script runs but logs say "No new emails found"</strong></td>
+              <td>Email was sent from the receiver account to itself</td>
+              <td>Always test by sending <strong>from your personal email</strong> to the receiver address.</td>
+            </tr>
+            <tr>
+              <td><strong>Subject ignored by search filter</strong></td>
+              <td>Missing passcode or keyword</td>
+              <td>Ensure Subject contains <code>159266</code> or words <code>Weekly Reflection</code>.</td>
+            </tr>
+            <tr>
+              <td><strong>HTTP 401 Unauthorized in Apps Script logs</strong></td>
+              <td><code>INGEST_SECRET</code> mismatch</td>
+              <td>Make sure <code>INGEST_SECRET</code> in Script Properties matches your server <code>.env</code> file.</td>
+            </tr>
+            <tr>
+              <td><strong>How to inspect what Gmail sees right now?</strong></td>
+              <td>Need real-time diagnostic visibility</td>
+              <td>Select <code>debugCheckInbox</code> in the toolbar dropdown and click <strong>Run</strong>. Check the Execution log.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="footer">
+      Elder Salviejo • Philippines Dumaguete Mission • Unlisted Documentation
+    </div>
+
+  </div>
+
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      const pane = document.getElementById(tabId);
+      if (pane) pane.classList.add('active');
+      const clickedBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick')?.includes(tabId));
+      if (clickedBtn) clickedBtn.classList.add('active');
+    }
+
+    async function runWebTest(mode) {
+      const url = document.getElementById('testTargetUrl').value.trim();
+      const secret = document.getElementById('testSecret').value.trim();
+      const output = document.getElementById('testerOutput');
+
+      output.style.display = 'block';
+      output.innerText = 'Dispatching test payload to ' + url + '...\n';
+
+      const samplePixel = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+      const timestamp = Date.now();
+
+      let payload;
+      if (mode === 'diary') {
+        payload = {
+          slug: 'test-hts-week-' + timestamp,
+          title: 'HTS Interactive Test Journal',
+          publishedAt: new Date().toISOString(),
+          rawSubject: 'Weekly Reflection: HTS Diagnostic [159266]',
+          sender: 'elder.salviejo@missionary.org',
+          entries: [
+            { day: 'MONDAY', text: 'Preparation day study and writing home.', image: samplePixel, imageFilename: 'monday.jpg', category: 'P-Day Journal' },
+            { day: 'SUNDAY', text: 'Sacrament meeting in Dumaguete 1st Ward.', image: samplePixel, imageFilename: 'sunday.jpg', category: 'Sunday' }
+          ],
+          totalEntries: 2,
+          imageCount: 2,
+          verse: { reference: 'Alma 26:12', text: 'Yea, I know that I am nothing; as to my strength I am weak...' },
+          isGallery: false,
+          category: 'P-Day Journal'
+        };
+      } else {
+        payload = {
+          slug: 'test-hts-gallery-' + timestamp,
+          title: 'HTS Interactive Polaroid Gallery',
+          publishedAt: new Date().toISOString(),
+          rawSubject: 'Sibulan Zone Conference [Mission] 073000',
+          sender: 'elder.salviejo@missionary.org',
+          bodyText: 'Spiritual gathering in Dumaguete.',
+          entries: [
+            { day: 'PHOTO_1', text: 'Group photo', caption: 'Group photo', image: samplePixel, imageFilename: 'group.jpg', category: 'Mission' }
+          ],
+          totalEntries: 1,
+          imageCount: 1,
+          verse: null,
+          isGallery: true,
+          category: 'Mission'
+        };
+      }
+
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + secret,
+            'x-ingest-secret': secret
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const text = await res.text();
+        output.innerText += 'Response (HTTP ' + res.status + '):\n' + text;
+      } catch (err) {
+        output.innerText += 'Network Error: ' + err.message;
+      }
+    }
+  </script>
+</body>
+</html>

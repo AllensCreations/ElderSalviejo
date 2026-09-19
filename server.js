@@ -235,6 +235,12 @@ const server = http.createServer(async (req, res) => {
       return serveStaticFile(req, res, adminHtmlPath, 'text/html; charset=UTF-8', 'public, max-age=3600, stale-while-revalidate=86400');
     }
 
+    // 5g. Hidden Setup Guide: /hts (noindex, unlisted)
+    if (pathname === '/hts' || pathname === '/hts.html') {
+      const htsHtmlPath = path.join(PUBLIC_DIR, 'hts.html');
+      return serveStaticFile(req, res, htsHtmlPath, 'text/html; charset=UTF-8', 'no-store, no-cache');
+    }
+
 
     // 6. Frontend Index Vault: /
     if (pathname === '/' || pathname === '/index.html') {
