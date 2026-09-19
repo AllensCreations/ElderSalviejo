@@ -400,6 +400,30 @@
       "source_location": "L80"
     },
     {
+      "id": "scripts_verify_performance_request",
+      "label": "request()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "request()",
+      "source_file": "scripts/verify-performance.js",
+      "source_location": "L15"
+    },
+    {
+      "id": "scripts_verify_performance_runbenchmark",
+      "label": "runBenchmark()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "runbenchmark()",
+      "source_file": "scripts/verify-performance.js",
+      "source_location": "L45"
+    },
+    {
       "id": "api_ingest_generateslug",
       "label": "generateSlug()",
       "_callable": true,
@@ -904,30 +928,6 @@
       "source_location": "L14"
     },
     {
-      "id": "scripts_verify_performance_request",
-      "label": "request()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "request()",
-      "source_file": "scripts/verify-performance.js",
-      "source_location": "L15"
-    },
-    {
-      "id": "scripts_verify_performance_runbenchmark",
-      "label": "runBenchmark()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "runbenchmark()",
-      "source_file": "scripts/verify-performance.js",
-      "source_location": "L45"
-    },
-    {
       "id": "server_servestaticfile",
       "label": "serveStaticFile()",
       "_callable": true,
@@ -950,6 +950,42 @@
       "norm_label": "isimagerequest()",
       "source_file": "public/sw.js",
       "source_location": "L66"
+    },
+    {
+      "id": "cloudflare_email_worker_email",
+      "label": "email()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "fetch",
+      "file_type": "code",
+      "norm_label": "email()",
+      "source_file": "cloudflare/email-worker.js",
+      "source_location": "L20"
+    },
+    {
+      "id": "cloudflare_email_worker_fetch",
+      "label": "fetch()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "fetch",
+      "file_type": "code",
+      "norm_label": "fetch()",
+      "source_file": "cloudflare/email-worker.js",
+      "source_location": "L79"
+    },
+    {
+      "id": "cloudflare_email_worker_scheduled",
+      "label": "scheduled()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "fetch",
+      "file_type": "code",
+      "norm_label": "scheduled()",
+      "source_file": "cloudflare/email-worker.js",
+      "source_location": "L57"
     },
     {
       "id": "scripts_optimize_icons_buildico",
@@ -1701,6 +1737,94 @@
       "source_location": "L11"
     },
     {
+      "id": "api_gallery",
+      "label": "api/gallery.js",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "api/gallery.js",
+      "source_file": "api/gallery.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "api_gallery_getallgalleryphotos_initdatabase",
+      "label": "{ getAllGalleryPhotos, initDatabase }",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "{ getallgalleryphotos, initdatabase }",
+      "source_file": "api/gallery.js",
+      "source_location": "L9"
+    },
+    {
+      "id": "sample_data_send_test_ingest",
+      "label": "send-test-ingest.js",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "send-test-ingest.js",
+      "source_file": "sample-data/send-test-ingest.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "sample_data_send_test_ingest_fs",
+      "label": "fs",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "fs",
+      "source_file": "sample-data/send-test-ingest.js",
+      "source_location": "L12"
+    },
+    {
+      "id": "sample_data_send_test_ingest_parsed",
+      "label": "parsed",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "parsed",
+      "source_file": "sample-data/send-test-ingest.js",
+      "source_location": "L26"
+    },
+    {
+      "id": "sample_data_send_test_ingest_path",
+      "label": "path",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "path",
+      "source_file": "sample-data/send-test-ingest.js",
+      "source_location": "L13"
+    },
+    {
+      "id": "sample_data_send_test_ingest_payloaddata",
+      "label": "payloadData",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "payloaddata",
+      "source_file": "sample-data/send-test-ingest.js",
+      "source_location": "L25"
+    },
+    {
+      "id": "sample_data_send_test_ingest_payloadpath",
+      "label": "payloadPath",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "payloadpath",
+      "source_file": "sample-data/send-test-ingest.js",
+      "source_location": "L18"
+    },
+    {
       "id": "scripts_extract_metadata",
       "label": "extract-metadata.js",
       "_origin": "ast",
@@ -1776,6 +1900,61 @@
       "norm_label": "public_photos_dir",
       "source_file": "scripts/extract-metadata.js",
       "source_location": "L14"
+    },
+    {
+      "id": "scripts_verify_performance",
+      "label": "verify-performance.js",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "verify-performance.js",
+      "source_file": "scripts/verify-performance.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "scripts_verify_performance_fs",
+      "label": "fs",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "fs",
+      "source_file": "scripts/verify-performance.js",
+      "source_location": "L7"
+    },
+    {
+      "id": "scripts_verify_performance_http",
+      "label": "http",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "http",
+      "source_file": "scripts/verify-performance.js",
+      "source_location": "L6"
+    },
+    {
+      "id": "scripts_verify_performance_path",
+      "label": "path",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "path",
+      "source_file": "scripts/verify-performance.js",
+      "source_location": "L8"
+    },
+    {
+      "id": "scripts_verify_performance_server",
+      "label": "server",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "server",
+      "source_file": "scripts/verify-performance.js",
+      "source_location": "L13"
     },
     {
       "id": "api_backup",
@@ -2361,28 +2540,6 @@
       "source_location": "L12"
     },
     {
-      "id": "api_gallery",
-      "label": "api/gallery.js",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "api/gallery.js",
-      "source_file": "api/gallery.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "api_gallery_getallgalleryphotos_initdatabase",
-      "label": "{ getAllGalleryPhotos, initDatabase }",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "{ getallgalleryphotos, initdatabase }",
-      "source_file": "api/gallery.js",
-      "source_location": "L9"
-    },
-    {
       "id": "api_weeks_index",
       "label": "weeks/index.js",
       "_origin": "ast",
@@ -2414,127 +2571,6 @@
       "norm_label": "{ getallweeks, initdatabase }",
       "source_file": "api/weeks/index.js",
       "source_location": "L9"
-    },
-    {
-      "id": "sample_data_send_test_ingest",
-      "label": "send-test-ingest.js",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "send-test-ingest.js",
-      "source_file": "sample-data/send-test-ingest.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "sample_data_send_test_ingest_fs",
-      "label": "fs",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "fs",
-      "source_file": "sample-data/send-test-ingest.js",
-      "source_location": "L12"
-    },
-    {
-      "id": "sample_data_send_test_ingest_parsed",
-      "label": "parsed",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "parsed",
-      "source_file": "sample-data/send-test-ingest.js",
-      "source_location": "L26"
-    },
-    {
-      "id": "sample_data_send_test_ingest_path",
-      "label": "path",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "path",
-      "source_file": "sample-data/send-test-ingest.js",
-      "source_location": "L13"
-    },
-    {
-      "id": "sample_data_send_test_ingest_payloaddata",
-      "label": "payloadData",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "payloaddata",
-      "source_file": "sample-data/send-test-ingest.js",
-      "source_location": "L25"
-    },
-    {
-      "id": "sample_data_send_test_ingest_payloadpath",
-      "label": "payloadPath",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "payloadpath",
-      "source_file": "sample-data/send-test-ingest.js",
-      "source_location": "L18"
-    },
-    {
-      "id": "scripts_verify_performance",
-      "label": "verify-performance.js",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "verify-performance.js",
-      "source_file": "scripts/verify-performance.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "scripts_verify_performance_fs",
-      "label": "fs",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "fs",
-      "source_file": "scripts/verify-performance.js",
-      "source_location": "L7"
-    },
-    {
-      "id": "scripts_verify_performance_http",
-      "label": "http",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "http",
-      "source_file": "scripts/verify-performance.js",
-      "source_location": "L6"
-    },
-    {
-      "id": "scripts_verify_performance_path",
-      "label": "path",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "path",
-      "source_file": "scripts/verify-performance.js",
-      "source_location": "L8"
-    },
-    {
-      "id": "scripts_verify_performance_server",
-      "label": "server",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "server",
-      "source_file": "scripts/verify-performance.js",
-      "source_location": "L13"
     },
     {
       "id": "server",
@@ -2787,6 +2823,101 @@
       "file_type": "code",
       "norm_label": "tailwind.config.js",
       "source_file": "tailwind.config.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "cloudflare_readme",
+      "label": "cloudflare/README.md",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "Cloudflare Email Routing & Worker Trigger Guide",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "cloudflare/readme.md",
+      "source_file": "cloudflare/README.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "cloudflare_readme_2_ways_to_use_cloudflare",
+      "label": "2 Ways to Use Cloudflare",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "Cloudflare Email Routing & Worker Trigger Guide",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2 ways to use cloudflare",
+      "source_file": "cloudflare/README.md",
+      "source_location": "L20"
+    },
+    {
+      "id": "cloudflare_readme_cloudflare_email_routing_worker_trigger_guide",
+      "label": "Cloudflare Email Routing & Worker Trigger Guide",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "Cloudflare Email Routing & Worker Trigger Guide",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "cloudflare email routing & worker trigger guide",
+      "source_file": "cloudflare/README.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "cloudflare_readme_how_it_works",
+      "label": "How It Works",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "Cloudflare Email Routing & Worker Trigger Guide",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "how it works",
+      "source_file": "cloudflare/README.md",
+      "source_location": "L8"
+    },
+    {
+      "id": "cloudflare_readme_how_to_deploy_to_cloudflare",
+      "label": "How to Deploy to Cloudflare",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "Cloudflare Email Routing & Worker Trigger Guide",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "how to deploy to cloudflare",
+      "source_file": "cloudflare/README.md",
+      "source_location": "L43"
+    },
+    {
+      "id": "cloudflare_readme_method_a_cloudflare_email_routing_true_0_second_instant_ingestion",
+      "label": "Method A: Cloudflare Email Routing (True 0-Second Instant Ingestion)",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "Cloudflare Email Routing & Worker Trigger Guide",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "method a: cloudflare email routing (true 0-second instant ingestion)",
+      "source_file": "cloudflare/README.md",
+      "source_location": "L22"
+    },
+    {
+      "id": "cloudflare_readme_method_b_cloudflare_scheduled_cron_free_1_minute_pinger",
+      "label": "Method B: Cloudflare Scheduled Cron (Free 1-Minute Pinger)",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "Cloudflare Email Routing & Worker Trigger Guide",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "method b: cloudflare scheduled cron (free 1-minute pinger)",
+      "source_file": "cloudflare/README.md",
+      "source_location": "L32"
+    },
+    {
+      "id": "cloudflare_email_worker",
+      "label": "email-worker.js",
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "fetch",
+      "file_type": "code",
+      "norm_label": "email-worker.js",
+      "source_file": "cloudflare/email-worker.js",
       "source_location": "L1"
     },
     {
@@ -3746,6 +3877,42 @@
       "type": "external"
     },
     {
+      "id": "ref_fs",
+      "label": "ref_fs",
+      "_origin": "semantic",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_fs",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "ref_http",
+      "label": "ref_http",
+      "_origin": "semantic",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_http",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "ref_path",
+      "label": "ref_path",
+      "_origin": "semantic",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_path",
+      "source_file": "",
+      "type": "external"
+    },
+    {
       "id": "ref_https",
       "label": "ref_https",
       "_origin": "semantic",
@@ -3766,42 +3933,6 @@
       "external": true,
       "file_type": "concept",
       "norm_label": "ref_crypto",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "ref_fs",
-      "label": "ref_fs",
-      "_origin": "semantic",
-      "community": 2,
-      "community_name": "server.js",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_fs",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "ref_http",
-      "label": "ref_http",
-      "_origin": "semantic",
-      "community": 2,
-      "community_name": "server.js",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_http",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "ref_path",
-      "label": "ref_path",
-      "_origin": "semantic",
-      "community": 2,
-      "community_name": "server.js",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_path",
       "source_file": "",
       "type": "external"
     },
@@ -3831,6 +3962,42 @@
     }
   ],
   "links": [
+    {
+      "source": "cloudflare_email_worker_email",
+      "target": "cloudflare_email_worker_fetch",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "cloudflare/email-worker.js",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "cloudflare_email_worker_fetch",
+      "target": "cloudflare_email_worker_fetch",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "cloudflare/email-worker.js",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "cloudflare_email_worker_scheduled",
+      "target": "cloudflare_email_worker_fetch",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "cloudflare/email-worker.js",
+      "source_location": "L68",
+      "weight": 1.0
+    },
     {
       "source": "lib_github_vault_autosavetogithub",
       "target": "lib_github_vault_fetchexistingjsonfile",
@@ -7088,6 +7255,105 @@
       "weight": 1.0
     },
     {
+      "source": "cloudflare_email_worker",
+      "target": "cloudflare_email_worker_email",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "cloudflare/email-worker.js",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "cloudflare_email_worker",
+      "target": "cloudflare_email_worker_scheduled",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "cloudflare/email-worker.js",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "cloudflare_email_worker",
+      "target": "cloudflare_email_worker_fetch",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "cloudflare/email-worker.js",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "cloudflare_readme",
+      "target": "cloudflare_readme_cloudflare_email_routing_worker_trigger_guide",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "cloudflare/README.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "cloudflare_readme_2_ways_to_use_cloudflare",
+      "target": "cloudflare_readme_method_a_cloudflare_email_routing_true_0_second_instant_ingestion",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "cloudflare/README.md",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "cloudflare_readme_2_ways_to_use_cloudflare",
+      "target": "cloudflare_readme_method_b_cloudflare_scheduled_cron_free_1_minute_pinger",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "cloudflare/README.md",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "cloudflare_readme_cloudflare_email_routing_worker_trigger_guide",
+      "target": "cloudflare_readme_2_ways_to_use_cloudflare",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "cloudflare/README.md",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "cloudflare_readme_cloudflare_email_routing_worker_trigger_guide",
+      "target": "cloudflare_readme_how_to_deploy_to_cloudflare",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "cloudflare/README.md",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "cloudflare_readme_cloudflare_email_routing_worker_trigger_guide",
+      "target": "cloudflare_readme_how_it_works",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "cloudflare/README.md",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
       "source": "google_apps_script_appsscript",
       "target": "google_apps_script_appsscript_timezone",
       "relation": "contains",
@@ -9910,5 +10176,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "8ababfea28ec66da48cfb557ed811dabdb40ec95"
+  "built_at_commit": "a55f7de1ed911f2f82211f2f476935c703aee14a"
 }

@@ -832,5 +832,17 @@
     "seen": 1789834202.6741683,
     "ast_hash": "b98325c21f38a8af733f8f663856e4d6",
     "semantic_hash": ""
+  },
+  "cloudflare/email-worker.js": {
+    "mtime": 1789834939.292878,
+    "seen": 1789834968.0011806,
+    "ast_hash": "58669edd3b3b40b0bccb378024e7495f",
+    "semantic_hash": ""
+  },
+  "cloudflare/README.md": {
+    "mtime": 1789834955.760878,
+    "seen": 1789834968.0265727,
+    "ast_hash": "fad7cf0920a723e8a2333add079a89ff",
+    "semantic_hash": ""
   }
 }

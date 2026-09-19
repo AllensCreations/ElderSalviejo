@@ -3449,14 +3449,14 @@
       "source_location": "L28"
     },
     {
-      "id": "google_apps_script_readme_3_one_click_9_00_pm_daily_trigger_setup",
-      "label": "3. One-Click 9:00 PM Daily Trigger Setup",
+      "id": "google_apps_script_readme_3_automated_trigger_setup_instant_scheduled_modes",
+      "label": "3. Automated Trigger Setup: Instant & Scheduled Modes",
       "_origin": "ast",
       "community": 7,
       "community_name": "Step-by-Step Setup in the Dummy Account",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "3. one-click 9:00 pm daily trigger setup",
+      "norm_label": "3. automated trigger setup: instant & scheduled modes",
       "source_file": "google-apps-script/README.md",
       "source_location": "L57"
     },
@@ -3470,7 +3470,7 @@
       "node_kind": "heading",
       "norm_label": "4. how to send submissions from gmail",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L73"
+      "source_location": "L91"
     },
     {
       "id": "google_apps_script_readme_5_scripture_dataset_location_bcbooks_scriptures_json",
@@ -3482,7 +3482,7 @@
       "node_kind": "heading",
       "norm_label": "5. scripture dataset location (`bcbooks/scriptures-json`)",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L138"
+      "source_location": "L156"
     },
     {
       "id": "google_apps_script_readme_6_version_3_0_template_composer_quick_send_now_web_app",
@@ -3494,7 +3494,7 @@
       "node_kind": "heading",
       "norm_label": "6. version 3.0: template composer & quick \"send now\" web app",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L154"
+      "source_location": "L172"
     },
     {
       "id": "google_apps_script_readme_7_testing_diagnostic_guide_how_to_verify_the_pipeline",
@@ -3506,7 +3506,7 @@
       "node_kind": "heading",
       "norm_label": "7. testing & diagnostic guide: how to verify the pipeline",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L190"
+      "source_location": "L208"
     },
     {
       "id": "google_apps_script_readme_a_accessing_the_interactive_web_app_gui",
@@ -3518,7 +3518,7 @@
       "node_kind": "heading",
       "norm_label": "a. accessing the interactive web app (gui)",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L158"
+      "source_location": "L176"
     },
     {
       "id": "google_apps_script_readme_a_run_the_comprehensive_diagnostic_cli_tool",
@@ -3530,7 +3530,7 @@
       "node_kind": "heading",
       "norm_label": "a. run the comprehensive diagnostic cli tool",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L192"
+      "source_location": "L210"
     },
     {
       "id": "google_apps_script_readme_b_testing_in_google_apps_script_toolbar_functions",
@@ -3542,7 +3542,7 @@
       "node_kind": "heading",
       "norm_label": "b. testing in google apps script (toolbar functions)",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L208"
+      "source_location": "L226"
     },
     {
       "id": "google_apps_script_readme_b_the_3_preset_modes",
@@ -3554,7 +3554,7 @@
       "node_kind": "heading",
       "norm_label": "b. the 3 preset modes",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L167"
+      "source_location": "L185"
     },
     {
       "id": "google_apps_script_readme_c_1_click_send_now",
@@ -3566,7 +3566,7 @@
       "node_kind": "heading",
       "norm_label": "c. 1-click \"send now\"",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L181"
+      "source_location": "L199"
     },
     {
       "id": "google_apps_script_readme_c_common_reasons_a_test_email_wasn_t_processed",
@@ -3578,7 +3578,7 @@
       "node_kind": "heading",
       "norm_label": "c. common reasons a test email wasn't processed",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L220"
+      "source_location": "L238"
     },
     {
       "id": "google_apps_script_readme_elder_salviejo_dedicated_dummy_receiver_daily_9_00_pm_p_day_broadcast_guide",
@@ -3617,6 +3617,18 @@
       "source_location": "L40"
     },
     {
+      "id": "google_apps_script_readme_option_a_near_instant_trigger_runs_every_1_minute_recommended",
+      "label": "Option A: Near-Instant Trigger (Runs Every 1 Minute) \u2014 Recommended!",
+      "_origin": "ast",
+      "community": 7,
+      "community_name": "Step-by-Step Setup in the Dummy Account",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "option a: near-instant trigger (runs every 1 minute) \u2014 recommended!",
+      "source_file": "google-apps-script/README.md",
+      "source_location": "L61"
+    },
+    {
       "id": "google_apps_script_readme_option_a_weekly_diary_reflections_p_day_letters",
       "label": "Option A: Weekly Diary Reflections (P-Day Letters)",
       "_origin": "ast",
@@ -3626,7 +3638,19 @@
       "node_kind": "heading",
       "norm_label": "option a: weekly diary reflections (p-day letters)",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L79"
+      "source_location": "L97"
+    },
+    {
+      "id": "google_apps_script_readme_option_b_conservative_trigger_runs_every_5_minutes",
+      "label": "Option B: Conservative Trigger (Runs Every 5 Minutes)",
+      "_origin": "ast",
+      "community": 7,
+      "community_name": "Step-by-Step Setup in the Dummy Account",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "option b: conservative trigger (runs every 5 minutes)",
+      "source_file": "google-apps-script/README.md",
+      "source_location": "L74"
     },
     {
       "id": "google_apps_script_readme_option_b_direct_polaroid_photo_gallery_uploads",
@@ -3638,7 +3662,31 @@
       "node_kind": "heading",
       "norm_label": "option b: direct polaroid photo gallery uploads",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L121"
+      "source_location": "L139"
+    },
+    {
+      "id": "google_apps_script_readme_option_c_daily_9_00_pm_trigger",
+      "label": "Option C: Daily 9:00 PM Trigger",
+      "_origin": "ast",
+      "community": 7,
+      "community_name": "Step-by-Step Setup in the Dummy Account",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "option c: daily 9:00 pm trigger",
+      "source_file": "google-apps-script/README.md",
+      "source_location": "L78"
+    },
+    {
+      "id": "google_apps_script_readme_option_d_instant_on_demand_webhook_ping",
+      "label": "Option D: Instant On-Demand Webhook Ping",
+      "_origin": "ast",
+      "community": 7,
+      "community_name": "Step-by-Step Setup in the Dummy Account",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "option d: instant on-demand webhook ping",
+      "source_file": "google-apps-script/README.md",
+      "source_location": "L82"
     },
     {
       "id": "google_apps_script_readme_step_by_step_setup_in_the_dummy_account",
@@ -7139,6 +7187,50 @@
       "weight": 1.0
     },
     {
+      "source": "google_apps_script_readme_3_automated_trigger_setup_instant_scheduled_modes",
+      "target": "google_apps_script_readme_option_a_near_instant_trigger_runs_every_1_minute_recommended",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "google-apps-script/README.md",
+      "source_location": "L61",
+      "weight": 1.0
+    },
+    {
+      "source": "google_apps_script_readme_3_automated_trigger_setup_instant_scheduled_modes",
+      "target": "google_apps_script_readme_option_b_conservative_trigger_runs_every_5_minutes",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "google-apps-script/README.md",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "google_apps_script_readme_3_automated_trigger_setup_instant_scheduled_modes",
+      "target": "google_apps_script_readme_option_c_daily_9_00_pm_trigger",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "google-apps-script/README.md",
+      "source_location": "L78",
+      "weight": 1.0
+    },
+    {
+      "source": "google_apps_script_readme_3_automated_trigger_setup_instant_scheduled_modes",
+      "target": "google_apps_script_readme_option_d_instant_on_demand_webhook_ping",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "google-apps-script/README.md",
+      "source_location": "L82",
+      "weight": 1.0
+    },
+    {
       "source": "google_apps_script_readme_4_how_to_send_submissions_from_gmail",
       "target": "google_apps_script_readme_option_b_direct_polaroid_photo_gallery_uploads",
       "relation": "contains",
@@ -7146,7 +7238,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L121",
+      "source_location": "L139",
       "weight": 1.0
     },
     {
@@ -7157,7 +7249,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L79",
+      "source_location": "L97",
       "weight": 1.0
     },
     {
@@ -7168,7 +7260,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L158",
+      "source_location": "L176",
       "weight": 1.0
     },
     {
@@ -7179,7 +7271,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L167",
+      "source_location": "L185",
       "weight": 1.0
     },
     {
@@ -7190,7 +7282,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L181",
+      "source_location": "L199",
       "weight": 1.0
     },
     {
@@ -7201,7 +7293,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L192",
+      "source_location": "L210",
       "weight": 1.0
     },
     {
@@ -7212,7 +7304,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L208",
+      "source_location": "L226",
       "weight": 1.0
     },
     {
@@ -7223,7 +7315,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L220",
+      "source_location": "L238",
       "weight": 1.0
     },
     {
@@ -7245,18 +7337,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L138",
-      "weight": 1.0
-    },
-    {
-      "source": "google_apps_script_readme_step_by_step_setup_in_the_dummy_account",
-      "target": "google_apps_script_readme_6_version_3_0_template_composer_quick_send_now_web_app",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "google-apps-script/README.md",
-      "source_location": "L154",
+      "source_location": "L156",
       "weight": 1.0
     },
     {
@@ -7272,13 +7353,24 @@
     },
     {
       "source": "google_apps_script_readme_step_by_step_setup_in_the_dummy_account",
+      "target": "google_apps_script_readme_6_version_3_0_template_composer_quick_send_now_web_app",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "google-apps-script/README.md",
+      "source_location": "L172",
+      "weight": 1.0
+    },
+    {
+      "source": "google_apps_script_readme_step_by_step_setup_in_the_dummy_account",
       "target": "google_apps_script_readme_7_testing_diagnostic_guide_how_to_verify_the_pipeline",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L190",
+      "source_location": "L208",
       "weight": 1.0
     },
     {
@@ -7294,7 +7386,7 @@
     },
     {
       "source": "google_apps_script_readme_step_by_step_setup_in_the_dummy_account",
-      "target": "google_apps_script_readme_3_one_click_9_00_pm_daily_trigger_setup",
+      "target": "google_apps_script_readme_3_automated_trigger_setup_instant_scheduled_modes",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -7311,7 +7403,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L73",
+      "source_location": "L91",
       "weight": 1.0
     },
     {

@@ -1,12 +1,12 @@
 # Graph Report - ElderSalviejo  (2026-09-19)
 
 ## Corpus Check
-- 47 files · ~1,879,752 words
+- 47 files · ~1,879,879 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: .css 4, (none) 3, .ico 2)
 
 ## Summary
-- 328 nodes · 522 edges · 22 communities (18 shown, 4 thin omitted)
+- 332 nodes · 526 edges · 22 communities (18 shown, 4 thin omitted)
 - Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 40 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
@@ -94,8 +94,8 @@ Cohesion: 0.18
 Nodes (11): allPhotos, escapeAttr(), escapeHtml(), filterByCategory(), filteredPhotos, loadGallery(), loadMorePhotos(), renderFilters() (+3 more)
 
 ### Community 7 - "Step-by-Step Setup in the Dummy Account"
-Cohesion: 0.10
-Nodes (19): 1. Create the Google Apps Script Project, 2. Configure Private Credentials (Zero Secrets in Public Git), 3. One-Click 9:00 PM Daily Trigger Setup, 4. How to Send Submissions from Gmail, 5. Scripture Dataset Location (`bcbooks/scriptures-json`), 6. Version 3.0: Template Composer & Quick "Send Now" Web App, 7. Testing & Diagnostic Guide: How to Verify the Pipeline, A. Accessing the Interactive Web App (GUI) (+11 more)
+Cohesion: 0.08
+Nodes (23): 1. Create the Google Apps Script Project, 2. Configure Private Credentials (Zero Secrets in Public Git), 3. Automated Trigger Setup: Instant & Scheduled Modes, 4. How to Send Submissions from Gmail, 5. Scripture Dataset Location (`bcbooks/scriptures-json`), 6. Version 3.0: Template Composer & Quick "Send Now" Web App, 7. Testing & Diagnostic Guide: How to Verify the Pipeline, A. Accessing the Interactive Web App (GUI) (+15 more)
 
 ### Community 8 - "js/index.js"
 Cohesion: 0.23
@@ -138,8 +138,8 @@ Cohesion: 0.60
 Nodes (3): preloadAllImages(), showPrintGuidanceToast(), triggerPrintWithPreload()
 
 ## Knowledge Gaps
-- **135 isolated node(s):** `crypto`, `{ exportCompleteDatabase, initDatabase }`, `{ autoSaveToGitHub }`, `{ addEncouragement, getEncouragementsForSlug, initDatabase }`, `{ checkRateLimit, isHoneypotTriggered }` (+130 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 159 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **138 isolated node(s):** `crypto`, `{ exportCompleteDatabase, initDatabase }`, `{ autoSaveToGitHub }`, `{ addEncouragement, getEncouragementsForSlug, initDatabase }`, `{ checkRateLimit, isHoneypotTriggered }` (+133 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 162 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
@@ -148,7 +148,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `initDatabase()` connect `turso.js` to `server.js`, `scriptures.js`, `encouragements.js`?**
   _High betweenness centrality (0.012) - this node is a cross-community bridge._
 - **What connects `crypto`, `{ exportCompleteDatabase, initDatabase }`, `{ autoSaveToGitHub }` to the rest of the system?**
-  _135 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _138 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `turso.js` be split into smaller, more focused modules?**
   _Cohesion score 0.09948979591836735 - nodes in this community are weakly interconnected._
 - **Should `server.js` be split into smaller, more focused modules?**
