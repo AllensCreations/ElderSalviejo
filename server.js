@@ -226,6 +226,13 @@ const server = http.createServer(async (req, res) => {
       return serveStaticFile(req, res, weekHtmlPath, 'text/html; charset=UTF-8', 'public, max-age=3600, stale-while-revalidate=86400');
     }
 
+    // 5e. Frontend Template Composer: /compose
+    if (pathname === '/compose') {
+      const composeHtmlPath = path.join(PUBLIC_DIR, 'compose.html');
+      return serveStaticFile(req, res, composeHtmlPath, 'text/html; charset=UTF-8', 'public, max-age=3600, stale-while-revalidate=86400');
+    }
+
+
     // 6. Frontend Index Vault: /
     if (pathname === '/' || pathname === '/index.html') {
       const indexHtmlPath = path.join(PUBLIC_DIR, 'index.html');

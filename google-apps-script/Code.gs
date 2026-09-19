@@ -2028,3 +2028,818 @@ function testVerifyAndApplyGmailLabel() {
   Logger.log('Check your Gmail inbox - you will see the label attached to the email thread.');
   Logger.log('=======================================');
 }
+
+
+// =========================================================================
+// VERSION 3.0: TEMPLATE COMPOSER & QUICK "SEND NOW" WEB APP & ENGINE
+// =========================================================================
+
+/**
+ * Web App Entry Point (GET):
+ * Serves the interactive Template Composer & "Send Now" GUI.
+ * Allows sending 159266 Weekly Diary, 073000 Photo Gallery, and rich HTML Code templates
+ * with one click directly from any mobile or desktop browser.
+ */
+function doGet(e) {
+  return HtmlService.createHtmlOutput(getSenderWebAppHtml())
+    .setTitle("Elder Salviejo • Template Composer & Quick Sender")
+    .addMetaTag("viewport", "width=device-width, initial-scale=1.0")
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+/**
+ * Returns contextual details to pre-populate the Web App client.
+ */
+function getComposerContext() {
+  const props = PropertiesService.getScriptProperties();
+  let userEmail = '';
+  try {
+    userEmail = (Session.getEffectiveUser() && Session.getEffectiveUser().getEmail()) ||
+                (Session.getActiveUser() && Session.getActiveUser().getEmail()) || '';
+  } catch (_) {}
+
+  const diaryCode = props.getProperty('SECRET_DIARY_CODE') || props.getProperty('SECRET_CODE') || '159266';
+  const galleryCode = props.getProperty('SECRET_GALLERY_CODE') || '073000';
+  const allowedSender = props.getProperty('ALLOWED_SENDER') || CONFIG.ALLOWED_SENDER || '';
+  const siteUrl = getSiteUrl();
+
+  return {
+    userEmail: userEmail,
+    dummyInbox: userEmail || allowedSender || 'dummy@gmail.com',
+    diaryPasscode: diaryCode,
+    galleryPasscode: galleryCode,
+    allowedSender: allowedSender,
+    siteUrl: siteUrl
+  };
+}
+
+/**
+ * Standard default responsive HTML email template matching the website's warm stone and amber theme.
+ */
+function getDefaultNewsletterHtml(siteUrl) {
+  const targetUrl = siteUrl || 'https://eldersalviejo.vercel.app';
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elder Mark Salviejo — Weekly Mission Update</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f1ea; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1c1917;">
+  <div style="max-width: 600px; margin: 24px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e7e5e4;">
+    
+    <!-- Top Header Banner -->
+    <div style="background-color: #1c1917; padding: 32px 24px; text-align: center; border-bottom: 3px solid #d97706;">
+      <p style="margin: 0 0 6px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #d97706; font-weight: 700;">Philippines Dumaguete Mission</p>
+      <h1 style="margin: 0 0 6px 0; font-family: Georgia, serif; font-size: 26px; color: #ffffff; font-weight: 700; letter-spacing: 0.5px;">Elder Mark Salviejo</h1>
+      <p style="margin: 0; font-size: 13px; color: #a8a29e; font-style: italic; font-family: Georgia, serif;">Weekly Missionary Journal & Memories</p>
+    </div>
+
+    <!-- Main Content Container -->
+    <div style="padding: 32px 28px;">
+      
+      <!-- Week Title -->
+      <div style="border-bottom: 2px solid #f5f5f4; padding-bottom: 16px; margin-bottom: 24px;">
+        <span style="display: inline-block; background-color: #fef3c7; color: #92400e; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Weekly Reflection</span>
+        <h2 style="font-family: Georgia, serif; font-size: 22px; color: #1c1917; margin: 6px 0 0 0;">Dedicated Mission Update</h2>
+      </div>
+
+      <!-- Scripture Highlight Box -->
+      <div style="background-color: #fafaf9; border-left: 4px solid #d97706; border-radius: 6px; padding: 18px 20px; margin-bottom: 26px;">
+        <p style="margin: 0 0 6px 0; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #b45309;">Scripture of the Week &bull; Alma 26:12</p>
+        <p style="margin: 0; font-family: Georgia, serif; font-size: 14px; font-style: italic; color: #44403c; line-height: 1.6;">
+          &ldquo;Yea, I know that I am nothing; as to my strength I am weak; therefore I will not boast of myself, but I will boast of my God, for in his strength I can do all things.&rdquo;
+        </p>
+      </div>
+
+      <!-- Reflection Letter Body -->
+      <div style="font-size: 14px; line-height: 1.75; color: #44403c; margin-bottom: 30px;">
+        <p style="margin: 0 0 16px 0;">
+          Dear Family, Friends, and Supporters,
+        </p>
+        <p style="margin: 0 0 16px 0;">
+          This week has been full of remarkable blessings in the Dumaguete Mission. Through daily companionship study, street contacting, and teaching families the Gospel of Jesus Christ, we have seen hearts touched and testimonies strengthened.
+        </p>
+        <p style="margin: 0 0 16px 0;">
+          Thank you so much for your continuous prayers, encouragement, and love. Your messages on the mission board mean the world to us!
+        </p>
+      </div>
+
+      <!-- Call to Action Button -->
+      <div style="text-align: center; margin: 36px 0 16px 0;">
+        <a href="${targetUrl}" target="_blank" style="background-color: #d97706; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 700; font-size: 14px; display: inline-block; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);">
+          Explore the Weekly Vault &rarr;
+        </a>
+      </div>
+      
+      <p style="text-align: center; font-size: 11px; color: #a8a29e; margin: 0;">
+        Direct archive link: <a href="${targetUrl}" style="color: #b45309; text-decoration: underline;">${targetUrl}</a>
+      </p>
+
+    </div>
+
+    <!-- Dignified Footer -->
+    <div style="background-color: #fafaf9; border-top: 1px solid #f5f5f4; padding: 20px 24px; text-align: center; font-size: 11px; color: #78716c; line-height: 1.6;">
+      <p style="margin: 0 0 4px 0; font-weight: 600; color: #44403c;">Elder Mark Salviejo &bull; Philippines Dumaguete Mission</p>
+      <p style="margin: 0;">This update was dispatched via the automated missionary archival pipeline.</p>
+    </div>
+
+  </div>
+</body>
+</html>`;
+}
+
+/**
+ * Dispatches an email from the Web App via GmailApp.sendEmail.
+ * Handles plaintext body, rich HTML body, and multi-file attachments.
+ */
+function sendTemplateEmailFromWebApp(data) {
+  if (!data || !data.recipient || !data.subject) {
+    throw new Error('Recipient email and Subject are required.');
+  }
+
+  const recipient = data.recipient.trim();
+  const subject = data.subject.trim();
+  const mode = data.mode || 'diary';
+
+  // Decode any Base64 attachments from the browser file picker
+  const attachments = [];
+  if (Array.isArray(data.attachments)) {
+    data.attachments.forEach(att => {
+      if (att && att.base64) {
+        try {
+          const decoded = Utilities.base64Decode(att.base64);
+          const blob = Utilities.newBlob(decoded, att.type || 'image/jpeg', att.name || 'photo.jpg');
+          attachments.push(blob);
+        } catch (attErr) {
+          Logger.log(`Notice decoding attachment ${att.name || 'unknown'}: ${attErr.message}`);
+        }
+      }
+    });
+  }
+
+  const options = {
+    name: 'Elder Mark Salviejo',
+    attachments: attachments
+  };
+
+  if (mode === 'html') {
+    options.htmlBody = data.htmlContent || data.bodyText || '';
+    GmailApp.sendEmail(recipient, subject, data.bodyText || 'Elder Mark Salviejo mission update (HTML format).', options);
+  } else {
+    GmailApp.sendEmail(recipient, subject, data.bodyText || '', options);
+  }
+
+  return {
+    success: true,
+    recipient: recipient,
+    subject: subject,
+    mode: mode,
+    attachmentCount: attachments.length,
+    timestamp: Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'MMM d, yyyy • h:mm:ss a')
+  };
+}
+
+/**
+ * Toolbar Runner: 1-Click "Send Now" for 159266 Weekly Diary.
+ * Select "sendNowDiaryTemplate" in toolbar dropdown and click "Run".
+ */
+function sendNowDiaryTemplate(toEmail) {
+  const ctx = getComposerContext();
+  const target = toEmail || ctx.userEmail || ctx.dummyInbox;
+  if (!target) {
+    Logger.log('[FAIL] No recipient email specified.');
+    return;
+  }
+  const subject = `Weekly Reflection: Week 1 in Dumaguete ${ctx.diaryPasscode}`;
+  const body = `-VERSE- (Alma 26:12)\n\n--- MONDAY ---\nPreparation day! Did laundry, wrote emails to family, and companion study in Dumaguete.\n\n--- TUESDAY ---\nMorning proselyting and teaching discussions in Sibulan district.\n\n--- WEDNESDAY ---\nTaught the Plan of Salvation to Brother Bautista and enjoyed fresh buko juice.\n\n--- THURSDAY ---\nDistrict Council meeting in Dumaguete City. Practiced Cebuano language roleplays.\n\n--- FRIDAY ---\nService project helping local families repair bamboo fences.\n\n--- SATURDAY ---\nStreet contacting along Rizal Boulevard during sunset overlooking the ocean.\n\n--- SUNDAY ---\nSacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior Jesus Christ.`;
+  
+  GmailApp.sendEmail(target, subject, body, { name: 'Elder Mark Salviejo' });
+  Logger.log(`[PASS] Dispatched 159266 Diary Template to: ${target}`);
+}
+
+/**
+ * Toolbar Runner: 1-Click "Send Now" for 073000 Photo Gallery.
+ * Select "sendNowGalleryTemplate" in toolbar dropdown and click "Run".
+ */
+function sendNowGalleryTemplate(toEmail) {
+  const ctx = getComposerContext();
+  const target = toEmail || ctx.userEmail || ctx.dummyInbox;
+  if (!target) {
+    Logger.log('[FAIL] No recipient email specified.');
+    return;
+  }
+  const subject = `Dumaguete District Conference [Mission] ${ctx.galleryPasscode}`;
+  const body = `Wonderful district conference gathering with companions and members across Negros Oriental!`;
+  
+  GmailApp.sendEmail(target, subject, body, { name: 'Elder Mark Salviejo' });
+  Logger.log(`[PASS] Dispatched 073000 Gallery Template to: ${target}`);
+}
+
+/**
+ * Toolbar Runner: 1-Click "Send Now" for Rich HTML Code Template.
+ * Select "sendNowHtmlCodeTemplate" in toolbar dropdown and click "Run".
+ */
+function sendNowHtmlCodeTemplate(toEmail) {
+  const ctx = getComposerContext();
+  const target = toEmail || ctx.userEmail || ctx.dummyInbox;
+  if (!target) {
+    Logger.log('[FAIL] No recipient email specified.');
+    return;
+  }
+  const subject = `Elder Mark Salviejo — Weekly Mission Update [Philippines Dumaguete Mission]`;
+  const html = getDefaultNewsletterHtml(ctx.siteUrl);
+  
+  GmailApp.sendEmail(target, subject, 'Elder Mark Salviejo — Weekly Mission Update (HTML format).', {
+    htmlBody: html,
+    name: 'Elder Mark Salviejo'
+  });
+  Logger.log(`[PASS] Dispatched HTML Code Template to: ${target}`);
+}
+
+/**
+ * Returns the HTML/CSS/JS payload for the Web App GUI.
+ */
+function getSenderWebAppHtml() {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Elder Salviejo • Template Composer & Quick Sender</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg: #f5f5f4;
+      --card: #ffffff;
+      --border: #e7e5e4;
+      --amber: #d97706;
+      --amber-dark: #b45309;
+      --amber-light: #fef3c7;
+      --text: #1c1917;
+      --muted: #78716c;
+      --stone-dark: #292524;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 16px;
+    }
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      background: var(--card);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .header {
+      background: var(--stone-dark);
+      color: #fff;
+      padding: 24px 20px;
+      text-align: center;
+      border-bottom: 3px solid var(--amber);
+    }
+    .header .subtitle {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--amber);
+      font-weight: 700;
+    }
+    .header h1 {
+      font-family: Georgia, serif;
+      font-size: 22px;
+      margin: 6px 0 2px;
+    }
+    .header .caption {
+      font-size: 12px;
+      color: #a8a29e;
+      font-style: italic;
+    }
+    .body-content {
+      padding: 24px 20px;
+    }
+    .section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    /* Template Selector Tabs */
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .tab-btn {
+      padding: 12px 14px;
+      border: 2px solid var(--border);
+      background: #fafaf9;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--stone-dark);
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+    .tab-btn:hover {
+      border-color: var(--amber);
+      background: #fff;
+    }
+    .tab-btn.active {
+      border-color: var(--amber);
+      background: var(--amber-light);
+      color: var(--amber-dark);
+    }
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 9999px;
+      margin-left: 4px;
+      background: rgba(0,0,0,0.06);
+    }
+    /* Recipient & Inputs */
+    .form-group {
+      margin-bottom: 18px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+    input[type="text"], input[type="email"], textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      color: var(--text);
+      background: #fff;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+      outline: none;
+      border-color: var(--amber);
+    }
+    textarea {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      min-height: 180px;
+      resize: vertical;
+    }
+    /* Pills */
+    .pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .pill {
+      font-size: 11px;
+      padding: 4px 10px;
+      background: #f5f5f4;
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      cursor: pointer;
+      color: var(--muted);
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .pill:hover {
+      background: #e7e5e4;
+      color: var(--text);
+    }
+    /* HTML Subtabs */
+    .html-subtabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .subtab-btn {
+      font-size: 12px;
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      background: #fafaf9;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .subtab-btn.active {
+      background: var(--stone-dark);
+      color: #fff;
+      border-color: var(--stone-dark);
+    }
+    .preview-frame {
+      width: 100%;
+      height: 380px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #fff;
+      display: none;
+    }
+    /* Attachment Box */
+    .attachment-box {
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+      background: #fafaf9;
+      margin-bottom: 18px;
+    }
+    .file-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+      justify-content: center;
+    }
+    .file-chip {
+      font-size: 11px;
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: var(--muted);
+    }
+    /* Action Button */
+    .btn-send {
+      width: 100%;
+      padding: 14px 20px;
+      background-color: var(--amber);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
+      transition: all 0.2s;
+    }
+    .btn-send:hover {
+      background-color: var(--amber-dark);
+    }
+    .btn-send:disabled {
+      background-color: #d6d3d1;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    /* Status Box */
+    .status-box {
+      margin-top: 16px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      display: none;
+    }
+    .status-box.success {
+      display: block;
+      background-color: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    .status-box.error {
+      display: block;
+      background-color: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+    .status-box.loading {
+      display: block;
+      background-color: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Top Banner -->
+    <div class="header">
+      <p class="subtitle">Philippines Dumaguete Mission</p>
+      <h1>Elder Mark Salviejo</h1>
+      <p class="caption">Template Composer & Quick "Send Now" Web App • Version 3.0</p>
+    </div>
+
+    <div class="body-content">
+      
+      <!-- Template Selector -->
+      <div class="section-title">Select Template Preset</div>
+      <div class="tabs">
+        <button type="button" class="tab-btn active" id="tabDiary" onclick="selectTemplate('diary')">
+          159266 Weekly Diary <span class="badge">Mon-Sun</span>
+        </button>
+        <button type="button" class="tab-btn" id="tabGallery" onclick="selectTemplate('gallery')">
+          073000 Photo Gallery <span class="badge">Album</span>
+        </button>
+        <button type="button" class="tab-btn" id="tabHtml" onclick="selectTemplate('html')">
+          HTML Code Template <span class="badge">Rich Email</span>
+        </button>
+      </div>
+
+      <!-- Recipient Field -->
+      <div class="form-group">
+        <label for="toEmail">To (Recipient Email):</label>
+        <input type="email" id="toEmail" placeholder="recipient@example.com" required>
+        <div class="pills">
+          <button type="button" class="pill" onclick="setPillRecipient('me')">Send to Me (Tester)</button>
+          <button type="button" class="pill" onclick="setPillRecipient('dummy')">Send to Ingest Vault (Dummy)</button>
+          <button type="button" class="pill" onclick="setPillRecipient('custom')">Clear</button>
+        </div>
+      </div>
+
+      <!-- Subject Line -->
+      <div class="form-group">
+        <label for="emailSubject">Subject Line:</label>
+        <input type="text" id="emailSubject" placeholder="Email Subject..." required>
+      </div>
+
+      <!-- Plain Text Body Container (for Diary and Gallery) -->
+      <div class="form-group" id="plainContainer">
+        <label for="plainTextBody">Body Content:</label>
+        <textarea id="plainTextBody"></textarea>
+      </div>
+
+      <!-- HTML Code & Live Preview Container (for HTML Template) -->
+      <div class="form-group" id="htmlContainer" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <label style="margin: 0;">HTML Code & Live Preview:</label>
+          <div class="html-subtabs">
+            <button type="button" class="subtab-btn active" id="subtabCode" onclick="switchHtmlTab('code')">HTML Code</button>
+            <button type="button" class="subtab-btn" id="subtabPreview" onclick="switchHtmlTab('preview')">Live Preview</button>
+          </div>
+        </div>
+        <textarea id="htmlCode" oninput="updateHtmlPreview()"></textarea>
+        <iframe id="previewIframe" class="preview-frame"></iframe>
+      </div>
+
+      <!-- Optional Photo Attachments -->
+      <div class="form-group">
+        <label>Photo Attachments (Optional for 159266 & 073000):</label>
+        <div class="attachment-box">
+          <input type="file" id="photoPicker" multiple accept="image/*" onchange="handleFileSelect(event)">
+          <div id="fileChips" class="file-chips"></div>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <button type="button" class="btn-send" id="btnSendNow" onclick="dispatchSendNow()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+        <span id="btnText">Send Now</span>
+      </button>
+
+      <!-- Status Notification Box -->
+      <div id="statusBox" class="status-box"></div>
+
+    </div>
+  </div>
+
+  <script>
+    // Global state
+    var currentMode = 'diary';
+    var cachedFiles = [];
+    var appContext = {
+      userEmail: '',
+      dummyInbox: '',
+      diaryPasscode: '159266',
+      galleryPasscode: '073000',
+      siteUrl: 'https://eldersalviejo.vercel.app'
+    };
+
+    // Preset templates
+    var TEMPLATES = {
+      diary: {
+        getSubject: function(ctx) {
+          return 'Weekly Reflection: Week 1 in Dumaguete ' + (ctx.diaryPasscode || '159266');
+        },
+        getBody: function() {
+          return '-VERSE- (Alma 26:12)\\n\\n--- MONDAY ---\\nPreparation day! Did laundry, wrote emails to family, and companion study in Dumaguete.\\n\\n--- TUESDAY ---\\nMorning proselyting and teaching discussions in Sibulan district.\\n\\n--- WEDNESDAY ---\\nTaught the Plan of Salvation to Brother Bautista and enjoyed fresh buko juice.\\n\\n--- THURSDAY ---\\nDistrict Council meeting in Dumaguete City. Practiced Cebuano language roleplays.\\n\\n--- FRIDAY ---\\nService project helping local families repair bamboo fences.\\n\\n--- SATURDAY ---\\nStreet contacting along Rizal Boulevard during sunset overlooking the ocean.\\n\\n--- SUNDAY ---\\nSacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior Jesus Christ.';
+        }
+      },
+      gallery: {
+        getSubject: function(ctx) {
+          return 'Sibulan District Conference [Mission] ' + (ctx.galleryPasscode || '073000');
+        },
+        getBody: function() {
+          return 'Wonderful district conference gathering with companions and members across the Negros Oriental zone!';
+        }
+      },
+      html: {
+        getSubject: function() {
+          return 'Elder Mark Salviejo — Weekly Mission Update [Philippines Dumaguete Mission]';
+        },
+        getHtml: function(ctx) {
+          var target = (ctx && ctx.siteUrl) || 'https://eldersalviejo.vercel.app';
+          return '<!DOCTYPE html>\\n<html lang="en">\\n<head>\\n  <meta charset="utf-8">\\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\\n  <title>Elder Mark Salviejo — Weekly Mission Update</title>\\n</head>\\n<body style="margin: 0; padding: 0; background-color: #f4f1ea; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif; color: #1c1917;">\\n  <div style="max-width: 600px; margin: 24px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e7e5e4;">\\n    \\n    <div style="background-color: #1c1917; padding: 32px 24px; text-align: center; border-bottom: 3px solid #d97706;">\\n      <p style="margin: 0 0 6px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #d97706; font-weight: 700;">Philippines Dumaguete Mission</p>\\n      <h1 style="margin: 0 0 6px 0; font-family: Georgia, serif; font-size: 26px; color: #ffffff; font-weight: 700;">Elder Mark Salviejo</h1>\\n      <p style="margin: 0; font-size: 13px; color: #a8a29e; font-style: italic; font-family: Georgia, serif;">Weekly Missionary Journal &amp; Memories</p>\\n    </div>\\n\\n    <div style="padding: 32px 28px;">\\n      <div style="border-bottom: 2px solid #f5f5f4; padding-bottom: 16px; margin-bottom: 24px;">\\n        <span style="display: inline-block; background-color: #fef3c7; color: #92400e; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Weekly Reflection</span>\\n        <h2 style="font-family: Georgia, serif; font-size: 22px; color: #1c1917; margin: 6px 0 0 0;">Dedicated Mission Update</h2>\\n      </div>\\n\\n      <div style="background-color: #fafaf9; border-left: 4px solid #d97706; border-radius: 6px; padding: 18px 20px; margin-bottom: 26px;">\\n        <p style="margin: 0 0 6px 0; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #b45309;">Scripture of the Week &bull; Alma 26:12</p>\\n        <p style="margin: 0; font-family: Georgia, serif; font-size: 14px; font-style: italic; color: #44403c; line-height: 1.6;">\\n          &ldquo;Yea, I know that I am nothing; as to my strength I am weak; therefore I will not boast of myself, but I will boast of my God, for in his strength I can do all things.&rdquo;\\n        </p>\\n      </div>\\n\\n      <div style="font-size: 14px; line-height: 1.75; color: #44403c; margin-bottom: 30px;">\\n        <p style="margin: 0 0 16px 0;">Dear Family, Friends, and Supporters,</p>\\n        <p style="margin: 0 0 16px 0;">This week has been full of remarkable blessings in the Dumaguete Mission. Through daily companionship study, street contacting, and teaching families the Gospel of Jesus Christ, we have seen hearts touched and testimonies strengthened.</p>\\n        <p style="margin: 0 0 16px 0;">Thank you so much for your continuous prayers, encouragement, and love. Your messages on the mission board mean the world to us!</p>\\n      </div>\\n\\n      <div style="text-align: center; margin: 36px 0 16px 0;">\\n        <a href="' + target + '" target="_blank" style="background-color: #d97706; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 700; font-size: 14px; display: inline-block; letter-spacing: 0.5px;">Explore the Weekly Vault &rarr;</a>\\n      </div>\\n    </div>\\n\\n    <div style="background-color: #fafaf9; border-top: 1px solid #f5f5f4; padding: 20px 24px; text-align: center; font-size: 11px; color: #78716c;">\\n      <p style="margin: 0 0 4px 0; font-weight: 600; color: #44403c;">Elder Mark Salviejo &bull; Philippines Dumaguete Mission</p>\\n      <p style="margin: 0;">Official missionary archive update.</p>\\n    </div>\\n  </div>\\n</body>\\n</html>';
+        }
+      }
+    };
+
+    // Initialization
+    window.addEventListener('DOMContentLoaded', function() {
+      // Load context from server if running in Google Apps Script
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(function(ctx) {
+            if (ctx) {
+              appContext = ctx;
+              if (!document.getElementById('toEmail').value) {
+                document.getElementById('toEmail').value = ctx.userEmail || ctx.dummyInbox || '';
+              }
+              // Refresh initial template
+              selectTemplate(currentMode);
+            }
+          })
+          .getComposerContext();
+      } else {
+        selectTemplate('diary');
+      }
+    });
+
+    function selectTemplate(mode) {
+      currentMode = mode;
+      
+      // Update tab active states
+      document.getElementById('tabDiary').className = 'tab-btn' + (mode === 'diary' ? ' active' : '');
+      document.getElementById('tabGallery').className = 'tab-btn' + (mode === 'gallery' ? ' active' : '');
+      document.getElementById('tabHtml').className = 'tab-btn' + (mode === 'html' ? ' active' : '');
+
+      var subjectInput = document.getElementById('emailSubject');
+      var plainContainer = document.getElementById('plainContainer');
+      var htmlContainer = document.getElementById('htmlContainer');
+
+      if (mode === 'diary') {
+        plainContainer.style.display = 'block';
+        htmlContainer.style.display = 'none';
+        subjectInput.value = TEMPLATES.diary.getSubject(appContext);
+        document.getElementById('plainTextBody').value = TEMPLATES.diary.getBody();
+      } else if (mode === 'gallery') {
+        plainContainer.style.display = 'block';
+        htmlContainer.style.display = 'none';
+        subjectInput.value = TEMPLATES.gallery.getSubject(appContext);
+        document.getElementById('plainTextBody').value = TEMPLATES.gallery.getBody();
+      } else if (mode === 'html') {
+        plainContainer.style.display = 'none';
+        htmlContainer.style.display = 'block';
+        subjectInput.value = TEMPLATES.html.getSubject();
+        var htmlCodeBox = document.getElementById('htmlCode');
+        if (!htmlCodeBox.value) {
+          htmlCodeBox.value = TEMPLATES.html.getHtml(appContext);
+        }
+        updateHtmlPreview();
+        switchHtmlTab('code');
+      }
+    }
+
+    function setPillRecipient(type) {
+      var toInput = document.getElementById('toEmail');
+      if (type === 'me') {
+        toInput.value = appContext.userEmail || '';
+      } else if (type === 'dummy') {
+        toInput.value = appContext.dummyInbox || '';
+      } else {
+        toInput.value = '';
+        toInput.focus();
+      }
+    }
+
+    function switchHtmlTab(tab) {
+      var codeBox = document.getElementById('htmlCode');
+      var iframe = document.getElementById('previewIframe');
+      var btnCode = document.getElementById('subtabCode');
+      var btnPreview = document.getElementById('subtabPreview');
+
+      if (tab === 'preview') {
+        updateHtmlPreview();
+        codeBox.style.display = 'none';
+        iframe.style.display = 'block';
+        btnCode.className = 'subtab-btn';
+        btnPreview.className = 'subtab-btn active';
+      } else {
+        codeBox.style.display = 'block';
+        iframe.style.display = 'none';
+        btnCode.className = 'subtab-btn active';
+        btnPreview.className = 'subtab-btn';
+      }
+    }
+
+    function updateHtmlPreview() {
+      var html = document.getElementById('htmlCode').value;
+      var iframe = document.getElementById('previewIframe');
+      iframe.srcdoc = html;
+    }
+
+    function handleFileSelect(evt) {
+      var files = evt.target.files;
+      cachedFiles = [];
+      var chipsDiv = document.getElementById('fileChips');
+      chipsDiv.innerHTML = '';
+
+      for (var i = 0; i < files.length; i++) {
+        (function(file) {
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            var base64 = e.target.result.split(',')[1];
+            cachedFiles.push({
+              name: file.name,
+              type: file.type,
+              base64: base64
+            });
+            var chip = document.createElement('div');
+            chip.className = 'file-chip';
+            chip.textContent = file.name + ' (' + Math.round(file.size / 1024) + ' KB)';
+            chipsDiv.appendChild(chip);
+          };
+          reader.readAsDataURL(file);
+        })(files[i]);
+      }
+    }
+
+    function setStatus(type, message) {
+      var box = document.getElementById('statusBox');
+      box.className = 'status-box ' + type;
+      box.innerHTML = message;
+    }
+
+    function dispatchSendNow() {
+      var to = document.getElementById('toEmail').value.trim();
+      var subject = document.getElementById('emailSubject').value.trim();
+      
+      if (!to) {
+        setStatus('error', 'Please enter a recipient email address.');
+        return;
+      }
+      if (!subject) {
+        setStatus('error', 'Please enter an email subject.');
+        return;
+      }
+
+      var payload = {
+        recipient: to,
+        subject: subject,
+        mode: currentMode,
+        bodyText: document.getElementById('plainTextBody').value,
+        htmlContent: document.getElementById('htmlCode').value,
+        attachments: cachedFiles
+      };
+
+      var btn = document.getElementById('btnSendNow');
+      var btnText = document.getElementById('btnText');
+      btn.disabled = true;
+      btnText.textContent = 'Sending...';
+      setStatus('loading', 'Dispatching email template via GmailApp.sendEmail...');
+
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(function(res) {
+            btn.disabled = false;
+            btnText.textContent = 'Send Now';
+            if (res && res.success) {
+              setStatus('success', 'Email sent successfully to <strong>' + res.recipient + '</strong> at ' + res.timestamp + (res.attachmentCount ? ' (' + res.attachmentCount + ' photo attachment(s))' : ''));
+            } else {
+              setStatus('error', 'Notice sending email.');
+            }
+          })
+          .withFailureHandler(function(err) {
+            btn.disabled = false;
+            btnText.textContent = 'Send Now';
+            setStatus('error', 'Error sending email: ' + (err.message || err));
+          })
+          .sendTemplateEmailFromWebApp(payload);
+      } else {
+        // Local simulation / fallback
+        setTimeout(function() {
+          btn.disabled = false;
+          btnText.textContent = 'Send Now';
+          setStatus('success', '[SIMULATION] Successfully prepared email for: <strong>' + to + '</strong> (Subject: "' + subject + '")');
+        }, 800);
+      }
+    }
+  </script>
+
+</body>
+</html>`;
+}

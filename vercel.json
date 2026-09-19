@@ -25,6 +25,10 @@
     {
       "source": "/gallery",
       "destination": "/gallery"
+    },
+    {
+      "source": "/compose",
+      "destination": "/compose"
     }
   ],
   "headers": [

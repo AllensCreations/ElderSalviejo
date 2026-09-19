@@ -1,6 +1,6 @@
 {
   "name": "gmail-diary-vault",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Serverless event-driven weekly diary pipeline bridging Gmail, Google Apps Script, Vercel API, Turso SQLite, and an archival editorial missionary journal vault.",
   "main": "server.js",
   "scripts": {

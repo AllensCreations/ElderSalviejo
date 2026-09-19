@@ -148,3 +148,39 @@ vault/scriptures/
 ```
 - On the server (`lib/scriptures.js`), it reads these local files directly for instant, offline resolution.
 - In Google Apps Script (`Code.gs`), it uses jsDelivr CDN (`https://cdn.jsdelivr.net/gh/bcbooks/scriptures-json@master/reference/`) to query verses dynamically.
+
+---
+
+### 6. Version 3.0: Template Composer & Quick "Send Now" Web App
+
+Version 3.0 introduces a dedicated Web App interface and 1-click execution functions to instantly compose and dispatch mission emails without manual typing:
+
+#### A. Accessing the Interactive Web App (GUI)
+1. In the Google Apps Script editor, click **Deploy** (blue button in top-right) > **New deployment**.
+2. Click the gear icon next to "Select type" and choose **Web app**.
+3. Configure:
+   * **Description**: `Elder Salviejo Template Composer v3.0`
+   * **Execute as**: `Me`
+   * **Who has access**: `Only myself` (or `Anyone with Google account`)
+4. Click **Deploy**, authorize if prompted, and open the provided **Web app URL** in any mobile or desktop browser!
+
+#### B. The 3 Preset Modes
+* **159266 Weekly Diary**:
+  * Automatically sets subject: `Weekly Reflection: Week 1 in Dumaguete 159266`
+  * Automatically populates the Monday–Sunday reflection template with `-VERSE- (Alma 26:12)`.
+  * Supports attaching photos directly from your device.
+* **073000 Photo Gallery**:
+  * Automatically sets subject: `Sibulan District Conference [Mission] 073000`
+  * Automatically populates caption and story notes.
+  * Supports attaching multiple mission album photos.
+* **HTML Code Template (Rich Mission Newsletter)**:
+  * Automatically sets subject: `Elder Mark Salviejo — Weekly Mission Update [Philippines Dumaguete Mission]`
+  * Populates a complete, responsive HTML email template featuring the dark mission banner, gold badge, scripture highlight, and website link button.
+  * Features an editable **HTML Code Editor** and a live **Rendered Preview** tab.
+
+#### C. 1-Click "Send Now"
+* Click the large **"Send Now"** button in the Web App to immediately dispatch the email via `GmailApp.sendEmail()`.
+* Or run directly from the Apps Script toolbar dropdown:
+  * `sendNowDiaryTemplate`
+  * `sendNowGalleryTemplate`
+  * `sendNowHtmlCodeTemplate`
