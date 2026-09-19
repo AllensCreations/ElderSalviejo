@@ -9,25 +9,30 @@
  * 4. PWA offline support & 1-tap installation
  */
 
-const CACHE_VERSION = 'v6';
+const CACHE_VERSION = 'v8';
 const STATIC_CACHE = `elder-salviejo-shell-${CACHE_VERSION}`;
 const IMAGE_CACHE = `elder-salviejo-images-${CACHE_VERSION}`;
 const DATA_CACHE = `elder-salviejo-data-${CACHE_VERSION}`;
+const FONT_CACHE = `elder-salviejo-fonts-${CACHE_VERSION}`;
 
 const STATIC_SHELL = [
   '/',
   '/gallery',
-  '/call',
   '/book',
   '/css/tailwind.min.css',
   '/css/main.css',
   '/css/week.css',
+  '/js/lightbox.js',
   '/js/index.js',
   '/js/gallery.js',
   '/js/week.js',
   '/js/countdown.js',
   '/js/book.js',
   '/js/print-helper.js',
+  '/favicon.svg',
+  '/favicon-32x32.png',
+  '/favicon-16x16.png',
+  '/favicon.ico',
   '/Icon.ico',
   '/assets/images/elder-salviejo.jpg'
 ];
@@ -48,7 +53,7 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((keys) => {
       return Promise.all(
         keys.map((key) => {
-          if (![STATIC_CACHE, IMAGE_CACHE, DATA_CACHE].includes(key)) {
+          if (![STATIC_CACHE, IMAGE_CACHE, DATA_CACHE, FONT_CACHE].includes(key)) {
             return caches.delete(key);
           }
         })
@@ -65,7 +70,7 @@ function isImageRequest(request, url) {
     url.hostname.includes('jsdelivr.net') ||
     url.hostname.includes('ibb.co') ||
     url.pathname.includes('/assets/images/') ||
-    url.pathname.includes('/vault/photos/')
+    url.pathname.includes('/vault/')
   );
 }
 
@@ -73,6 +78,26 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   const url = new URL(event.request.url);
+
+  // 0. FONTS: Cache-First strategy for Google Fonts stylesheets & woff2 files
+  if (url.hostname.includes('fonts.googleapis.com') || url.hostname.includes('fonts.gstatic.com')) {
+    event.respondWith(
+      caches.open(FONT_CACHE).then(async (cache) => {
+        const cachedResponse = await cache.match(event.request);
+        if (cachedResponse) return cachedResponse;
+        try {
+          const networkResponse = await fetch(event.request);
+          if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
+            cache.put(event.request, networkResponse.clone()).catch(() => {});
+          }
+          return networkResponse;
+        } catch (_) {
+          return cachedResponse || new Response('', { status: 408 });
+        }
+      })
+    );
+    return;
+  }
 
   // 1. IMAGE REQUESTS: Cache-First strategy (never redownload images once cached)
   if (isImageRequest(event.request, url)) {

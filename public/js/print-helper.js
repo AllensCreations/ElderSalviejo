@@ -38,6 +38,40 @@ async function preloadAllImages() {
   await Promise.all(promises);
 }
 
+function showPrintGuidanceToast() {
+  let toast = document.getElementById('printGuidanceToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'printGuidanceToast';
+    toast.className = 'no-print fixed top-5 left-1/2 -translate-x-1/2 z-50 max-w-md w-[92%] sm:w-auto bg-stone-900/95 text-stone-100 border border-stone-700/80 shadow-2xl rounded-lg px-4 py-3 backdrop-blur-md transition-all duration-300 pointer-events-auto flex items-start gap-3 text-xs';
+    toast.innerHTML = `
+      <div class="p-1 bg-amber-500/20 text-amber-400 rounded shrink-0 mt-0.5">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      <div class="flex-1 leading-relaxed">
+        <div class="font-mono uppercase font-bold text-[10px] tracking-wider text-amber-400 mb-0.5">Print & PDF Setting Tip</div>
+        <p class="text-stone-300">In the print dialog, set <strong class="text-white">Margins to 'None' (or Minimum)</strong> and check <strong class="text-white">'Background graphics'</strong> for exact 11-inch pages with zero dead space.</p>
+      </div>
+      <button type="button" onclick="this.closest('#printGuidanceToast').remove()" class="text-stone-400 hover:text-stone-100 transition p-1 cursor-pointer" aria-label="Dismiss">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    `;
+    document.body.appendChild(toast);
+  }
+
+  clearTimeout(window._printToastTimer);
+  window._printToastTimer = setTimeout(() => {
+    if (toast && toast.parentElement) {
+      toast.classList.add('opacity-0', '-translate-y-2');
+      setTimeout(() => toast.remove(), 300);
+    }
+  }, 14000);
+}
+
 async function triggerPrintWithPreload(btn) {
   let originalHtml = '';
   if (btn) {
@@ -51,6 +85,8 @@ async function triggerPrintWithPreload(btn) {
       <span>Preloading...</span>
     `;
   }
+
+  showPrintGuidanceToast();
 
   try {
     await preloadAllImages();
@@ -70,6 +106,7 @@ async function triggerPrintWithPreload(btn) {
 
 // Global hook for keyboard shortcut Ctrl+P / Cmd+P
 window.addEventListener('beforeprint', () => {
+  showPrintGuidanceToast();
   preloadAllImages().catch(() => {});
 });
 

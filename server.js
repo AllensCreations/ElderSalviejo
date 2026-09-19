@@ -10,17 +10,19 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+const zlib = require('zlib');
+const crypto = require('crypto');
 
 const ingestHandler = require('./api/ingest');
 const weeksHandler = require('./api/weeks/index');
 const singleWeekHandler = require('./api/weeks/[id]');
 const subscribeHandler = require('./api/subscribe');
-const subscribersHandler = require('./api/subscribers');
 const galleryHandler = require('./api/gallery');
-const trackingMessageHandler = require('./api/tracking/message');
-const trackingBroadcastHandler = require('./api/tracking/broadcast');
+const trackingHandler = require('./api/tracking/[type]');
 const encouragementsHandler = require('./api/encouragements');
 const statsHandler = require('./api/stats');
+const adminHandler = require('./api/admin');
+
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
@@ -37,6 +39,61 @@ const MIME_TYPES = {
   '.ico': 'image/x-icon',
 };
 
+// High-speed static file server with Gzip/Deflate compression and ETags
+function serveStaticFile(req, res, filePath, explicitMime = null, cacheControl = null) {
+  try {
+    const stats = fs.statSync(filePath);
+    if (!stats.isFile()) {
+      res.statusCode = 404;
+      return res.end(JSON.stringify({ error: 'Not Found' }));
+    }
+
+    const ext = path.extname(filePath).toLowerCase();
+    const contentType = explicitMime || MIME_TYPES[ext] || 'application/octet-stream';
+    const etag = `"${stats.size.toString(16)}-${Math.floor(stats.mtimeMs).toString(16)}"`;
+
+    if (cacheControl) {
+      res.setHeader('Cache-Control', cacheControl);
+    } else if (filePath.includes('/assets/') || filePath.includes('/photos/')) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    } else if (['.css', '.js', '.ico', '.svg', '.png'].includes(ext)) {
+      res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=604800');
+    } else {
+      res.setHeader('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400');
+    }
+
+    res.setHeader('ETag', etag);
+
+    if (req.headers && req.headers['if-none-match'] === etag) {
+      res.statusCode = 304;
+      return res.end();
+    }
+
+    res.setHeader('Content-Type', contentType);
+
+    const acceptEncoding = (req.headers && req.headers['accept-encoding']) || '';
+    const isCompressible = /^(text\/|application\/javascript|application\/json|image\/svg\+xml)/.test(contentType);
+
+    if (isCompressible && acceptEncoding.includes('gzip')) {
+      res.setHeader('Content-Encoding', 'gzip');
+      const rawStream = fs.createReadStream(filePath);
+      const gzip = zlib.createGzip({ level: 6 });
+      return rawStream.pipe(gzip).pipe(res);
+    } else if (isCompressible && acceptEncoding.includes('deflate')) {
+      res.setHeader('Content-Encoding', 'deflate');
+      const rawStream = fs.createReadStream(filePath);
+      const deflate = zlib.createDeflate({ level: 6 });
+      return rawStream.pipe(deflate).pipe(res);
+    } else {
+      res.setHeader('Content-Length', stats.size);
+      return fs.createReadStream(filePath).pipe(res);
+    }
+  } catch (err) {
+    res.statusCode = 500;
+    return res.end(JSON.stringify({ error: 'Failed to serve static file', details: err.message }));
+  }
+}
+
 const server = http.createServer(async (req, res) => {
   const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   const pathname = parsedUrl.pathname;
@@ -50,6 +107,13 @@ const server = http.createServer(async (req, res) => {
   res.json = function (data) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(data));
+    return res;
+  };
+  res.send = function (data) {
+    if (!res.getHeader('Content-Type')) {
+      res.setHeader('Content-Type', 'text/html; charset=UTF-8');
+    }
+    res.end(data);
     return res;
   };
 
@@ -78,39 +142,36 @@ const server = http.createServer(async (req, res) => {
       return await ingestHandler(req, res);
     }
 
-    // 1b. API: POST /api/subscribe
-    if (pathname === '/api/subscribe') {
-      req.body = await readBody();
+    // 1b. API: /api/subscribe & /api/subscribers
+    if (pathname === '/api/subscribe' || pathname === '/api/subscribers') {
+      if (req.method === 'POST') req.body = await readBody();
       return await subscribeHandler(req, res);
     }
 
-    // 1c. API: GET /api/subscribers
-    if (pathname === '/api/subscribers') {
-      return await subscribersHandler(req, res);
-    }
-
-    // 1d. API: /api/tracking/message
-    if (pathname === '/api/tracking/message') {
+    // 1c. API: /api/tracking/message & /api/tracking/broadcast
+    if (pathname === '/api/tracking/message' || pathname === '/api/tracking/broadcast') {
       if (req.method === 'POST') req.body = await readBody();
-      return await trackingMessageHandler(req, res);
+      req.query.type = pathname.includes('broadcast') ? 'broadcast' : 'message';
+      return await trackingHandler(req, res);
     }
 
-    // 1e. API: /api/tracking/broadcast
-    if (pathname === '/api/tracking/broadcast') {
-      if (req.method === 'POST') req.body = await readBody();
-      return await trackingBroadcastHandler(req, res);
-    }
-
-    // 1f. API: /api/encouragements
+    // 1d. API: /api/encouragements
     if (pathname === '/api/encouragements') {
       if (req.method === 'POST') req.body = await readBody();
       return await encouragementsHandler(req, res);
     }
 
-    // 1g. API: GET /api/stats
+    // 1e. API: GET /api/stats
     if (pathname === '/api/stats') {
       return await statsHandler(req, res);
     }
+
+    // 1f. API: POST /api/admin & /api/admin/send
+    if (pathname === '/api/admin/send' || pathname === '/api/admin') {
+      if (req.method === 'POST') req.body = await readBody();
+      return await adminHandler(req, res);
+    }
+
 
     // 2. API: GET /api/weeks
     if (pathname === '/api/weeks') {
@@ -130,55 +191,75 @@ const server = http.createServer(async (req, res) => {
     }
 
     // 4. Sample data serving
+    // 4b. Sample data
     if (pathname === '/sample-data/sample-payload.json') {
       const samplePath = path.join(__dirname, 'sample-data', 'sample-payload.json');
       if (fs.existsSync(samplePath)) {
-        res.setHeader('Content-Type', 'application/json');
-        return fs.createReadStream(samplePath).pipe(res);
+        return serveStaticFile(req, res, samplePath, 'application/json');
       }
     }
 
     // 5. Frontend Clean Route: /gallery
     if (pathname === '/gallery') {
       const galleryHtmlPath = path.join(PUBLIC_DIR, 'gallery.html');
-      res.setHeader('Content-Type', 'text/html; charset=UTF-8');
-      return fs.createReadStream(galleryHtmlPath).pipe(res);
+      return serveStaticFile(req, res, galleryHtmlPath, 'text/html; charset=UTF-8', 'public, max-age=3600, stale-while-revalidate=86400');
     }
 
-    // 5b. Frontend Clean Route: /call and /mission-call
-    if (pathname === '/call' || pathname === '/mission-call') {
-      const callHtmlPath = path.join(PUBLIC_DIR, 'call.html');
-      res.setHeader('Content-Type', 'text/html; charset=UTF-8');
-      return fs.createReadStream(callHtmlPath).pipe(res);
+    // 5b. Frontend Clean Route: /call and /mission-call -> Redirect to unified Book Chapter 1
+    if (pathname === '/call' || pathname === '/mission-call' || pathname === '/call.html') {
+      res.writeHead(302, { Location: '/book#chapter-call' });
+      return res.end();
     }
 
     // 5c. Frontend Clean Route: /book
     if (pathname === '/book') {
       const bookHtmlPath = path.join(PUBLIC_DIR, 'book.html');
-      res.setHeader('Content-Type', 'text/html; charset=UTF-8');
-      return fs.createReadStream(bookHtmlPath).pipe(res);
+      return serveStaticFile(req, res, bookHtmlPath, 'text/html; charset=UTF-8', 'public, max-age=3600, stale-while-revalidate=86400');
     }
 
     // 5d. Frontend Dynamic View: /week and /week/:id
     if (pathname === '/week' || pathname.startsWith('/week/')) {
       const weekHtmlPath = path.join(PUBLIC_DIR, 'week.html');
-      res.setHeader('Content-Type', 'text/html; charset=UTF-8');
-      return fs.createReadStream(weekHtmlPath).pipe(res);
+      return serveStaticFile(req, res, weekHtmlPath, 'text/html; charset=UTF-8', 'public, max-age=3600, stale-while-revalidate=86400');
     }
+
+    // 5e. Frontend Template Composer: /compose
+    if (pathname === '/compose') {
+      const composeHtmlPath = path.join(PUBLIC_DIR, 'compose.html');
+      return serveStaticFile(req, res, composeHtmlPath, 'text/html; charset=UTF-8', 'public, max-age=3600, stale-while-revalidate=86400');
+    }
+
+    // 5f. Frontend Admin Portal: /admin
+    if (pathname === '/admin') {
+      const adminHtmlPath = path.join(PUBLIC_DIR, 'admin.html');
+      return serveStaticFile(req, res, adminHtmlPath, 'text/html; charset=UTF-8', 'public, max-age=3600, stale-while-revalidate=86400');
+    }
+
+    // 5g. Hidden Setup Guide: /hts (noindex, unlisted)
+    if (pathname === '/hts' || pathname === '/hts.html') {
+      const htsHtmlPath = path.join(PUBLIC_DIR, 'hts.html');
+      return serveStaticFile(req, res, htsHtmlPath, 'text/html; charset=UTF-8', 'no-store, no-cache');
+    }
+
 
     // 6. Frontend Index Vault: /
     if (pathname === '/' || pathname === '/index.html') {
       const indexHtmlPath = path.join(PUBLIC_DIR, 'index.html');
-      res.setHeader('Content-Type', 'text/html; charset=UTF-8');
-      return fs.createReadStream(indexHtmlPath).pipe(res);
+      return serveStaticFile(req, res, indexHtmlPath, 'text/html; charset=UTF-8', 'public, max-age=3600, stale-while-revalidate=86400');
     }
 
     // 7. Static file serving from /public
     const filePath = path.join(PUBLIC_DIR, pathname);
     if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
-      const ext = path.extname(filePath).toLowerCase();
-      res.setHeader('Content-Type', MIME_TYPES[ext] || 'application/octet-stream');
-      return fs.createReadStream(filePath).pipe(res);
+      return serveStaticFile(req, res, filePath);
+    }
+
+    // 7b. Static file serving from /vault
+    if (pathname.startsWith('/vault/')) {
+      const vaultFilePath = path.join(__dirname, pathname);
+      if (fs.existsSync(vaultFilePath) && fs.statSync(vaultFilePath).isFile()) {
+        return serveStaticFile(req, res, vaultFilePath);
+      }
     }
 
     // 404 Not Found

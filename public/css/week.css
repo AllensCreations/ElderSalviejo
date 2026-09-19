@@ -1,363 +1,141 @@
 /* ==========================================================================
    Elder Salviejo • Weekly Missionary Journal Vault
-   Week View Stylesheet - Scrapbook, Polaroids, Pins, Tapes & Anti-Overlap
+   Week View Stylesheet - Archival Editorial Edition
    ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   Page Background Texture
-   -------------------------------------------------------------------------- */
 body.week-view {
-  background-color: #ede7da;
-  background-image: 
-    radial-gradient(#d6cdba 1px, transparent 1px),
-    radial-gradient(#cbbfa8 1px, #ede7da 1px);
-  background-size: 32px 32px;
-  background-position: 0 0, 16px 16px;
+  background-color: var(--bg-canvas);
+  color: var(--color-ink);
 }
 
 /* --------------------------------------------------------------------------
-   Washi Tape Styles - Positioned with safe clearance
+   Archival Editorial Sheet
    -------------------------------------------------------------------------- */
-.tape {
-  background: rgba(254, 243, 199, 0.85);
-  backdrop-filter: blur(2px);
-  border-left: 2px dashed rgba(217, 119, 6, 0.35);
-  border-right: 2px dashed rgba(217, 119, 6, 0.35);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  pointer-events: none;
-  z-index: 10;
-  max-width: 85vw;
+.journal-sheet {
+  background-color: #ffffff;
+  border: 1px solid var(--border-archival);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  padding: clamp(20px, 4vw, 40px);
+  position: relative;
 }
 
 /* --------------------------------------------------------------------------
-   Realistic 3D Pushpin Component
-   Anchors Polaroid to the Journal Sheet without clipping
-   -------------------------------------------------------------------------- */
-.pushpin-anchor {
-  position: absolute;
-  top: -14px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 30;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  pointer-events: none;
-}
-
-.pushpin-head {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 5px 5px, #f87171 0%, #dc2626 50%, #7f1d1d 100%);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(254, 202, 202, 0.6);
-}
-
-.pushpin-shadow {
-  width: 3px;
-  height: 5px;
-  background: rgba(0, 0, 0, 0.25);
-  border-radius: 1px;
-  margin-top: -2px;
-  filter: blur(0.5px);
-}
-
-/* --------------------------------------------------------------------------
-   Polaroid Card & Frame (Natural Aspect Ratio, Anti-Overlap)
+   Refined Polaroid Card Component
    -------------------------------------------------------------------------- */
 .polaroid-card {
   position: relative;
   width: 100%;
-  max-width: 520px;
-  margin: 0 auto 28px;
+  max-width: 540px;
+  margin: 0 auto 32px;
   background-color: #ffffff;
-  padding: 12px 12px 20px;
-  border-radius: 3px;
-  box-shadow: 
-    0 10px 25px -5px rgba(0, 0, 0, 0.18),
-    0 4px 10px -2px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e5e5e5;
+  padding: 12px 12px 16px;
+  border-radius: 4px;
+  border: 1px solid #e7e5e4;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
-  z-index: 20;
 }
 
-@media (min-width: 640px) {
-  .polaroid-card {
-    padding: 14px 14px 24px;
-    margin-bottom: 32px;
-  }
-}
-
-/* On mobile screens, disable aggressive rotation to prevent edge clipping or horizontal overflow */
-@media (max-width: 639px) {
-  .polaroid-card {
-    transform: none !important;
-  }
-}
-
-@media (min-width: 640px) {
-  .polaroid-card:hover {
-    transform: rotate(0deg) scale(1.01) !important;
-    box-shadow: 
-      0 16px 32px -4px rgba(0, 0, 0, 0.22),
-      0 6px 14px -2px rgba(0, 0, 0, 0.1);
-  }
+.polaroid-card:hover {
+  box-shadow: 0 16px 32px -4px rgba(0, 0, 0, 0.12), 0 6px 14px -2px rgba(0, 0, 0, 0.06);
 }
 
 .polaroid-photo-frame {
   width: 100%;
-  background-color: #1c1917;
+  background-color: #18181b;
   border-radius: 2px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.4);
-  border: 1px solid #e5e5e5;
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .polaroid-photo-frame img {
   width: 100%;
   height: auto;
-  max-height: 480px;
+  max-height: 520px;
   object-fit: contain;
   display: block;
   margin: 0 auto;
   user-select: none;
 }
 
-@media (min-width: 768px) {
-  .polaroid-photo-frame img {
-    max-height: 560px;
-  }
-}
-
 .polaroid-caption {
   margin-top: 10px;
   text-align: center;
-  font-family: var(--font-hand);
-  font-size: 22px;
-  font-weight: 700;
-  color: #292524;
-  letter-spacing: 0.02em;
-  line-height: 1.2;
-}
-
-@media (min-width: 640px) {
-  .polaroid-caption {
-    font-size: 24px;
-    margin-top: 12px;
-  }
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: #78716c;
+  text-transform: uppercase;
+  line-height: 1.4;
 }
 
 /* --------------------------------------------------------------------------
-   Journal Page Sheet (Anti-Overlap Clearance)
-   -------------------------------------------------------------------------- */
-.journal-sheet {
-  position: relative;
-  border-radius: 18px;
-  box-shadow: 
-    0 14px 28px rgba(0, 0, 0, 0.12),
-    0 8px 10px rgba(0, 0, 0, 0.06);
-  padding: 32px 18px 24px;
-  transition: transform 0.2s ease;
-  overflow: visible; /* Ensure pushpin at top-center renders without clipping */
-}
-
-@media (min-width: 640px) {
-  .journal-sheet {
-    padding: 38px 32px 30px;
-  }
-}
-
-/* --------------------------------------------------------------------------
-   Notes Typography & Readability
-   -------------------------------------------------------------------------- */
-.journal-entry-body {
-  font-family: var(--font-serif);
-  color: #1c1917;
-  font-size: 16px;
-  line-height: 1.85;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-@media (min-width: 640px) {
-  .journal-entry-body {
-    font-size: 18px;
-  }
-}
-
-/* --------------------------------------------------------------------------
-   Weekly Scripture & Testimony Section
+   Scripture Callout Card
    -------------------------------------------------------------------------- */
 .scripture-card {
-  position: relative;
-  background: linear-gradient(135deg, #fcfaf5 0%, #f5eedf 100%);
-  border-radius: 18px;
-  border: 2px solid #fcd34d;
-  padding: 36px 20px 28px;
-  box-shadow: 
-    0 12px 26px rgba(0, 0, 0, 0.08),
-    0 4px 8px rgba(0, 0, 0, 0.04);
-  text-align: center;
-  overflow: visible;
+  background-color: #ffffff;
+  border: 1px solid var(--border-archival);
+  border-left: 3px solid var(--color-crimson);
+  border-radius: 8px;
+  padding: clamp(20px, 3vw, 32px);
+  margin: 28px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-@media (min-width: 640px) {
-  .scripture-card {
-    padding: 44px 36px 32px;
-  }
+.scripture-text {
+  font-family: var(--font-serif);
+  font-size: clamp(16px, 2.2vw, 20px);
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--color-ink);
+}
+
+.scripture-ref {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-crimson);
+  margin-top: 10px;
+  display: block;
 }
 
 /* --------------------------------------------------------------------------
-   Print & PDF Styles (Strict Anti-Overlap, Safe Containment & Authentic Colors)
+   Print & PDF Styles
    -------------------------------------------------------------------------- */
 @media print {
   *, *:before, *:after {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    color-adjust: exact !important;
     box-sizing: border-box !important;
   }
 
   html, body, body.week-view {
-    background: #f4f1ea !important;
-    color: #1c1917 !important;
+    background: #ffffff !important;
+    color: #0c0a09 !important;
     font-size: 10pt !important;
     line-height: 1.5 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-    overflow: visible !important;
   }
 
   .no-print {
     display: none !important;
   }
 
-  main {
-    max-width: 100% !important;
-    width: 100% !important;
-    padding: 0 !important;
-    margin: 0 auto !important;
-    display: block !important;
-  }
-
-  /* Neutralize negative absolute positioning to prevent overlap */
-  .tape {
-    position: static !important;
-    transform: none !important;
-    margin: 0 auto 10px auto !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    display: block !important;
-    max-width: 160px !important;
-    height: 18px !important;
-    opacity: 0.9 !important;
-  }
-
-  .pushpin-anchor {
-    display: none !important;
-  }
-
-  /* Journal Sheet: Clean boundary without forced page squeeze */
   .journal-sheet {
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
-    border-radius: 10px !important;
-    break-inside: auto !important;
-    page-break-inside: auto !important;
-    margin-bottom: 20px !important;
-    padding: 18px 20px !important;
-    position: static !important;
-    overflow: hidden !important;
-  }
-
-  /* Polaroid Card: Self-contained, avoid break, natural aspect ratio */
-  .polaroid-card {
-    background: #ffffff !important;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12) !important;
-    border: 1px solid #e5e5e5 !important;
-    border-radius: 2px !important;
-    transform: none !important;
-    padding: 8px 8px 18px !important;
-    margin: 0 auto 14px auto !important;
-    break-inside: avoid !important;
-    page-break-inside: avoid !important;
-    max-width: 90% !important;
-    width: auto !important;
-    display: block !important;
-  }
-
-  .polaroid-photo-frame {
-    background-color: #1c1917 !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    border-radius: 1px !important;
-    max-height: 80mm !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    overflow: hidden !important;
-  }
-
-  .polaroid-photo-frame img {
-    width: 100% !important;
-    height: auto !important;
-    max-height: 80mm !important;
-    object-fit: contain !important;
-    display: block !important;
-    margin: 0 auto !important;
-  }
-
-  .polaroid-caption {
-    margin-top: 8px !important;
-    font-size: 18px !important;
-    line-height: 1.1 !important;
-    color: #292524 !important;
-  }
-
-  /* Scripture Card */
-  .scripture-card {
-    background: linear-gradient(135deg, #fcfaf5 0%, #f5eedf 100%) !important;
-    border: 2px solid #fcd34d !important;
-    border-radius: 10px !important;
-    break-inside: avoid !important;
-    page-break-inside: avoid !important;
     box-shadow: none !important;
-    margin-bottom: 20px !important;
-    padding: 16px 18px !important;
+    border: 1px solid #d6d3d1 !important;
+    padding: 16px !important;
   }
 
-  /* Missionary Nametag */
-  .missionary-nametag {
-    background-color: #0a0a0a !important;
-    color: #ffffff !important;
+  .polaroid-card {
+    box-shadow: none !important;
+    border: 1px solid #d6d3d1 !important;
     break-inside: avoid !important;
     page-break-inside: avoid !important;
-  }
-  .missionary-nametag .tag-name,
-  .missionary-nametag .tag-christ {
-    color: #ffffff !important;
-  }
-  .missionary-nametag .tag-church {
-    color: #d1d5db !important;
-  }
-  .missionary-nametag .tag-divider {
-    background-color: rgba(255, 255, 255, 0.5) !important;
-  }
-
-  /* Headings & Text flow */
-  h1, h2, h3, h4 {
-    break-after: avoid !important;
-    page-break-after: avoid !important;
-  }
-
-  /* General image containment */
-  img {
-    max-width: 100% !important;
-    height: auto !important;
-    object-fit: contain !important;
   }
 }

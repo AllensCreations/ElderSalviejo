@@ -18,32 +18,59 @@ module.exports = async function handler(req, res) {
     await initDatabase();
     let photos = await getAllGalleryPhotos();
 
-    // If local/Turso has no photos, check the dedicated jsDelivr gallery index as a fallback
+    // If local/Turso has no photos, check local vault/gallery/index.json or CDN fallback
     if (!photos || photos.length === 0) {
-      try {
-        const cdnRes = await fetch('https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/index.json', {
-          headers: { 'User-Agent': 'ElderSalviejo-Vault/1.0' },
-          signal: AbortSignal.timeout(2500)
-        });
-        if (cdnRes.ok) {
-          const cdnData = await cdnRes.json();
-          if (Array.isArray(cdnData) && cdnData.length > 0) {
-            photos = cdnData.map(item => {
-              const isGallery = item.source === 'gallery' || Boolean(item.isGalleryUpload);
-              return {
-                id: item.id || `cdn-${item.filename}`,
-                src: item.src || item.cdnUrl,
-                date: item.uploadedAt,
-                category: item.category || (isGallery ? 'Mission' : 'P-Day Journal'),
-                caption: item.caption || item.text || '',
-                album: item.album || item.category || '',
-                isGalleryUpload: isGallery,
-                source: isGallery ? 'gallery' : 'journal'
-              };
-            });
+      const fs = require('fs');
+      const path = require('path');
+      const localIndexPath = path.join(__dirname, '..', 'vault', 'gallery', 'index.json');
+      let loadedData = null;
+
+      if (fs.existsSync(localIndexPath)) {
+        try {
+          loadedData = JSON.parse(fs.readFileSync(localIndexPath, 'utf8'));
+        } catch (_) {}
+      }
+
+      if (!loadedData || !Array.isArray(loadedData) || loadedData.length === 0) {
+        try {
+          const cdnRes = await fetch('https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/index.json', {
+            headers: { 'User-Agent': 'ElderSalviejo-Vault/1.0' },
+            signal: AbortSignal.timeout(2500)
+          });
+          if (cdnRes.ok) {
+            loadedData = await cdnRes.json();
           }
-        }
-      } catch (_) {}
+        } catch (_) {}
+      }
+
+      if (Array.isArray(loadedData) && loadedData.length > 0) {
+        photos = loadedData.map(item => {
+          const isGallery = item.source === 'gallery' || Boolean(item.isGalleryUpload);
+          return {
+            id: item.id || `cdn-${item.filename}`,
+            src: item.src || item.localSrc || item.cdnSrc,
+            localSrc: item.localSrc || item.src,
+            cdnSrc: item.cdnSrc || `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${item.filename}`,
+            legacyCdnSrc: item.legacyCdnSrc || `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${item.filename}`,
+            date: item.dateTime,
+            dateTime: item.dateTime,
+            capturedDate: item.capturedDate || null,
+            capturedTime: item.capturedTime || null,
+            capturedDateTime: item.capturedDateTime || null,
+            archivalStamp: item.archivalStamp || null,
+            isExif: Boolean(item.isExif),
+            category: item.category || (isGallery ? 'Mission' : 'P-Day Journal'),
+            caption: item.caption || item.text || '',
+            album: item.album || item.category || '',
+            isGalleryUpload: isGallery,
+            source: isGallery ? 'gallery' : 'journal',
+            width: item.width || 600,
+            height: item.height || 800,
+            aspectRatio: item.aspectRatio || (item.width && item.height ? Number((item.width / item.height).toFixed(4)) : 0.75),
+            orientation: item.orientation || (item.width > item.height ? 'landscape' : 'portrait')
+          };
+        });
+      }
     }
 
     if (Array.isArray(photos)) {
@@ -54,8 +81,8 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
-    return res.status(200).json({
+    const crypto = require('crypto');
+    const payload = JSON.stringify({
       success: true,
       count: photos.length,
       photos,
@@ -64,6 +91,20 @@ module.exports = async function handler(req, res) {
         index: 'https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/index.json'
       }
     });
+
+    const etag = '"' + crypto.createHash('md5').update(payload).digest('hex').slice(0, 16) + '"';
+    res.setHeader('ETag', etag);
+    res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
+
+    if (req.headers && req.headers['if-none-match'] === etag) {
+      return res.status(304).end();
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    if (res.send) {
+      return res.status(200).send(payload);
+    }
+    return res.status(200).end(payload);
   } catch (error) {
     console.error('Error fetching gallery photos:', error);
     return res.status(500).json({

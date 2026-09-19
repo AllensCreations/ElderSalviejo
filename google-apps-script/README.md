@@ -54,19 +54,37 @@ To keep your public GitHub repository 100% clean and free of secret keys, store 
 
 ---
 
-### 3. One-Click 9:00 PM Daily Trigger Setup
-To set the script to process every day automatically at **9:00 PM (21:00)**:
+### 3. Automated Trigger Setup: Instant & Scheduled Modes
 
-1. In the Apps Script toolbar dropdown, select:
+Google Apps Script runs on Google's cloud servers. Because Gmail does not have a native `onEmailReceived` event trigger in Apps Script, we provide **3 one-click trigger options** plus an **instant webhook endpoint**:
+
+#### Option A: Near-Instant Trigger (Runs Every 1 Minute) — Recommended!
+Checks the inbox every 60 seconds. As soon as Elder Salviejo sends an email, it will be ingested and confirmed within seconds:
+1. In the Apps Script toolbar function dropdown, select:
    ```text
-   createDaily9PMTrigger
+   createNearInstantTrigger
    ```
 2. Click **Run**.
-3. It will automatically delete all previous / obsolete triggers and set a clean daily 9:00 PM schedule.
-4. Check the execution log:
+3. Log output:
    ```text
-   SUCCESS: Daily 9:00 PM (21:00) trigger active! All other triggers have been removed.
+   SUCCESS: Near-Instant 1-Minute Trigger active!
+   The script will check your inbox every 60 seconds automatically.
    ```
+
+#### Option B: Conservative Trigger (Runs Every 5 Minutes)
+Checks the inbox 12 times per hour. Extremely light on Google execution quotas:
+1. Select `create5MinuteTrigger` in the toolbar dropdown and click **Run**.
+
+#### Option C: Daily 9:00 PM Trigger
+Processes emails once a day at 9:00 PM (21:00):
+1. Select `createDaily9PMTrigger` in the toolbar dropdown and click **Run**.
+
+#### Option D: Instant On-Demand Webhook Ping
+You can trigger ingestion immediately at any time by pinging your Apps Script Web App URL from any browser, cron job, or webhook:
+```text
+https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec?action=process&secret=YOUR_INGEST_SECRET
+```
+
 
 ---
 
@@ -148,3 +166,83 @@ vault/scriptures/
 ```
 - On the server (`lib/scriptures.js`), it reads these local files directly for instant, offline resolution.
 - In Google Apps Script (`Code.gs`), it uses jsDelivr CDN (`https://cdn.jsdelivr.net/gh/bcbooks/scriptures-json@master/reference/`) to query verses dynamically.
+
+---
+
+### 6. Version 3.0: Template Composer & Quick "Send Now" Web App
+
+Version 3.0 introduces a dedicated Web App interface and 1-click execution functions to instantly compose and dispatch mission emails without manual typing:
+
+#### A. Accessing the Interactive Web App (GUI)
+1. In the Google Apps Script editor, click **Deploy** (blue button in top-right) > **New deployment**.
+2. Click the gear icon next to "Select type" and choose **Web app**.
+3. Configure:
+   * **Description**: `Elder Salviejo Template Composer v3.0`
+   * **Execute as**: `Me`
+   * **Who has access**: `Only myself` (or `Anyone with Google account`)
+4. Click **Deploy**, authorize if prompted, and open the provided **Web app URL** in any mobile or desktop browser!
+
+#### B. The 3 Preset Modes
+* **159266 Weekly Diary**:
+  * Automatically sets subject: `Weekly Reflection: Week 1 in Dumaguete 159266`
+  * Automatically populates the Monday–Sunday reflection template with `-VERSE- (Alma 26:12)`.
+  * Supports attaching photos directly from your device.
+* **073000 Photo Gallery**:
+  * Automatically sets subject: `Sibulan District Conference [Mission] 073000`
+  * Automatically populates caption and story notes.
+  * Supports attaching multiple mission album photos.
+* **HTML Code Template (Rich Mission Newsletter)**:
+  * Automatically sets subject: `Elder Salviejo — Weekly Mission Update [Philippines Dumaguete Mission]`
+  * Populates a complete, responsive HTML email template featuring the dark mission banner, gold badge, scripture highlight, and website link button.
+  * Features an editable **HTML Code Editor** and a live **Rendered Preview** tab.
+
+#### C. 1-Click "Send Now"
+* Click the large **"Send Now"** button in the Web App to immediately dispatch the email via `GmailApp.sendEmail()`.
+* Or run directly from the Apps Script toolbar dropdown:
+  * `sendNowDiaryTemplate`
+  * `sendNowGalleryTemplate`
+  * `sendNowHtmlCodeTemplate`
+
+---
+
+### 7. Testing & Diagnostic Guide: How to Verify the Pipeline
+
+#### A. Run the Comprehensive Diagnostic CLI Tool
+In your terminal, you can run the full test suite against local or production Vercel:
+```bash
+# Test local server:
+node scripts/test-receiver.js http://localhost:3000/api/ingest
+
+# Test production Vercel:
+node scripts/test-receiver.js https://eldersalviejo.vercel.app/api/ingest YOUR_INGEST_SECRET
+```
+This tests:
+1. Server health (`/api/stats`)
+2. Authorization rejection for invalid secrets (HTTP 401)
+3. Anti-duplicate message tracking lookup
+4. Sample Weekly Diary reflection ingestion
+5. Sample Polaroid Photo Gallery ingestion
+
+#### B. Testing in Google Apps Script (Toolbar Functions)
+Inside [script.google.com](https://script.google.com), select the function dropdown in the toolbar:
+1. **`debugCheckInbox`**:
+   - Inspects your Script Properties configuration (`INGEST_SECRET`, `SECRET_DIARY_CODE`, etc.).
+   - Checks the last 5 emails in your inbox and explains if they are ready to ingest, already processed, or why they were skipped.
+2. **`testProcessLatestEmail`**:
+   - Immediately processes the newest email in your inbox and prints detailed step-by-step logs.
+3. **`testSampleEmailDryRun`**:
+   - Simulates a full diary ingestion and sends a sample preview email to your address without modifying Vercel or GitHub.
+4. **`processWeeklyDiaryEmails`**:
+   - The main ingestion worker that ingests all pending weekly diaries and galleries.
+
+#### C. Common Reasons a Test Email Wasn't Processed
+1. **Did you send the test email to yourself from the same Gmail account?**
+   - Gmail search can skip self-emails unless the secret passcode (`159266` or `073000`) is included in the subject or body. For best results, send the test email from another email address to your dummy receiver.
+2. **Did you include the passcode or required keywords in the subject?**
+   - **Weekly Diary**: Subject or body must include `159266` or subject must contain `"Weekly Reflection"` or `"Weekly Journal"`.
+   - **Photo Gallery**: Subject or body must include `073000`.
+3. **Is the automatic trigger active?**
+   - Google Apps Script does not execute on email arrival by default. Run `createDaily9PMTrigger` once to establish the daily 9:00 PM schedule, or click **Run** on `processWeeklyDiaryEmails` manually.
+4. **Is `INGEST_SECRET` set in Script Properties?**
+   - Go to **Project Settings** (gear icon) > **Script Properties**. Make sure `INGEST_SECRET` matches your Vercel / `.env` secret token.
+

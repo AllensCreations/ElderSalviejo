@@ -1,14 +1,22 @@
 {
   "version": 2,
   "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/call",
+      "destination": "/book#chapter-call",
+      "permanent": false
+    },
+    {
+      "source": "/mission-call",
+      "destination": "/book#chapter-call",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/week/:slug*",
       "destination": "/week"
-    },
-    {
-      "source": "/mission-call",
-      "destination": "/call"
     },
     {
       "source": "/book",
@@ -17,9 +25,34 @@
     {
       "source": "/gallery",
       "destination": "/gallery"
+    },
+    {
+      "source": "/compose",
+      "destination": "/compose"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin"
+    },
+    {
+      "source": "/api/subscribers",
+      "destination": "/api/subscribe"
+    },
+    {
+      "source": "/api/admin/send",
+      "destination": "/api/admin"
     }
   ],
   "headers": [
+    {
+      "source": "/vault/gallery/photos/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
     {
       "source": "/assets/(.*)",
       "headers": [
@@ -39,7 +72,7 @@
       ]
     },
     {
-      "source": "/(Icon.ico|favicon.ico)",
+      "source": "/(Icon.ico|favicon.ico|favicon.svg|favicon-32x32.png|favicon-16x16.png|manifest.json)",
       "headers": [
         {
           "key": "Cache-Control",
