@@ -164,6 +164,8 @@ function renderWeek(week) {
     const dayClean = cleanDayName(entry.day, index);
     const cleanText = cleanEntryText(entry.text);
     const stampText = entry.archivalStamp || entry.capturedDateTime || (entry.time ? `${dayClean} • ${entry.time} (PHT)` : `${dayClean} • 2026`);
+    // Short excerpt for inside the polaroid caption (max 80 chars)
+    const shortCaption = cleanText ? (cleanText.length > 80 ? cleanText.slice(0, 80).trimEnd() + '…' : cleanText) : stampText;
 
     return `
       <article class="journal-sheet mb-12">
@@ -181,19 +183,19 @@ function renderWeek(week) {
           </span>
         </div>
 
-        <!-- Reflection Body -->
+        <!-- Reflection Body (full text, shown above the polaroid) -->
         <div class="max-w-2xl mx-auto space-y-4 mb-8">
           <p class="${index === 0 ? 'docket-dropcap' : ''} text-stone-700 text-sm sm:text-base leading-relaxed font-sans">
             ${escapeHtml(cleanText || 'No reflection recorded for this day.')}
           </p>
         </div>
 
-        <!-- Polaroid Photo Frame with Date/Time Stamp (Ratio Preserved & Click to Zoom) -->
+        <!-- Polaroid Photo Card: Big photo first, short caption excerpt below inside the frame -->
         ${(entry.cdnImage || entry.image) ? `
           <div
-            class="polaroid-card cursor-pointer group hover:border-stone-400 transition"
+            class="polaroid-card cursor-pointer group"
             onclick="openWeekPlate(${index})"
-            title="Click to inspect photo in ratio-locked zoom lightbox"
+            title="Click to open photo in lightbox"
           >
             <div class="polaroid-photo-frame">
               <img
@@ -205,9 +207,9 @@ function renderWeek(week) {
                 oncontextmenu="return false;"
               />
             </div>
-            <div class="polaroid-caption flex items-center justify-center gap-1.5">
-              <span>${escapeHtml(stampText)}</span>
-              <span class="no-print text-stone-400 text-[10px] group-hover:text-stone-900">&rarr;</span>
+            <div class="polaroid-caption">
+              <span class="block truncate">${escapeHtml(shortCaption)}</span>
+              <span class="block text-stone-400 text-[10px] mt-0.5 font-mono uppercase tracking-widest">${escapeHtml(stampText)}</span>
             </div>
           </div>
         ` : ''}
@@ -217,6 +219,7 @@ function renderWeek(week) {
           <span>Day ${index + 1} of ${entries.length} • Dumaguete Field Record</span>
           <span>Elder Salviejo</span>
         </div>
+
 
       </article>
     `;
