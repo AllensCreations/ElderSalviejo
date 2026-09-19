@@ -48,9 +48,10 @@ module.exports = async function handler(req, res) {
     }
 
     // 1. Authentication Check
-    const authHeader = req.headers.authorization || '';
+    const authHeader = (req.headers && (req.headers.authorization || req.headers.Authorization)) || '';
     const bearerToken = authHeader.replace(/^Bearer\s+/i, '').trim();
-    const providedSecret = body.secret || bearerToken || req.query.secret || '';
+    const querySecret = (req.query && req.query.secret) || '';
+    const providedSecret = (body && body.secret) || bearerToken || querySecret || '';
     const configuredSecret = process.env.INGEST_SECRET || '';
 
     if (configuredSecret) {
@@ -83,6 +84,8 @@ module.exports = async function handler(req, res) {
     const galleryMailto = `mailto:${encodeURIComponent(dummyEmail)}?subject=${encodeURIComponent(gallerySubject)}&body=${encodeURIComponent(galleryBody)}`;
     const galleryGmailWeb = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(dummyEmail)}&su=${encodeURIComponent(gallerySubject)}&body=${encodeURIComponent(galleryBody)}`;
 
+    const kitSubject = `🎉 Congratulations! Elder Mark Salviejo Mission Sender Kit [${diaryPasscode} & ${galleryPasscode}]`;
+
     // 3. Relay to Google Apps Script Web App if URL is provided
     if (appsScriptUrl && appsScriptUrl.startsWith('https://script.google.com')) {
       try {
@@ -97,26 +100,51 @@ module.exports = async function handler(req, res) {
           })
         });
 
-        const gasJson = await gasResponse.json();
+        const gasText = await gasResponse.text();
+        let gasJson = null;
+        try {
+          gasJson = JSON.parse(gasText);
+        } catch (_) {
+          // Response may be HTML if Google required authentication/login
+        }
+
+        if (!gasResponse.ok || (gasJson && gasJson.error)) {
+          const errorMsg = (gasJson && gasJson.error) ||
+            (gasText.includes('<html') ? 'Google Apps Script returned an HTML login/redirect page. Make sure "Who has access" is set to "Anyone".' : `HTTP ${gasResponse.status}`);
+          
+          return res.status(502).json({
+            error: `Google Apps Script dispatch failed: ${errorMsg}`,
+            hint: 'In script.google.com, click Deploy > Manage deployments > Edit > set "Execute as: Me" and "Who has access: Anyone". You can also test instant delivery directly by running runTestSendToMyInbox() in script.google.com.',
+            links: { diaryMailto, diaryGmailWeb, galleryMailto, galleryGmailWeb }
+          });
+        }
+
         return res.status(200).json({
           success: true,
           mode: 'gas_dispatched',
           recipient: recipientEmail,
           dummyInbox: dummyEmail,
-          details: gasJson
+          subject: kitSubject,
+          details: gasJson || { message: 'Dispatched successfully via Google Apps Script' },
+          links: { diaryMailto, diaryGmailWeb, galleryMailto, galleryGmailWeb }
         });
       } catch (gasErr) {
-        console.warn('Apps Script relay error, returning template payload directly:', gasErr.message);
+        return res.status(502).json({
+          error: `Google Apps Script connection error: ${gasErr.message}`,
+          hint: 'Verify that the Web App URL is accessible, or test directly from Google Apps Script editor using runTestSendToMyInbox().',
+          links: { diaryMailto, diaryGmailWeb, galleryMailto, galleryGmailWeb }
+        });
       }
     }
 
-    // 4. Return complete template payload with ready-to-launch links
+    // 4. If no Apps Script URL provided, return links with explicit notice
     return res.status(200).json({
       success: true,
-      mode: 'template_ready',
+      mode: 'links_only',
       recipient: recipientEmail,
       dummyInbox: dummyEmail,
-      subject: `Elder Mark Salviejo — P-Day Template & Submission Kit [${diaryPasscode} & ${galleryPasscode}]`,
+      subject: kitSubject,
+      warning: 'No Google Apps Script Web App URL was provided. No email was sent to the inbox, but you can use the 1-click mailto buttons below or test runTestSendToMyInbox() directly in script.google.com.',
       links: {
         diaryMailto,
         diaryGmailWeb,
@@ -126,8 +154,7 @@ module.exports = async function handler(req, res) {
       templates: {
         diary: { subject: diarySubject, body: diaryBody },
         gallery: { subject: gallerySubject, body: galleryBody }
-      },
-      message: `Template kit prepared for ${recipientEmail}. Ready for 1-click dispatch or Apps Script delivery.`
+      }
     });
 
   } catch (err) {

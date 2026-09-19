@@ -211,6 +211,18 @@
       color: #065f46;
       border: 1px solid #a7f3d0;
     }
+    .status-box.warning {
+      display: block;
+      background: #fffbeb;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+    .status-box.loading {
+      display: block;
+      background: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
     .status-box.error {
       display: block;
       background: #fef2f2;
@@ -334,10 +346,10 @@
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                   <polyline points="22,6 12,13 2,6"></polyline>
                 </svg>
-                Send Missionary P-Day Template Kit
+                Register Sender &amp; Send Congratulatory Kit
               </div>
               <p class="section-desc">
-                Sends a single HTML email to Elder Salviejo with <strong>2 buttons ("Send Weekly" &amp; "Send Gallery")</strong> using standard <span class="badge-tag">mailto:</span> links. He can keep this email pinned in his inbox so he never has to start over or re-type templates every week!
+                Dispatches the official <strong>Congratulatory Missionary Sender Registration &amp; Submission Kit</strong> to Elder Salviejo featuring the <strong>4-step "How to Send" guide</strong> and <strong>2 prominent 1-click action buttons ("Send Weekly" &amp; "Send Gallery")</strong>.
               </p>
 
               <form onsubmit="handleSendKit(event)">
@@ -361,7 +373,7 @@
                   <label for="appsScriptUrlInput">Google Apps Script Web App URL (For direct automated sending):</label>
                   <input type="text" id="appsScriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec" oninput="saveAndSyncLinks()">
                   <p style="font-size: 11px; color: var(--muted); margin-top: 4px;">
-                    Enter your deployed Apps Script Web App URL once. Saved automatically.
+                    Enter your deployed Apps Script Web App URL once ("Who has access: Anyone").
                   </p>
                 </div>
 
@@ -370,19 +382,35 @@
                     <line x1="22" y1="2" x2="11" y2="13"></line>
                     <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                   </svg>
-                  <span id="btnSendKitText">Send Template Sender Email</span>
+                  <span id="btnSendKitText">Send Congratulatory Sender Kit Email</span>
                 </button>
               </form>
 
               <div id="sendKitStatus" class="status-box"></div>
 
+              <!-- Direct Google Apps Script Quick Runner Card -->
+              <div style="background-color: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 14px 16px; margin-top: 16px;">
+                <div style="display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 12px; color: #334155; margin-bottom: 4px;">
+                  <span>⚡</span> Direct 1-Click Runner in Google Apps Script (Zero Setup)
+                </div>
+                <p style="font-size: 11px; color: #64748b; line-height: 1.5; margin: 0 0 6px 0;">
+                  Want to test delivery immediately to your inbox without configuring Web App webhooks?
+                </p>
+                <ol style="margin: 0; padding-left: 18px; font-size: 11px; color: #475569; line-height: 1.6;">
+                  <li>Open your script at <a href="https://script.google.com" target="_blank" style="color: #0284c7; text-decoration: underline;">script.google.com</a>.</li>
+                  <li>In the toolbar function dropdown, select <strong><code>runTestSendToMyInbox</code></strong>.</li>
+                  <li>Click <strong>Run</strong> (Grant permissions if prompted on first execution).</li>
+                  <li>Check your Gmail inbox — the congratulatory HTML kit arrives instantly!</li>
+                </ol>
+              </div>
+
               <!-- 2-Button Action Kit Card (Always ready and live) -->
               <div id="kitResultCard" class="kit-result-card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                   <span style="font-size: 13px; font-weight: 700; color: #92400e;">
-                    Normal mailto: Submission Buttons
+                    Direct Submission Buttons
                   </span>
-                  <span class="badge-tag">Normal Template Ready</span>
+                  <span class="badge-tag">1-Click Ready</span>
                 </div>
                 <p style="font-size: 12px; color: #78350f; margin-bottom: 12px;">
                   Elder Salviejo receives these 2 buttons in his email. Clicking either button opens his native mail app with the subject, passcode, and body ready:
@@ -547,8 +575,8 @@
       var btn = document.getElementById('btnSendKit');
       var btnText = document.getElementById('btnSendKitText');
       btn.disabled = true;
-      btnText.textContent = 'Preparing Kit...';
-      setKitStatus('loading', 'Sending All-in-One Template Kit with 2 mailto: buttons to ' + recipient + '...');
+      btnText.textContent = 'Dispatching Kit...';
+      setKitStatus('loading', 'Preparing and dispatching official Congratulatory Sender Kit to ' + recipient + '...');
 
       try {
         var res = await fetch('/api/admin/send', {
@@ -567,21 +595,23 @@
 
         var data = await res.json();
         btn.disabled = false;
-        btnText.textContent = 'Send Template Sender Email';
+        btnText.textContent = 'Send Congratulatory Sender Kit Email';
 
         if (res.ok && data.success) {
-          var modeText = data.mode === 'gas_dispatched'
-            ? 'Delivered directly to <strong>' + recipient + '</strong> via Google Apps Script!'
-            : 'Template Kit generated with standard mailto: links for <strong>' + recipient + '</strong>!';
-          
-          setKitStatus('success', 'Email kit ready! ' + modeText + '<br><span style="font-size:11px;color:#065f46;">The recipient can click "Send Weekly" or "Send Gallery" in their email draft anytime.</span>');
+          if (data.mode === 'gas_dispatched') {
+            setKitStatus('success', '🎉 <strong>Delivered!</strong> The official Congratulatory Sender Registration &amp; Template Kit has been dispatched directly to <strong>' + recipient + '</strong> via Google Apps Script!<br><span style="font-size:11px;color:#065f46;display:block;margin-top:4px;">Check their Gmail inbox (and Spam/Updates tab). Elder Salviejo can tap either button in that email to send his weekly letters!</span>');
+          } else {
+            setKitStatus('warning', '⚠️ <strong>Links Ready, but No Email Sent to Inbox:</strong><br>' + (data.warning || 'No Google Apps Script Web App URL was provided.') + '<br><span style="font-size:11px;color:#92400e;display:block;margin-top:4px;">To send directly to an inbox, paste your Apps Script Web App URL above or run <code>runTestSendToMyInbox()</code> in script.google.com. You can also tap the 1-click submission buttons below right now!</span>');
+          }
           saveAndSyncLinks();
         } else {
-          setKitStatus('error', data.error || 'Failed to dispatch template kit.');
+          var errorMsg = data.error || 'Failed to dispatch template kit.';
+          var hint = data.hint ? '<br><span style="font-size:11px;color:#991b1b;display:block;margin-top:6px;"><strong>💡 Next Step:</strong> ' + data.hint + '</span>' : '';
+          setKitStatus('error', '❌ <strong>Delivery Failed:</strong> ' + errorMsg + hint);
         }
       } catch (err) {
         btn.disabled = false;
-        btnText.textContent = 'Send Template Sender Email';
+        btnText.textContent = 'Send Congratulatory Sender Kit Email';
         setKitStatus('error', 'Network error: ' + err.message);
       }
     }
