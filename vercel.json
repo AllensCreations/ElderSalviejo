@@ -29,6 +29,10 @@
     {
       "source": "/compose",
       "destination": "/compose"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin"
     }
   ],
   "headers": [

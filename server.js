@@ -23,6 +23,7 @@ const trackingMessageHandler = require('./api/tracking/message');
 const trackingBroadcastHandler = require('./api/tracking/broadcast');
 const encouragementsHandler = require('./api/encouragements');
 const statsHandler = require('./api/stats');
+const adminSendHandler = require('./api/admin/send');
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
@@ -176,6 +177,12 @@ const server = http.createServer(async (req, res) => {
       return await statsHandler(req, res);
     }
 
+    // 1h. API: POST /api/admin/send
+    if (pathname === '/api/admin/send') {
+      if (req.method === 'POST') req.body = await readBody();
+      return await adminSendHandler(req, res);
+    }
+
     // 2. API: GET /api/weeks
     if (pathname === '/api/weeks') {
       return await weeksHandler(req, res);
@@ -230,6 +237,12 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/compose') {
       const composeHtmlPath = path.join(PUBLIC_DIR, 'compose.html');
       return serveStaticFile(req, res, composeHtmlPath, 'text/html; charset=UTF-8', 'public, max-age=3600, stale-while-revalidate=86400');
+    }
+
+    // 5f. Frontend Admin Portal: /admin
+    if (pathname === '/admin') {
+      const adminHtmlPath = path.join(PUBLIC_DIR, 'admin.html');
+      return serveStaticFile(req, res, adminHtmlPath, 'text/html; charset=UTF-8', 'public, max-age=3600, stale-while-revalidate=86400');
     }
 
 

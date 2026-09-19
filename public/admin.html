@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Elder Salviejo • Admin Portal & Template Sender</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <style>
+    :root {
+      --bg: #f5f5f4;
+      --card: #ffffff;
+      --border: #e7e5e4;
+      --amber: #d97706;
+      --amber-dark: #b45309;
+      --amber-light: #fef3c7;
+      --text: #1c1917;
+      --muted: #78716c;
+      --stone-dark: #292524;
+      --green: #059669;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 20px 16px 50px;
+    }
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    /* Lock Screen Modal */
+    #lockScreen {
+      max-width: 440px;
+      margin: 80px auto;
+      background: var(--card);
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      border: 1px solid var(--border);
+      padding: 36px 28px;
+      text-align: center;
+    }
+    .lock-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--amber-light);
+      color: var(--amber-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    #lockScreen h2 {
+      font-family: Georgia, serif;
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+    #lockScreen p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+    /* Admin Portal Card */
+    #adminDashboard {
+      display: none;
+      background: var(--card);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .header {
+      background: var(--stone-dark);
+      color: #fff;
+      padding: 26px 24px;
+      border-bottom: 3px solid var(--amber);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .header .subtitle {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--amber);
+      font-weight: 700;
+    }
+    .header h1 {
+      font-family: Georgia, serif;
+      font-size: 22px;
+      margin: 4px 0 2px;
+    }
+    .btn-logout {
+      font-size: 12px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn-logout:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    .body-content {
+      padding: 28px 24px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 768px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+    .section-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px;
+      margin-bottom: 22px;
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--stone-dark);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-desc {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    input[type="text"], input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    input:focus {
+      outline: none;
+      border-color: var(--amber);
+    }
+    .btn-primary {
+      width: 100%;
+      padding: 13px 20px;
+      background: var(--amber);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
+      transition: all 0.2s;
+    }
+    .btn-primary:hover {
+      background: var(--amber-dark);
+    }
+    .btn-secondary {
+      padding: 10px 16px;
+      background: #fafaf9;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--stone-dark);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-secondary:hover {
+      background: #f5f5f4;
+    }
+    .status-box {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      display: none;
+    }
+    .status-box.success {
+      display: block;
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    .status-box.error {
+      display: block;
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+    /* Action Kit Result Card */
+    .kit-result-card {
+      background: #fffbeb;
+      border: 2px solid #fde68a;
+      border-radius: 10px;
+      padding: 18px;
+      margin-top: 18px;
+      display: none;
+    }
+    .kit-btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .kit-btn-amber {
+      background: var(--amber);
+      color: #fff;
+      padding: 12px 14px;
+      border-radius: 6px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      display: block;
+    }
+    .kit-btn-amber:hover { background: var(--amber-dark); }
+    .kit-btn-stone {
+      background: var(--stone-dark);
+      color: #fff;
+      padding: 12px 14px;
+      border-radius: 6px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      display: block;
+    }
+    .kit-btn-stone:hover { background: #44403c; }
+    /* Stat Badge */
+    .stat-badge {
+      font-size: 28px;
+      font-weight: 700;
+      font-family: Georgia, serif;
+      color: var(--amber-dark);
+      margin: 8px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Lock Screen -->
+    <div id="lockScreen">
+      <div class="lock-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </div>
+      <h2>Admin Portal</h2>
+      <p>Enter your secret passcode (INGEST_SECRET) to access the missionary template sender.</p>
+      <form onsubmit="handleUnlock(event)">
+        <div class="form-group">
+          <input type="password" id="adminSecretInput" placeholder="Enter Admin Passcode..." required autofocus>
+        </div>
+        <button type="submit" class="btn-primary">Unlock Dashboard &rarr;</button>
+        <div id="lockError" style="color: #b91c1c; font-size: 12px; margin-top: 10px; display: none;">
+          Incorrect passcode. Please verify your INGEST_SECRET.
+        </div>
+      </form>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard">
+      
+      <div class="header">
+        <div>
+          <p class="subtitle">Philippines Dumaguete Mission</p>
+          <h1>Elder Mark Salviejo</h1>
+          <p style="font-size: 12px; color: #a8a29e; font-style: italic;">Missionary Archival Administration &bull; Version 3.0</p>
+        </div>
+        <button type="button" class="btn-logout" onclick="handleLogout()">Lock & Logout</button>
+      </div>
+
+      <div class="body-content">
+        
+        <div class="grid-2">
+          
+          <!-- Column 1: Send All-in-One Template Kit -->
+          <div>
+            <div class="section-card">
+              <div class="section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                Send All-in-One Template Sender Kit
+              </div>
+              <p class="section-desc">
+                Input the missionary's email address. The system will send a single, beautifully designed HTML kit containing <strong>2 buttons</strong>: <strong>Send Weekly Reflection (159266)</strong> and <strong>Send Gallery Photos (073000)</strong>. When Elder Salviejo clicks either button in his email, his compose draft will immediately open with the subject and body template ready!
+              </p>
+
+              <form onsubmit="handleSendKit(event)">
+                <div class="form-group">
+                  <label for="recipientInput">Missionary / Sender Email:</label>
+                  <input type="email" id="recipientInput" placeholder="e.g. 2ndsalviejomark2019@gmail.com" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="dummyInput">Dummy Receiver Inbox Address:</label>
+                  <input type="email" id="dummyInput" value="dummy@gmail.com" placeholder="dummy-receiver@gmail.com" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="appsScriptUrlInput">Google Apps Script Web App URL (Optional for direct send):</label>
+                  <input type="text" id="appsScriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec">
+                  <p style="font-size: 11px; color: var(--muted); margin-top: 4px;">
+                    If provided, directly triggers GmailApp.sendEmail() from Google Apps Script. Otherwise launches 1-click fallback.
+                  </p>
+                </div>
+
+                <button type="submit" class="btn-primary" id="btnSendKit">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                  </svg>
+                  <span id="btnSendKitText">Send Template Sender Email</span>
+                </button>
+              </form>
+
+              <div id="sendKitStatus" class="status-box"></div>
+
+              <!-- 1-Click Action Kit Output -->
+              <div id="kitResultCard" class="kit-result-card">
+                <p style="font-size: 13px; font-weight: 700; color: #92400e; margin-bottom: 6px;">
+                  Submission Buttons Ready:
+                </p>
+                <p style="font-size: 12px; color: #78350f; margin-bottom: 12px;">
+                  The recipient can click these buttons in their email to launch drafts with pre-filled bodies and passcodes:
+                </p>
+                <div class="kit-btn-row">
+                  <a href="#" id="linkSendWeekly" target="_blank" class="kit-btn-amber">
+                    &rarr; Send Weekly Diary (159266)
+                  </a>
+                  <a href="#" id="linkSendGallery" target="_blank" class="kit-btn-stone">
+                    &rarr; Send Photo Gallery (073000)
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: Overview & Controls -->
+          <div>
+            <!-- Subscriber Stats -->
+            <div class="section-card">
+              <div class="section-title">Newsletter Subscribers</div>
+              <p class="section-desc">Family, friends, and supporters subscribed for weekly Monday P-Day updates.</p>
+              <div class="stat-badge" id="subscribersCount">...</div>
+              <button type="button" class="btn-secondary" onclick="fetchSubscriberStats()" style="width: 100%; justify-content: center; margin-top: 8px;">
+                Refresh Count
+              </button>
+            </div>
+
+            <!-- Keepsake Backup -->
+            <div class="section-card">
+              <div class="section-title">Database Keepsake Backup</div>
+              <p class="section-desc">Download a complete JSON export of all weekly letters, polaroids, and encouragement messages.</p>
+              <button type="button" class="btn-secondary" onclick="downloadBackup()" style="width: 100%; justify-content: center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Download Backup JSON
+              </button>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="section-card">
+              <div class="section-title">Quick Vault Navigation</div>
+              <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+                <a href="/compose" class="btn-secondary" target="_blank">Manual Template Composer</a>
+                <a href="/gallery" class="btn-secondary" target="_blank">Polaroid Gallery Wall</a>
+                <a href="/book" class="btn-secondary" target="_blank">24-Month Monograph Book</a>
+                <a href="/" class="btn-secondary" target="_blank">Index Vault Directory</a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    var currentToken = sessionStorage.getItem('admin_token') || '';
+
+    window.addEventListener('DOMContentLoaded', function() {
+      if (currentToken) {
+        unlockDashboard(currentToken);
+      }
+    });
+
+    function handleUnlock(e) {
+      e.preventDefault();
+      var input = document.getElementById('adminSecretInput').value.trim();
+      if (!input) return;
+      unlockDashboard(input);
+    }
+
+    function unlockDashboard(token) {
+      currentToken = token;
+      sessionStorage.setItem('admin_token', token);
+      document.getElementById('lockScreen').style.display = 'none';
+      document.getElementById('adminDashboard').style.display = 'block';
+      fetchSubscriberStats();
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem('admin_token');
+      currentToken = '';
+      document.getElementById('adminDashboard').style.display = 'none';
+      document.getElementById('lockScreen').style.display = 'block';
+      document.getElementById('adminSecretInput').value = '';
+    }
+
+    function setKitStatus(type, msg) {
+      var box = document.getElementById('sendKitStatus');
+      box.className = 'status-box ' + type;
+      box.innerHTML = msg;
+    }
+
+    async function handleSendKit(e) {
+      e.preventDefault();
+      var recipient = document.getElementById('recipientInput').value.trim();
+      var dummy = document.getElementById('dummyInput').value.trim();
+      var gasUrl = document.getElementById('appsScriptUrlInput').value.trim();
+
+      if (!recipient) {
+        setKitStatus('error', 'Please provide a valid recipient email.');
+        return;
+      }
+
+      var btn = document.getElementById('btnSendKit');
+      var btnText = document.getElementById('btnSendKitText');
+      btn.disabled = true;
+      btnText.textContent = 'Preparing Kit...';
+      setKitStatus('loading', 'Generating All-in-One Template Kit with 2 action buttons...');
+
+      try {
+        var res = await fetch('/api/admin/send', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + currentToken
+          },
+          body: JSON.stringify({
+            secret: currentToken,
+            recipientEmail: recipient,
+            dummyEmail: dummy,
+            appsScriptUrl: gasUrl
+          })
+        });
+
+        var data = await res.json();
+        btn.disabled = false;
+        btnText.textContent = 'Send Template Sender Email';
+
+        if (res.ok && data.success) {
+          setKitStatus('success', 'Template Sender Email prepared successfully for <strong>' + recipient + '</strong>!');
+          
+          // Populate the 2 action buttons
+          var kitCard = document.getElementById('kitResultCard');
+          kitCard.style.display = 'block';
+
+          if (data.links) {
+            document.getElementById('linkSendWeekly').href = data.links.diaryGmailWeb || data.links.diaryMailto;
+            document.getElementById('linkSendGallery').href = data.links.galleryGmailWeb || data.links.galleryMailto;
+          }
+        } else {
+          setKitStatus('error', data.error || 'Failed to dispatch template kit.');
+        }
+      } catch (err) {
+        btn.disabled = false;
+        btnText.textContent = 'Send Template Sender Email';
+        setKitStatus('error', 'Network error: ' + err.message);
+      }
+    }
+
+    async function fetchSubscriberStats() {
+      try {
+        var res = await fetch('/api/stats');
+        if (res.ok) {
+          var data = await res.json();
+          document.getElementById('subscribersCount').textContent = data.subscribersCount || '0';
+        } else {
+          document.getElementById('subscribersCount').textContent = '—';
+        }
+      } catch (_) {
+        document.getElementById('subscribersCount').textContent = '—';
+      }
+    }
+
+    function downloadBackup() {
+      if (!currentToken) return;
+      var backupUrl = '/api/backup?token=' + encodeURIComponent(currentToken) + '&download=true';
+      window.open(backupUrl, '_blank');
+    }
+  </script>
+</body>
+</html>

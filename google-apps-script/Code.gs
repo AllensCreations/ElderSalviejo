@@ -2843,3 +2843,188 @@ function getSenderWebAppHtml() {
 </body>
 </html>`;
 }
+
+/**
+ * Builds the All-in-One Missionary Kit HTML Email containing BOTH buttons:
+ * 1. "Send Weekly Reflection (159266)"
+ * 2. "Send Gallery Photos (073000)"
+ * 
+ * When the missionary opens this email, clicking either button immediately opens their
+ * email app with the recipient, subject (including secret passcode), and body template ready to edit!
+ */
+function buildMissionaryKitEmailHtml(dummyInbox, diaryPasscode, galleryPasscode, siteUrl) {
+  const dummy = dummyInbox || 'dummy@gmail.com';
+  const diaryCode = diaryPasscode || '159266';
+  const galleryCode = galleryPasscode || '073000';
+  const url = siteUrl || 'https://eldersalviejo.vercel.app';
+
+  const diarySubject = `Weekly Reflection: Week 1 in Dumaguete ${diaryCode}`;
+  const diaryBody = `-VERSE- (Alma 26:12)\n\n--- MONDAY ---\nPreparation day! Did laundry, wrote emails to family, and companion study in Dumaguete.\n\n--- TUESDAY ---\nMorning proselyting and teaching discussions in Sibulan district.\n\n--- WEDNESDAY ---\nTaught the Plan of Salvation to Brother Bautista and enjoyed fresh buko juice.\n\n--- THURSDAY ---\nDistrict Council meeting in Dumaguete City. Practiced Cebuano language roleplays.\n\n--- FRIDAY ---\nService project helping local families repair bamboo fences.\n\n--- SATURDAY ---\nStreet contacting along Rizal Boulevard during sunset overlooking the ocean.\n\n--- SUNDAY ---\nSacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior Jesus Christ.`;
+
+  const gallerySubject = `Dumaguete District Conference [Mission] ${galleryCode}`;
+  const galleryBody = `Wonderful district conference gathering with companions and members across Negros Oriental!`;
+
+  const diaryMailto = `mailto:${encodeURIComponent(dummy)}?subject=${encodeURIComponent(diarySubject)}&body=${encodeURIComponent(diaryBody)}`;
+  const diaryGmailWeb = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(dummy)}&su=${encodeURIComponent(diarySubject)}&body=${encodeURIComponent(diaryBody)}`;
+
+  const galleryMailto = `mailto:${encodeURIComponent(dummy)}?subject=${encodeURIComponent(gallerySubject)}&body=${encodeURIComponent(galleryBody)}`;
+  const galleryGmailWeb = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(dummy)}&su=${encodeURIComponent(gallerySubject)}&body=${encodeURIComponent(galleryBody)}`;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elder Mark Salviejo — Missionary P-Day Template Kit</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f1ea; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1c1917;">
+  <div style="max-width: 640px; margin: 24px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e7e5e4;">
+    
+    <!-- Top Header Banner -->
+    <div style="background-color: #1c1917; padding: 32px 24px; text-align: center; border-bottom: 3px solid #d97706;">
+      <p style="margin: 0 0 6px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #d97706; font-weight: 700;">Philippines Dumaguete Mission</p>
+      <h1 style="margin: 0 0 6px 0; font-family: Georgia, serif; font-size: 24px; color: #ffffff; font-weight: 700;">Elder Mark Salviejo</h1>
+      <p style="margin: 0; font-size: 13px; color: #a8a29e; font-style: italic; font-family: Georgia, serif;">1-Click P-Day Template &amp; Submission Kit</p>
+    </div>
+
+    <!-- Main Content Container -->
+    <div style="padding: 30px 24px;">
+      
+      <p style="margin: 0 0 16px 0; font-size: 14px; line-height: 1.6; color: #44403c;">
+        Elder Salviejo, here is your 1-click submission kit for this week's Preparation Day. Clicking either button below will instantly launch an email draft with your secret passcode, recipient inbox, and body template already populated!
+      </p>
+
+      <!-- SECTION 1: WEEKLY DIARY REFLECTION -->
+      <div style="border: 2px solid #fde68a; background-color: #fffbeb; border-radius: 10px; padding: 22px 20px; margin-bottom: 24px;">
+        <span style="display: inline-block; background-color: #d97706; color: #ffffff; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">
+          Option 1 &bull; Passcode ${escapeHtml(diaryCode)}
+        </span>
+        <h2 style="font-family: Georgia, serif; font-size: 19px; color: #78350f; margin: 0 0 8px 0; font-weight: 700;">
+          Weekly Diary Reflection Letter
+        </h2>
+        <p style="margin: 0 0 16px 0; font-size: 13px; color: #92400e; line-height: 1.5;">
+          Includes Monday through Sunday daily reflections and scripture reference. Remember to attach 7 weekly photos!
+        </p>
+
+        <!-- Button 1: Send Weekly Diary -->
+        <div style="text-align: center; margin: 18px 0 10px 0;">
+          <a href="${diaryMailto}" style="background-color: #d97706; color: #ffffff; text-decoration: none; padding: 13px 26px; border-radius: 8px; font-weight: 700; font-size: 14px; display: inline-block; letter-spacing: 0.5px; box-shadow: 0 3px 10px rgba(217, 119, 6, 0.3);">
+            &rarr; Send Weekly Reflection (${escapeHtml(diaryCode)})
+          </a>
+        </div>
+        <p style="text-align: center; font-size: 11px; color: #b45309; margin: 0;">
+          Using Web Gmail? <a href="${diaryGmailWeb}" target="_blank" style="color: #92400e; font-weight: 600; text-decoration: underline;">Click here to open in Gmail browser</a>
+        </p>
+      </div>
+
+      <!-- SECTION 2: PHOTO GALLERY ALBUM -->
+      <div style="border: 2px solid #e7e5e4; background-color: #fafaf9; border-radius: 10px; padding: 22px 20px; margin-bottom: 24px;">
+        <span style="display: inline-block; background-color: #292524; color: #ffffff; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">
+          Option 2 &bull; Passcode ${escapeHtml(galleryCode)}
+        </span>
+        <h2 style="font-family: Georgia, serif; font-size: 19px; color: #1c1917; margin: 0 0 8px 0; font-weight: 700;">
+          Polaroid Photo Gallery Album
+        </h2>
+        <p style="margin: 0 0 16px 0; font-size: 13px; color: #78716c; line-height: 1.5;">
+          Send standalone mission memories and photo albums (1 to 50+ photos) directly to the live Polaroid Wall on /gallery.
+        </p>
+
+        <!-- Button 2: Send Photo Gallery -->
+        <div style="text-align: center; margin: 18px 0 10px 0;">
+          <a href="${galleryMailto}" style="background-color: #292524; color: #ffffff; text-decoration: none; padding: 13px 26px; border-radius: 8px; font-weight: 700; font-size: 14px; display: inline-block; letter-spacing: 0.5px; box-shadow: 0 3px 10px rgba(0,0,0,0.15);">
+            &rarr; Send Photo Gallery (${escapeHtml(galleryCode)})
+          </a>
+        </div>
+        <p style="text-align: center; font-size: 11px; color: #78716c; margin: 0;">
+          Using Web Gmail? <a href="${galleryGmailWeb}" target="_blank" style="color: #44403c; font-weight: 600; text-decoration: underline;">Click here to open in Gmail browser</a>
+        </p>
+      </div>
+
+      <!-- Destination Note -->
+      <div style="background-color: #f5f5f4; border-radius: 6px; padding: 12px 16px; font-size: 12px; color: #57534e; text-align: center;">
+        Recipient Address: <strong>${escapeHtml(dummy)}</strong>
+      </div>
+
+    </div>
+
+    <!-- Dignified Footer -->
+    <div style="background-color: #fafaf9; border-top: 1px solid #f5f5f4; padding: 20px 24px; text-align: center; font-size: 11px; color: #78716c;">
+      <p style="margin: 0 0 4px 0; font-weight: 600; color: #44403c;">Elder Mark Salviejo &bull; Philippines Dumaguete Mission</p>
+      <p style="margin: 0;">Live Archival Vault: <a href="${url}" style="color: #b45309; text-decoration: underline;">${url}</a></p>
+    </div>
+
+  </div>
+</body>
+</html>`;
+}
+
+/**
+ * Dispatches the All-in-One Template Kit Email to the missionary or sender.
+ * Contains both "Send Weekly" and "Send Gallery" buttons with pre-filled bodies.
+ */
+function sendMissionaryTemplateKitEmail(recipientEmail, dummyInboxOverride) {
+  const ctx = getComposerContext();
+  const target = recipientEmail || ctx.userEmail || ctx.dummyInbox;
+  if (!target) {
+    throw new Error('No recipient email specified for template kit.');
+  }
+
+  const dummy = dummyInboxOverride || ctx.dummyInbox || 'dummy@gmail.com';
+  const html = buildMissionaryKitEmailHtml(dummy, ctx.diaryPasscode, ctx.galleryPasscode, ctx.siteUrl);
+  const subject = `Elder Mark Salviejo — P-Day Template & Submission Kit [159266 & 073000]`;
+
+  GmailApp.sendEmail(target, subject, 'Elder Mark Salviejo P-Day Template Kit (HTML format).', {
+    htmlBody: html,
+    name: 'Elder Mark Salviejo Archive'
+  });
+
+  Logger.log(`[PASS] Dispatched Missionary Template Kit Email to: ${target} (Dummy: ${dummy})`);
+  return {
+    success: true,
+    recipient: target,
+    dummyInbox: dummy,
+    timestamp: Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'MMM d, yyyy • h:mm:ss a')
+  };
+}
+
+/**
+ * Web App POST Entry Point:
+ * Handles webhook requests from the Admin Portal (/admin) to dispatch template emails.
+ */
+function doPost(e) {
+  try {
+    let data = {};
+    if (e && e.postData && e.postData.contents) {
+      try {
+        data = JSON.parse(e.postData.contents);
+      } catch (parseErr) {
+        data = {};
+      }
+    }
+
+    const secret = data.secret || (e && e.parameter && e.parameter.secret) || '';
+    const configuredSecret = PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || CONFIG.INGEST_SECRET || '';
+
+    if (configuredSecret && secret !== configuredSecret) {
+      return ContentService.createTextOutput(JSON.stringify({ error: 'Unauthorized: Invalid secret' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    const action = data.action || (e && e.parameter && e.parameter.action) || 'sendKit';
+    const recipient = data.recipientEmail || data.recipient || '';
+    const dummyInbox = data.dummyEmail || data.dummyInbox || '';
+
+    if (action === 'sendKit' || action === 'sendTemplateKit') {
+      const result = sendMissionaryTemplateKitEmail(recipient, dummyInbox);
+      return ContentService.createTextOutput(JSON.stringify(result))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    return ContentService.createTextOutput(JSON.stringify({ error: 'Unknown action' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ error: err.message }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
