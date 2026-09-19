@@ -225,7 +225,7 @@
 
               <!-- Sheet Footer -->
               <div class="sheet-footer">
-                <span>Chapter ${chapNum} • Elder Mark Salviejo</span>
+                <span>Elder Mark Salviejo • Philippines Dumaguete Mission</span>
                 <span>Page ${page1Num}</span>
               </div>
             </section>
@@ -258,7 +258,7 @@
 
                 <!-- Sheet Footer -->
                 <div class="sheet-footer">
-                  <span>Chapter ${chapNum} • Field Chronicle</span>
+                  <span>Elder Mark Salviejo • Philippines Dumaguete Mission</span>
                   <span>Page ${page2Num}</span>
                 </div>
               </section>
@@ -275,7 +275,7 @@
       // 4. Update Final Epilogue Page Number
       const epiloguePageEl = document.getElementById('epiloguePageNum');
       if (epiloguePageEl) {
-        epiloguePageEl.textContent = `Finis • Page ${String(runningPageNum).padStart(2, '0')}`;
+        epiloguePageEl.textContent = `Page ${String(runningPageNum).padStart(2, '0')}`;
       }
 
     } catch (err) {
@@ -611,7 +611,7 @@
 
           <!-- Sheet Footer -->
           <div class="sheet-footer">
-            <span>Appendix 01 • Elder Mark Salviejo • Dumaguete Archive</span>
+            <span>Elder Mark Salviejo • Philippines Dumaguete Mission</span>
             <span>Page ${sheetPageNum}</span>
           </div>
         </section>
