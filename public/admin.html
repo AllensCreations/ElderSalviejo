@@ -27,7 +27,7 @@
       padding: 20px 16px 50px;
     }
     .container {
-      max-width: 860px;
+      max-width: 880px;
       margin: 0 auto;
     }
     /* Lock Screen Modal */
@@ -111,7 +111,7 @@
     }
     .grid-2 {
       display: grid;
-      grid-template-columns: 2fr 1fr;
+      grid-template-columns: 1.8fr 1.2fr;
       gap: 24px;
     }
     @media (max-width: 768px) {
@@ -222,38 +222,48 @@
       background: #fffbeb;
       border: 2px solid #fde68a;
       border-radius: 10px;
-      padding: 18px;
+      padding: 20px 18px;
       margin-top: 18px;
-      display: none;
     }
     .kit-btn-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 12px;
       margin-top: 12px;
+    }
+    @media (max-width: 600px) {
+      .kit-btn-row { grid-template-columns: 1fr; }
     }
     .kit-btn-amber {
       background: var(--amber);
       color: #fff;
-      padding: 12px 14px;
-      border-radius: 6px;
+      padding: 13px 14px;
+      border-radius: 8px;
       text-align: center;
       font-size: 13px;
       font-weight: 700;
       text-decoration: none;
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 3px 8px rgba(217, 119, 6, 0.25);
     }
     .kit-btn-amber:hover { background: var(--amber-dark); }
     .kit-btn-stone {
       background: var(--stone-dark);
       color: #fff;
-      padding: 12px 14px;
-      border-radius: 6px;
+      padding: 13px 14px;
+      border-radius: 8px;
       text-align: center;
       font-size: 13px;
       font-weight: 700;
       text-decoration: none;
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
     }
     .kit-btn-stone:hover { background: #44403c; }
     /* Stat Badge */
@@ -263,6 +273,15 @@
       font-family: Georgia, serif;
       color: var(--amber-dark);
       margin: 8px 0;
+    }
+    .badge-tag {
+      display: inline-block;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-weight: 700;
+      background: #fef3c7;
+      color: #92400e;
     }
   </style>
 </head>
@@ -315,28 +334,34 @@
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                   <polyline points="22,6 12,13 2,6"></polyline>
                 </svg>
-                Send All-in-One Template Sender Kit
+                Send Missionary P-Day Template Kit
               </div>
               <p class="section-desc">
-                Input the missionary's email address. The system will send a single, beautifully designed HTML kit containing <strong>2 buttons</strong>: <strong>Send Weekly Reflection (159266)</strong> and <strong>Send Gallery Photos (073000)</strong>. When Elder Salviejo clicks either button in his email, his compose draft will immediately open with the subject and body template ready!
+                Sends a single HTML email to Elder Salviejo with <strong>2 buttons ("Send Weekly" &amp; "Send Gallery")</strong> using standard <span class="badge-tag">mailto:</span> links. He can keep this email pinned in his inbox so he never has to start over or re-type templates every week!
               </p>
 
               <form onsubmit="handleSendKit(event)">
                 <div class="form-group">
-                  <label for="recipientInput">Missionary / Sender Email:</label>
-                  <input type="email" id="recipientInput" placeholder="e.g. 2ndsalviejomark2019@gmail.com" required>
+                  <label for="recipientInput">Missionary / Sender Email Address:</label>
+                  <input type="email" id="recipientInput" placeholder="e.g. 2ndsalviejomark2019@gmail.com" oninput="saveAndSyncLinks()" required>
+                  <p style="font-size: 11px; color: var(--muted); margin-top: 4px;">
+                    Saved automatically in this browser.
+                  </p>
                 </div>
 
                 <div class="form-group">
                   <label for="dummyInput">Dummy Receiver Inbox Address:</label>
-                  <input type="email" id="dummyInput" value="dummy@gmail.com" placeholder="dummy-receiver@gmail.com" required>
+                  <input type="email" id="dummyInput" value="dummy@gmail.com" placeholder="dummy-receiver@gmail.com" oninput="saveAndSyncLinks()" required>
+                  <p style="font-size: 11px; color: var(--muted); margin-top: 4px;">
+                    The inbox running Google Apps Script that receives letters &amp; photos.
+                  </p>
                 </div>
 
                 <div class="form-group">
-                  <label for="appsScriptUrlInput">Google Apps Script Web App URL (Optional for direct send):</label>
-                  <input type="text" id="appsScriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec">
+                  <label for="appsScriptUrlInput">Google Apps Script Web App URL (For direct automated sending):</label>
+                  <input type="text" id="appsScriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec" oninput="saveAndSyncLinks()">
                   <p style="font-size: 11px; color: var(--muted); margin-top: 4px;">
-                    If provided, directly triggers GmailApp.sendEmail() from Google Apps Script. Otherwise launches 1-click fallback.
+                    Enter your deployed Apps Script Web App URL once. Saved automatically.
                   </p>
                 </div>
 
@@ -351,23 +376,36 @@
 
               <div id="sendKitStatus" class="status-box"></div>
 
-              <!-- 1-Click Action Kit Output -->
+              <!-- 2-Button Action Kit Card (Always ready and live) -->
               <div id="kitResultCard" class="kit-result-card">
-                <p style="font-size: 13px; font-weight: 700; color: #92400e; margin-bottom: 6px;">
-                  Submission Buttons Ready:
-                </p>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <span style="font-size: 13px; font-weight: 700; color: #92400e;">
+                    Normal mailto: Submission Buttons
+                  </span>
+                  <span class="badge-tag">Normal Template Ready</span>
+                </div>
                 <p style="font-size: 12px; color: #78350f; margin-bottom: 12px;">
-                  The recipient can click these buttons in their email to launch drafts with pre-filled bodies and passcodes:
+                  Elder Salviejo receives these 2 buttons in his email. Clicking either button opens his native mail app with the subject, passcode, and body ready:
                 </p>
                 <div class="kit-btn-row">
-                  <a href="#" id="linkSendWeekly" target="_blank" class="kit-btn-amber">
-                    &rarr; Send Weekly Diary (159266)
+                  <a href="#" id="linkSendWeekly" class="kit-btn-amber">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="22" y1="2" x2="11" y2="13"></line>
+                      <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                    Send Weekly (159266)
                   </a>
-                  <a href="#" id="linkSendGallery" target="_blank" class="kit-btn-stone">
-                    &rarr; Send Photo Gallery (073000)
+                  <a href="#" id="linkSendGallery" class="kit-btn-stone">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                      <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                      <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                    Send Gallery (073000)
                   </a>
                 </div>
               </div>
+
             </div>
           </div>
 
@@ -422,6 +460,17 @@
     var currentToken = sessionStorage.getItem('admin_token') || '';
 
     window.addEventListener('DOMContentLoaded', function() {
+      // Restore persisted fields so user never has to start over
+      var savedRecipient = localStorage.getItem('admin_recipient');
+      var savedDummy = localStorage.getItem('admin_dummy');
+      var savedGasUrl = localStorage.getItem('admin_gas_url');
+
+      if (savedRecipient) document.getElementById('recipientInput').value = savedRecipient;
+      if (savedDummy) document.getElementById('dummyInput').value = savedDummy;
+      if (savedGasUrl) document.getElementById('appsScriptUrlInput').value = savedGasUrl;
+
+      saveAndSyncLinks();
+
       if (currentToken) {
         unlockDashboard(currentToken);
       }
@@ -440,6 +489,7 @@
       document.getElementById('lockScreen').style.display = 'none';
       document.getElementById('adminDashboard').style.display = 'block';
       fetchSubscriberStats();
+      saveAndSyncLinks();
     }
 
     function handleLogout() {
@@ -450,6 +500,31 @@
       document.getElementById('adminSecretInput').value = '';
     }
 
+    function saveAndSyncLinks() {
+      var recipient = document.getElementById('recipientInput').value.trim();
+      var dummy = document.getElementById('dummyInput').value.trim() || 'dummy@gmail.com';
+      var gasUrl = document.getElementById('appsScriptUrlInput').value.trim();
+
+      // Persist in localStorage
+      if (recipient) localStorage.setItem('admin_recipient', recipient);
+      if (dummy) localStorage.setItem('admin_dummy', dummy);
+      if (gasUrl) localStorage.setItem('admin_gas_url', gasUrl);
+
+      // Normal templates
+      var diarySubject = 'Weekly Reflection: Week 1 in Dumaguete 159266';
+      var diaryBody = '-VERSE- (Alma 26:12)\n\n--- MONDAY ---\nPreparation day! Did laundry, wrote emails to family, and companion study in Dumaguete.\n\n--- TUESDAY ---\nMorning proselyting and teaching discussions in Sibulan district.\n\n--- WEDNESDAY ---\nTaught the Plan of Salvation to Brother Bautista and enjoyed fresh buko juice.\n\n--- THURSDAY ---\nDistrict Council meeting in Dumaguete City. Practiced Cebuano language roleplays.\n\n--- FRIDAY ---\nService project helping local families repair bamboo fences.\n\n--- SATURDAY ---\nStreet contacting along Rizal Boulevard during sunset overlooking the ocean.\n\n--- SUNDAY ---\nSacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior Jesus Christ.';
+
+      var gallerySubject = 'Dumaguete District Conference [Mission] 073000';
+      var galleryBody = 'Wonderful district conference gathering with companions and members across Negros Oriental!';
+
+      // Pure, standard mailto links
+      var diaryMailto = 'mailto:' + encodeURIComponent(dummy) + '?subject=' + encodeURIComponent(diarySubject) + '&body=' + encodeURIComponent(diaryBody);
+      var galleryMailto = 'mailto:' + encodeURIComponent(dummy) + '?subject=' + encodeURIComponent(gallerySubject) + '&body=' + encodeURIComponent(galleryBody);
+
+      document.getElementById('linkSendWeekly').href = diaryMailto;
+      document.getElementById('linkSendGallery').href = galleryMailto;
+    }
+
     function setKitStatus(type, msg) {
       var box = document.getElementById('sendKitStatus');
       box.className = 'status-box ' + type;
@@ -458,8 +533,10 @@
 
     async function handleSendKit(e) {
       e.preventDefault();
+      saveAndSyncLinks();
+
       var recipient = document.getElementById('recipientInput').value.trim();
-      var dummy = document.getElementById('dummyInput').value.trim();
+      var dummy = document.getElementById('dummyInput').value.trim() || 'dummy@gmail.com';
       var gasUrl = document.getElementById('appsScriptUrlInput').value.trim();
 
       if (!recipient) {
@@ -471,7 +548,7 @@
       var btnText = document.getElementById('btnSendKitText');
       btn.disabled = true;
       btnText.textContent = 'Preparing Kit...';
-      setKitStatus('loading', 'Generating All-in-One Template Kit with 2 action buttons...');
+      setKitStatus('loading', 'Sending All-in-One Template Kit with 2 mailto: buttons to ' + recipient + '...');
 
       try {
         var res = await fetch('/api/admin/send', {
@@ -493,16 +570,12 @@
         btnText.textContent = 'Send Template Sender Email';
 
         if (res.ok && data.success) {
-          setKitStatus('success', 'Template Sender Email prepared successfully for <strong>' + recipient + '</strong>!');
+          var modeText = data.mode === 'gas_dispatched'
+            ? 'Delivered directly to <strong>' + recipient + '</strong> via Google Apps Script!'
+            : 'Template Kit generated with standard mailto: links for <strong>' + recipient + '</strong>!';
           
-          // Populate the 2 action buttons
-          var kitCard = document.getElementById('kitResultCard');
-          kitCard.style.display = 'block';
-
-          if (data.links) {
-            document.getElementById('linkSendWeekly').href = data.links.diaryGmailWeb || data.links.diaryMailto;
-            document.getElementById('linkSendGallery').href = data.links.galleryGmailWeb || data.links.galleryMailto;
-          }
+          setKitStatus('success', 'Email kit ready! ' + modeText + '<br><span style="font-size:11px;color:#065f46;">The recipient can click "Send Weekly" or "Send Gallery" in their email draft anytime.</span>');
+          saveAndSyncLinks();
         } else {
           setKitStatus('error', data.error || 'Failed to dispatch template kit.');
         }
