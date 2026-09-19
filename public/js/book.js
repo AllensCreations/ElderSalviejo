@@ -377,50 +377,128 @@
     `;
   }
 
-  /**
-   * Plans balanced full-height adaptive grid compositions across sheets (~4-6 photos per sheet).
-   * Eliminates empty cells and dead space by distributing photos into 3x2 (6) and 2x2 (4) grids.
-   */
-  function planAdaptiveSheets(total) {
-    if (total <= 0) return [];
-    const plans = [];
-    let rem = total;
-    while (rem > 0) {
-      if (rem === 2) {
-        plans.push({ count: 2, layout: '2x1' });
-        rem -= 2;
-      } else if (rem === 4) {
-        plans.push({ count: 4, layout: '2x2' });
-        rem -= 4;
-      } else if (rem === 8) {
-        plans.push({ count: 4, layout: '2x2' });
-        plans.push({ count: 4, layout: '2x2' });
-        rem -= 8;
-      } else if (rem >= 6) {
-        const after6 = rem - 6;
-        if (after6 === 1 || after6 === 2 || after6 === 3) {
-          plans.push({ count: 4, layout: '2x2' });
-          rem -= 4;
-        } else {
-          plans.push({ count: 6, layout: '3x2' });
-          rem -= 6;
-        }
-      } else if (rem === 5) {
-        plans.push({ count: 5, layout: '5-pack' });
-        rem -= 5;
-      } else if (rem === 3) {
-        plans.push({ count: 3, layout: '3x1' });
-        rem -= 3;
-      } else {
-        plans.push({ count: rem, layout: '2x2' });
-        rem = 0;
-      }
-    }
-    return plans;
+  const KNOWN_LANDSCAPES = new Set([
+    '2026-09-09-try-6.jpg',
+    '2026-09-09-try-7.jpg',
+    '2026-09-09-try-8.jpg',
+    '2026-09-09-weekly-missionary-journal-part-2-2.jpg',
+    '2026-09-09-weekly-missionary-journal-part-2-3.jpg',
+    '2026-09-09-weekly-missionary-journal-part-2-4.jpg',
+    '2026-09-09-weekly-missionary-journal-part-2-5.jpg',
+    '2026-09-09-weekly-missionary-journal-part-2-6.jpg',
+    '2026-09-09-weekly-missionary-journal-part-2-7.jpg'
+  ]);
+
+  function getPhotoOrientation(p) {
+    if (p.orientation) return p.orientation;
+    if (p.filename && KNOWN_LANDSCAPES.has(p.filename)) return 'landscape';
+    if (p.width && p.height) return p.width > p.height ? 'landscape' : 'portrait';
+    if (p.aspectRatio) return Number(p.aspectRatio) > 1.05 ? 'landscape' : 'portrait';
+    return 'portrait';
+  }
+
+  function getPhotoRatio(p) {
+    if (p.aspectRatio && Number(p.aspectRatio) > 0) return Number(p.aspectRatio);
+    if (p.width && p.height) return Number((p.width / p.height).toFixed(4));
+    return getPhotoOrientation(p) === 'landscape' ? 1.3333 : 0.75;
   }
 
   /**
-   * Loads and organizes all gallery photos into full-height adaptive grid sheets.
+   * Dynamically plans full-height sheets based on photo orientation.
+   * Maximizes the number of images packed per page (filling every page before creating a new page).
+   * Packs 2 to 3 balanced rows per sheet (~6-9 photos per page).
+   * For the final sheet, seals any remaining bottom space with an official Archival Colophon.
+   */
+  function planDynamicOrientationSheets(photos) {
+    if (!photos || photos.length === 0) return [];
+    const list = photos.map(p => ({
+      ...p,
+      _orientation: getPhotoOrientation(p),
+      _ratio: getPhotoRatio(p)
+    }));
+
+    const sheets = [];
+    let pIdx = 0;
+
+    while (pIdx < list.length) {
+      const remPhotos = list.length - pIdx;
+      const isFinalSheet = remPhotos <= 7;
+
+      if (isFinalSheet) {
+        const sheetRows = [];
+        if (remPhotos <= 4) {
+          // 1 row of photos + colophon spanning 2 row slots
+          sheetRows.push(list.slice(pIdx, list.length));
+          pIdx = list.length;
+          sheets.push({ rows: sheetRows, hasColophon: true, colophonSpan: 2 });
+        } else {
+          // 5, 6, or 7 photos across 2 rows + colophon spanning 1 row slot
+          const row1Count = Math.ceil(remPhotos / 2);
+          sheetRows.push(list.slice(pIdx, pIdx + row1Count));
+          pIdx += row1Count;
+          sheetRows.push(list.slice(pIdx, list.length));
+          pIdx = list.length;
+          sheets.push({ rows: sheetRows, hasColophon: true, colophonSpan: 1 });
+        }
+        break;
+      }
+
+      const sheetRows = [];
+      while (sheetRows.length < 3 && pIdx < list.length) {
+        const curRem = list.length - pIdx;
+        const cur = list[pIdx];
+
+        if (sheetRows.length === 2 && curRem >= 4 && curRem <= 7) {
+          sheetRows.push(list.slice(pIdx, pIdx + 3));
+          pIdx += 3;
+          break;
+        }
+
+        if (cur._orientation === 'landscape') {
+          const next = list[pIdx + 1];
+          if (next && next._orientation === 'landscape') {
+            sheetRows.push([cur, next]);
+            pIdx += 2;
+          } else if (next && next._orientation === 'portrait') {
+            const next2 = list[pIdx + 2];
+            if (next2 && next2._orientation === 'portrait') {
+              sheetRows.push([cur, next, next2]);
+              pIdx += 3;
+            } else {
+              sheetRows.push([cur, next]);
+              pIdx += 2;
+            }
+          } else {
+            sheetRows.push([cur]);
+            pIdx += 1;
+          }
+        } else {
+          const next = list[pIdx + 1];
+          const next2 = list[pIdx + 2];
+          if (next && next._orientation === 'portrait' && next2 && next2._orientation === 'portrait') {
+            sheetRows.push([cur, next, next2]);
+            pIdx += 3;
+          } else if (next && next._orientation === 'landscape') {
+            sheetRows.push([cur, next]);
+            pIdx += 2;
+          } else if (next && next._orientation === 'portrait') {
+            sheetRows.push([cur, next]);
+            pIdx += 2;
+          } else {
+            sheetRows.push([cur]);
+            pIdx += 1;
+          }
+        }
+      }
+
+      sheets.push({ rows: sheetRows, hasColophon: false, colophonSpan: 0 });
+    }
+
+    return sheets;
+  }
+
+  /**
+   * Loads and organizes all gallery photos into full-height dynamic orientation sheets.
    */
   async function loadGalleryAppendix(startPageNum) {
     const appendixContainer = document.getElementById('bookGalleryAppendix');
@@ -477,19 +555,35 @@
       caption: p.caption || p.text || 'Official archival documentary missionary photograph preserved in the Philippines Dumaguete Mission registry.'
     }));
 
-    // Generate balanced full-height sheet distribution (smart 2x2 and 3x2 grids)
-    const sheetPlans = planAdaptiveSheets(galleryPhotos.length);
+    // Generate dynamic orientation sheet distribution (greedy fill with balanced rows)
+    const sheetPlans = planDynamicOrientationSheets(galleryPhotos);
     let appendixHtml = '';
     let currentPage = startPageNum;
     let photoOffset = 0;
 
     for (let sIdx = 0; sIdx < sheetPlans.length; sIdx++) {
       const plan = sheetPlans[sIdx];
-      const sheetPhotos = galleryPhotos.slice(photoOffset, photoOffset + plan.count);
+      const sheetPhotos = plan.rows.flat();
       const sheetPageNum = String(currentPage++).padStart(2, '0');
       const startPlateNum = photoOffset + 1;
       const endPlateNum = photoOffset + sheetPhotos.length;
       const isFirstSheet = sIdx === 0;
+
+      let rowsHtml = '';
+      let rowOffset = photoOffset;
+      for (let rIdx = 0; rIdx < plan.rows.length; rIdx++) {
+        const rowPhotos = plan.rows[rIdx];
+        rowsHtml += `
+          <div class="appendix-row">
+            ${rowPhotos.map((p, pIdx) => renderRowPhotoTile(p, rowOffset + pIdx)).join('')}
+          </div>
+        `;
+        rowOffset += rowPhotos.length;
+      }
+
+      if (plan.hasColophon) {
+        rowsHtml += renderArchivalColophon(plan.colophonSpan, galleryPhotos.length);
+      }
 
       appendixHtml += `
         <section ${isFirstSheet ? 'id="appendix-gallery"' : ''} class="book-sheet">
@@ -508,10 +602,10 @@
             </div>
           </div>
 
-          <!-- Sheet Body: Full-Height Adaptive Grid (Zero Dead Space, Full-Tile Bleed) -->
+          <!-- Sheet Body: Full-Height Dynamic Orientation Rows -->
           <div class="sheet-content">
-            <div class="appendix-grid-container appendix-grid-${plan.layout}">
-              ${sheetPhotos.map((p, pIdx) => renderAdaptivePhotoTile(p, photoOffset + pIdx)).join('')}
+            <div class="appendix-rows-container">
+              ${rowsHtml}
             </div>
           </div>
 
@@ -523,23 +617,25 @@
         </section>
       `;
 
-      photoOffset += plan.count;
+      photoOffset += sheetPhotos.length;
     }
 
     appendixContainer.innerHTML = appendixHtml;
     return currentPage;
   }
 
-  function renderAdaptivePhotoTile(p, globalIndex) {
+  function renderRowPhotoTile(p, globalIndex) {
     const shotNumber = String(globalIndex + 1).padStart(3, '0');
     const imgSrc = p.src || p.localSrc || `/vault/gallery/photos/${p.filename}`;
     const cdnFallback = p.cdnSrc || (p.filename ? `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${p.filename}` : '');
     const legacyCdn = p.legacyCdnSrc || (p.filename ? `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${p.filename}` : '');
     const stampText = p.archivalStamp || p.capturedDateTime || (p.capturedDate ? `${p.capturedDate} • ${p.capturedTime}` : 'DUMAGUETE • 2026');
+    const ratio = p._ratio || (p.aspectRatio ? Number(p.aspectRatio) : (getPhotoOrientation(p) === 'landscape' ? 1.3333 : 0.75));
 
     return `
       <div
-        class="appendix-grid-tile group cursor-pointer"
+        class="appendix-row-tile group cursor-pointer"
+        style="flex: ${ratio} ${ratio} 0%;"
         onclick="openAppendixPlate(${globalIndex})"
         title="Plate #${shotNumber} (Click to inspect in ratio-locked zoom lightbox)"
       >
@@ -559,6 +655,64 @@
         </div>
         <div class="appendix-tile-date font-mono truncate max-w-[50%]">
           <span>${escapeHtml(stampText)}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderArchivalColophon(span, totalPlates) {
+    const spanFlex = span || 1;
+    return `
+      <div class="appendix-colophon-seal" style="flex: ${spanFlex} ${spanFlex} 0%;">
+        <div class="flex items-center justify-between border-b border-stone-300 pb-2 mb-2">
+          <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded bg-stone-900 text-white flex items-center justify-center font-mono text-xs font-bold shrink-0">
+              PDM
+            </div>
+            <div>
+              <div class="font-mono text-[10.5px] uppercase font-bold tracking-wider text-stone-900">
+                Philippines Dumaguete Mission
+              </div>
+              <div class="text-[9px] text-stone-500 font-mono">
+                Official Archival Photographic Registry • Volume I
+              </div>
+            </div>
+          </div>
+          <div class="text-right font-mono text-[9.5px] text-stone-600">
+            <span class="font-bold text-stone-900">${totalPlates} Plates</span> Cataloged
+            <div class="text-stone-400 text-[8.5px]">2024–2026 Field Archive</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[9px] font-mono py-1">
+          <div class="bg-white p-2 rounded border border-stone-200">
+            <div class="text-stone-400 text-[8px] uppercase tracking-wider">Missionary</div>
+            <div class="font-bold text-stone-900 truncate">Elder Mark Salviejo</div>
+          </div>
+          <div class="bg-white p-2 rounded border border-stone-200">
+            <div class="text-stone-400 text-[8px] uppercase tracking-wider">Format Standard</div>
+            <div class="font-bold text-stone-900">US Letter WYSIWYG</div>
+          </div>
+          <div class="bg-white p-2 rounded border border-stone-200">
+            <div class="text-stone-400 text-[8px] uppercase tracking-wider">Preservation</div>
+            <div class="font-bold text-stone-900">Archival Master Plates</div>
+          </div>
+          <div class="bg-white p-2 rounded border border-stone-200">
+            <div class="text-stone-400 text-[8px] uppercase tracking-wider">Status</div>
+            <div class="font-bold text-emerald-800 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 inline-block"></span>
+              <span>Certified Monograph</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-2 pt-2 border-t border-stone-200 flex items-center justify-between text-[8.5px] font-mono text-stone-500">
+          <p class="leading-relaxed pr-3">
+            Official end-of-volume certification. Photographic field plates cataloged in strict chronological order with original camera capture records.
+          </p>
+          <div class="shrink-0 font-bold uppercase tracking-widest text-[8px] text-stone-700 border border-stone-300 px-2 py-1 rounded bg-stone-50">
+            PDM • SEAL OF DEPOSIT
+          </div>
         </div>
       </div>
     `;

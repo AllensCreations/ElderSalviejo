@@ -375,61 +375,34 @@ textarea,
 }
 
 /* --------------------------------------------------------------------------
-   Full-Height Adaptive Grid Layout for Book Print PDF Appendix
-   (Zero Dead Space, Full-Tile Bleed, Strict 8.5 x 11 in Sheet Bounds)
+   Dynamic Orientation Row-by-Row Layout for Book Print PDF Appendix
+   (Full-Height 8.80 in Canvas, Proportional Widths, Zero Dead Space)
    -------------------------------------------------------------------------- */
-.appendix-grid-container {
-  display: grid;
+.appendix-rows-container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   gap: 10px;
   box-sizing: border-box;
 }
 
-/* 6-Photo Layout: 3 Columns x 2 Rows (100% Height Fill) */
-.appendix-grid-3x2 {
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
+.appendix-row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex: 1 1 0%;
+  gap: 10px;
+  min-height: 0;
+  box-sizing: border-box;
 }
 
-/* 4-Photo Layout: 2 Columns x 2 Rows (100% Height Fill) */
-.appendix-grid-2x2 {
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-}
-
-/* 2-Photo Spread: 2 Columns x 1 Row (Full Page Spread) */
-.appendix-grid-2x1 {
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(1, 1fr);
-}
-
-/* 3-Photo Spread: 3 Columns x 1 Row */
-.appendix-grid-3x1 {
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(1, 1fr);
-}
-
-/* 5-Photo Pack: 2 rows with first 2 taking 50% width, next 3 taking 33.3% width */
-.appendix-grid-5-pack {
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-}
-.appendix-grid-5-pack > :nth-child(1),
-.appendix-grid-5-pack > :nth-child(2) {
-  grid-column: span 3;
-}
-.appendix-grid-5-pack > :nth-child(3),
-.appendix-grid-5-pack > :nth-child(4),
-.appendix-grid-5-pack > :nth-child(5) {
-  grid-column: span 2;
-}
-
-/* Individual Grid Tile (Zero Dead Space, Object-Fit Cover) */
+/* Individual Row Tile (Proportional Width, Object-Fit Cover) */
+.appendix-row-tile,
 .appendix-grid-tile {
   position: relative;
-  width: 100%;
   height: 100%;
+  min-width: 0;
   border-radius: 4px;
   overflow: hidden;
   background-color: #18181b;
@@ -439,6 +412,7 @@ textarea,
   box-sizing: border-box;
 }
 
+.appendix-row-tile img,
 .appendix-grid-tile img {
   width: 100%;
   height: 100%;
@@ -448,8 +422,24 @@ textarea,
   transition: transform 0.2s ease;
 }
 
+.appendix-row-tile:hover img,
 .appendix-grid-tile:hover img {
   transform: scale(1.02);
+}
+
+/* Official Archival Colophon Seal Card */
+.appendix-colophon-seal {
+  width: 100%;
+  min-height: 0;
+  border-radius: 4px;
+  background-color: #fafaf9;
+  border: 1.5px solid #d6d3d1;
+  padding: 14px 18px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 /* Compact Editorial Overlay Badges */

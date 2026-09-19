@@ -264,53 +264,30 @@
         break-inside: avoid !important;
       }
 
-      /* Full-Height Adaptive Grid Overrides for Print PDF Appendix */
-      .appendix-grid-container {
-        display: grid !important;
+      /* Dynamic Orientation Row-by-Row Overrides for Print PDF Appendix */
+      .appendix-rows-container {
+        display: flex !important;
+        flex-direction: column !important;
         width: 100% !important;
         height: 100% !important;
         gap: 2.5mm !important;
         box-sizing: border-box !important;
       }
 
-      .appendix-grid-3x2 {
-        grid-template-columns: repeat(3, 1fr) !important;
-        grid-template-rows: repeat(2, 1fr) !important;
+      .appendix-row {
+        display: flex !important;
+        flex-direction: row !important;
+        width: 100% !important;
+        min-height: 0 !important;
+        gap: 2.5mm !important;
+        box-sizing: border-box !important;
       }
 
-      .appendix-grid-2x2 {
-        grid-template-columns: repeat(2, 1fr) !important;
-        grid-template-rows: repeat(2, 1fr) !important;
-      }
-
-      .appendix-grid-2x1 {
-        grid-template-columns: repeat(2, 1fr) !important;
-        grid-template-rows: repeat(1, 1fr) !important;
-      }
-
-      .appendix-grid-3x1 {
-        grid-template-columns: repeat(3, 1fr) !important;
-        grid-template-rows: repeat(1, 1fr) !important;
-      }
-
-      .appendix-grid-5-pack {
-        grid-template-columns: repeat(6, 1fr) !important;
-        grid-template-rows: repeat(2, 1fr) !important;
-      }
-      .appendix-grid-5-pack > :nth-child(1),
-      .appendix-grid-5-pack > :nth-child(2) {
-        grid-column: span 3 !important;
-      }
-      .appendix-grid-5-pack > :nth-child(3),
-      .appendix-grid-5-pack > :nth-child(4),
-      .appendix-grid-5-pack > :nth-child(5) {
-        grid-column: span 2 !important;
-      }
-
+      .appendix-row-tile,
       .appendix-grid-tile {
         position: relative !important;
-        width: 100% !important;
         height: 100% !important;
+        min-width: 0 !important;
         overflow: hidden !important;
         background-color: #18181b !important;
         border: 1px solid #e7e5e4 !important;
@@ -319,7 +296,9 @@
         break-inside: avoid !important;
       }
 
+      .appendix-row-tile img,
       .appendix-grid-tile img,
+      .appendix-row-tile .book-plate-img,
       .appendix-grid-tile .book-plate-img {
         width: 100% !important;
         height: 100% !important;
@@ -327,6 +306,15 @@
         object-fit: cover !important;
         object-position: center !important;
         display: block !important;
+      }
+
+      .appendix-colophon-seal {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        background-color: #fafaf9 !important;
+        border: 1.5px solid #78716c !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
       }
 
       .appendix-tile-badge,

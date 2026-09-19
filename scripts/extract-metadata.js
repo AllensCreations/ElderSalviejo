@@ -33,6 +33,24 @@ function extractExifDateTime(buffer) {
   return null;
 }
 
+function extractDimensions(buffer) {
+  let offset = 2;
+  while (offset < buffer.length) {
+    if (buffer[offset] !== 0xFF) break;
+    const marker = buffer[offset + 1];
+    if (marker === 0xC0 || marker === 0xC2) {
+      const height = buffer.readUInt16BE(offset + 5);
+      const width = buffer.readUInt16BE(offset + 7);
+      const ratio = Number((width / height).toFixed(4));
+      const orientation = ratio > 1.05 ? 'landscape' : (ratio < 0.95 ? 'portrait' : 'square');
+      return { width, height, ratio, orientation };
+    }
+    const len = buffer.readUInt16BE(offset + 2);
+    offset += 2 + len;
+  }
+  return { width: 600, height: 800, ratio: 0.75, orientation: 'portrait' };
+}
+
 function formatMetadata(dateObj, isExif) {
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const monthsUpper = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
@@ -116,6 +134,7 @@ function run() {
     }
 
     const meta = formatMetadata(targetDate, hasExif);
+    const dims = extractDimensions(buf);
     const existing = existingMap.get(file) || {};
 
     const enriched = {
@@ -134,7 +153,11 @@ function run() {
       category: existing.category || (file.includes('part-2') ? 'Chapel & District' : 'Mission'),
       caption: existing.caption || '',
       album: existing.album || 'Missionary Field Archive',
-      slug: existing.slug || 'missionary-field-archive'
+      slug: existing.slug || 'missionary-field-archive',
+      width: dims.width,
+      height: dims.height,
+      aspectRatio: dims.ratio,
+      orientation: dims.orientation
     };
 
     enrichedList.push(enriched);

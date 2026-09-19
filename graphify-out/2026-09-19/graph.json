@@ -697,7 +697,7 @@
       "file_type": "code",
       "norm_label": "escapeattr()",
       "source_file": "public/js/book.js",
-      "source_location": "L568"
+      "source_location": "L577"
     },
     {
       "id": "public_js_book_escapehtml",
@@ -709,7 +709,7 @@
       "file_type": "code",
       "norm_label": "escapehtml()",
       "source_file": "public/js/book.js",
-      "source_location": "L558"
+      "source_location": "L567"
     },
     {
       "id": "public_js_book_loadcompletebook",
@@ -733,31 +733,31 @@
       "file_type": "code",
       "norm_label": "loadgalleryappendix()",
       "source_file": "public/js/book.js",
-      "source_location": "L406"
+      "source_location": "L425"
     },
     {
-      "id": "public_js_book_planmasonrysheets",
-      "label": "planMasonrySheets()",
+      "id": "public_js_book_planadaptivesheets",
+      "label": "planAdaptiveSheets()",
       "_callable": true,
       "_origin": "ast",
       "community": 15,
       "community_name": "book.js",
       "file_type": "code",
-      "norm_label": "planmasonrysheets()",
+      "norm_label": "planadaptivesheets()",
       "source_file": "public/js/book.js",
       "source_location": "L384"
     },
     {
-      "id": "public_js_book_renderappendixcard",
-      "label": "renderAppendixCard()",
+      "id": "public_js_book_renderadaptivephototile",
+      "label": "renderAdaptivePhotoTile()",
       "_callable": true,
       "_origin": "ast",
       "community": 15,
       "community_name": "book.js",
       "file_type": "code",
-      "norm_label": "renderappendixcard()",
+      "norm_label": "renderadaptivephototile()",
       "source_file": "public/js/book.js",
-      "source_location": "L514"
+      "source_location": "L533"
     },
     {
       "id": "public_js_book_renderentrycard",
@@ -793,7 +793,19 @@
       "file_type": "code",
       "norm_label": "setupglobalcontentprotection()",
       "source_file": "public/js/print-helper.js",
-      "source_location": "L79"
+      "source_location": "L116"
+    },
+    {
+      "id": "public_js_print_helper_showprintguidancetoast",
+      "label": "showPrintGuidanceToast()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "print-helper.js",
+      "file_type": "code",
+      "norm_label": "showprintguidancetoast()",
+      "source_file": "public/js/print-helper.js",
+      "source_location": "L41"
     },
     {
       "id": "public_js_print_helper_triggerprintwithpreload",
@@ -805,7 +817,7 @@
       "file_type": "code",
       "norm_label": "triggerprintwithpreload()",
       "source_file": "public/js/print-helper.js",
-      "source_location": "L41"
+      "source_location": "L75"
     },
     {
       "id": "public_js_countdown_rendercountdownboxes",
@@ -1452,6 +1464,39 @@
       "source_location": "L8"
     },
     {
+      "id": "api_subscribe",
+      "label": "subscribe.js",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "subscribe.js",
+      "source_file": "api/subscribe.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "api_subscribe_addsubscriber_getallsubscribers_initdatabase",
+      "label": "{ addSubscriber, getAllSubscribers, initDatabase }",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "{ addsubscriber, getallsubscribers, initdatabase }",
+      "source_file": "api/subscribe.js",
+      "source_location": "L9"
+    },
+    {
+      "id": "api_subscribe_checkratelimit_ishoneypottriggered",
+      "label": "{ checkRateLimit, isHoneypotTriggered }",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "{ checkratelimit, ishoneypottriggered }",
+      "source_file": "api/subscribe.js",
+      "source_location": "L10"
+    },
+    {
       "id": "api_tracking_type",
       "label": "[type].js",
       "_origin": "ast",
@@ -1956,39 +2001,6 @@
       "norm_label": "{ checkratelimit, ishoneypottriggered }",
       "source_file": "api/encouragements.js",
       "source_location": "L11"
-    },
-    {
-      "id": "api_subscribe",
-      "label": "subscribe.js",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "encouragements.js",
-      "file_type": "code",
-      "norm_label": "subscribe.js",
-      "source_file": "api/subscribe.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "api_subscribe_addsubscriber_getallsubscribers_initdatabase",
-      "label": "{ addSubscriber, getAllSubscribers, initDatabase }",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "encouragements.js",
-      "file_type": "code",
-      "norm_label": "{ addsubscriber, getallsubscribers, initdatabase }",
-      "source_file": "api/subscribe.js",
-      "source_location": "L9"
-    },
-    {
-      "id": "api_subscribe_checkratelimit_ishoneypottriggered",
-      "label": "{ checkRateLimit, isHoneypotTriggered }",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "encouragements.js",
-      "file_type": "code",
-      "norm_label": "{ checkratelimit, ishoneypottriggered }",
-      "source_file": "api/subscribe.js",
-      "source_location": "L10"
     },
     {
       "id": "lib_rate_limiter",
@@ -4471,30 +4483,30 @@
     },
     {
       "source": "public_js_book_loadgalleryappendix",
-      "target": "public_js_book_planmasonrysheets",
+      "target": "public_js_book_planadaptivesheets",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L462",
+      "source_location": "L481",
       "weight": 1.0
     },
     {
       "source": "public_js_book_loadgalleryappendix",
-      "target": "public_js_book_renderappendixcard",
+      "target": "public_js_book_renderadaptivephototile",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L495",
+      "source_location": "L514",
       "weight": 1.0
     },
     {
-      "source": "public_js_book_renderappendixcard",
+      "source": "public_js_book_renderadaptivephototile",
       "target": "public_js_book_escapeattr",
       "relation": "calls",
       "_origin": "ast",
@@ -4502,11 +4514,11 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L534",
+      "source_location": "L547",
       "weight": 1.0
     },
     {
-      "source": "public_js_book_renderappendixcard",
+      "source": "public_js_book_renderadaptivephototile",
       "target": "public_js_book_escapehtml",
       "relation": "calls",
       "_origin": "ast",
@@ -4514,7 +4526,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L551",
+      "source_location": "L561",
       "weight": 1.0
     },
     {
@@ -5035,6 +5047,18 @@
     },
     {
       "source": "public_js_print_helper_triggerprintwithpreload",
+      "target": "public_js_print_helper_showprintguidancetoast",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/print-helper.js",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_print_helper_triggerprintwithpreload",
       "target": "public_js_print_helper_preloadallimages",
       "relation": "calls",
       "_origin": "ast",
@@ -5042,7 +5066,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/print-helper.js",
-      "source_location": "L56",
+      "source_location": "L92",
       "weight": 1.0
     },
     {
@@ -5427,6 +5451,18 @@
       "context": "call",
       "source_file": "public/js/lightbox.js",
       "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_print_helper",
+      "target": "public_js_print_helper_showprintguidancetoast",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/print-helper.js",
+      "source_location": "L41",
       "weight": 1.0
     },
     {
@@ -7505,7 +7541,7 @@
     },
     {
       "source": "public_js_book",
-      "target": "public_js_book_planmasonrysheets",
+      "target": "public_js_book_planadaptivesheets",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -7522,18 +7558,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L406",
+      "source_location": "L425",
       "weight": 1.0
     },
     {
       "source": "public_js_book",
-      "target": "public_js_book_renderappendixcard",
+      "target": "public_js_book_renderadaptivephototile",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L514",
+      "source_location": "L533",
       "weight": 1.0
     },
     {
@@ -7544,7 +7580,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L558",
+      "source_location": "L567",
       "weight": 1.0
     },
     {
@@ -7555,7 +7591,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L568",
+      "source_location": "L577",
       "weight": 1.0
     },
     {
@@ -7896,7 +7932,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/print-helper.js",
-      "source_location": "L41",
+      "source_location": "L75",
       "weight": 1.0
     },
     {
@@ -8962,7 +8998,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "public/js/book.js",
-      "source_location": "L578",
+      "source_location": "L587",
       "weight": 1.0
     },
     {
@@ -8986,7 +9022,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "public/js/print-helper.js",
-      "source_location": "L117",
+      "source_location": "L154",
       "weight": 1.0
     },
     {
@@ -9435,5 +9471,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "8a22ffa0c04c4a55f7e6ecc5002276d058c831b5"
+  "built_at_commit": "91b19bc6a906bb56167af1b6be4c0dde5a567fde"
 }

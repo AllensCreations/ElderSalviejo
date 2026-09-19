@@ -18,7 +18,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-3",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-part-2-9",
@@ -39,7 +40,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-2",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-part-2-8",
@@ -60,7 +62,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-2",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-part-2-7",
@@ -81,7 +84,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-2",
     "width": 618,
     "height": 800,
-    "aspectRatio": "0.7725"
+    "aspectRatio": 0.7725,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-part-2-6",
@@ -102,7 +106,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-2",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-part-2-5",
@@ -123,7 +128,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-2",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-part-2-3",
@@ -144,7 +150,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-2",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-part-2-2",
@@ -165,7 +172,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-2",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-part-2-1",
@@ -186,7 +194,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-2",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-part-3-9",
@@ -207,7 +216,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-3",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-part-3-5",
@@ -228,7 +238,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-3",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-part-3-4",
@@ -249,7 +260,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-3",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-part-3-8",
@@ -270,7 +282,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-3",
     "width": 800,
     "height": 600,
-    "aspectRatio": "1.3333"
+    "aspectRatio": 1.3333,
+    "orientation": "landscape"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-part-3-2",
@@ -291,7 +304,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-3",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-try-7",
@@ -312,7 +326,8 @@
     "slug": "2026-09-09-try",
     "width": 800,
     "height": 600,
-    "aspectRatio": "1.3333"
+    "aspectRatio": 1.3333,
+    "orientation": "landscape"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-part-3-6",
@@ -333,7 +348,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-3",
     "width": 800,
     "height": 600,
-    "aspectRatio": "1.3333"
+    "aspectRatio": 1.3333,
+    "orientation": "landscape"
   },
   {
     "id": "gallery-2026-09-09-try-6",
@@ -354,7 +370,8 @@
     "slug": "2026-09-09-try",
     "width": 800,
     "height": 600,
-    "aspectRatio": "1.3333"
+    "aspectRatio": 1.3333,
+    "orientation": "landscape"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-part-3-3",
@@ -375,7 +392,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-3",
     "width": 800,
     "height": 600,
-    "aspectRatio": "1.3333"
+    "aspectRatio": 1.3333,
+    "orientation": "landscape"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-part-2-10",
@@ -396,7 +414,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-2",
     "width": 800,
     "height": 600,
-    "aspectRatio": "1.3333"
+    "aspectRatio": 1.3333,
+    "orientation": "landscape"
   },
   {
     "id": "gallery-2026-09-09-try-8",
@@ -417,7 +436,8 @@
     "slug": "2026-09-09-try",
     "width": 800,
     "height": 600,
-    "aspectRatio": "1.3333"
+    "aspectRatio": 1.3333,
+    "orientation": "landscape"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-part-3-7",
@@ -438,7 +458,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-3",
     "width": 800,
     "height": 600,
-    "aspectRatio": "1.3333"
+    "aspectRatio": 1.3333,
+    "orientation": "landscape"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-part-2-4",
@@ -459,7 +480,8 @@
     "slug": "2026-09-09-weekly-missionary-journal-part-2",
     "width": 800,
     "height": 600,
-    "aspectRatio": "1.3333"
+    "aspectRatio": 1.3333,
+    "orientation": "landscape"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-2",
@@ -480,7 +502,8 @@
     "slug": "2026-09-09-weekly-missionary-journal",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-3",
@@ -501,7 +524,8 @@
     "slug": "2026-09-09-weekly-missionary-journal",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-1",
@@ -522,7 +546,8 @@
     "slug": "2026-09-09-weekly-missionary-journal",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-4",
@@ -543,7 +568,8 @@
     "slug": "2026-09-09-weekly-missionary-journal",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-9",
@@ -564,7 +590,8 @@
     "slug": "weekly-missionary-journal",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-8",
@@ -585,7 +612,8 @@
     "slug": "weekly-missionary-journal",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-7",
@@ -606,7 +634,8 @@
     "slug": "weekly-missionary-journal",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-6",
@@ -627,7 +656,8 @@
     "slug": "weekly-missionary-journal",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-5",
@@ -648,7 +678,8 @@
     "slug": "weekly-missionary-journal",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-weekly-missionary-journal-10",
@@ -669,7 +700,8 @@
     "slug": "weekly-missionary-journal",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-try-9",
@@ -690,7 +722,8 @@
     "slug": "2026-09-09-try",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-try-5",
@@ -711,7 +744,8 @@
     "slug": "2026-09-09-try",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-try-4",
@@ -732,7 +766,8 @@
     "slug": "2026-09-09-try",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-try-3",
@@ -753,7 +788,8 @@
     "slug": "2026-09-09-try",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-try-2",
@@ -774,7 +810,8 @@
     "slug": "2026-09-09-try",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   },
   {
     "id": "gallery-2026-09-09-try-1",
@@ -795,6 +832,7 @@
     "slug": "2026-09-09-try",
     "width": 600,
     "height": 800,
-    "aspectRatio": "0.7500"
+    "aspectRatio": 0.75,
+    "orientation": "portrait"
   }
 ]

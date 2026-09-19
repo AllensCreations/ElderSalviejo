@@ -63,7 +63,11 @@ module.exports = async function handler(req, res) {
             caption: item.caption || item.text || '',
             album: item.album || item.category || '',
             isGalleryUpload: isGallery,
-            source: isGallery ? 'gallery' : 'journal'
+            source: isGallery ? 'gallery' : 'journal',
+            width: item.width || 600,
+            height: item.height || 800,
+            aspectRatio: item.aspectRatio || (item.width && item.height ? Number((item.width / item.height).toFixed(4)) : 0.75),
+            orientation: item.orientation || (item.width > item.height ? 'landscape' : 'portrait')
           };
         });
       }
