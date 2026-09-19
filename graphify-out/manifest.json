@@ -1,0 +1,842 @@
+{
+  "api/admin/send.js": {
+    "mtime": 1789806163.932015,
+    "seen": 1789806287.7253268,
+    "ast_hash": "052fdf43b4afd13700ab732227860d06",
+    "semantic_hash": ""
+  },
+  "api/backup.js": {
+    "mtime": 1788969551.4735916,
+    "seen": 1789806287.72534,
+    "ast_hash": "e10fe554a910f976d469c62d79d0a3d1",
+    "semantic_hash": ""
+  },
+  "api/encouragements.js": {
+    "mtime": 1788969551.4775918,
+    "seen": 1789806287.7253444,
+    "ast_hash": "df92911b807608f39caf177550a26677",
+    "semantic_hash": ""
+  },
+  "api/gallery.js": {
+    "mtime": 1789559535.1208801,
+    "seen": 1789806287.7253475,
+    "ast_hash": "9d9e58cf4807892bc1a0ffe62ae848b9",
+    "semantic_hash": ""
+  },
+  "api/ingest.js": {
+    "mtime": 1788969551.4775918,
+    "seen": 1789806287.7253504,
+    "ast_hash": "98b4ae5f5f4e037ef5a5e5690b3b3ddb",
+    "semantic_hash": ""
+  },
+  "api/search.js": {
+    "mtime": 1788969551.4815917,
+    "seen": 1789806287.7253525,
+    "ast_hash": "eea0358628448b0d3538c0a4a415f2f4",
+    "semantic_hash": ""
+  },
+  "api/stats.js": {
+    "mtime": 1788969551.4815917,
+    "seen": 1789806287.7253544,
+    "ast_hash": "555f5be1121a9d6162febad43bf72148",
+    "semantic_hash": ""
+  },
+  "api/subscribe.js": {
+    "mtime": 1788969551.4815917,
+    "seen": 1789806287.7253566,
+    "ast_hash": "8c987fab32fe0fe5729bedb052fc83e1",
+    "semantic_hash": ""
+  },
+  "api/subscribers.js": {
+    "mtime": 1788969551.4855917,
+    "seen": 1789806287.7253585,
+    "ast_hash": "606a504c97c2cdd011de2e37bc596274",
+    "semantic_hash": ""
+  },
+  "api/tracking/broadcast.js": {
+    "mtime": 1788969551.4855917,
+    "seen": 1789806287.7253606,
+    "ast_hash": "38a9ef8794e70f66bd75f7208aad78ab",
+    "semantic_hash": ""
+  },
+  "api/tracking/message.js": {
+    "mtime": 1788969551.4855917,
+    "seen": 1789806287.7253628,
+    "ast_hash": "8640d26b31af40c6fa53f753e8e9c6a1",
+    "semantic_hash": ""
+  },
+  "api/weeks/[id].js": {
+    "mtime": 1788969551.4895916,
+    "seen": 1789806287.7253654,
+    "ast_hash": "66ad261f5d6c4ce1d51af3e1740251af",
+    "semantic_hash": ""
+  },
+  "api/weeks/index.js": {
+    "mtime": 1789559527.85688,
+    "seen": 1789806287.7253675,
+    "ast_hash": "f75102bd3db20fb130bb32460c22ebb7",
+    "semantic_hash": ""
+  },
+  "google-apps-script/appsscript.json": {
+    "mtime": 1788969551.4935918,
+    "seen": 1789806287.7253702,
+    "ast_hash": "1ba96f1c5f70200c396594158c5cc109",
+    "semantic_hash": ""
+  },
+  "lib/github-vault.js": {
+    "mtime": 1788969551.5095916,
+    "seen": 1789806287.725372,
+    "ast_hash": "39cce7d18e7ba0d3d80074ae2f704afa",
+    "semantic_hash": ""
+  },
+  "lib/rate-limiter.js": {
+    "mtime": 1788969551.5135918,
+    "seen": 1789806287.7253742,
+    "ast_hash": "923317a643c35579d1a5549c86bfb933",
+    "semantic_hash": ""
+  },
+  "lib/scriptures.js": {
+    "mtime": 1788969551.5215917,
+    "seen": 1789806287.7253768,
+    "ast_hash": "0bdf92769b9a37a80cffea854f987bd7",
+    "semantic_hash": ""
+  },
+  "lib/turso.js": {
+    "mtime": 1789559518.66888,
+    "seen": 1789806287.7253788,
+    "ast_hash": "2e32503d4ad2c71357e8d1bdec8215f9",
+    "semantic_hash": ""
+  },
+  "package.json": {
+    "mtime": 1789805642.084015,
+    "seen": 1789806287.7253807,
+    "ast_hash": "eb5c7ee1eb934dcde6198eefa29adb56",
+    "semantic_hash": ""
+  },
+  "public/js/book.js": {
+    "mtime": 1789563531.1328795,
+    "seen": 1789806287.7253833,
+    "ast_hash": "2a2b7e754fda35b1012f2afcc4c24577",
+    "semantic_hash": ""
+  },
+  "public/js/countdown.js": {
+    "mtime": 1789203403.9535918,
+    "seen": 1789806287.7253847,
+    "ast_hash": "246d84d8b24e256d62fe6b493dad380b",
+    "semantic_hash": ""
+  },
+  "public/js/gallery.js": {
+    "mtime": 1789209816.609593,
+    "seen": 1789806287.7253869,
+    "ast_hash": "70dffdd109b95680f478970ac6270bca",
+    "semantic_hash": ""
+  },
+  "public/js/index.js": {
+    "mtime": 1789209874.1735928,
+    "seen": 1789806287.7253892,
+    "ast_hash": "b3e184a7d7b5d8dfa296cc47719da929",
+    "semantic_hash": ""
+  },
+  "public/js/lightbox.js": {
+    "mtime": 1789209659.5455928,
+    "seen": 1789806287.7253914,
+    "ast_hash": "6a1570ed256daf4cd7d41dbdff3f0028",
+    "semantic_hash": ""
+  },
+  "public/js/print-helper.js": {
+    "mtime": 1788969551.5815916,
+    "seen": 1789806287.7253928,
+    "ast_hash": "710440a7ffccf80d7aa19162a0532ba0",
+    "semantic_hash": ""
+  },
+  "public/js/week.js": {
+    "mtime": 1789209849.493593,
+    "seen": 1789806287.725395,
+    "ast_hash": "f2e278ab124a752775a01add30306a60",
+    "semantic_hash": ""
+  },
+  "public/manifest.json": {
+    "mtime": 1789559306.6768801,
+    "seen": 1789806287.7253973,
+    "ast_hash": "645bb1c1df44bbbdd093dca258ef51cd",
+    "semantic_hash": ""
+  },
+  "public/sw.js": {
+    "mtime": 1789559601.3608801,
+    "seen": 1789806287.7253993,
+    "ast_hash": "cdd4b822cdfb1220edd78f80e08c081a",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/index.json": {
+    "mtime": 1789205041.4415932,
+    "seen": 1789806287.7254014,
+    "ast_hash": "cd453eb3baeeb3b45f4e3aa34482a66a",
+    "semantic_hash": ""
+  },
+  "sample-data/sample-payload.json": {
+    "mtime": 1789203331.781592,
+    "seen": 1789806287.7254028,
+    "ast_hash": "9c6caecd610b7e0e5acf6591c47b4cb2",
+    "semantic_hash": ""
+  },
+  "sample-data/send-test-ingest.js": {
+    "mtime": 1788969551.5975916,
+    "seen": 1789806287.725405,
+    "ast_hash": "513d8cb0b55307611b8d9972553cb6c1",
+    "semantic_hash": ""
+  },
+  "scripts/extract-metadata.js": {
+    "mtime": 1789205040.689593,
+    "seen": 1789806287.725407,
+    "ast_hash": "b11f63b3c95be0cbb74d82d8b25459fc",
+    "semantic_hash": ""
+  },
+  "scripts/init-db.js": {
+    "mtime": 1788969551.6015916,
+    "seen": 1789806287.725409,
+    "ast_hash": "f3d8cb3f0614689fd890278150c7441a",
+    "semantic_hash": ""
+  },
+  "scripts/optimize-icons.js": {
+    "mtime": 1789559298.3008802,
+    "seen": 1789806287.7254114,
+    "ast_hash": "dcec4dc87503ba628be8394aa6840dd4",
+    "semantic_hash": ""
+  },
+  "scripts/verify-performance.js": {
+    "mtime": 1789559618.04488,
+    "seen": 1789806287.7254133,
+    "ast_hash": "6c0c4856ba750a429a6d3c268925d5a7",
+    "semantic_hash": ""
+  },
+  "server.js": {
+    "mtime": 1789806213.1840148,
+    "seen": 1789806287.7254155,
+    "ast_hash": "c4bbe2f41d9bbbedbdb6dc32dcedf673",
+    "semantic_hash": ""
+  },
+  "tailwind.config.js": {
+    "mtime": 1788969551.6015916,
+    "seen": 1789806287.7254174,
+    "ast_hash": "76378a0f6c4682f0b601f2b698bee557",
+    "semantic_hash": ""
+  },
+  "vault/gallery/index.json": {
+    "mtime": 1789562765.8688796,
+    "seen": 1789806287.7254195,
+    "ast_hash": "90202d737d5d5423a3c63f712d7c5ddf",
+    "semantic_hash": ""
+  },
+  "vault/index.json": {
+    "mtime": 1788969551.6935916,
+    "seen": 1789806287.7254217,
+    "ast_hash": "2e8d73a0f2779cc662be65c691dcc955",
+    "semantic_hash": ""
+  },
+  "vault/scriptures/doctrine-and-covenants-reference.json": {
+    "mtime": 1788969551.7135916,
+    "seen": 1789806287.7254236,
+    "ast_hash": "92509e541395f5a6a475cb0b027933f9",
+    "semantic_hash": ""
+  },
+  "vault/scriptures/pearl-of-great-price-reference.json": {
+    "mtime": 1788969551.7535918,
+    "seen": 1789806287.725426,
+    "ast_hash": "9b0e9f3c73c16ba8e5e8f2bca716cb7a",
+    "semantic_hash": ""
+  },
+  "vercel.json": {
+    "mtime": 1789806218.8280149,
+    "seen": 1789806287.7254279,
+    "ast_hash": "e52dda20f08525ff67de9e4e315a7455",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1788969551.4735916,
+    "seen": 1789806287.72543,
+    "ast_hash": "9df8872f232018f1db7bcd0e58b15e1e",
+    "semantic_hash": ""
+  },
+  "google-apps-script/README.md": {
+    "mtime": 1789805632.768015,
+    "seen": 1789806287.725433,
+    "ast_hash": "ffd2dfc02e1766a6d9de393be4420d64",
+    "semantic_hash": ""
+  },
+  "public/admin.html": {
+    "mtime": 1789806181.580015,
+    "seen": 1789806287.725435,
+    "ast_hash": "5805e87d6a4bfdbe7764100ac86ee14c",
+    "semantic_hash": ""
+  },
+  "public/book.html": {
+    "mtime": 1789563499.8368795,
+    "seen": 1789806287.7254372,
+    "ast_hash": "d48fcdc2fa631a38b0e10ce44cdc2a2c",
+    "semantic_hash": ""
+  },
+  "public/call.html": {
+    "mtime": 1789559410.27288,
+    "seen": 1789806287.7254393,
+    "ast_hash": "5b6413919afd82de83316e8b7c98c84e",
+    "semantic_hash": ""
+  },
+  "public/compose.html": {
+    "mtime": 1789805601.6240149,
+    "seen": 1789806287.7254415,
+    "ast_hash": "c0c7a73e25b91f9d44b03646e07f414d",
+    "semantic_hash": ""
+  },
+  "public/gallery.html": {
+    "mtime": 1789559337.40888,
+    "seen": 1789806287.7254436,
+    "ast_hash": "a455b12cda772aa3be182353d3324412",
+    "semantic_hash": ""
+  },
+  "public/index.html": {
+    "mtime": 1789559322.16888,
+    "seen": 1789806287.725445,
+    "ast_hash": "3e5b428c4a3e6d32b658e55912a2b721",
+    "semantic_hash": ""
+  },
+  "public/week.html": {
+    "mtime": 1789559382.4128802,
+    "seen": 1789806287.7254477,
+    "ast_hash": "ce6a9d8a69df26d22f86745e344c1ab1",
+    "semantic_hash": ""
+  },
+  "public/assets/images/elder-salviejo.jpg": {
+    "mtime": 1788969551.5335917,
+    "seen": 1789806287.7254498,
+    "ast_hash": "e66ae0993987f4130a19e23f68f9873c",
+    "semantic_hash": ""
+  },
+  "public/assets/images/intro/call-letter.jpg": {
+    "mtime": 1788969551.5415916,
+    "seen": 1789806287.7254517,
+    "ast_hash": "a99d22b522234552fdf4fe5287df6336",
+    "semantic_hash": ""
+  },
+  "public/assets/images/intro/call-overview.jpg": {
+    "mtime": 1788969551.5455916,
+    "seen": 1789806287.7254539,
+    "ast_hash": "4b7b4f72937256b2507e54551a995348",
+    "semantic_hash": ""
+  },
+  "public/assets/images/intro/photo-1.jpg": {
+    "mtime": 1788969551.5495918,
+    "seen": 1789806287.7254562,
+    "ast_hash": "caf906bed46e5b2c45708180c6971f29",
+    "semantic_hash": ""
+  },
+  "public/assets/images/intro/photo-2.jpg": {
+    "mtime": 1788969551.5495918,
+    "seen": 1789806287.7254581,
+    "ast_hash": "bc87d1420c5a90431b7f2204f3ff9212",
+    "semantic_hash": ""
+  },
+  "public/assets/images/intro/photo-3.jpg": {
+    "mtime": 1788969551.5535917,
+    "seen": 1789806287.7254598,
+    "ast_hash": "8df7172670a84143442d203c92019ba6",
+    "semantic_hash": ""
+  },
+  "public/assets/images/intro/photo-4.jpg": {
+    "mtime": 1788969551.5575917,
+    "seen": 1789806287.7254617,
+    "ast_hash": "d28fba2722187d195ee92294d90bba42",
+    "semantic_hash": ""
+  },
+  "public/assets/images/intro/photo-5.jpg": {
+    "mtime": 1788969551.5615916,
+    "seen": 1789806287.7254639,
+    "ast_hash": "6b9212a0b7149619a806d9cc480735ac",
+    "semantic_hash": ""
+  },
+  "public/favicon-16x16.png": {
+    "mtime": 1789559301.32888,
+    "seen": 1789806287.7254658,
+    "ast_hash": "5a7595a63e29388462e6fd371ec6256b",
+    "semantic_hash": ""
+  },
+  "public/favicon-32x32.png": {
+    "mtime": 1789559301.3248801,
+    "seen": 1789806287.725468,
+    "ast_hash": "bab0c0f63aa2f0ecc0f895e39104e0ae",
+    "semantic_hash": ""
+  },
+  "public/favicon.svg": {
+    "mtime": 1789559301.32888,
+    "seen": 1789806287.72547,
+    "ast_hash": "1cc01da9d932162685b0ec3f60166980",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-try-1.jpg": {
+    "mtime": 1789205029.3295932,
+    "seen": 1789806287.7254722,
+    "ast_hash": "74bafd95ceb7d486296c3184423cc6ab",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-try-2.jpg": {
+    "mtime": 1789205029.3295932,
+    "seen": 1789806287.7254744,
+    "ast_hash": "bf3b71948f229841604a014364068f31",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-try-3.jpg": {
+    "mtime": 1789205029.3335931,
+    "seen": 1789806287.7254763,
+    "ast_hash": "ae32ae3b882b2d81080a91b0815d7969",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-try-4.jpg": {
+    "mtime": 1789205029.337593,
+    "seen": 1789806287.725478,
+    "ast_hash": "e1c4384da00ac04a8767afe85190c94d",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-try-5.jpg": {
+    "mtime": 1789205029.337593,
+    "seen": 1789806287.7254806,
+    "ast_hash": "8a5d7c61a3dd3fe7c84fcbfd89fe14b2",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-try-6.jpg": {
+    "mtime": 1789205029.3415933,
+    "seen": 1789806287.7254825,
+    "ast_hash": "63ff8e460ec42c95358776af87cdfede",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-try-7.jpg": {
+    "mtime": 1789205029.3455932,
+    "seen": 1789806287.7254841,
+    "ast_hash": "c6f4c6230cd59b2f2fa6c5dd0a0c6f7b",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-try-8.jpg": {
+    "mtime": 1789205029.3495932,
+    "seen": 1789806287.7254863,
+    "ast_hash": "85d45662c739d4f468a73b35b163009d",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-try-9.jpg": {
+    "mtime": 1789205029.353593,
+    "seen": 1789806287.725488,
+    "ast_hash": "77250205b277e943606663578d92ff92",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-1.jpg": {
+    "mtime": 1789205029.353593,
+    "seen": 1789806287.7254903,
+    "ast_hash": "7da68e9f3a9621a3e4c8f0526c9a96e0",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-10.jpg": {
+    "mtime": 1789205029.357593,
+    "seen": 1789806287.7254925,
+    "ast_hash": "d51eacffee9be25ff52d3e0841ab98fd",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-2.jpg": {
+    "mtime": 1789205029.357593,
+    "seen": 1789806287.7254946,
+    "ast_hash": "b2512770b64fb8f77d558c1ee85612c9",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-3.jpg": {
+    "mtime": 1789205029.3615932,
+    "seen": 1789806287.7254965,
+    "ast_hash": "261707670fa631c02e6b90d67ac1117c",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-4.jpg": {
+    "mtime": 1789205029.3615932,
+    "seen": 1789806287.7254987,
+    "ast_hash": "b2d6919786ca3b5c8f47f952ab416a89",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-5.jpg": {
+    "mtime": 1789205029.3655932,
+    "seen": 1789806287.7255006,
+    "ast_hash": "6dda9a493a95cb24702f5a5d1acbaa79",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-6.jpg": {
+    "mtime": 1789205029.3695931,
+    "seen": 1789806287.7255025,
+    "ast_hash": "946d1a38746ef0ae4171cd39a28462d8",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-7.jpg": {
+    "mtime": 1789205029.3695931,
+    "seen": 1789806287.725505,
+    "ast_hash": "034c756d0382cea895497ccded1b5e0a",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-8.jpg": {
+    "mtime": 1789205029.373593,
+    "seen": 1789806287.725507,
+    "ast_hash": "74bafd95ceb7d486296c3184423cc6ab",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-9.jpg": {
+    "mtime": 1789205029.373593,
+    "seen": 1789806287.7255092,
+    "ast_hash": "5e07c8dccf8e187fa3a8e95f58347c44",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-1.jpg": {
+    "mtime": 1789205029.377593,
+    "seen": 1789806287.725511,
+    "ast_hash": "e1c4384da00ac04a8767afe85190c94d",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-10.jpg": {
+    "mtime": 1789205029.377593,
+    "seen": 1789806287.7255132,
+    "ast_hash": "65cec464193715740035349d1a124e11",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-2.jpg": {
+    "mtime": 1789205029.3815932,
+    "seen": 1789806287.7255154,
+    "ast_hash": "77250205b277e943606663578d92ff92",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-3.jpg": {
+    "mtime": 1789205029.3855932,
+    "seen": 1789806287.725517,
+    "ast_hash": "e1c4384da00ac04a8767afe85190c94d",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-4.jpg": {
+    "mtime": 1789205029.3855932,
+    "seen": 1789806287.7255192,
+    "ast_hash": "8c587bd9b569261e8eab4c5b1e224229",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-5.jpg": {
+    "mtime": 1789205029.3895931,
+    "seen": 1789806287.7255232,
+    "ast_hash": "040dfda631cba0ac82ab07aa71193a7b",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-6.jpg": {
+    "mtime": 1789205029.393593,
+    "seen": 1789806287.7255259,
+    "ast_hash": "e587ccefb207e5663da489e3f8d2bd13",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-7.jpg": {
+    "mtime": 1789205029.3975933,
+    "seen": 1789806287.7255273,
+    "ast_hash": "b83bf78091550510f9892ee1534bad21",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-8.jpg": {
+    "mtime": 1789205029.4015932,
+    "seen": 1789806287.72553,
+    "ast_hash": "31d4b95a2f569e0273c9078166bd5da2",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-9.jpg": {
+    "mtime": 1789205029.4055932,
+    "seen": 1789806287.725532,
+    "ast_hash": "f8f26fb2a86c0a99774c893326369c2f",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-3-1.jpg": {
+    "mtime": 1789205029.4055932,
+    "seen": 1789806287.7255342,
+    "ast_hash": "0df003b7dd70e120317ba8b8b01dd2b4",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-3-2.jpg": {
+    "mtime": 1789205029.409593,
+    "seen": 1789806287.7255356,
+    "ast_hash": "bf3b71948f229841604a014364068f31",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-3-3.jpg": {
+    "mtime": 1789205029.413593,
+    "seen": 1789806287.7255378,
+    "ast_hash": "63ff8e460ec42c95358776af87cdfede",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-3-4.jpg": {
+    "mtime": 1789205029.4175932,
+    "seen": 1789806287.72554,
+    "ast_hash": "3a9b46de8ee29e7e70f43adf0fd20669",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-3-5.jpg": {
+    "mtime": 1789205029.4215932,
+    "seen": 1789806287.7255418,
+    "ast_hash": "39a1fdf03230aae0631029270cbbd84f",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-3-6.jpg": {
+    "mtime": 1789205029.4215932,
+    "seen": 1789806287.725544,
+    "ast_hash": "c6f4c6230cd59b2f2fa6c5dd0a0c6f7b",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-3-7.jpg": {
+    "mtime": 1789205029.4255931,
+    "seen": 1789806287.7255454,
+    "ast_hash": "85d45662c739d4f468a73b35b163009d",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-3-8.jpg": {
+    "mtime": 1789205029.429593,
+    "seen": 1789806287.7255478,
+    "ast_hash": "456e3fc1aa2608ddf9898abe14a9245b",
+    "semantic_hash": ""
+  },
+  "public/vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-3-9.jpg": {
+    "mtime": 1789205029.429593,
+    "seen": 1789806287.72555,
+    "ast_hash": "2ff7f45043e2b524bd37abe997e971af",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-try-1.jpg": {
+    "mtime": 1788969551.6135917,
+    "seen": 1789806287.7255518,
+    "ast_hash": "74bafd95ceb7d486296c3184423cc6ab",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-try-2.jpg": {
+    "mtime": 1788969551.6135917,
+    "seen": 1789806287.7255535,
+    "ast_hash": "bf3b71948f229841604a014364068f31",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-try-3.jpg": {
+    "mtime": 1788969551.6135917,
+    "seen": 1789806287.7255554,
+    "ast_hash": "ae32ae3b882b2d81080a91b0815d7969",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-try-4.jpg": {
+    "mtime": 1788969551.6175916,
+    "seen": 1789806287.7255576,
+    "ast_hash": "e1c4384da00ac04a8767afe85190c94d",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-try-5.jpg": {
+    "mtime": 1788969551.6175916,
+    "seen": 1789806287.7255595,
+    "ast_hash": "8a5d7c61a3dd3fe7c84fcbfd89fe14b2",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-try-6.jpg": {
+    "mtime": 1788969551.6175916,
+    "seen": 1789806287.7255619,
+    "ast_hash": "63ff8e460ec42c95358776af87cdfede",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-try-7.jpg": {
+    "mtime": 1788969551.6215916,
+    "seen": 1789806287.725564,
+    "ast_hash": "c6f4c6230cd59b2f2fa6c5dd0a0c6f7b",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-try-8.jpg": {
+    "mtime": 1788969551.6215916,
+    "seen": 1789806287.725566,
+    "ast_hash": "85d45662c739d4f468a73b35b163009d",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-try-9.jpg": {
+    "mtime": 1788969551.6255918,
+    "seen": 1789806287.725568,
+    "ast_hash": "77250205b277e943606663578d92ff92",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-1.jpg": {
+    "mtime": 1788969551.6255918,
+    "seen": 1789806287.72557,
+    "ast_hash": "7da68e9f3a9621a3e4c8f0526c9a96e0",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-10.jpg": {
+    "mtime": 1788969551.6295917,
+    "seen": 1789806287.725572,
+    "ast_hash": "d51eacffee9be25ff52d3e0841ab98fd",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-2.jpg": {
+    "mtime": 1788969551.6335917,
+    "seen": 1789806287.7255735,
+    "ast_hash": "b2512770b64fb8f77d558c1ee85612c9",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-3.jpg": {
+    "mtime": 1788969551.6335917,
+    "seen": 1789806287.7255757,
+    "ast_hash": "261707670fa631c02e6b90d67ac1117c",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-4.jpg": {
+    "mtime": 1788969551.6375916,
+    "seen": 1789806287.725578,
+    "ast_hash": "b2d6919786ca3b5c8f47f952ab416a89",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-5.jpg": {
+    "mtime": 1788969551.6375916,
+    "seen": 1789806287.72558,
+    "ast_hash": "6dda9a493a95cb24702f5a5d1acbaa79",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-6.jpg": {
+    "mtime": 1788969551.6415918,
+    "seen": 1789806287.7255816,
+    "ast_hash": "946d1a38746ef0ae4171cd39a28462d8",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-7.jpg": {
+    "mtime": 1788969551.6415918,
+    "seen": 1789806287.7255836,
+    "ast_hash": "034c756d0382cea895497ccded1b5e0a",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-8.jpg": {
+    "mtime": 1788969551.6455917,
+    "seen": 1789806287.7255857,
+    "ast_hash": "74bafd95ceb7d486296c3184423cc6ab",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-9.jpg": {
+    "mtime": 1788969551.6455917,
+    "seen": 1789806287.7255871,
+    "ast_hash": "5e07c8dccf8e187fa3a8e95f58347c44",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-1.jpg": {
+    "mtime": 1788969551.6455917,
+    "seen": 1789806287.7255893,
+    "ast_hash": "e1c4384da00ac04a8767afe85190c94d",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-10.jpg": {
+    "mtime": 1788969551.6495917,
+    "seen": 1789806287.7255912,
+    "ast_hash": "65cec464193715740035349d1a124e11",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-2.jpg": {
+    "mtime": 1788969551.6575916,
+    "seen": 1789806287.7255936,
+    "ast_hash": "77250205b277e943606663578d92ff92",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-3.jpg": {
+    "mtime": 1788969551.6615918,
+    "seen": 1789806287.7255952,
+    "ast_hash": "e1c4384da00ac04a8767afe85190c94d",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-4.jpg": {
+    "mtime": 1788969551.6655917,
+    "seen": 1789806287.7255971,
+    "ast_hash": "8c587bd9b569261e8eab4c5b1e224229",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-5.jpg": {
+    "mtime": 1788969551.6695917,
+    "seen": 1789806287.7255993,
+    "ast_hash": "040dfda631cba0ac82ab07aa71193a7b",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-6.jpg": {
+    "mtime": 1788969551.6695917,
+    "seen": 1789806287.7256007,
+    "ast_hash": "e587ccefb207e5663da489e3f8d2bd13",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-7.jpg": {
+    "mtime": 1788969551.6735916,
+    "seen": 1789806287.7256029,
+    "ast_hash": "b83bf78091550510f9892ee1534bad21",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-8.jpg": {
+    "mtime": 1788969551.6735916,
+    "seen": 1789806287.7256048,
+    "ast_hash": "31d4b95a2f569e0273c9078166bd5da2",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-2-9.jpg": {
+    "mtime": 1788969551.6775916,
+    "seen": 1789806287.7256064,
+    "ast_hash": "f8f26fb2a86c0a99774c893326369c2f",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-3-1.jpg": {
+    "mtime": 1788969551.6775916,
+    "seen": 1789806287.7256086,
+    "ast_hash": "0df003b7dd70e120317ba8b8b01dd2b4",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-3-2.jpg": {
+    "mtime": 1788969551.6815917,
+    "seen": 1789806287.7256107,
+    "ast_hash": "bf3b71948f229841604a014364068f31",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-3-3.jpg": {
+    "mtime": 1788969551.6815917,
+    "seen": 1789806287.7256129,
+    "ast_hash": "63ff8e460ec42c95358776af87cdfede",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-3-4.jpg": {
+    "mtime": 1788969551.6815917,
+    "seen": 1789806287.7256143,
+    "ast_hash": "3a9b46de8ee29e7e70f43adf0fd20669",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-3-5.jpg": {
+    "mtime": 1788969551.6855917,
+    "seen": 1789806287.7256165,
+    "ast_hash": "39a1fdf03230aae0631029270cbbd84f",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-3-6.jpg": {
+    "mtime": 1788969551.6895916,
+    "seen": 1789806287.7256184,
+    "ast_hash": "c6f4c6230cd59b2f2fa6c5dd0a0c6f7b",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-3-7.jpg": {
+    "mtime": 1788969551.6895916,
+    "seen": 1789806287.7256205,
+    "ast_hash": "85d45662c739d4f468a73b35b163009d",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-3-8.jpg": {
+    "mtime": 1788969551.6895916,
+    "seen": 1789806287.725623,
+    "ast_hash": "456e3fc1aa2608ddf9898abe14a9245b",
+    "semantic_hash": ""
+  },
+  "vault/gallery/photos/2026-09-09-weekly-missionary-journal-part-3-9.jpg": {
+    "mtime": 1788969551.6935916,
+    "seen": 1789806287.7256248,
+    "ast_hash": "2ff7f45043e2b524bd37abe997e971af",
+    "semantic_hash": ""
+  },
+  "vault/photos/2026-09-09-weekly-missionary-journal-monday.jpg": {
+    "mtime": 1788969551.6975918,
+    "seen": 1789806287.725627,
+    "ast_hash": "b1991dc7ded2a4bb967fff045bfed2f4",
+    "semantic_hash": ""
+  },
+  "vault/photos/elder-salviejo.jpg": {
+    "mtime": 1788969551.6975918,
+    "seen": 1789806287.7256284,
+    "ast_hash": "e66ae0993987f4130a19e23f68f9873c",
+    "semantic_hash": ""
+  }
+}
