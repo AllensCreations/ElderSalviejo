@@ -391,7 +391,8 @@
               <!-- Direct Google Apps Script Quick Runner Card -->
               <div style="background-color: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 14px 16px; margin-top: 16px;">
                 <div style="display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 12px; color: #334155; margin-bottom: 4px;">
-                  <span>⚡</span> Direct 1-Click Runner in Google Apps Script (Zero Setup)
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                  Direct 1-Click Runner in Google Apps Script (Zero Setup)
                 </div>
                 <p style="font-size: 11px; color: #64748b; line-height: 1.5; margin: 0 0 6px 0;">
                   Want to test delivery immediately to your inbox without configuring Web App webhooks?
@@ -599,15 +600,15 @@
 
         if (res.ok && data.success) {
           if (data.mode === 'gas_dispatched') {
-            setKitStatus('success', '🎉 <strong>Delivered!</strong> The official Congratulatory Sender Registration &amp; Template Kit has been dispatched directly to <strong>' + recipient + '</strong> via Google Apps Script!<br><span style="font-size:11px;color:#065f46;display:block;margin-top:4px;">Check their Gmail inbox (and Spam/Updates tab). Elder Salviejo can tap either button in that email to send his weekly letters!</span>');
+            setKitStatus('success', '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; display: inline-block; margin-right: 6px;"><polyline points="20 6 9 17 4 12"/></svg><strong>Delivered!</strong> The official Missionary Sender Registration &amp; Template Kit has been dispatched directly to <strong>' + recipient + '</strong> via Google Apps Script!<br><span style="font-size:11px;color:#065f46;display:block;margin-top:4px;">Check their Gmail inbox (and Spam/Updates tab). Elder Salviejo can tap either button in that email to send his weekly letters!</span>');
           } else {
-            setKitStatus('warning', '⚠️ <strong>Links Ready, but No Email Sent to Inbox:</strong><br>' + (data.warning || 'No Google Apps Script Web App URL was provided.') + '<br><span style="font-size:11px;color:#92400e;display:block;margin-top:4px;">To send directly to an inbox, paste your Apps Script Web App URL above or run <code>runTestSendToMyInbox()</code> in script.google.com. You can also tap the 1-click submission buttons below right now!</span>');
+            setKitStatus('warning', '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; display: inline-block; margin-right: 6px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><strong>Links Ready (No Email Dispatched to Inbox):</strong><br>' + (data.warning || 'No Google Apps Script Web App URL was provided.') + '<br><span style="font-size:11px;color:#92400e;display:block;margin-top:4px;">To send directly to an inbox, paste your Apps Script Web App URL above or run <code>runTestSendToMyInbox()</code> in script.google.com. You can also tap the 1-click submission buttons below right now!</span>');
           }
           saveAndSyncLinks();
         } else {
           var errorMsg = data.error || 'Failed to dispatch template kit.';
-          var hint = data.hint ? '<br><span style="font-size:11px;color:#991b1b;display:block;margin-top:6px;"><strong>💡 Next Step:</strong> ' + data.hint + '</span>' : '';
-          setKitStatus('error', '❌ <strong>Delivery Failed:</strong> ' + errorMsg + hint);
+          var hint = data.hint ? '<br><span style="font-size:11px;color:#991b1b;display:block;margin-top:6px;"><strong>Troubleshooting:</strong> ' + data.hint + '</span>' : '';
+          setKitStatus('error', '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; display: inline-block; margin-right: 6px;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><strong>Delivery Failed:</strong> ' + errorMsg + hint);
         }
       } catch (err) {
         btn.disabled = false;

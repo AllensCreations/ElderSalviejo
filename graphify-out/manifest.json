@@ -240,9 +240,9 @@
     "semantic_hash": ""
   },
   "public/admin.html": {
-    "mtime": 1789822107.29288,
-    "seen": 1789822174.1203501,
-    "ast_hash": "907bb3eb7a929e228ac3a07d63c51902",
+    "mtime": 1789823216.5608797,
+    "seen": 1789823263.5061567,
+    "ast_hash": "3318c18ff9b7c70eadac91a36c8d87a4",
     "semantic_hash": ""
   },
   "public/book.html": {
@@ -816,9 +816,9 @@
     "semantic_hash": ""
   },
   "api/admin.js": {
-    "mtime": 1789822123.42088,
-    "seen": 1789822174.0829315,
-    "ast_hash": "31711a5b01e3e18df8c1bcc0423103f2",
+    "mtime": 1789823172.80488,
+    "seen": 1789823263.4634185,
+    "ast_hash": "cf8ad2a3b7c8818a01630d4053276872",
     "semantic_hash": ""
   },
   "api/tracking/[type].js": {

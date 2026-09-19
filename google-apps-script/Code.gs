@@ -2875,170 +2875,266 @@ function buildMissionaryKitEmailHtml(dummyInbox, diaryPasscode, galleryPasscode,
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎉 Congratulations! Elder Mark Salviejo — Official Sender Kit</title>
+  <title>Elder Mark Salviejo — Official Missionary Sender Kit</title>
 </head>
-<body style="margin: 0; padding: 0; background-color: #f4f1ea; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1c1917; -webkit-font-smoothing: antialiased;">
-  <div style="max-width: 640px; margin: 24px auto; background-color: #ffffff; border-radius: 14px; overflow: hidden; box-shadow: 0 6px 24px rgba(0,0,0,0.07); border: 1px solid #e7e5e4;">
+<body style="margin: 0; padding: 0; background-color: #fcfbf9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: #1c1917; -webkit-font-smoothing: antialiased; line-height: 1.5;">
+  <div style="max-width: 640px; margin: 24px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid #e7e5e4;">
     
-    <!-- Top Gold & Dark Header Banner -->
-    <div style="background: linear-gradient(135deg, #1c1917 0%, #292524 100%); padding: 36px 24px; text-align: center; border-bottom: 4px solid #d97706;">
-      <span style="display: inline-block; background-color: rgba(217, 119, 6, 0.2); border: 1px solid #d97706; color: #f59e0b; font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; padding: 4px 12px; border-radius: 9999px; margin-bottom: 12px;">
-        ★ OFFICIAL SENDER REGISTRATION ★
-      </span>
-      <h1 style="margin: 0 0 8px 0; font-family: Georgia, serif; font-size: 26px; color: #ffffff; font-weight: 700; letter-spacing: -0.5px;">
-        Congratulations, Elder Salviejo!
+    <!-- Top Obsidian Archival Header with Missionary Nametag -->
+    <div style="background-color: #18181b; padding: 34px 24px 28px 24px; text-align: center; border-bottom: 3px solid #b45309;">
+      
+      <!-- Official Missionary Nametag Badge -->
+      <table cellpadding="0" cellspacing="0" border="0" align="center" style="margin: 0 auto 18px auto; background-color: #000000; border: 1.5px solid #ffffff; border-radius: 6px; box-shadow: 0 4px 14px rgba(0,0,0,0.35); min-width: 210px; max-width: 250px; text-align: center;">
+        <tr>
+          <td style="padding: 10px 18px;">
+            <div style="font-family: Georgia, serif; font-size: 8px; letter-spacing: 1.2px; color: #ffffff; text-transform: uppercase; line-height: 1.25; opacity: 0.95;">
+              The Church of<br>
+              <span style="font-size: 10px; font-weight: 700; letter-spacing: 1.5px;">Jesus Christ</span><br>
+              of Latter-day Saints
+            </div>
+            <div style="height: 1px; background-color: rgba(255,255,255,0.25); margin: 7px 0 5px 0;"></div>
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; font-weight: 800; color: #ffffff; letter-spacing: 0.5px;">
+              Elder Salviejo
+            </div>
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 9px; color: #d4d4d8; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px;">
+              Philippines Dumaguete Mission
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Pipeline Subtitle with Monospace Tag & SVG Shield -->
+      <div style="font-family: ui-monospace, 'IBM Plex Mono', Menlo, Consolas, monospace; font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #a1a1aa; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; display: inline-block;">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        Official Missionary Submission Pipeline
+      </div>
+      
+      <h1 style="margin: 10px 0 4px 0; font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-size: 25px; line-height: 1.25; color: #ffffff; font-weight: 600; letter-spacing: -0.5px;">
+        Missionary Sender Kit
       </h1>
-      <p style="margin: 0; font-size: 13px; color: #d6d3d1; font-style: italic; font-family: Georgia, serif;">
-        Philippines Dumaguete Mission &bull; Live Archival Vault
+      <p style="margin: 0; font-family: ui-monospace, 'IBM Plex Mono', Menlo, Consolas, monospace; font-size: 11px; color: #fbbf24; letter-spacing: 0.5px;">
+        Live Archival Vault &bull; Version 3.0
       </p>
     </div>
 
-    <!-- Main Content Container -->
+    <!-- Main Content Body -->
     <div style="padding: 32px 26px;">
       
-      <!-- Uplifting Congratulatory Commendation -->
-      <div style="background-color: #fffbeb; border-left: 4px solid #d97706; border-radius: 0 8px 8px 0; padding: 16px 20px; margin-bottom: 28px;">
-        <h3 style="margin: 0 0 6px 0; font-family: Georgia, serif; font-size: 16px; color: #78350f; font-weight: 700;">
-          Welcome to Your Official Missionary Journal Pipeline
+      <!-- Congratulatory Commendation Box -->
+      <div style="background-color: #fffdfa; border: 1px solid #e7e5e4; border-left: 4px solid #b45309; border-radius: 0 8px 8px 0; padding: 18px 20px; margin-bottom: 28px;">
+        <h3 style="margin: 0 0 6px 0; font-family: 'Newsreader', Georgia, serif; font-size: 17px; color: #78350f; font-weight: 700; line-height: 1.3;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; display: inline-block; margin-right: 6px;">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          Authorized Sender Registration
         </h3>
-        <p style="margin: 0; font-size: 13px; line-height: 1.6; color: #92400e;">
-          You are officially registered as an authorized missionary sender! Every letter, weekly reflection, and photo album you submit will be automatically archived into your eternal monograph and immediately broadcasted to your family, friends, and ward subscribers.
+        <p style="margin: 0; font-size: 13px; line-height: 1.6; color: #78350f;">
+          Congratulations! You are officially registered as an authorized missionary sender for the <strong>Philippines Dumaguete Mission</strong> Live Vault. Whenever you send your Preparation Day updates, you never have to format headers or remember codes from scratch. Use your dedicated 1-click tools below.
         </p>
       </div>
 
       <!-- 4-STEP VISUAL "HOW TO SEND" GUIDE -->
-      <div style="margin-bottom: 30px;">
-        <h2 style="font-family: Georgia, serif; font-size: 18px; color: #1c1917; margin: 0 0 16px 0; font-weight: 700; border-bottom: 1px solid #f5f5f4; padding-bottom: 8px;">
-          How to Send Your P-Day Updates (4 Simple Steps)
-        </h2>
+      <div style="margin-bottom: 32px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e7e5e4; padding-bottom: 8px; margin-bottom: 18px;">
+          <h2 style="font-family: 'Newsreader', Georgia, serif; font-size: 18px; color: #1c1917; margin: 0; font-weight: 700;">
+            How to Send on Preparation Day
+          </h2>
+          <span style="font-family: ui-monospace, 'IBM Plex Mono', Menlo, Consolas, monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; color: #78716c; letter-spacing: 1px;">
+            4 Simple Steps
+          </span>
+        </div>
 
         <!-- Step 1 -->
-        <div style="display: flex; gap: 14px; margin-bottom: 16px;">
-          <div style="flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background-color: #d97706; color: #ffffff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; line-height: 30px; text-align: center;">
-            1
-          </div>
-          <div style="flex-grow: 1;">
-            <p style="margin: 0 0 3px 0; font-size: 14px; font-weight: 700; color: #1c1917;">
-              Tap Either Action Button Below on P-Day
-            </p>
-            <p style="margin: 0; font-size: 12px; color: #57534e; line-height: 1.5;">
-              Choose whether you are sending your <strong>Weekly Reflection Letter</strong> or a <strong>Photo Gallery Album</strong>. Tapping the button opens your mobile email app instantly.
-            </p>
-          </div>
-        </div>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 14px;">
+          <tr>
+            <td width="36" valign="top">
+              <div style="width: 26px; height: 26px; border-radius: 50%; background-color: #1c1917; color: #ffffff; font-family: ui-monospace, monospace; font-size: 12px; font-weight: 700; line-height: 26px; text-align: center;">
+                1
+              </div>
+            </td>
+            <td valign="top" style="padding-left: 8px;">
+              <p style="margin: 0 0 3px 0; font-size: 13px; font-weight: 700; color: #1c1917;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; display: inline-block; margin-right: 4px;">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                Tap Either Action Button Below
+              </p>
+              <p style="margin: 0; font-size: 12px; color: #57534e; line-height: 1.5;">
+                Select whether you are sending your <strong>Weekly Reflection Letter</strong> or a <strong>Photo Gallery Album</strong>. Tapping opens your email app directly.
+              </p>
+            </td>
+          </tr>
+        </table>
 
         <!-- Step 2 -->
-        <div style="display: flex; gap: 14px; margin-bottom: 16px;">
-          <div style="flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background-color: #292524; color: #ffffff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; line-height: 30px; text-align: center;">
-            2
-          </div>
-          <div style="flex-grow: 1;">
-            <p style="margin: 0 0 3px 0; font-size: 14px; font-weight: 700; color: #1c1917;">
-              Subject &amp; Body Template Auto-Populate
-            </p>
-            <p style="margin: 0; font-size: 12px; color: #57534e; line-height: 1.5;">
-              You never have to type passcode numbers or headers from scratch! Your draft opens pre-addressed with the secret code (<code>159266</code> or <code>073000</code>) and Monday–Sunday prompts.
-            </p>
-          </div>
-        </div>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 14px;">
+          <tr>
+            <td width="36" valign="top">
+              <div style="width: 26px; height: 26px; border-radius: 50%; background-color: #1c1917; color: #ffffff; font-family: ui-monospace, monospace; font-size: 12px; font-weight: 700; line-height: 26px; text-align: center;">
+                2
+              </div>
+            </td>
+            <td valign="top" style="padding-left: 8px;">
+              <p style="margin: 0 0 3px 0; font-size: 13px; font-weight: 700; color: #1c1917;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1c1917" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; display: inline-block; margin-right: 4px;">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+                Subject &amp; Template Auto-Populate
+              </p>
+              <p style="margin: 0; font-size: 12px; color: #57534e; line-height: 1.5;">
+                No manual formatting needed. The draft opens pre-addressed with secret passcodes (<span style="font-family: ui-monospace, monospace; background: #f5f5f4; padding: 1px 4px; border-radius: 4px; font-size: 11px;">159266</span> or <span style="font-family: ui-monospace, monospace; background: #f5f5f4; padding: 1px 4px; border-radius: 4px; font-size: 11px;">073000</span>) and Monday–Sunday prompts.
+              </p>
+            </td>
+          </tr>
+        </table>
 
         <!-- Step 3 -->
-        <div style="display: flex; gap: 14px; margin-bottom: 16px;">
-          <div style="flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background-color: #292524; color: #ffffff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; line-height: 30px; text-align: center;">
-            3
-          </div>
-          <div style="flex-grow: 1;">
-            <p style="margin: 0 0 3px 0; font-size: 14px; font-weight: 700; color: #1c1917;">
-              Share Your Miracles &amp; Attach Photos
-            </p>
-            <p style="margin: 0; font-size: 12px; color: #57534e; line-height: 1.5;">
-              Write your daily experiences, investigators taught, and favorite scripture verse. Attach <strong>up to 7 photos</strong> for weekly reflections, or <strong>up to 50+ photos</strong> for gallery albums.
-            </p>
-          </div>
-        </div>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 14px;">
+          <tr>
+            <td width="36" valign="top">
+              <div style="width: 26px; height: 26px; border-radius: 50%; background-color: #1c1917; color: #ffffff; font-family: ui-monospace, monospace; font-size: 12px; font-weight: 700; line-height: 26px; text-align: center;">
+                3
+              </div>
+            </td>
+            <td valign="top" style="padding-left: 8px;">
+              <p style="margin: 0 0 3px 0; font-size: 13px; font-weight: 700; color: #1c1917;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1c1917" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; display: inline-block; margin-right: 4px;">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                  <circle cx="12" cy="13" r="4"/>
+                </svg>
+                Write Experiences &amp; Attach Photos
+              </p>
+              <p style="margin: 0; font-size: 12px; color: #57534e; line-height: 1.5;">
+                Record missionary experiences, lessons taught, and your scripture verse. Attach <strong>up to 7 photos</strong> for weekly letters, or <strong>up to 50+ photos</strong> for gallery albums.
+              </p>
+            </td>
+          </tr>
+        </table>
 
         <!-- Step 4 -->
-        <div style="display: flex; gap: 14px;">
-          <div style="flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background-color: #059669; color: #ffffff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; line-height: 30px; text-align: center;">
-            4
-          </div>
-          <div style="flex-grow: 1;">
-            <p style="margin: 0 0 3px 0; font-size: 14px; font-weight: 700; color: #1c1917;">
-              Hit Send &bull; Automated Archiving &amp; Broadcast
-            </p>
-            <p style="margin: 0; font-size: 12px; color: #57534e; line-height: 1.5;">
-              Our serverless engine catalogs your entry into the live vault at <a href="${url}" style="color: #b45309; text-decoration: underline;">eldersalviejo.vercel.app</a> and dispatches a newsletter email to all your followers!
-            </p>
-          </div>
-        </div>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+          <tr>
+            <td width="36" valign="top">
+              <div style="width: 26px; height: 26px; border-radius: 50%; background-color: #047857; color: #ffffff; font-family: ui-monospace, monospace; font-size: 12px; font-weight: 700; line-height: 26px; text-align: center;">
+                4
+              </div>
+            </td>
+            <td valign="top" style="padding-left: 8px;">
+              <p style="margin: 0 0 3px 0; font-size: 13px; font-weight: 700; color: #047857;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; display: inline-block; margin-right: 4px;">
+                  <line x1="22" y1="2" x2="11" y2="13"/>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+                Hit Send &bull; Automated Archiving &amp; Broadcast
+              </p>
+              <p style="margin: 0; font-size: 12px; color: #57534e; line-height: 1.5;">
+                The serverless pipeline automatically updates the vault monograph and dispatches an email newsletter broadcast to family, friends, and ward subscribers.
+              </p>
+            </td>
+          </tr>
+        </table>
 
       </div>
 
-      <!-- THE 2 OFFICIAL 1-CLICK ACTION BUTTONS -->
-      <div style="margin-top: 28px;">
+      <!-- THE 2 SIGNATURE ACTION BUTTONS -->
+      <div style="margin-top: 26px;">
 
         <!-- BUTTON 1: WEEKLY DIARY REFLECTION -->
-        <div style="border: 2px solid #fde68a; background-color: #fffbeb; border-radius: 12px; padding: 22px 20px; margin-bottom: 20px; text-align: center;">
-          <span style="display: inline-block; background-color: #d97706; color: #ffffff; font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
-            OPTION 1 &bull; PASSCODE ${escapeHtml(diaryCode)}
+        <div style="border: 1px solid #fde68a; background-color: #fffdfa; border-radius: 10px; padding: 22px 20px; margin-bottom: 20px; text-align: center;">
+          <span style="display: inline-block; background-color: #b45309; color: #ffffff; font-family: ui-monospace, 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
+            OPTION 1 &bull; PASSCODE [${escapeHtml(diaryCode)}]
           </span>
-          <h3 style="font-family: Georgia, serif; font-size: 18px; color: #78350f; margin: 0 0 6px 0; font-weight: 700;">
+          <h3 style="font-family: 'Newsreader', Georgia, serif; font-size: 19px; color: #78350f; margin: 0 0 6px 0; font-weight: 700;">
             Weekly Diary Reflection Letter
           </h3>
           <p style="margin: 0 0 16px 0; font-size: 12px; color: #92400e; line-height: 1.5;">
-            Pre-fills Monday–Sunday sections and -VERSE- prompt. Attach up to 7 photos!
+            Includes Monday–Sunday daily prompts and -VERSE- reference block. Remember to attach 7 weekly photos!
           </p>
 
-          <a href="${diaryMailto}" style="background-color: #d97706; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-weight: 700; font-size: 14px; display: inline-block; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35);">
-            ✉️ Send Weekly Diary (${escapeHtml(diaryCode)})
+          <a href="${diaryMailto}" style="background-color: #b45309; color: #ffffff; text-decoration: none; padding: 13px 26px; border-radius: 8px; font-weight: 700; font-size: 14px; display: inline-block; letter-spacing: 0.5px; box-shadow: 0 3px 10px rgba(180, 83, 9, 0.3);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -3px; display: inline-block; margin-right: 6px;">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Send Weekly Diary [${escapeHtml(diaryCode)}]
           </a>
 
           <div style="margin-top: 10px;">
             <a href="${diaryGmailWeb}" target="_blank" style="font-size: 11px; color: #92400e; text-decoration: underline; font-weight: 600;">
-              Using Desktop Gmail? Open directly in Web Browser &rarr;
+              Using Desktop Gmail? Open directly in Web Browser
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; display: inline-block; margin-left: 2px;">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
             </a>
           </div>
         </div>
 
         <!-- BUTTON 2: PHOTO GALLERY ALBUM -->
-        <div style="border: 2px solid #e7e5e4; background-color: #fafaf9; border-radius: 12px; padding: 22px 20px; margin-bottom: 24px; text-align: center;">
-          <span style="display: inline-block; background-color: #292524; color: #ffffff; font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
-            OPTION 2 &bull; PASSCODE ${escapeHtml(galleryCode)}
+        <div style="border: 1px solid #e7e5e4; background-color: #fafaf9; border-radius: 10px; padding: 22px 20px; margin-bottom: 24px; text-align: center;">
+          <span style="display: inline-block; background-color: #18181b; color: #ffffff; font-family: ui-monospace, 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
+            OPTION 2 &bull; PASSCODE [${escapeHtml(galleryCode)}]
           </span>
-          <h3 style="font-family: Georgia, serif; font-size: 18px; color: #1c1917; margin: 0 0 6px 0; font-weight: 700;">
+          <h3 style="font-family: 'Newsreader', Georgia, serif; font-size: 19px; color: #18181b; margin: 0 0 6px 0; font-weight: 700;">
             Polaroid Photo Gallery Album
           </h3>
-          <p style="margin: 0 0 16px 0; font-size: 12px; color: #78716c; line-height: 1.5;">
-            Publish standalone mission albums (1 to 50+ photos) directly to the live Polaroid Wall.
+          <p style="margin: 0 0 16px 0; font-size: 12px; color: #71717a; line-height: 1.5;">
+            Publish standalone mission albums (1 to 50+ photos) directly to the live Polaroid Wall on /gallery.
           </p>
 
-          <a href="${galleryMailto}" style="background-color: #292524; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-weight: 700; font-size: 14px; display: inline-block; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(0,0,0,0.18);">
-            📷 Send Photo Gallery (${escapeHtml(galleryCode)})
+          <a href="${galleryMailto}" style="background-color: #18181b; color: #ffffff; text-decoration: none; padding: 13px 26px; border-radius: 8px; font-weight: 700; font-size: 14px; display: inline-block; letter-spacing: 0.5px; box-shadow: 0 3px 10px rgba(0,0,0,0.2);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -3px; display: inline-block; margin-right: 6px;">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            Send Photo Gallery [${escapeHtml(galleryCode)}]
           </a>
 
           <div style="margin-top: 10px;">
-            <a href="${galleryGmailWeb}" target="_blank" style="font-size: 11px; color: #57534e; text-decoration: underline; font-weight: 600;">
-              Using Desktop Gmail? Open directly in Web Browser &rarr;
+            <a href="${galleryGmailWeb}" target="_blank" style="font-size: 11px; color: #52525b; text-decoration: underline; font-weight: 600;">
+              Using Desktop Gmail? Open directly in Web Browser
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; display: inline-block; margin-left: 2px;">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
             </a>
           </div>
         </div>
 
       </div>
 
-      <!-- Sender Destination Info Card -->
-      <div style="background-color: #f5f5f4; border-radius: 8px; padding: 14px 18px; font-size: 12px; color: #44403c; text-align: center;">
-        Target Vault Receiver: <strong style="color: #1c1917;">${escapeHtml(dummy)}</strong>
+      <!-- Target Ingestion Address Box -->
+      <div style="background-color: #f5f5f4; border: 1px solid #e7e5e4; border-radius: 8px; padding: 14px 18px; font-size: 12px; color: #44403c; text-align: center;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#57534e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; display: inline-block; margin-right: 4px;">
+          <circle cx="12" cy="12" r="10"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+        Target Ingest Receiver: <span style="font-family: ui-monospace, monospace; font-weight: 700; color: #1c1917;">${escapeHtml(dummy)}</span>
         <p style="margin: 6px 0 0 0; font-size: 11px; color: #78716c;">
-          ⭐ <strong>Pro Tip:</strong> Pin or star this email in your inbox so you can quickly tap the buttons every Monday without typing!
+          Star or pin this email in your inbox to easily tap the buttons every Monday without typing!
         </p>
       </div>
 
     </div>
 
-    <!-- Dignified Footer -->
-    <div style="background-color: #fafaf9; border-top: 1px solid #f5f5f4; padding: 22px 24px; text-align: center; font-size: 11px; color: #78716c;">
-      <p style="margin: 0 0 4px 0; font-weight: 700; color: #44403c;">Elder Mark Salviejo &bull; Philippines Dumaguete Mission</p>
-      <p style="margin: 0;">Live Archival Vault: <a href="${url}" style="color: #b45309; text-decoration: underline;">${url}</a></p>
+    <!-- Archival Editorial Footer -->
+    <div style="background-color: #fafaf9; border-top: 1px solid #e7e5e4; padding: 22px 24px; text-align: center; font-size: 11px; color: #78716c;">
+      <p style="margin: 0 0 4px 0; font-family: ui-monospace, 'IBM Plex Mono', monospace; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #44403c;">
+        Philippines Dumaguete Mission &bull; Live Archival Monograph
+      </p>
+      <p style="margin: 0;">Vault: <a href="${url}" style="color: #b45309; text-decoration: underline;">${url}</a></p>
     </div>
 
   </div>
@@ -3058,15 +3154,17 @@ function sendMissionaryTemplateKitEmail(recipientEmail, dummyInboxOverride) {
   }
 
   const dummy = dummyInboxOverride || ctx.dummyInbox || 'dummy@gmail.com';
-  const html = buildMissionaryKitEmailHtml(dummy, ctx.diaryPasscode, ctx.galleryPasscode, ctx.siteUrl);
-  const subject = `🎉 Congratulations! Elder Mark Salviejo Mission Sender Kit [159266 & 073000]`;
+  const diaryCode = ctx.diaryPasscode || '159266';
+  const galleryCode = ctx.galleryPasscode || '073000';
+  const html = buildMissionaryKitEmailHtml(dummy, diaryCode, galleryCode, ctx.siteUrl);
+  const subject = `Elder Mark Salviejo — Official Missionary Sender Kit [${diaryCode} & ${galleryCode}]`;
 
   GmailApp.sendEmail(target, subject, 'Elder Mark Salviejo Mission Sender Registration & Template Kit (HTML format).', {
     htmlBody: html,
     name: 'Elder Mark Salviejo Vault'
   });
 
-  Logger.log(`[PASS] Dispatched Congratulatory Template Kit Email to: ${target} (Dummy: ${dummy})`);
+  Logger.log(`[PASS] Dispatched Official Missionary Sender Kit Email to: ${target} (Dummy: ${dummy})`);
   return {
     success: true,
     recipient: target,
@@ -3097,7 +3195,7 @@ function runTestSendToMyInbox() {
   }
 
   Logger.log(`====================================================`);
-  Logger.log(`TEST RUNNER: Sending Congratulatory Sender Kit to: ${userEmail}`);
+  Logger.log(`TEST RUNNER: Sending Official Missionary Sender Kit to: ${userEmail}`);
   Logger.log(`====================================================`);
 
   const result = sendMissionaryTemplateKitEmail(userEmail);
