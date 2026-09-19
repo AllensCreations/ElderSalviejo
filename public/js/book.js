@@ -181,88 +181,62 @@
           const chapId = `chapter-week-${w.slug || i + 1}`;
           const chapNum = String(i + 2).padStart(2, '0');
 
-          // Split entries evenly if more than 3 entries to ensure 100% WYSIWYG letter sheet fit
-          const splitIndex = entries.length > 3 ? Math.ceil(entries.length / 2) : entries.length;
-          const part1Entries = entries.slice(0, splitIndex);
-          const part2Entries = entries.slice(splitIndex);
+          // Dynamic multi-part entry chunking for 100% WYSIWYG letter sheet fit
+          const hasVerse = Boolean(verse && (verse.reference || verse.text));
+          const entryChunks = chunkWeekEntries(entries, hasVerse);
+          let entryGlobalOffset = 0;
 
-          // --- SHEET PART 1 ---
-          const page1Num = String(runningPageNum++).padStart(2, '0');
-          chaptersHtml += `
-            <section id="${chapId}" class="book-sheet">
-              <!-- Sheet Header -->
-              <div class="sheet-header">
-                <div>
-                  <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Chapter ${chapNum} • Part 1</span>
-                  <h2 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5">
-                    ${escapeHtml(weekDetails.title || `Weekly Letter #${i + 1}`)}
-                  </h2>
-                </div>
-                <div class="font-mono text-xs text-stone-500 text-right">
-                  <span>${pDayDate}</span>
-                </div>
-              </div>
+          for (let cIdx = 0; cIdx < entryChunks.length; cIdx++) {
+            const chunk = entryChunks[cIdx];
+            const pageNum = String(runningPageNum++).padStart(2, '0');
+            const isFirstPart = cIdx === 0;
+            const partNum = cIdx + 1;
+            const partLabel = isFirstPart ? 'Part 1' : `Part ${partNum} (Cont.)`;
+            const headerRight = isFirstPart ? pDayDate : 'Negros Oriental';
 
-              <!-- Sheet Content -->
-              <div class="sheet-content space-y-3.5">
-                <!-- Scripture Study Focus -->
-                ${verse && (verse.reference || verse.text) ? `
-                  <div class="avoid-break p-3 bg-stone-50 border-l-3 border-l-red-800 border border-stone-200 rounded-md">
-                    <div class="font-mono text-[10px] uppercase font-bold tracking-widest text-red-800 mb-0.5">
-                      Scripture Reflection • ${escapeHtml(verse.reference || '')}
-                    </div>
-                    <blockquote class="font-serif italic text-stone-800 text-xs sm:text-sm leading-relaxed">
-                      “${escapeHtml(verse.text || '')}”
-                    </blockquote>
-                  </div>
-                ` : ''}
-
-                <!-- Entries Batch 1 -->
-                <div class="space-y-3.5">
-                  ${part1Entries.map((entry, eIdx) => renderEntryCard(entry, eIdx, chapNum)).join('')}
-                </div>
-              </div>
-
-              <!-- Sheet Footer -->
-              <div class="sheet-footer">
-                <span>Elder Mark Salviejo • Philippines Dumaguete Mission</span>
-                <span>Page ${page1Num}</span>
-              </div>
-            </section>
-          `;
-
-          // --- SHEET PART 2 (if week has remaining entries) ---
-          if (part2Entries.length > 0) {
-            const page2Num = String(runningPageNum++).padStart(2, '0');
             chaptersHtml += `
-              <section class="book-sheet">
+              <section ${isFirstPart ? `id="${chapId}"` : ''} class="book-sheet">
                 <!-- Sheet Header -->
                 <div class="sheet-header">
                   <div>
-                    <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Chapter ${chapNum} • Part 2 (Cont.)</span>
-                    <h3 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5">
+                    <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Chapter ${chapNum} • ${partLabel}</span>
+                    <h${isFirstPart ? '2' : '3'} class="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5">
                       ${escapeHtml(weekDetails.title || `Weekly Letter #${i + 1}`)}
-                    </h3>
+                    </h${isFirstPart ? '2' : '3'}>
                   </div>
                   <div class="font-mono text-xs text-stone-500 text-right">
-                    <span>Negros Oriental</span>
+                    <span>${escapeHtml(headerRight)}</span>
                   </div>
                 </div>
 
                 <!-- Sheet Content -->
                 <div class="sheet-content space-y-3.5">
+                  ${isFirstPart && hasVerse ? `
+                    <div class="avoid-break p-3 bg-stone-50 border-l-3 border-l-red-800 border border-stone-200 rounded-md">
+                      <div class="font-mono text-[10px] uppercase font-bold tracking-widest text-red-800 mb-0.5">
+                        Scripture Reflection • ${escapeHtml(verse.reference || '')}
+                      </div>
+                      <blockquote class="font-serif italic text-stone-800 text-xs sm:text-sm leading-relaxed">
+                        “${escapeHtml(verse.text || '')}”
+                      </blockquote>
+                    </div>
+                  ` : ''}
+
+                  <!-- Entries Batch -->
                   <div class="space-y-3.5">
-                    ${part2Entries.map((entry, eIdx) => renderEntryCard(entry, splitIndex + eIdx, chapNum)).join('')}
+                    ${chunk.map((entry, eIdx) => renderEntryCard(entry, entryGlobalOffset + eIdx, chapNum)).join('')}
                   </div>
                 </div>
 
                 <!-- Sheet Footer -->
                 <div class="sheet-footer">
                   <span>Elder Mark Salviejo • Philippines Dumaguete Mission</span>
-                  <span>Page ${page2Num}</span>
+                  <span>Page ${pageNum}</span>
                 </div>
               </section>
             `;
+
+            entryGlobalOffset += chunk.length;
           }
         }
 
@@ -375,6 +349,33 @@
         `}
       </div>
     `;
+  }
+
+  /**
+   * Chunks entries dynamically across letter sheets (~3-4 entries per sheet).
+   * Accommodates scripture reflection box on Sheet 1 without vertical overflow.
+   */
+  function chunkWeekEntries(entries, hasVerse) {
+    if (!entries || entries.length === 0) return [];
+    const chunks = [];
+    const firstSheetMax = hasVerse ? 3 : 4;
+    if (entries.length <= firstSheetMax) {
+      return [entries];
+    }
+    chunks.push(entries.slice(0, firstSheetMax));
+    let i = firstSheetMax;
+    while (i < entries.length) {
+      const rem = entries.length - i;
+      if (rem === 5) {
+        chunks.push(entries.slice(i, i + 3));
+        i += 3;
+      } else {
+        const take = Math.min(4, rem);
+        chunks.push(entries.slice(i, i + take));
+        i += take;
+      }
+    }
+    return chunks;
   }
 
   const KNOWN_LANDSCAPES = new Set([

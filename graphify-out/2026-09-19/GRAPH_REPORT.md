@@ -1,17 +1,17 @@
 # Graph Report - ElderSalviejo  (2026-09-19)
 
 ## Corpus Check
-- 46 files · ~1,876,270 words
+- 46 files · ~1,877,448 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: .css 4, (none) 3, .ico 2)
 
 ## Summary
-- 316 nodes · 504 edges · 22 communities (19 shown, 3 thin omitted)
+- 320 nodes · 514 edges · 22 communities (19 shown, 3 thin omitted)
 - Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 40 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `91b19bc6`
+- Built from commit: `18a28b07`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -60,18 +60,18 @@
 ## Communities (22 total, 3 thin omitted)
 
 ### Community 0 - "turso.js"
-Cohesion: 0.09
-Nodes (44): { searchAllContent, initDatabase }, { getMissionStats, initDatabase }, { addSubscriber, getAllSubscribers, initDatabase }, { checkRateLimit, isHoneypotTriggered }, {
+Cohesion: 0.10
+Nodes (42): { searchAllContent, initDatabase }, { getMissionStats, initDatabase }, {
   isMessageProcessed,
   recordProcessedMessage,
   getBroadcastLogsForWeek,
   recordBroadcastLogs,
   initDatabase
-}, { getWeekBySlugOrId, initDatabase }, addEncouragement(), addSubscriber() (+36 more)
+}, { getWeekBySlugOrId, initDatabase }, addEncouragement(), addSubscriber(), { createClient }, exportCompleteDatabase() (+34 more)
 
 ### Community 1 - "extract-metadata.js"
 Cohesion: 0.09
-Nodes (24): { getAllGalleryPhotos, initDatabase }, ref_fs, ref_http, ref_path, fs, parsed, path, payloadData (+16 more)
+Nodes (25): { getAllGalleryPhotos, initDatabase }, ref_fs, ref_http, ref_path, fs, parsed, path, payloadData (+17 more)
 
 ### Community 2 - "server.js"
 Cohesion: 0.10
@@ -110,8 +110,8 @@ Cohesion: 0.21
 Nodes (10): { autoSaveToGitHub }, { exportCompleteDatabase, initDatabase }, { autoSaveToGitHub }, { lookupScripture }, { saveWeeklyDiary, saveGalleryEntry, initDatabase, getAllSubscribers }, autoSaveToGitHub(), buildMarkdownLetter(), fetchExistingJsonFile() (+2 more)
 
 ### Community 11 - "encouragements.js"
-Cohesion: 0.36
-Nodes (6): { addEncouragement, getEncouragementsForSlug, initDatabase }, { checkRateLimit, isHoneypotTriggered }, checkRateLimit(), getClientIp(), ipRequests, isHoneypotTriggered()
+Cohesion: 0.27
+Nodes (8): { addEncouragement, getEncouragementsForSlug, initDatabase }, { checkRateLimit, isHoneypotTriggered }, { addSubscriber, getAllSubscribers, initDatabase }, { checkRateLimit, isHoneypotTriggered }, checkRateLimit(), getClientIp(), ipRequests, isHoneypotTriggered()
 
 ### Community 12 - "scriptures.js"
 Cohesion: 0.20
@@ -126,8 +126,8 @@ Cohesion: 0.22
 Nodes (8): background_color, description, display, icons, name, short_name, start_url, theme_color
 
 ### Community 15 - "book.js"
-Cohesion: 0.57
-Nodes (7): escapeAttr(), escapeHtml(), loadCompleteBook(), loadGalleryAppendix(), planAdaptiveSheets(), renderAdaptivePhotoTile(), renderEntryCard()
+Cohesion: 0.44
+Nodes (10): escapeAttr(), escapeHtml(), getPhotoOrientation(), getPhotoRatio(), loadCompleteBook(), loadGalleryAppendix(), planDynamicOrientationSheets(), renderArchivalColophon() (+2 more)
 
 ### Community 16 - "appsscript.json"
 Cohesion: 0.29
@@ -156,9 +156,9 @@ _Questions this graph is uniquely positioned to answer:_
 - **What connects `crypto`, `{ exportCompleteDatabase, initDatabase }`, `{ autoSaveToGitHub }` to the rest of the system?**
   _131 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `turso.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.09276018099547512 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09948979591836735 - nodes in this community are weakly interconnected._
 - **Should `extract-metadata.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.0873015873015873 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08620689655172414 - nodes in this community are weakly interconnected._
 - **Should `server.js` be split into smaller, more focused modules?**
   _Cohesion score 0.10317460317460317 - nodes in this community are weakly interconnected._
 - **Should `package.json` be split into smaller, more focused modules?**

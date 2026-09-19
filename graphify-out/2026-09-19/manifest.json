@@ -12,9 +12,9 @@
     "semantic_hash": ""
   },
   "api/gallery.js": {
-    "mtime": 1789559535.1208801,
-    "seen": 1789806287.7253475,
-    "ast_hash": "9d9e58cf4807892bc1a0ffe62ae848b9",
+    "mtime": 1789825086.2448795,
+    "seen": 1789825444.7700503,
+    "ast_hash": "b46af91b641b5dc084326adb24808ce6",
     "semantic_hash": ""
   },
   "api/ingest.js": {
@@ -78,9 +78,9 @@
     "semantic_hash": ""
   },
   "lib/turso.js": {
-    "mtime": 1789559518.66888,
-    "seen": 1789806287.7253788,
-    "ast_hash": "2e32503d4ad2c71357e8d1bdec8215f9",
+    "mtime": 1789825343.2568796,
+    "seen": 1789825444.784307,
+    "ast_hash": "51e8d8f8825385fb9c1ee326e63f193f",
     "semantic_hash": ""
   },
   "package.json": {
@@ -90,9 +90,9 @@
     "semantic_hash": ""
   },
   "public/js/book.js": {
-    "mtime": 1789824332.9408796,
-    "seen": 1789824503.8445842,
-    "ast_hash": "6d302ca46e23cc486616bee2a23b34d1",
+    "mtime": 1789826233.3968794,
+    "seen": 1789826293.5307903,
+    "ast_hash": "129c6abdb7e57c2dcc3dbc69e4eca3fe",
     "semantic_hash": ""
   },
   "public/js/countdown.js": {
@@ -144,9 +144,9 @@
     "semantic_hash": ""
   },
   "public/vault/gallery/index.json": {
-    "mtime": 1789205041.4415932,
-    "seen": 1789806287.7254014,
-    "ast_hash": "cd453eb3baeeb3b45f4e3aa34482a66a",
+    "mtime": 1789825077.1168795,
+    "seen": 1789825444.7957208,
+    "ast_hash": "f6afada59a5659bdcb7ef0ea50c85da8",
     "semantic_hash": ""
   },
   "sample-data/sample-payload.json": {
@@ -162,9 +162,9 @@
     "semantic_hash": ""
   },
   "scripts/extract-metadata.js": {
-    "mtime": 1789205040.689593,
-    "seen": 1789806287.725407,
-    "ast_hash": "b11f63b3c95be0cbb74d82d8b25459fc",
+    "mtime": 1789825071.4568796,
+    "seen": 1789825444.7978187,
+    "ast_hash": "438b9e78fa47bc2b424f182e7c639287",
     "semantic_hash": ""
   },
   "scripts/init-db.js": {
@@ -198,9 +198,9 @@
     "semantic_hash": ""
   },
   "vault/gallery/index.json": {
-    "mtime": 1789562765.8688796,
-    "seen": 1789806287.7254195,
-    "ast_hash": "90202d737d5d5423a3c63f712d7c5ddf",
+    "mtime": 1789825077.1168795,
+    "seen": 1789825444.8027785,
+    "ast_hash": "f6afada59a5659bdcb7ef0ea50c85da8",
     "semantic_hash": ""
   },
   "vault/index.json": {
@@ -246,9 +246,9 @@
     "semantic_hash": ""
   },
   "public/book.html": {
-    "mtime": 1789824438.6848795,
-    "seen": 1789824503.868117,
-    "ast_hash": "7e72d5d583139ae24d15ef15a86fd913",
+    "mtime": 1789826258.6808794,
+    "seen": 1789826293.5549164,
+    "ast_hash": "6f68996c97329c67b2c52426cbaa0b84",
     "semantic_hash": ""
   },
   "public/call.html": {
