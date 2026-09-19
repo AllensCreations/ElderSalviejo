@@ -72,6 +72,10 @@
     /* Natural Height Non-Overlapping Header */
     .sheet-header {
       position: relative !important;
+      top: auto !important;
+      bottom: auto !important;
+      left: auto !important;
+      right: auto !important;
       width: 100% !important;
       min-height: 0.65in !important;
       height: auto !important;
@@ -90,6 +94,10 @@
     /* Natural Bottom-Pinned Footer */
     .sheet-footer {
       position: relative !important;
+      top: auto !important;
+      bottom: auto !important;
+      left: auto !important;
+      right: auto !important;
       width: 100% !important;
       height: 0.35in !important;
       flex-shrink: 0 !important;
@@ -109,12 +117,60 @@
     /* Flex-Fluid Bounded Middle Content Area */
     .sheet-content {
       position: relative !important;
+      top: auto !important;
+      bottom: auto !important;
+      left: auto !important;
+      right: auto !important;
       width: 100% !important;
-      flex: 1 1 auto !important;
+      flex: 1 1 0% !important;
       min-height: 0 !important;
       max-height: none !important;
       overflow: hidden !important;
       box-sizing: border-box !important;
+    }
+
+    /* Dynamic Orientation Row-by-Row Gallery for Screen & Print */
+    .appendix-rows-container {
+      display: flex !important;
+      flex-direction: column !important;
+      width: 100% !important;
+      height: 100% !important;
+      gap: 2.5mm !important;
+      box-sizing: border-box !important;
+    }
+
+    .appendix-row {
+      display: flex !important;
+      flex-direction: row !important;
+      width: 100% !important;
+      flex: 1 1 0% !important;
+      height: 100% !important;
+      min-height: 0 !important;
+      gap: 2.5mm !important;
+      box-sizing: border-box !important;
+    }
+
+    .appendix-row-tile,
+    .appendix-grid-tile {
+      position: relative !important;
+      height: 100% !important;
+      min-width: 0 !important;
+      overflow: hidden !important;
+      background-color: #18181b !important;
+      border: 1px solid #e7e5e4 !important;
+      box-sizing: border-box !important;
+    }
+
+    .appendix-row-tile img,
+    .appendix-grid-tile img,
+    .appendix-row-tile .book-plate-img,
+    .appendix-grid-tile .book-plate-img {
+      width: 100% !important;
+      height: 100% !important;
+      max-height: none !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      display: block !important;
     }
 
     /* Commemorative Frame */
@@ -275,6 +331,10 @@
 
       .sheet-header {
         position: relative !important;
+        top: auto !important;
+        bottom: auto !important;
+        left: auto !important;
+        right: auto !important;
         width: 100% !important;
         min-height: 0.65in !important;
         height: auto !important;
@@ -292,6 +352,10 @@
 
       .sheet-footer {
         position: relative !important;
+        top: auto !important;
+        bottom: auto !important;
+        left: auto !important;
+        right: auto !important;
         width: 100% !important;
         height: 0.35in !important;
         flex-shrink: 0 !important;
@@ -310,8 +374,12 @@
 
       .sheet-content {
         position: relative !important;
+        top: auto !important;
+        bottom: auto !important;
+        left: auto !important;
+        right: auto !important;
         width: 100% !important;
-        flex: 1 1 auto !important;
+        flex: 1 1 0% !important;
         min-height: 0 !important;
         max-height: none !important;
         overflow: hidden !important;
@@ -359,6 +427,8 @@
         display: flex !important;
         flex-direction: row !important;
         width: 100% !important;
+        flex: 1 1 0% !important;
+        height: 100% !important;
         min-height: 0 !important;
         gap: 2.5mm !important;
         box-sizing: border-box !important;
@@ -673,6 +743,20 @@
             <span class="text-xs font-mono text-stone-500 shrink-0">2028</span>
           </a>
         </div>
+
+        <!-- Mission Purpose & Commission Callout to balance sheet vertically -->
+        <div class="mt-6 p-4 rounded-lg bg-stone-50 border border-stone-200 text-stone-700 font-sans text-xs space-y-2">
+          <div class="font-mono text-[10px] uppercase font-bold tracking-widest text-red-800">
+            Missionary Purpose & Commission
+          </div>
+          <p class="leading-relaxed text-stone-700">
+            “Invite others to come unto Christ by helping them receive the restored gospel through faith in Jesus Christ and His Atonement, repentance, baptism, receiving the gift of the Holy Ghost, and enduring to the end.”
+          </p>
+          <div class="pt-2 border-t border-stone-200 flex items-center justify-between text-[10px] font-mono text-stone-500">
+            <span>Preach My Gospel • Chapter 1</span>
+            <span>Philippines Dumaguete Mission</span>
+          </div>
+        </div>
       </div>
 
       <!-- Sheet Footer -->
@@ -754,7 +838,7 @@
         <!-- Call Letter Plate & Mission Map (Side by Side in Authentic Letter Ratio) -->
         <div class="grid grid-cols-2 gap-3 avoid-break">
           <div class="bg-stone-50 p-2 rounded-lg border border-stone-200 text-center cursor-pointer group" onclick="openCallDocument(0)" title="Click to inspect Call Letter in ratio-locked zoom lightbox">
-            <div class="aspect-letter max-h-[195px] mx-auto overflow-hidden rounded bg-white border border-stone-200 flex items-center justify-center shadow-xs">
+            <div class="aspect-letter max-h-[195px] mx-auto overflow-hidden rounded bg-white border border-stone-200 flex items-center justify-center shadow-xs" style="max-height: 195px;">
               <img
                 src="/assets/images/intro/call-letter.jpg"
                 alt="First Presidency Call Letter"
@@ -769,7 +853,7 @@
           </div>
 
           <div class="bg-stone-50 p-2 rounded-lg border border-stone-200 text-center cursor-pointer group" onclick="openCallDocument(1)" title="Click to inspect Boundaries Map in ratio-locked zoom lightbox">
-            <div class="aspect-letter max-h-[195px] mx-auto overflow-hidden rounded bg-white border border-stone-200 flex items-center justify-center shadow-xs">
+            <div class="aspect-letter max-h-[195px] mx-auto overflow-hidden rounded bg-white border border-stone-200 flex items-center justify-center shadow-xs" style="max-height: 195px;">
               <img
                 src="/assets/images/intro/call-overview.jpg"
                 alt="Philippines Dumaguete Mission Boundaries"
@@ -887,7 +971,7 @@
 
           <!-- Plate 5: Chapel Hall by Christ Painting (4:3 Landscape Feature) -->
           <div class="polaroid-frame cursor-pointer group col-span-2 sm:col-span-4" onclick="openOriginPlate(4)" title="Gathered by the Savior (Click to zoom)">
-            <div class="polaroid-photo-wrap aspect-4-3 max-h-[220px] overflow-hidden bg-white flex items-center justify-center">
+            <div class="polaroid-photo-wrap aspect-4-3 max-h-[220px] overflow-hidden bg-white flex items-center justify-center" style="max-height: 220px;">
               <img
                 src="/assets/images/intro/photo-5.jpg"
                 alt="Chapel Hall by Christ Painting"
@@ -1018,7 +1102,7 @@
         capturedDate: 'Sep 06, 2026',
         capturedTime: '12:07 PM',
         archivalStamp: 'SEP 06, 2026 • 12:07 PHT',
-        caption: 'Official calling letter from the First Presidency of The Church of Jesus Christ of Latter-day Saints, assigning Elder Mark Allen Bongolan Salviejo to labor in the Philippines Dumaguete Mission speaking Cebuano.'
+        caption: 'Official calling letter from the First Presidency of The Church of Jesus Christ of Latter-day Saints, assigning Elder Salviejo to labor in the Philippines Dumaguete Mission speaking Cebuano.'
       },
       {
         src: '/assets/images/intro/call-overview.jpg',
