@@ -17,13 +17,12 @@ const ingestHandler = require('./api/ingest');
 const weeksHandler = require('./api/weeks/index');
 const singleWeekHandler = require('./api/weeks/[id]');
 const subscribeHandler = require('./api/subscribe');
-const subscribersHandler = require('./api/subscribers');
 const galleryHandler = require('./api/gallery');
-const trackingMessageHandler = require('./api/tracking/message');
-const trackingBroadcastHandler = require('./api/tracking/broadcast');
+const trackingHandler = require('./api/tracking/[type]');
 const encouragementsHandler = require('./api/encouragements');
 const statsHandler = require('./api/stats');
-const adminSendHandler = require('./api/admin/send');
+const adminHandler = require('./api/admin');
+
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
@@ -143,45 +142,36 @@ const server = http.createServer(async (req, res) => {
       return await ingestHandler(req, res);
     }
 
-    // 1b. API: POST /api/subscribe
-    if (pathname === '/api/subscribe') {
-      req.body = await readBody();
+    // 1b. API: /api/subscribe & /api/subscribers
+    if (pathname === '/api/subscribe' || pathname === '/api/subscribers') {
+      if (req.method === 'POST') req.body = await readBody();
       return await subscribeHandler(req, res);
     }
 
-    // 1c. API: GET /api/subscribers
-    if (pathname === '/api/subscribers') {
-      return await subscribersHandler(req, res);
-    }
-
-    // 1d. API: /api/tracking/message
-    if (pathname === '/api/tracking/message') {
+    // 1c. API: /api/tracking/message & /api/tracking/broadcast
+    if (pathname === '/api/tracking/message' || pathname === '/api/tracking/broadcast') {
       if (req.method === 'POST') req.body = await readBody();
-      return await trackingMessageHandler(req, res);
+      req.query.type = pathname.includes('broadcast') ? 'broadcast' : 'message';
+      return await trackingHandler(req, res);
     }
 
-    // 1e. API: /api/tracking/broadcast
-    if (pathname === '/api/tracking/broadcast') {
-      if (req.method === 'POST') req.body = await readBody();
-      return await trackingBroadcastHandler(req, res);
-    }
-
-    // 1f. API: /api/encouragements
+    // 1d. API: /api/encouragements
     if (pathname === '/api/encouragements') {
       if (req.method === 'POST') req.body = await readBody();
       return await encouragementsHandler(req, res);
     }
 
-    // 1g. API: GET /api/stats
+    // 1e. API: GET /api/stats
     if (pathname === '/api/stats') {
       return await statsHandler(req, res);
     }
 
-    // 1h. API: POST /api/admin/send
-    if (pathname === '/api/admin/send') {
+    // 1f. API: POST /api/admin & /api/admin/send
+    if (pathname === '/api/admin/send' || pathname === '/api/admin') {
       if (req.method === 'POST') req.body = await readBody();
-      return await adminSendHandler(req, res);
+      return await adminHandler(req, res);
     }
+
 
     // 2. API: GET /api/weeks
     if (pathname === '/api/weeks') {

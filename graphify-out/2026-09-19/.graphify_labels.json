@@ -1,6 +1,6 @@
 {
   "0": "turso.js",
-  "1": "extract-metadata.js",
+  "1": "scriptures.js",
   "2": "server.js",
   "3": "package.json",
   "4": "optimize-icons.js",
@@ -11,7 +11,7 @@
   "9": "lightbox.js",
   "10": "ingest.js",
   "11": "encouragements.js",
-  "12": "scriptures.js",
+  "12": "extract-metadata.js",
   "13": "week.js",
   "14": "manifest.json",
   "15": "book.js",

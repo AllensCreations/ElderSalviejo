@@ -1,5 +1,5 @@
 /**
- * Vercel Serverless Function: POST /api/admin/send
+ * Vercel Serverless Function: /api/admin & /api/admin/send
  * 
  * Secure Admin Endpoint:
  * 1. Validates admin secret against INGEST_SECRET.

@@ -33,6 +33,14 @@
     {
       "source": "/admin",
       "destination": "/admin"
+    },
+    {
+      "source": "/api/subscribers",
+      "destination": "/api/subscribe"
+    },
+    {
+      "source": "/api/admin/send",
+      "destination": "/api/admin"
     }
   ],
   "headers": [
