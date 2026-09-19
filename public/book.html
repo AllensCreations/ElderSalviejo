@@ -182,19 +182,29 @@
         display: none !important;
       }
 
-      main.letter-viewport {
+      main.letter-viewport,
+      #bookWeeklyChapters,
+      #bookGalleryAppendix {
         width: 8.5in !important;
         max-width: 8.5in !important;
         margin: 0 !important;
         padding: 0 !important;
+        gap: 0 !important;
         display: block !important;
+      }
+
+      .space-y-8 > :not([hidden]) ~ :not([hidden]),
+      .space-y-10 > :not([hidden]) ~ :not([hidden]),
+      .sm\:space-y-10 > :not([hidden]) ~ :not([hidden]) {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
       }
 
       .book-sheet {
         width: 8.5in !important;
-        height: 11in !important;
-        min-height: 11in !important;
-        max-height: 11in !important;
+        height: 10.98in !important;
+        min-height: 10.98in !important;
+        max-height: 10.98in !important;
         page-break-after: always !important;
         break-after: page !important;
         page-break-inside: avoid !important;
@@ -208,6 +218,11 @@
         overflow: hidden !important;
         position: relative !important;
         box-sizing: border-box !important;
+      }
+
+      #chapter-epilogue {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
       }
 
       .sheet-header {
@@ -249,8 +264,8 @@
         bottom: 0.95in !important;
         left: 0.65in !important;
         right: 0.65in !important;
-        height: 8.80in !important;
-        max-height: 8.80in !important;
+        height: 8.78in !important;
+        max-height: 8.78in !important;
         overflow: hidden !important;
         box-sizing: border-box !important;
       }
@@ -263,7 +278,7 @@
         left: 0.65in !important;
         right: 0.65in !important;
         width: calc(8.5in - 1.3in) !important;
-        height: calc(11in - 1.1in) !important;
+        height: calc(10.98in - 1.1in) !important;
         padding: 2.25rem 1.5rem !important;
         box-sizing: border-box !important;
       }
@@ -853,7 +868,7 @@
     <!-- DYNAMIC WEEKLY CHAPTER SHEETS (INJECTED BY BOOK.JS) -->
     <!-- ========================================== -->
     <div id="bookWeeklyChapters" class="space-y-8 sm:space-y-10">
-      <div id="bookLoadingState" class="book-sheet text-center py-16">
+      <div id="bookLoadingState" class="book-sheet text-center py-16 no-print">
         <p class="font-mono text-xs uppercase tracking-widest text-stone-400">Compiling publication chapters...</p>
       </div>
     </div>
@@ -923,9 +938,6 @@
 
   </main>
 
-  <!-- Interactive Lightbox Modal for Call Letter & Origin Plates -->
-  <div id="introModal" class="fixed inset-0 z-50 bg-stone-950/95 backdrop-blur-md hidden flex flex-col justify-between p-4 sm:p-6 no-print" onclick="handleIntroModalBackdrop(event)">
-    <div class="flex items-center justify-between text-stone-300 font-mono text-xs max-w-4xl mx-auto w-full border-b border-stone-800 pb-3">
   <!-- Quick Floating Back to Top / TOC Button -->
   <aside class="no-print fixed bottom-6 right-6 z-30">
     <a

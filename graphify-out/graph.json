@@ -709,7 +709,7 @@
       "file_type": "code",
       "norm_label": "chunkweekentries()",
       "source_file": "public/js/book.js",
-      "source_location": "L358"
+      "source_location": "L409"
     },
     {
       "id": "public_js_book_escapeattr",
@@ -721,7 +721,7 @@
       "file_type": "code",
       "norm_label": "escapeattr()",
       "source_file": "public/js/book.js",
-      "source_location": "L732"
+      "source_location": "L785"
     },
     {
       "id": "public_js_book_escapehtml",
@@ -733,7 +733,7 @@
       "file_type": "code",
       "norm_label": "escapehtml()",
       "source_file": "public/js/book.js",
-      "source_location": "L722"
+      "source_location": "L775"
     },
     {
       "id": "public_js_book_getphotoorientation",
@@ -745,7 +745,7 @@
       "file_type": "code",
       "norm_label": "getphotoorientation()",
       "source_file": "public/js/book.js",
-      "source_location": "L393"
+      "source_location": "L444"
     },
     {
       "id": "public_js_book_getphotoratio",
@@ -757,7 +757,7 @@
       "file_type": "code",
       "norm_label": "getphotoratio()",
       "source_file": "public/js/book.js",
-      "source_location": "L401"
+      "source_location": "L452"
     },
     {
       "id": "public_js_book_loadcompletebook",
@@ -781,7 +781,7 @@
       "file_type": "code",
       "norm_label": "loadgalleryappendix()",
       "source_file": "public/js/book.js",
-      "source_location": "L504"
+      "source_location": "L555"
     },
     {
       "id": "public_js_book_plandynamicorientationsheets",
@@ -793,7 +793,7 @@
       "file_type": "code",
       "norm_label": "plandynamicorientationsheets()",
       "source_file": "public/js/book.js",
-      "source_location": "L413"
+      "source_location": "L464"
     },
     {
       "id": "public_js_book_renderarchivalcolophon",
@@ -805,7 +805,7 @@
       "file_type": "code",
       "norm_label": "renderarchivalcolophon()",
       "source_file": "public/js/book.js",
-      "source_location": "L664"
+      "source_location": "L717"
     },
     {
       "id": "public_js_book_renderentrycard",
@@ -817,7 +817,7 @@
       "file_type": "code",
       "norm_label": "renderentrycard()",
       "source_file": "public/js/book.js",
-      "source_location": "L266"
+      "source_location": "L317"
     },
     {
       "id": "public_js_book_renderrowphototile",
@@ -829,7 +829,7 @@
       "file_type": "code",
       "norm_label": "renderrowphototile()",
       "source_file": "public/js/book.js",
-      "source_location": "L628"
+      "source_location": "L681"
     },
     {
       "id": "public_js_print_helper_preloadallimages",
@@ -4514,7 +4514,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L404",
+      "source_location": "L455",
       "weight": 1.0
     },
     {
@@ -4526,7 +4526,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L141",
+      "source_location": "L192",
       "weight": 1.0
     },
     {
@@ -4538,7 +4538,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L186",
+      "source_location": "L237",
       "weight": 1.0
     },
     {
@@ -4550,7 +4550,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L227",
+      "source_location": "L278",
       "weight": 1.0
     },
     {
@@ -4562,7 +4562,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L247",
+      "source_location": "L298",
       "weight": 1.0
     },
     {
@@ -4574,7 +4574,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L560",
+      "source_location": "L613",
       "weight": 1.0
     },
     {
@@ -4586,7 +4586,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L579",
+      "source_location": "L632",
       "weight": 1.0
     },
     {
@@ -4598,7 +4598,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L586",
+      "source_location": "L639",
       "weight": 1.0
     },
     {
@@ -4610,7 +4610,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L417",
+      "source_location": "L468",
       "weight": 1.0
     },
     {
@@ -4622,7 +4622,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L418",
+      "source_location": "L469",
       "weight": 1.0
     },
     {
@@ -4634,7 +4634,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L303",
+      "source_location": "L354",
       "weight": 1.0
     },
     {
@@ -4646,7 +4646,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L327",
+      "source_location": "L378",
       "weight": 1.0
     },
     {
@@ -4658,7 +4658,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L634",
+      "source_location": "L687",
       "weight": 1.0
     },
     {
@@ -4670,7 +4670,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L644",
+      "source_location": "L697",
       "weight": 1.0
     },
     {
@@ -4682,7 +4682,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L658",
+      "source_location": "L711",
       "weight": 1.0
     },
     {
@@ -7680,7 +7680,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L266",
+      "source_location": "L317",
       "weight": 1.0
     },
     {
@@ -7691,7 +7691,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L358",
+      "source_location": "L409",
       "weight": 1.0
     },
     {
@@ -7702,7 +7702,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L393",
+      "source_location": "L444",
       "weight": 1.0
     },
     {
@@ -7713,7 +7713,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L401",
+      "source_location": "L452",
       "weight": 1.0
     },
     {
@@ -7724,7 +7724,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L413",
+      "source_location": "L464",
       "weight": 1.0
     },
     {
@@ -7735,7 +7735,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L504",
+      "source_location": "L555",
       "weight": 1.0
     },
     {
@@ -7746,7 +7746,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L628",
+      "source_location": "L681",
       "weight": 1.0
     },
     {
@@ -7757,7 +7757,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L664",
+      "source_location": "L717",
       "weight": 1.0
     },
     {
@@ -7768,7 +7768,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L722",
+      "source_location": "L775",
       "weight": 1.0
     },
     {
@@ -7779,7 +7779,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L732",
+      "source_location": "L785",
       "weight": 1.0
     },
     {
@@ -9197,7 +9197,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "public/js/book.js",
-      "source_location": "L742",
+      "source_location": "L795",
       "weight": 1.0
     },
     {
@@ -9670,5 +9670,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "adee7db3b79c914d99fa0c80167c5da7139126fb"
+  "built_at_commit": "3aaf7af723840f2e371503e5497af6e36eac0986"
 }

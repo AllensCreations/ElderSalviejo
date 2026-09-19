@@ -109,19 +109,70 @@
         }
 
         container.innerHTML = `
-          <section class="book-sheet text-center py-16 space-y-3">
-            <h3 class="font-serif text-lg sm:text-xl font-bold text-stone-900">
-              Field Chapters Begin Following MTC Entrance
-            </h3>
-            <p class="text-xs sm:text-sm text-stone-600 max-w-lg mx-auto leading-relaxed font-sans">
-              Elder Salviejo reports to the Missionary Training Center on <strong>December 11, 2026</strong>. Each week, on Preparation Day (P-Day), his missionary reflections, scripture notes, and photographs will automatically be cataloged into this publication monograph.
-            </p>
-            <div class="pt-4 font-mono text-[11px] text-stone-400">
-              Standing by for December 2026 Ingest
+          <section class="book-sheet">
+            <!-- Pinned Sheet Header -->
+            <div class="sheet-header">
+              <div>
+                <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Chapter 02 • Standing Field Notice</span>
+                <h2 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5">
+                  Field Chapters & Weekly Chronicles
+                </h2>
+              </div>
+              <div class="font-mono text-xs text-stone-500 text-right">
+                <span>MTC Entrance: Dec 11, 2026</span>
+              </div>
+            </div>
+
+            <!-- Pinned Sheet Content (Vertically Centered Editorial Dispatch Notice) -->
+            <div class="sheet-content flex flex-col justify-center items-center text-center px-4 sm:px-8">
+              <div class="max-w-md w-full space-y-5">
+                <div class="w-10 h-10 rounded-full bg-stone-100 border border-stone-300 text-stone-700 flex items-center justify-center mx-auto shadow-xs">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                </div>
+
+                <div class="space-y-1.5">
+                  <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-red-800">
+                    Field Monograph Dispatch Notice
+                  </span>
+                  <h3 class="font-serif text-2xl font-bold text-stone-900 tracking-tight">
+                    Field Chapters Begin Following MTC Entrance
+                  </h3>
+                </div>
+
+                <div class="p-4 bg-stone-50 border border-stone-200 rounded-lg text-left font-sans text-xs sm:text-sm text-stone-700 leading-relaxed space-y-2">
+                  <p>
+                    Elder Mark Salviejo reports to the Missionary Training Center on <strong class="text-stone-900">December 11, 2026</strong> to prepare for service in the <strong class="text-stone-900">Philippines Dumaguete Mission</strong>.
+                  </p>
+                  <p class="text-stone-600">
+                    Upon entering the mission field, each week’s Preparation Day (P-Day) reflections, missionary companion dispatches, and photographs will automatically be cataloged into this chapter registry.
+                  </p>
+                </div>
+
+                <!-- Scripture Reflection -->
+                <div class="p-3 bg-stone-50/70 border border-stone-200 rounded-md text-center">
+                  <div class="font-mono text-[9.5px] uppercase font-bold tracking-widest text-stone-500 mb-0.5">
+                    Doctrine and Covenants 4:2
+                  </div>
+                  <blockquote class="font-serif italic text-stone-800 text-xs leading-relaxed">
+                    “Therefore, O ye that embark in the service of God, see that ye serve him with all your heart, might, mind and strength.”
+                  </blockquote>
+                </div>
+
+                <div class="font-mono text-[10px] text-stone-400 uppercase tracking-widest">
+                  Automated Monograph Registry • Standing by for Field Ingest
+                </div>
+              </div>
+            </div>
+
+            <!-- Pinned Sheet Footer -->
+            <div class="sheet-footer">
+              <span>Elder Mark Salviejo • Philippines Dumaguete Mission</span>
+              <span>Page ${String(runningPageNum++).padStart(2, '0')}</span>
             </div>
           </section>
         `;
-        runningPageNum++;
       } else {
         const sortedWeeks = [...weeks].sort((a, b) => new Date(a.publishedAt) - new Date(b.publishedAt));
 
@@ -529,8 +580,10 @@
 
     if (!galleryPhotos || galleryPhotos.length === 0) {
       appendixContainer.innerHTML = '';
+      appendixContainer.style.display = 'none';
       return startPageNum;
     }
+    appendixContainer.style.display = '';
 
     // Sort chronologically (newest first)
     galleryPhotos.sort((a, b) => {

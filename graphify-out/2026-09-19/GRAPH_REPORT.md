@@ -1,17 +1,17 @@
 # Graph Report - ElderSalviejo  (2026-09-19)
 
 ## Corpus Check
-- 46 files · ~1,877,448 words
+- 46 files · ~1,877,542 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: .css 4, (none) 3, .ico 2)
 
 ## Summary
-- 320 nodes · 514 edges · 22 communities (19 shown, 3 thin omitted)
+- 321 nodes · 516 edges · 21 communities (18 shown, 3 thin omitted)
 - Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 40 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `18a28b07`
+- Built from commit: `adee7db3`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -26,9 +26,8 @@
 - Step-by-Step Setup in the Dummy Account
 - js/index.js
 - lightbox.js
-- ingest.js
-- encouragements.js
 - scriptures.js
+- encouragements.js
 - week.js
 - manifest.json
 - book.js
@@ -57,7 +56,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (22 total, 3 thin omitted)
+## Communities (21 total, 3 thin omitted)
 
 ### Community 0 - "turso.js"
 Cohesion: 0.10
@@ -105,17 +104,13 @@ Nodes (11): allWeeks, closeDocket(), escapeHtml(), fetchWeeks(), filterWeeks(), 
 Cohesion: 0.33
 Nodes (14): applyTransform(), bindEvents(), clampPan(), close(), createOrGetModal(), next(), open(), prev() (+6 more)
 
-### Community 10 - "ingest.js"
-Cohesion: 0.21
-Nodes (10): { autoSaveToGitHub }, { exportCompleteDatabase, initDatabase }, { autoSaveToGitHub }, { lookupScripture }, { saveWeeklyDiary, saveGalleryEntry, initDatabase, getAllSubscribers }, autoSaveToGitHub(), buildMarkdownLetter(), fetchExistingJsonFile() (+2 more)
+### Community 10 - "scriptures.js"
+Cohesion: 0.10
+Nodes (23): { autoSaveToGitHub }, { exportCompleteDatabase, initDatabase }, { autoSaveToGitHub }, { lookupScripture }, { saveWeeklyDiary, saveGalleryEntry, initDatabase, getAllSubscribers }, autoSaveToGitHub(), buildMarkdownLetter(), fetchExistingJsonFile() (+15 more)
 
 ### Community 11 - "encouragements.js"
 Cohesion: 0.27
 Nodes (8): { addEncouragement, getEncouragementsForSlug, initDatabase }, { checkRateLimit, isHoneypotTriggered }, { addSubscriber, getAllSubscribers, initDatabase }, { checkRateLimit, isHoneypotTriggered }, checkRateLimit(), getClientIp(), ipRequests, isHoneypotTriggered()
-
-### Community 12 - "scriptures.js"
-Cohesion: 0.20
-Nodes (13): BOOK_TO_VOLUME, cache, cleanVerseInput(), fetchJson(), findBookKey(), fs, getVolumeData(), https (+5 more)
 
 ### Community 13 - "week.js"
 Cohesion: 0.44
@@ -126,8 +121,8 @@ Cohesion: 0.22
 Nodes (8): background_color, description, display, icons, name, short_name, start_url, theme_color
 
 ### Community 15 - "book.js"
-Cohesion: 0.44
-Nodes (10): escapeAttr(), escapeHtml(), getPhotoOrientation(), getPhotoRatio(), loadCompleteBook(), loadGalleryAppendix(), planDynamicOrientationSheets(), renderArchivalColophon() (+2 more)
+Cohesion: 0.39
+Nodes (11): chunkWeekEntries(), escapeAttr(), escapeHtml(), getPhotoOrientation(), getPhotoRatio(), loadCompleteBook(), loadGalleryAppendix(), planDynamicOrientationSheets() (+3 more)
 
 ### Community 16 - "appsscript.json"
 Cohesion: 0.29
@@ -149,10 +144,8 @@ Nodes (3): preloadAllImages(), showPrintGuidanceToast(), triggerPrintWithPreload
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `initDatabase()` connect `turso.js` to `server.js`, `extract-metadata.js`, `ingest.js`, `encouragements.js`?**
+- **Why does `initDatabase()` connect `turso.js` to `server.js`, `extract-metadata.js`, `scriptures.js`, `encouragements.js`?**
   _High betweenness centrality (0.013) - this node is a cross-community bridge._
-- **Why does `lookupScripture()` connect `scriptures.js` to `ingest.js`?**
-  _High betweenness centrality (0.002) - this node is a cross-community bridge._
 - **What connects `crypto`, `{ exportCompleteDatabase, initDatabase }`, `{ autoSaveToGitHub }` to the rest of the system?**
   _131 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `turso.js` be split into smaller, more focused modules?**
@@ -163,3 +156,5 @@ _Questions this graph is uniquely positioned to answer:_
   _Cohesion score 0.10317460317460317 - nodes in this community are weakly interconnected._
 - **Should `package.json` be split into smaller, more focused modules?**
   _Cohesion score 0.1 - nodes in this community are weakly interconnected._
+- **Should `optimize-icons.js` be split into smaller, more focused modules?**
+  _Cohesion score 0.11695906432748537 - nodes in this community are weakly interconnected._
