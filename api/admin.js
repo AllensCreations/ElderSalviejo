@@ -84,7 +84,7 @@ module.exports = async function handler(req, res) {
     const galleryMailto = `mailto:${encodeURIComponent(dummyEmail)}?subject=${encodeURIComponent(gallerySubject)}&body=${encodeURIComponent(galleryBody)}`;
     const galleryGmailWeb = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(dummyEmail)}&su=${encodeURIComponent(gallerySubject)}&body=${encodeURIComponent(galleryBody)}`;
 
-    const kitSubject = `Elder Mark Salviejo — Official Missionary Sender Kit [${diaryPasscode} & ${galleryPasscode}]`;
+    const kitSubject = `Elder Salviejo — Official Missionary Sender Kit [${diaryPasscode} & ${galleryPasscode}]`;
 
     // 3. Relay to Google Apps Script Web App if URL is provided
     if (appsScriptUrl && appsScriptUrl.startsWith('https://script.google.com')) {

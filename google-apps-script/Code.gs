@@ -1,6 +1,6 @@
 /**
  * Gmail Weekly Diary Exporter & Automated P-Day Broadcast Engine
- * Philippines Dumaguete Mission • Elder Mark Salviejo
+ * Philippines Dumaguete Mission • Elder Salviejo
  * 
  * Features:
  * 1. Dual Passcode Routing:
@@ -192,7 +192,11 @@ function getGmailQuery() {
     ? `(${codeTerms} OR subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection OR subject:Gallery OR subject:Album OR subject:Photos)`
     : '(subject:"Weekly Reflection" OR subject:"Weekly Journal" OR subject:Reflection OR subject:Gallery OR subject:Album OR subject:Photos OR has:attachment)';
 
-  return `${codeFilter} -label:${diaryLabel} -label:${galleryLabel} -from:me -subject:"Confirmed:" -subject:"Receipt:" -subject:"Published:" -subject:"Re:" -subject:"RE:" -subject:"Fwd:" -subject:"FW:"`;
+  // If secret codes are configured, omit -from:me so self-tests with passcodes can be ingested.
+  // System confirmations and broadcasts are always filtered out by subject and duplicate tracking.
+  const fromFilter = codeTerms ? '' : '-from:me ';
+
+  return `${codeFilter} -label:${diaryLabel} -label:${galleryLabel} ${fromFilter}-subject:"Confirmed:" -subject:"Receipt:" -subject:"Published:" -subject:"Re:" -subject:"RE:" -subject:"Fwd:" -subject:"FW:"`.replace(/\s+/g, ' ').trim();
 }
 
 /**
@@ -372,11 +376,34 @@ function scheduleContinuationTrigger() {
  */
 function debugCheckInbox() {
   Logger.log('====================================================');
-  Logger.log('=== CHECKING LAST 5 EMAILS IN INBOX ===');
+  Logger.log('=== RECEIVER DIAGNOSTIC: CHECKING CONFIG & INBOX ===');
   Logger.log('====================================================');
+
+  const props = PropertiesService.getScriptProperties();
+  const ingestUrl = getIngestUrl();
+  const ingestSecret = props.getProperty('INGEST_SECRET') || CONFIG.INGEST_SECRET;
+  const diaryCode = props.getProperty('SECRET_DIARY_CODE') || props.getProperty('SECRET_CODE') || CONFIG.SECRET_DIARY_CODE;
+  const galleryCode = props.getProperty('SECRET_GALLERY_CODE') || CONFIG.SECRET_GALLERY_CODE;
+  const allowedSender = props.getProperty('ALLOWED_SENDER') || CONFIG.ALLOWED_SENDER;
+
+  Logger.log('--- SCRIPT CONFIGURATION ---');
+  Logger.log(`Ingest Endpoint   : ${ingestUrl}`);
+  Logger.log(`Ingest Secret     : ${ingestSecret ? 'CONFIGURED (OK)' : 'MISSING (Requests will fail with HTTP 401!)'}`);
+  Logger.log(`Diary Passcode    : ${diaryCode || '(None set - using subject keywords)'}`);
+  Logger.log(`Gallery Passcode  : ${galleryCode || '(None set - using subject keywords)'}`);
+  Logger.log(`Allowed Sender    : ${allowedSender || '(Any sender permitted)'}`);
+
+  const activeQuery = getGmailQuery();
+  Logger.log(`Active Search Query: ${activeQuery}`);
+  
+  const searchMatches = GmailApp.search(activeQuery, 0, 5);
+  Logger.log(`Unprocessed Matches via Search: ${searchMatches.length} thread(s)\n`);
+
+  Logger.log('--- RECENT INBOX EMAILS (LAST 5) ---');
   const threads = GmailApp.getInboxThreads(0, 5);
   if (!threads || threads.length === 0) {
     Logger.log('Inbox has NO emails right now.');
+    Logger.log('====================================================');
     return;
   }
   
@@ -388,25 +415,81 @@ function debugCheckInbox() {
   for (let i = 0; i < threads.length; i++) {
     const thread = threads[i];
     const msg = thread.getMessages()[0];
+    const subject = msg.getSubject() || '';
+    const sender = msg.getFrom() || '';
+    const body = msg.getPlainBody() || '';
     const labels = thread.getLabels().map(l => l.getName());
     const labelNamesLower = labels.map(l => l.toLowerCase());
     const isDiaryLabeled = labelNamesLower.includes(diaryName);
     const isGalleryLabeled = labelNamesLower.includes(galleryName);
-    
+    const atts = msg.getAttachments();
+    const imageCount = atts.filter(a => (a.getContentType() || '').startsWith('image/') || a.getName().match(/\.(jpe?g|png|webp|heic)$/i)).length;
+
+    const hasDiaryCode = diaryCode && (subject.includes(diaryCode) || body.includes(diaryCode));
+    const hasGalleryCode = galleryCode && (subject.includes(galleryCode) || body.includes(galleryCode));
+    const isReflectionSubject = subject.toLowerCase().includes('reflection') || subject.toLowerCase().includes('journal');
+    const isGallerySubject = subject.toLowerCase().includes('gallery') || subject.toLowerCase().includes('album') || subject.toLowerCase().includes('photos');
+
     Logger.log(`\nEmail #${i + 1}:`);
-    Logger.log(`   Subject : "${msg.getSubject()}"`);
-    Logger.log(`   From    : "${msg.getFrom()}"`);
-    Logger.log(`   Date    : ${msg.getDate().toISOString()}`);
-    Logger.log(`   Labels  : [${labels.join(', ') || 'none'}]`);
+    Logger.log(`   Subject     : "${subject}"`);
+    Logger.log(`   From        : "${sender}"`);
+    Logger.log(`   Date        : ${msg.getDate().toISOString()}`);
+    Logger.log(`   Labels      : [${labels.join(', ') || 'none'}]`);
+    Logger.log(`   Attachments : ${atts.length} file(s) (${imageCount} photo(s))`);
+    Logger.log(`   Diary Match : ${hasDiaryCode ? 'YES (Passcode match)' : (isReflectionSubject ? 'YES (Subject keyword match)' : 'NO')}`);
+    Logger.log(`   Gallery Match: ${hasGalleryCode ? 'YES (Passcode match)' : (isGallerySubject ? 'YES (Subject keyword match)' : 'NO')}`);
+
     if (isDiaryLabeled) {
-      Logger.log(`   Status  : ALREADY PROCESSED AS DIARY (Has "${diaryName}" label)`);
+      Logger.log(`   Status      : ALREADY PROCESSED AS DIARY (Has "${diaryName}" label)`);
     } else if (isGalleryLabeled) {
-      Logger.log(`   Status  : ALREADY PROCESSED AS GALLERY (Has "${galleryName}" label)`);
+      Logger.log(`   Status      : ALREADY PROCESSED AS GALLERY (Has "${galleryName}" label)`);
+    } else if (hasGalleryCode || isGallerySubject) {
+      Logger.log(`   Status      : READY TO INGEST AS GALLERY PHOTO UPLOAD`);
+    } else if (hasDiaryCode || isReflectionSubject) {
+      Logger.log(`   Status      : READY TO INGEST AS WEEKLY REFLECTION`);
     } else {
-      Logger.log(`   Status  : UNPROCESSED (Ready to be ingested by trigger or processWeeklyDiaryEmails)`);
+      Logger.log(`   Status      : SKIPPED (Does not contain secret passcode or required subject keywords)`);
     }
   }
   Logger.log('\n====================================================');
+  Logger.log('TIP: Select "processWeeklyDiaryEmails" and click Run to ingest any pending ready emails.');
+  Logger.log('====================================================');
+}
+
+/**
+ * 1-Click Tester: Tests processing the latest email in the inbox immediately.
+ * Select "testProcessLatestEmail" in the toolbar dropdown and click "Run".
+ */
+function testProcessLatestEmail() {
+  Logger.log('====================================================');
+  Logger.log('=== 1-CLICK TESTER: PROCESSING LATEST INBOX EMAIL ===');
+  Logger.log('====================================================');
+
+  const threads = GmailApp.getInboxThreads(0, 1);
+  if (!threads || threads.length === 0) {
+    Logger.log('[FAIL] No emails found in your Gmail inbox.');
+    Logger.log('Please send an email to this account first, then run this test again.');
+    return;
+  }
+
+  const thread = threads[0];
+  const msg = thread.getMessages()[0];
+  Logger.log(`Inspecting latest email: "${msg.getSubject()}" from "${msg.getFrom()}"`);
+
+  const diaryLabel = getProcessedLabel();
+  const galleryLabel = getGalleryProcessedLabel();
+  const diaryName = diaryLabel ? diaryLabel.getName().toLowerCase() : 'diary-processed';
+  const galleryName = galleryLabel ? galleryLabel.getName().toLowerCase() : 'gallery-processed';
+  const labels = thread.getLabels().map(l => l.getName().toLowerCase());
+
+  if (labels.includes(diaryName) || labels.includes(galleryName)) {
+    Logger.log(`[NOTICE] This thread is already marked as processed (Labels: ${labels.join(', ')}).`);
+    Logger.log('To test it again, remove the label in Gmail or send a new test email.');
+  }
+
+  Logger.log('\nInvoking processWeeklyDiaryEmails now...');
+  processWeeklyDiaryEmails();
+  Logger.log('\nTest run finished. Check the logs above for HTTP response and receipt status.');
 }
 
 /**
@@ -879,7 +962,7 @@ function buildEmailShell(title, subtitle, contentHtml, ctaText, ctaUrl) {
       <!-- Top Banner Header -->
       <div style="background-color: #1c1917; color: #ffffff; padding: 26px 24px; text-align: center; border-radius: 10px 10px 0 0; border-bottom: 3px solid #d97706;">
         <p style="margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #d97706; font-weight: 700;">Philippines Dumaguete Mission</p>
-        <h1 style="margin: 8px 0 0 0; font-size: 22px; font-family: Georgia, serif; font-weight: 700; letter-spacing: 0.5px; color: #ffffff;">Elder Mark Salviejo</h1>
+        <h1 style="margin: 8px 0 0 0; font-size: 22px; font-family: Georgia, serif; font-weight: 700; letter-spacing: 0.5px; color: #ffffff;">Elder Salviejo</h1>
         <p style="margin: 6px 0 0 0; font-size: 12px; color: #a8a29e; font-family: Georgia, serif; font-style: italic;">Dedicated Missionary Journal Vault</p>
       </div>
 
@@ -911,7 +994,7 @@ function buildEmailShell(title, subtitle, contentHtml, ctaText, ctaUrl) {
 
       <!-- Dignified Missionary Footer -->
       <div style="text-align: center; padding-top: 18px; font-size: 11px; color: #78716c; line-height: 1.5;">
-        Elder Mark Salviejo &bull; Philippines Dumaguete Mission &bull; Official Archive
+        Elder Salviejo &bull; Philippines Dumaguete Mission &bull; Official Archive
       </div>
 
     </div>
@@ -973,7 +1056,7 @@ function sendGallerySuccessReplyToSender(thread, sender, payload, galleryUrl) {
     `Category: ${categoryClean}\n` +
     `Time: ${timestamp}\n\n` +
     `View live gallery: ${galleryUrl}\n\n` +
-    `Elder Mark Salviejo • Philippines Dumaguete Mission`;
+    `Elder Salviejo • Philippines Dumaguete Mission`;
 
   try {
     thread.reply(plainText, {
@@ -1065,7 +1148,7 @@ function sendSuccessReplyToSender(thread, sender, payload, liveUrl, dbSubscriber
     `Photos: ${payload.imageCount} photo(s)\n` +
     `Subscribers: ${subscriberCount} notified\n\n` +
     `View online: ${liveUrl}\n\n` +
-    `Elder Mark Salviejo • Philippines Dumaguete Mission`;
+    `Elder Salviejo • Philippines Dumaguete Mission`;
 
   try {
     thread.reply(plainText, {
@@ -1231,13 +1314,13 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
   );
 
   const plainText = 
-    `Elder Mark Salviejo — Philippines Dumaguete Mission\n\n` +
+    `Elder Salviejo — Philippines Dumaguete Mission\n\n` +
     `New Weekly Journal Published: ${cleanTitle}\n` +
     `Date: ${Utilities.formatDate(new Date(payload.publishedAt), Session.getScriptTimeZone(), 'MMMM d, yyyy')}\n` +
     `Daily Reflections: ${payload.totalEntries || (payload.entries ? payload.entries.length : 7)} day(s)\n` +
     `Photographs: ${payload.imageCount} photo(s)\n\n` +
     `Read the full journal online:\n${liveUrl}\n\n` +
-    `Elder Mark Salviejo\nPhilippines Dumaguete Mission`;
+    `Elder Salviejo\nPhilippines Dumaguete Mission`;
 
   Logger.log(`Broadcasting weekly diary to ${pendingRecipients.length} pending subscriber(s)...`);
 
@@ -1277,6 +1360,69 @@ function dispatchWeeklyBroadcast(payload, liveUrl, authorEmail, dbSubscribers) {
       Logger.log(`Notice recording broadcast logs in Turso: ${recordErr.message}`);
     }
   }
+}
+
+/**
+ * 1-Click Trigger: Runs automatically EVERY 1 MINUTE (Near-Instant).
+ * Checks the inbox every 60 seconds. As soon as an email arrives, it is processed within seconds!
+ * 
+ * To activate: Select "createNearInstantTrigger" from the toolbar dropdown and click "Run".
+ */
+function createNearInstantTrigger() {
+  const triggers = ScriptApp.getProjectTriggers();
+  let deletedCount = 0;
+  for (let i = 0; i < triggers.length; i++) {
+    if (triggers[i].getHandlerFunction() === 'processWeeklyDiaryEmails' || 
+        triggers[i].getHandlerFunction() === 'processUnprocessedThreads') {
+      ScriptApp.deleteTrigger(triggers[i]);
+      deletedCount++;
+    }
+  }
+  if (deletedCount > 0) {
+    Logger.log(`Removed ${deletedCount} previous trigger(s).`);
+  }
+
+  ScriptApp.newTrigger('processWeeklyDiaryEmails')
+    .timeBased()
+    .everyMinutes(1)
+    .create();
+
+  Logger.log('====================================================');
+  Logger.log('SUCCESS: Near-Instant 1-Minute Trigger active!');
+  Logger.log('The script will check your inbox every 60 seconds automatically.');
+  Logger.log('Whenever you send an email, it will be ingested immediately.');
+  Logger.log('====================================================');
+}
+
+/**
+ * 1-Click Trigger: Runs automatically EVERY 5 MINUTES.
+ * Conservative recurring schedule that checks the inbox 12 times per hour.
+ * 
+ * To activate: Select "create5MinuteTrigger" from the toolbar dropdown and click "Run".
+ */
+function create5MinuteTrigger() {
+  const triggers = ScriptApp.getProjectTriggers();
+  let deletedCount = 0;
+  for (let i = 0; i < triggers.length; i++) {
+    if (triggers[i].getHandlerFunction() === 'processWeeklyDiaryEmails' || 
+        triggers[i].getHandlerFunction() === 'processUnprocessedThreads') {
+      ScriptApp.deleteTrigger(triggers[i]);
+      deletedCount++;
+    }
+  }
+  if (deletedCount > 0) {
+    Logger.log(`Removed ${deletedCount} previous trigger(s).`);
+  }
+
+  ScriptApp.newTrigger('processWeeklyDiaryEmails')
+    .timeBased()
+    .everyMinutes(5)
+    .create();
+
+  Logger.log('====================================================');
+  Logger.log('SUCCESS: 5-Minute Trigger active!');
+  Logger.log('The script will check your inbox every 5 minutes automatically.');
+  Logger.log('====================================================');
 }
 
 /**
@@ -2041,6 +2187,19 @@ function testVerifyAndApplyGmailLabel() {
  * with one click directly from any mobile or desktop browser.
  */
 function doGet(e) {
+  const action = e && e.parameter && e.parameter.action;
+  if (action === 'process' || action === 'sync' || action === 'trigger') {
+    const secret = (e && e.parameter && e.parameter.secret) || '';
+    const configuredSecret = PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || CONFIG.INGEST_SECRET || '';
+    if (configuredSecret && secret !== configuredSecret) {
+      return ContentService.createTextOutput(JSON.stringify({ error: 'Unauthorized: Invalid secret' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    processWeeklyDiaryEmails();
+    return ContentService.createTextOutput(JSON.stringify({ success: true, message: 'Instant trigger executed: checked and processed inbox.' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
   return HtmlService.createHtmlOutput(getSenderWebAppHtml())
     .setTitle("Elder Salviejo • Template Composer & Quick Sender")
     .addMetaTag("viewport", "width=device-width, initial-scale=1.0")
@@ -2083,7 +2242,7 @@ function getDefaultNewsletterHtml(siteUrl) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elder Mark Salviejo — Weekly Mission Update</title>
+  <title>Elder Salviejo — Weekly Mission Update</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #f4f1ea; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1c1917;">
   <div style="max-width: 600px; margin: 24px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e7e5e4;">
@@ -2091,7 +2250,7 @@ function getDefaultNewsletterHtml(siteUrl) {
     <!-- Top Header Banner -->
     <div style="background-color: #1c1917; padding: 32px 24px; text-align: center; border-bottom: 3px solid #d97706;">
       <p style="margin: 0 0 6px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #d97706; font-weight: 700;">Philippines Dumaguete Mission</p>
-      <h1 style="margin: 0 0 6px 0; font-family: Georgia, serif; font-size: 26px; color: #ffffff; font-weight: 700; letter-spacing: 0.5px;">Elder Mark Salviejo</h1>
+      <h1 style="margin: 0 0 6px 0; font-family: Georgia, serif; font-size: 26px; color: #ffffff; font-weight: 700; letter-spacing: 0.5px;">Elder Salviejo</h1>
       <p style="margin: 0; font-size: 13px; color: #a8a29e; font-style: italic; font-family: Georgia, serif;">Weekly Missionary Journal & Memories</p>
     </div>
 
@@ -2140,7 +2299,7 @@ function getDefaultNewsletterHtml(siteUrl) {
 
     <!-- Dignified Footer -->
     <div style="background-color: #fafaf9; border-top: 1px solid #f5f5f4; padding: 20px 24px; text-align: center; font-size: 11px; color: #78716c; line-height: 1.6;">
-      <p style="margin: 0 0 4px 0; font-weight: 600; color: #44403c;">Elder Mark Salviejo &bull; Philippines Dumaguete Mission</p>
+      <p style="margin: 0 0 4px 0; font-weight: 600; color: #44403c;">Elder Salviejo &bull; Philippines Dumaguete Mission</p>
       <p style="margin: 0;">This update was dispatched via the automated missionary archival pipeline.</p>
     </div>
 
@@ -2179,13 +2338,13 @@ function sendTemplateEmailFromWebApp(data) {
   }
 
   const options = {
-    name: 'Elder Mark Salviejo',
+    name: 'Elder Salviejo',
     attachments: attachments
   };
 
   if (mode === 'html') {
     options.htmlBody = data.htmlContent || data.bodyText || '';
-    GmailApp.sendEmail(recipient, subject, data.bodyText || 'Elder Mark Salviejo mission update (HTML format).', options);
+    GmailApp.sendEmail(recipient, subject, data.bodyText || 'Elder Salviejo mission update (HTML format).', options);
   } else {
     GmailApp.sendEmail(recipient, subject, data.bodyText || '', options);
   }
@@ -2214,7 +2373,7 @@ function sendNowDiaryTemplate(toEmail) {
   const subject = `Weekly Reflection: Week 1 in Dumaguete ${ctx.diaryPasscode}`;
   const body = `-VERSE- (Alma 26:12)\n\n--- MONDAY ---\nPreparation day! Did laundry, wrote emails to family, and companion study in Dumaguete.\n\n--- TUESDAY ---\nMorning proselyting and teaching discussions in Sibulan district.\n\n--- WEDNESDAY ---\nTaught the Plan of Salvation to Brother Bautista and enjoyed fresh buko juice.\n\n--- THURSDAY ---\nDistrict Council meeting in Dumaguete City. Practiced Cebuano language roleplays.\n\n--- FRIDAY ---\nService project helping local families repair bamboo fences.\n\n--- SATURDAY ---\nStreet contacting along Rizal Boulevard during sunset overlooking the ocean.\n\n--- SUNDAY ---\nSacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior Jesus Christ.`;
   
-  GmailApp.sendEmail(target, subject, body, { name: 'Elder Mark Salviejo' });
+  GmailApp.sendEmail(target, subject, body, { name: 'Elder Salviejo' });
   Logger.log(`[PASS] Dispatched 159266 Diary Template to: ${target}`);
 }
 
@@ -2232,7 +2391,7 @@ function sendNowGalleryTemplate(toEmail) {
   const subject = `Dumaguete District Conference [Mission] ${ctx.galleryPasscode}`;
   const body = `Wonderful district conference gathering with companions and members across Negros Oriental!`;
   
-  GmailApp.sendEmail(target, subject, body, { name: 'Elder Mark Salviejo' });
+  GmailApp.sendEmail(target, subject, body, { name: 'Elder Salviejo' });
   Logger.log(`[PASS] Dispatched 073000 Gallery Template to: ${target}`);
 }
 
@@ -2247,12 +2406,12 @@ function sendNowHtmlCodeTemplate(toEmail) {
     Logger.log('[FAIL] No recipient email specified.');
     return;
   }
-  const subject = `Elder Mark Salviejo — Weekly Mission Update [Philippines Dumaguete Mission]`;
+  const subject = `Elder Salviejo — Weekly Mission Update [Philippines Dumaguete Mission]`;
   const html = getDefaultNewsletterHtml(ctx.siteUrl);
   
-  GmailApp.sendEmail(target, subject, 'Elder Mark Salviejo — Weekly Mission Update (HTML format).', {
+  GmailApp.sendEmail(target, subject, 'Elder Salviejo — Weekly Mission Update (HTML format).', {
     htmlBody: html,
-    name: 'Elder Mark Salviejo'
+    name: 'Elder Salviejo'
   });
   Logger.log(`[PASS] Dispatched HTML Code Template to: ${target}`);
 }
@@ -2537,7 +2696,7 @@ function getSenderWebAppHtml() {
     <!-- Top Banner -->
     <div class="header">
       <p class="subtitle">Philippines Dumaguete Mission</p>
-      <h1>Elder Mark Salviejo</h1>
+      <h1>Elder Salviejo</h1>
       <p class="caption">Template Composer & Quick "Send Now" Web App • Version 3.0</p>
     </div>
 
@@ -2649,11 +2808,11 @@ function getSenderWebAppHtml() {
       },
       html: {
         getSubject: function() {
-          return 'Elder Mark Salviejo — Weekly Mission Update [Philippines Dumaguete Mission]';
+          return 'Elder Salviejo — Weekly Mission Update [Philippines Dumaguete Mission]';
         },
         getHtml: function(ctx) {
           var target = (ctx && ctx.siteUrl) || 'https://eldersalviejo.vercel.app';
-          return '<!DOCTYPE html>\\n<html lang="en">\\n<head>\\n  <meta charset="utf-8">\\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\\n  <title>Elder Mark Salviejo — Weekly Mission Update</title>\\n</head>\\n<body style="margin: 0; padding: 0; background-color: #f4f1ea; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif; color: #1c1917;">\\n  <div style="max-width: 600px; margin: 24px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e7e5e4;">\\n    \\n    <div style="background-color: #1c1917; padding: 32px 24px; text-align: center; border-bottom: 3px solid #d97706;">\\n      <p style="margin: 0 0 6px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #d97706; font-weight: 700;">Philippines Dumaguete Mission</p>\\n      <h1 style="margin: 0 0 6px 0; font-family: Georgia, serif; font-size: 26px; color: #ffffff; font-weight: 700;">Elder Mark Salviejo</h1>\\n      <p style="margin: 0; font-size: 13px; color: #a8a29e; font-style: italic; font-family: Georgia, serif;">Weekly Missionary Journal &amp; Memories</p>\\n    </div>\\n\\n    <div style="padding: 32px 28px;">\\n      <div style="border-bottom: 2px solid #f5f5f4; padding-bottom: 16px; margin-bottom: 24px;">\\n        <span style="display: inline-block; background-color: #fef3c7; color: #92400e; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Weekly Reflection</span>\\n        <h2 style="font-family: Georgia, serif; font-size: 22px; color: #1c1917; margin: 6px 0 0 0;">Dedicated Mission Update</h2>\\n      </div>\\n\\n      <div style="background-color: #fafaf9; border-left: 4px solid #d97706; border-radius: 6px; padding: 18px 20px; margin-bottom: 26px;">\\n        <p style="margin: 0 0 6px 0; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #b45309;">Scripture of the Week &bull; Alma 26:12</p>\\n        <p style="margin: 0; font-family: Georgia, serif; font-size: 14px; font-style: italic; color: #44403c; line-height: 1.6;">\\n          &ldquo;Yea, I know that I am nothing; as to my strength I am weak; therefore I will not boast of myself, but I will boast of my God, for in his strength I can do all things.&rdquo;\\n        </p>\\n      </div>\\n\\n      <div style="font-size: 14px; line-height: 1.75; color: #44403c; margin-bottom: 30px;">\\n        <p style="margin: 0 0 16px 0;">Dear Family, Friends, and Supporters,</p>\\n        <p style="margin: 0 0 16px 0;">This week has been full of remarkable blessings in the Dumaguete Mission. Through daily companionship study, street contacting, and teaching families the Gospel of Jesus Christ, we have seen hearts touched and testimonies strengthened.</p>\\n        <p style="margin: 0 0 16px 0;">Thank you so much for your continuous prayers, encouragement, and love. Your messages on the mission board mean the world to us!</p>\\n      </div>\\n\\n      <div style="text-align: center; margin: 36px 0 16px 0;">\\n        <a href="' + target + '" target="_blank" style="background-color: #d97706; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 700; font-size: 14px; display: inline-block; letter-spacing: 0.5px;">Explore the Weekly Vault &rarr;</a>\\n      </div>\\n    </div>\\n\\n    <div style="background-color: #fafaf9; border-top: 1px solid #f5f5f4; padding: 20px 24px; text-align: center; font-size: 11px; color: #78716c;">\\n      <p style="margin: 0 0 4px 0; font-weight: 600; color: #44403c;">Elder Mark Salviejo &bull; Philippines Dumaguete Mission</p>\\n      <p style="margin: 0;">Official missionary archive update.</p>\\n    </div>\\n  </div>\\n</body>\\n</html>';
+          return '<!DOCTYPE html>\\n<html lang="en">\\n<head>\\n  <meta charset="utf-8">\\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\\n  <title>Elder Salviejo — Weekly Mission Update</title>\\n</head>\\n<body style="margin: 0; padding: 0; background-color: #f4f1ea; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif; color: #1c1917;">\\n  <div style="max-width: 600px; margin: 24px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e7e5e4;">\\n    \\n    <div style="background-color: #1c1917; padding: 32px 24px; text-align: center; border-bottom: 3px solid #d97706;">\\n      <p style="margin: 0 0 6px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #d97706; font-weight: 700;">Philippines Dumaguete Mission</p>\\n      <h1 style="margin: 0 0 6px 0; font-family: Georgia, serif; font-size: 26px; color: #ffffff; font-weight: 700;">Elder Salviejo</h1>\\n      <p style="margin: 0; font-size: 13px; color: #a8a29e; font-style: italic; font-family: Georgia, serif;">Weekly Missionary Journal &amp; Memories</p>\\n    </div>\\n\\n    <div style="padding: 32px 28px;">\\n      <div style="border-bottom: 2px solid #f5f5f4; padding-bottom: 16px; margin-bottom: 24px;">\\n        <span style="display: inline-block; background-color: #fef3c7; color: #92400e; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Weekly Reflection</span>\\n        <h2 style="font-family: Georgia, serif; font-size: 22px; color: #1c1917; margin: 6px 0 0 0;">Dedicated Mission Update</h2>\\n      </div>\\n\\n      <div style="background-color: #fafaf9; border-left: 4px solid #d97706; border-radius: 6px; padding: 18px 20px; margin-bottom: 26px;">\\n        <p style="margin: 0 0 6px 0; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #b45309;">Scripture of the Week &bull; Alma 26:12</p>\\n        <p style="margin: 0; font-family: Georgia, serif; font-size: 14px; font-style: italic; color: #44403c; line-height: 1.6;">\\n          &ldquo;Yea, I know that I am nothing; as to my strength I am weak; therefore I will not boast of myself, but I will boast of my God, for in his strength I can do all things.&rdquo;\\n        </p>\\n      </div>\\n\\n      <div style="font-size: 14px; line-height: 1.75; color: #44403c; margin-bottom: 30px;">\\n        <p style="margin: 0 0 16px 0;">Dear Family, Friends, and Supporters,</p>\\n        <p style="margin: 0 0 16px 0;">This week has been full of remarkable blessings in the Dumaguete Mission. Through daily companionship study, street contacting, and teaching families the Gospel of Jesus Christ, we have seen hearts touched and testimonies strengthened.</p>\\n        <p style="margin: 0 0 16px 0;">Thank you so much for your continuous prayers, encouragement, and love. Your messages on the mission board mean the world to us!</p>\\n      </div>\\n\\n      <div style="text-align: center; margin: 36px 0 16px 0;">\\n        <a href="' + target + '" target="_blank" style="background-color: #d97706; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 700; font-size: 14px; display: inline-block; letter-spacing: 0.5px;">Explore the Weekly Vault &rarr;</a>\\n      </div>\\n    </div>\\n\\n    <div style="background-color: #fafaf9; border-top: 1px solid #f5f5f4; padding: 20px 24px; text-align: center; font-size: 11px; color: #78716c;">\\n      <p style="margin: 0 0 4px 0; font-weight: 600; color: #44403c;">Elder Salviejo &bull; Philippines Dumaguete Mission</p>\\n      <p style="margin: 0;">Official missionary archive update.</p>\\n    </div>\\n  </div>\\n</body>\\n</html>';
         }
       }
     };
@@ -2875,7 +3034,7 @@ function buildMissionaryKitEmailHtml(dummyInbox, diaryPasscode, galleryPasscode,
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elder Mark Salviejo — Official Missionary Sender Kit</title>
+  <title>Elder Salviejo — Official Missionary Sender Kit</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #fcfbf9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: #1c1917; -webkit-font-smoothing: antialiased; line-height: 1.5;">
   <div style="max-width: 640px; margin: 24px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid #e7e5e4;">
@@ -3157,11 +3316,11 @@ function sendMissionaryTemplateKitEmail(recipientEmail, dummyInboxOverride) {
   const diaryCode = ctx.diaryPasscode || '159266';
   const galleryCode = ctx.galleryPasscode || '073000';
   const html = buildMissionaryKitEmailHtml(dummy, diaryCode, galleryCode, ctx.siteUrl);
-  const subject = `Elder Mark Salviejo — Official Missionary Sender Kit [${diaryCode} & ${galleryCode}]`;
+  const subject = `Elder Salviejo — Official Missionary Sender Kit [${diaryCode} & ${galleryCode}]`;
 
-  GmailApp.sendEmail(target, subject, 'Elder Mark Salviejo Mission Sender Registration & Template Kit (HTML format).', {
+  GmailApp.sendEmail(target, subject, 'Elder Salviejo Mission Sender Registration & Template Kit (HTML format).', {
     htmlBody: html,
-    name: 'Elder Mark Salviejo Vault'
+    name: 'Elder Salviejo Vault'
   });
 
   Logger.log(`[PASS] Dispatched Official Missionary Sender Kit Email to: ${target} (Dummy: ${dummy})`);
@@ -3234,6 +3393,12 @@ function doPost(e) {
     if (action === 'sendKit' || action === 'sendTemplateKit' || action === 'sendRegistration' || action === 'sendCongratulatoryKit') {
       const result = sendMissionaryTemplateKitEmail(recipient, dummyInbox);
       return ContentService.createTextOutput(JSON.stringify(result))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    if (action === 'process' || action === 'sync' || action === 'trigger') {
+      processWeeklyDiaryEmails();
+      return ContentService.createTextOutput(JSON.stringify({ success: true, message: 'Instant trigger executed: checked and processed inbox.' }))
         .setMimeType(ContentService.MimeType.JSON);
     }
 
