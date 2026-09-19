@@ -4,7 +4,7 @@
   "graph": {},
   "nodes": [
     {
-      "id": "api_tracking_broadcast_verifysecret",
+      "id": "api_tracking_type_verifysecret",
       "label": "verifySecret()",
       "_callable": true,
       "_origin": "ast",
@@ -12,20 +12,8 @@
       "community_name": "turso.js",
       "file_type": "code",
       "norm_label": "verifysecret()",
-      "source_file": "api/tracking/broadcast.js",
-      "source_location": "L11"
-    },
-    {
-      "id": "api_tracking_message_verifysecret",
-      "label": "verifySecret()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "turso.js",
-      "file_type": "code",
-      "norm_label": "verifysecret()",
-      "source_file": "api/tracking/message.js",
-      "source_location": "L11"
+      "source_file": "api/tracking/[type].js",
+      "source_location": "L19"
     },
     {
       "id": "lib_turso_addencouragement",
@@ -364,76 +352,40 @@
       "source_location": "L13"
     },
     {
-      "id": "lib_scriptures_cleanverseinput",
-      "label": "cleanVerseInput()",
+      "id": "scripts_extract_metadata_extractexifdatetime",
+      "label": "extractExifDateTime()",
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "file_type": "code",
-      "norm_label": "cleanverseinput()",
-      "source_file": "lib/scriptures.js",
-      "source_location": "L134"
+      "norm_label": "extractexifdatetime()",
+      "source_file": "scripts/extract-metadata.js",
+      "source_location": "L18"
     },
     {
-      "id": "lib_scriptures_fetchjson",
-      "label": "fetchJson()",
+      "id": "scripts_extract_metadata_formatmetadata",
+      "label": "formatMetadata()",
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "file_type": "code",
-      "norm_label": "fetchjson()",
-      "source_file": "lib/scriptures.js",
-      "source_location": "L73"
+      "norm_label": "formatmetadata()",
+      "source_file": "scripts/extract-metadata.js",
+      "source_location": "L36"
     },
     {
-      "id": "lib_scriptures_findbookkey",
-      "label": "findBookKey()",
+      "id": "scripts_extract_metadata_run",
+      "label": "run()",
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "file_type": "code",
-      "norm_label": "findbookkey()",
-      "source_file": "lib/scriptures.js",
-      "source_location": "L230"
-    },
-    {
-      "id": "lib_scriptures_getvolumedata",
-      "label": "getVolumeData()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "getvolumedata()",
-      "source_file": "lib/scriptures.js",
-      "source_location": "L98"
-    },
-    {
-      "id": "lib_scriptures_lookupscripture",
-      "label": "lookupScripture()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "lookupscripture()",
-      "source_file": "lib/scriptures.js",
-      "source_location": "L254"
-    },
-    {
-      "id": "lib_scriptures_parsescripturereference",
-      "label": "parseScriptureReference()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "parsescripturereference()",
-      "source_file": "lib/scriptures.js",
-      "source_location": "L157"
+      "norm_label": "run()",
+      "source_file": "scripts/extract-metadata.js",
+      "source_location": "L62"
     },
     {
       "id": "scripts_verify_performance_request",
@@ -441,7 +393,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "file_type": "code",
       "norm_label": "request()",
       "source_file": "scripts/verify-performance.js",
@@ -453,7 +405,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "file_type": "code",
       "norm_label": "runbenchmark()",
       "source_file": "scripts/verify-performance.js",
@@ -568,40 +520,76 @@
       "source_location": "L50"
     },
     {
-      "id": "scripts_extract_metadata_extractexifdatetime",
-      "label": "extractExifDateTime()",
+      "id": "lib_scriptures_cleanverseinput",
+      "label": "cleanVerseInput()",
       "_callable": true,
       "_origin": "ast",
       "community": 12,
-      "community_name": "extract-metadata.js",
+      "community_name": "scriptures.js",
       "file_type": "code",
-      "norm_label": "extractexifdatetime()",
-      "source_file": "scripts/extract-metadata.js",
-      "source_location": "L18"
+      "norm_label": "cleanverseinput()",
+      "source_file": "lib/scriptures.js",
+      "source_location": "L134"
     },
     {
-      "id": "scripts_extract_metadata_formatmetadata",
-      "label": "formatMetadata()",
+      "id": "lib_scriptures_fetchjson",
+      "label": "fetchJson()",
       "_callable": true,
       "_origin": "ast",
       "community": 12,
-      "community_name": "extract-metadata.js",
+      "community_name": "scriptures.js",
       "file_type": "code",
-      "norm_label": "formatmetadata()",
-      "source_file": "scripts/extract-metadata.js",
-      "source_location": "L36"
+      "norm_label": "fetchjson()",
+      "source_file": "lib/scriptures.js",
+      "source_location": "L73"
     },
     {
-      "id": "scripts_extract_metadata_run",
-      "label": "run()",
+      "id": "lib_scriptures_findbookkey",
+      "label": "findBookKey()",
       "_callable": true,
       "_origin": "ast",
       "community": 12,
-      "community_name": "extract-metadata.js",
+      "community_name": "scriptures.js",
       "file_type": "code",
-      "norm_label": "run()",
-      "source_file": "scripts/extract-metadata.js",
-      "source_location": "L62"
+      "norm_label": "findbookkey()",
+      "source_file": "lib/scriptures.js",
+      "source_location": "L230"
+    },
+    {
+      "id": "lib_scriptures_getvolumedata",
+      "label": "getVolumeData()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "scriptures.js",
+      "file_type": "code",
+      "norm_label": "getvolumedata()",
+      "source_file": "lib/scriptures.js",
+      "source_location": "L98"
+    },
+    {
+      "id": "lib_scriptures_lookupscripture",
+      "label": "lookupScripture()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "scriptures.js",
+      "file_type": "code",
+      "norm_label": "lookupscripture()",
+      "source_file": "lib/scriptures.js",
+      "source_location": "L254"
+    },
+    {
+      "id": "lib_scriptures_parsescripturereference",
+      "label": "parseScriptureReference()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "scriptures.js",
+      "file_type": "code",
+      "norm_label": "parsescripturereference()",
+      "source_file": "lib/scriptures.js",
+      "source_location": "L157"
     },
     {
       "id": "public_js_week_cleandayname",
@@ -844,7 +832,7 @@
       "source_location": "L43"
     },
     {
-      "id": "api_admin_send_timingsafematch",
+      "id": "api_admin_timingsafematch",
       "label": "timingSafeMatch()",
       "_callable": true,
       "_origin": "ast",
@@ -852,7 +840,7 @@
       "community_name": "server.js",
       "file_type": "code",
       "norm_label": "timingsafematch()",
-      "source_file": "api/admin/send.js",
+      "source_file": "api/admin.js",
       "source_location": "L14"
     },
     {
@@ -865,7 +853,7 @@
       "file_type": "code",
       "norm_label": "servestaticfile()",
       "source_file": "server.js",
-      "source_location": "L44"
+      "source_location": "L43"
     },
     {
       "id": "public_sw_isimagerequest",
@@ -1464,70 +1452,26 @@
       "source_location": "L8"
     },
     {
-      "id": "api_subscribers",
-      "label": "subscribers.js",
+      "id": "api_tracking_type",
+      "label": "[type].js",
       "_origin": "ast",
       "community": 0,
       "community_name": "turso.js",
       "file_type": "code",
-      "norm_label": "subscribers.js",
-      "source_file": "api/subscribers.js",
+      "norm_label": "[type].js",
+      "source_file": "api/tracking/[type].js",
       "source_location": "L1"
     },
     {
-      "id": "api_subscribers_getallsubscribers_initdatabase",
-      "label": "{ getAllSubscribers, initDatabase }",
+      "id": "api_tracking_type_ismessageprocessed_recordprocessedmessage_getbroadcastlogsforweek_recordbroadcastlogs_initdatabase",
+      "label": "{\n  isMessageProcessed,\n  recordProcessedMessage,\n  getBroadcastLogsForWeek,\n  recordBroadcastLogs,\n  initDatabase\n}",
       "_origin": "ast",
       "community": 0,
       "community_name": "turso.js",
       "file_type": "code",
-      "norm_label": "{ getallsubscribers, initdatabase }",
-      "source_file": "api/subscribers.js",
-      "source_location": "L7"
-    },
-    {
-      "id": "api_tracking_broadcast",
-      "label": "broadcast.js",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "turso.js",
-      "file_type": "code",
-      "norm_label": "broadcast.js",
-      "source_file": "api/tracking/broadcast.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "api_tracking_broadcast_getbroadcastlogsforweek_recordbroadcastlogs_initdatabase",
-      "label": "{ getBroadcastLogsForWeek, recordBroadcastLogs, initDatabase }",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "turso.js",
-      "file_type": "code",
-      "norm_label": "{ getbroadcastlogsforweek, recordbroadcastlogs, initdatabase }",
-      "source_file": "api/tracking/broadcast.js",
-      "source_location": "L9"
-    },
-    {
-      "id": "api_tracking_message",
-      "label": "message.js",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "turso.js",
-      "file_type": "code",
-      "norm_label": "message.js",
-      "source_file": "api/tracking/message.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "api_tracking_message_ismessageprocessed_recordprocessedmessage_initdatabase",
-      "label": "{ isMessageProcessed, recordProcessedMessage, initDatabase }",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "turso.js",
-      "file_type": "code",
-      "norm_label": "{ ismessageprocessed, recordprocessedmessage, initdatabase }",
-      "source_file": "api/tracking/message.js",
-      "source_location": "L9"
+      "norm_label": "{\n  ismessageprocessed,\n  recordprocessedmessage,\n  getbroadcastlogsforweek,\n  recordbroadcastlogs,\n  initdatabase\n}",
+      "source_file": "api/tracking/[type].js",
+      "source_location": "L11"
     },
     {
       "id": "api_weeks_id",
@@ -1677,7 +1621,7 @@
       "label": "api/gallery.js",
       "_origin": "ast",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "file_type": "code",
       "norm_label": "api/gallery.js",
       "source_file": "api/gallery.js",
@@ -1688,95 +1632,18 @@
       "label": "{ getAllGalleryPhotos, initDatabase }",
       "_origin": "ast",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "file_type": "code",
       "norm_label": "{ getallgalleryphotos, initdatabase }",
       "source_file": "api/gallery.js",
       "source_location": "L9"
     },
     {
-      "id": "lib_scriptures",
-      "label": "scriptures.js",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "scriptures.js",
-      "source_file": "lib/scriptures.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "lib_scriptures_book_to_volume",
-      "label": "BOOK_TO_VOLUME",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "book_to_volume",
-      "source_file": "lib/scriptures.js",
-      "source_location": "L33"
-    },
-    {
-      "id": "lib_scriptures_cache",
-      "label": "cache",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "cache",
-      "source_file": "lib/scriptures.js",
-      "source_location": "L71"
-    },
-    {
-      "id": "lib_scriptures_fs",
-      "label": "fs",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "fs",
-      "source_file": "lib/scriptures.js",
-      "source_location": "L18"
-    },
-    {
-      "id": "lib_scriptures_https",
-      "label": "https",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "https",
-      "source_file": "lib/scriptures.js",
-      "source_location": "L20"
-    },
-    {
-      "id": "lib_scriptures_path",
-      "label": "path",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "path",
-      "source_file": "lib/scriptures.js",
-      "source_location": "L19"
-    },
-    {
-      "id": "lib_scriptures_volume_files",
-      "label": "VOLUME_FILES",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "volume_files",
-      "source_file": "lib/scriptures.js",
-      "source_location": "L25"
-    },
-    {
       "id": "sample_data_send_test_ingest",
       "label": "send-test-ingest.js",
       "_origin": "ast",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "file_type": "code",
       "norm_label": "send-test-ingest.js",
       "source_file": "sample-data/send-test-ingest.js",
@@ -1787,7 +1654,7 @@
       "label": "fs",
       "_origin": "ast",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "file_type": "code",
       "norm_label": "fs",
       "source_file": "sample-data/send-test-ingest.js",
@@ -1798,7 +1665,7 @@
       "label": "parsed",
       "_origin": "ast",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "file_type": "code",
       "norm_label": "parsed",
       "source_file": "sample-data/send-test-ingest.js",
@@ -1809,7 +1676,7 @@
       "label": "path",
       "_origin": "ast",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "file_type": "code",
       "norm_label": "path",
       "source_file": "sample-data/send-test-ingest.js",
@@ -1820,7 +1687,7 @@
       "label": "payloadData",
       "_origin": "ast",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "file_type": "code",
       "norm_label": "payloaddata",
       "source_file": "sample-data/send-test-ingest.js",
@@ -1831,18 +1698,95 @@
       "label": "payloadPath",
       "_origin": "ast",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "file_type": "code",
       "norm_label": "payloadpath",
       "source_file": "sample-data/send-test-ingest.js",
       "source_location": "L18"
     },
     {
+      "id": "scripts_extract_metadata",
+      "label": "extract-metadata.js",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "extract-metadata.js",
+      "source_file": "scripts/extract-metadata.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "scripts_extract_metadata_fs",
+      "label": "fs",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "fs",
+      "source_file": "scripts/extract-metadata.js",
+      "source_location": "L10"
+    },
+    {
+      "id": "scripts_extract_metadata_index_json_path",
+      "label": "INDEX_JSON_PATH",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "index_json_path",
+      "source_file": "scripts/extract-metadata.js",
+      "source_location": "L15"
+    },
+    {
+      "id": "scripts_extract_metadata_path",
+      "label": "path",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "path",
+      "source_file": "scripts/extract-metadata.js",
+      "source_location": "L11"
+    },
+    {
+      "id": "scripts_extract_metadata_photos_dir",
+      "label": "PHOTOS_DIR",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "photos_dir",
+      "source_file": "scripts/extract-metadata.js",
+      "source_location": "L13"
+    },
+    {
+      "id": "scripts_extract_metadata_public_index_json_path",
+      "label": "PUBLIC_INDEX_JSON_PATH",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "public_index_json_path",
+      "source_file": "scripts/extract-metadata.js",
+      "source_location": "L16"
+    },
+    {
+      "id": "scripts_extract_metadata_public_photos_dir",
+      "label": "PUBLIC_PHOTOS_DIR",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "file_type": "code",
+      "norm_label": "public_photos_dir",
+      "source_file": "scripts/extract-metadata.js",
+      "source_location": "L14"
+    },
+    {
       "id": "scripts_verify_performance",
       "label": "verify-performance.js",
       "_origin": "ast",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "file_type": "code",
       "norm_label": "verify-performance.js",
       "source_file": "scripts/verify-performance.js",
@@ -1853,7 +1797,7 @@
       "label": "fs",
       "_origin": "ast",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "file_type": "code",
       "norm_label": "fs",
       "source_file": "scripts/verify-performance.js",
@@ -1864,7 +1808,7 @@
       "label": "http",
       "_origin": "ast",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "file_type": "code",
       "norm_label": "http",
       "source_file": "scripts/verify-performance.js",
@@ -1875,7 +1819,7 @@
       "label": "path",
       "_origin": "ast",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "file_type": "code",
       "norm_label": "path",
       "source_file": "scripts/verify-performance.js",
@@ -1886,7 +1830,7 @@
       "label": "server",
       "_origin": "ast",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "file_type": "code",
       "norm_label": "server",
       "source_file": "scripts/verify-performance.js",
@@ -2025,15 +1969,15 @@
       "source_location": "L1"
     },
     {
-      "id": "api_subscribe_addsubscriber_initdatabase",
-      "label": "{ addSubscriber, initDatabase }",
+      "id": "api_subscribe_addsubscriber_getallsubscribers_initdatabase",
+      "label": "{ addSubscriber, getAllSubscribers, initDatabase }",
       "_origin": "ast",
       "community": 11,
       "community_name": "encouragements.js",
       "file_type": "code",
-      "norm_label": "{ addsubscriber, initdatabase }",
+      "norm_label": "{ addsubscriber, getallsubscribers, initdatabase }",
       "source_file": "api/subscribe.js",
-      "source_location": "L8"
+      "source_location": "L9"
     },
     {
       "id": "api_subscribe_checkratelimit_ishoneypottriggered",
@@ -2044,7 +1988,7 @@
       "file_type": "code",
       "norm_label": "{ checkratelimit, ishoneypottriggered }",
       "source_file": "api/subscribe.js",
-      "source_location": "L9"
+      "source_location": "L10"
     },
     {
       "id": "lib_rate_limiter",
@@ -2069,81 +2013,81 @@
       "source_location": "L7"
     },
     {
-      "id": "scripts_extract_metadata",
-      "label": "extract-metadata.js",
+      "id": "lib_scriptures",
+      "label": "scriptures.js",
       "_origin": "ast",
       "community": 12,
-      "community_name": "extract-metadata.js",
+      "community_name": "scriptures.js",
       "file_type": "code",
-      "norm_label": "extract-metadata.js",
-      "source_file": "scripts/extract-metadata.js",
+      "norm_label": "scriptures.js",
+      "source_file": "lib/scriptures.js",
       "source_location": "L1"
     },
     {
-      "id": "scripts_extract_metadata_fs",
+      "id": "lib_scriptures_book_to_volume",
+      "label": "BOOK_TO_VOLUME",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "scriptures.js",
+      "file_type": "code",
+      "norm_label": "book_to_volume",
+      "source_file": "lib/scriptures.js",
+      "source_location": "L33"
+    },
+    {
+      "id": "lib_scriptures_cache",
+      "label": "cache",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "scriptures.js",
+      "file_type": "code",
+      "norm_label": "cache",
+      "source_file": "lib/scriptures.js",
+      "source_location": "L71"
+    },
+    {
+      "id": "lib_scriptures_fs",
       "label": "fs",
       "_origin": "ast",
       "community": 12,
-      "community_name": "extract-metadata.js",
+      "community_name": "scriptures.js",
       "file_type": "code",
       "norm_label": "fs",
-      "source_file": "scripts/extract-metadata.js",
-      "source_location": "L10"
+      "source_file": "lib/scriptures.js",
+      "source_location": "L18"
     },
     {
-      "id": "scripts_extract_metadata_index_json_path",
-      "label": "INDEX_JSON_PATH",
+      "id": "lib_scriptures_https",
+      "label": "https",
       "_origin": "ast",
       "community": 12,
-      "community_name": "extract-metadata.js",
+      "community_name": "scriptures.js",
       "file_type": "code",
-      "norm_label": "index_json_path",
-      "source_file": "scripts/extract-metadata.js",
-      "source_location": "L15"
+      "norm_label": "https",
+      "source_file": "lib/scriptures.js",
+      "source_location": "L20"
     },
     {
-      "id": "scripts_extract_metadata_path",
+      "id": "lib_scriptures_path",
       "label": "path",
       "_origin": "ast",
       "community": 12,
-      "community_name": "extract-metadata.js",
+      "community_name": "scriptures.js",
       "file_type": "code",
       "norm_label": "path",
-      "source_file": "scripts/extract-metadata.js",
-      "source_location": "L11"
+      "source_file": "lib/scriptures.js",
+      "source_location": "L19"
     },
     {
-      "id": "scripts_extract_metadata_photos_dir",
-      "label": "PHOTOS_DIR",
+      "id": "lib_scriptures_volume_files",
+      "label": "VOLUME_FILES",
       "_origin": "ast",
       "community": 12,
-      "community_name": "extract-metadata.js",
+      "community_name": "scriptures.js",
       "file_type": "code",
-      "norm_label": "photos_dir",
-      "source_file": "scripts/extract-metadata.js",
-      "source_location": "L13"
-    },
-    {
-      "id": "scripts_extract_metadata_public_index_json_path",
-      "label": "PUBLIC_INDEX_JSON_PATH",
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "extract-metadata.js",
-      "file_type": "code",
-      "norm_label": "public_index_json_path",
-      "source_file": "scripts/extract-metadata.js",
-      "source_location": "L16"
-    },
-    {
-      "id": "scripts_extract_metadata_public_photos_dir",
-      "label": "PUBLIC_PHOTOS_DIR",
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "extract-metadata.js",
-      "file_type": "code",
-      "norm_label": "public_photos_dir",
-      "source_file": "scripts/extract-metadata.js",
-      "source_location": "L14"
+      "norm_label": "volume_files",
+      "source_file": "lib/scriptures.js",
+      "source_location": "L25"
     },
     {
       "id": "public_js_week",
@@ -2374,7 +2318,7 @@
       "file_type": "code",
       "norm_label": "headers",
       "source_file": "vercel.json",
-      "source_location": "L38"
+      "source_location": "L46"
     },
     {
       "id": "vercel_redirects",
@@ -2432,25 +2376,25 @@
       "source_location": "L1"
     },
     {
-      "id": "api_admin_send",
-      "label": "send.js",
+      "id": "api_admin",
+      "label": "admin.js",
       "_origin": "ast",
       "community": 2,
       "community_name": "server.js",
       "file_type": "code",
-      "norm_label": "send.js",
-      "source_file": "api/admin/send.js",
+      "norm_label": "admin.js",
+      "source_file": "api/admin.js",
       "source_location": "L1"
     },
     {
-      "id": "api_admin_send_crypto",
+      "id": "api_admin_crypto",
       "label": "crypto",
       "_origin": "ast",
       "community": 2,
       "community_name": "server.js",
       "file_type": "code",
       "norm_label": "crypto",
-      "source_file": "api/admin/send.js",
+      "source_file": "api/admin.js",
       "source_location": "L12"
     },
     {
@@ -2498,15 +2442,15 @@
       "source_location": "L1"
     },
     {
-      "id": "server_adminsendhandler",
-      "label": "adminSendHandler",
+      "id": "server_adminhandler",
+      "label": "adminHandler",
       "_origin": "ast",
       "community": 2,
       "community_name": "server.js",
       "file_type": "code",
-      "norm_label": "adminsendhandler",
+      "norm_label": "adminhandler",
       "source_file": "server.js",
-      "source_location": "L26"
+      "source_location": "L24"
     },
     {
       "id": "server_crypto",
@@ -2528,7 +2472,7 @@
       "file_type": "code",
       "norm_label": "encouragementshandler",
       "source_file": "server.js",
-      "source_location": "L24"
+      "source_location": "L22"
     },
     {
       "id": "server_fs",
@@ -2550,7 +2494,7 @@
       "file_type": "code",
       "norm_label": "galleryhandler",
       "source_file": "server.js",
-      "source_location": "L21"
+      "source_location": "L20"
     },
     {
       "id": "server_http",
@@ -2583,7 +2527,7 @@
       "file_type": "code",
       "norm_label": "mime_types",
       "source_file": "server.js",
-      "source_location": "L32"
+      "source_location": "L31"
     },
     {
       "id": "server_path",
@@ -2605,7 +2549,7 @@
       "file_type": "code",
       "norm_label": "public_dir",
       "source_file": "server.js",
-      "source_location": "L29"
+      "source_location": "L28"
     },
     {
       "id": "server_server",
@@ -2616,7 +2560,7 @@
       "file_type": "code",
       "norm_label": "server",
       "source_file": "server.js",
-      "source_location": "L98"
+      "source_location": "L97"
     },
     {
       "id": "server_singleweekhandler",
@@ -2638,7 +2582,7 @@
       "file_type": "code",
       "norm_label": "statshandler",
       "source_file": "server.js",
-      "source_location": "L25"
+      "source_location": "L23"
     },
     {
       "id": "server_subscribehandler",
@@ -2652,37 +2596,15 @@
       "source_location": "L19"
     },
     {
-      "id": "server_subscribershandler",
-      "label": "subscribersHandler",
+      "id": "server_trackinghandler",
+      "label": "trackingHandler",
       "_origin": "ast",
       "community": 2,
       "community_name": "server.js",
       "file_type": "code",
-      "norm_label": "subscribershandler",
+      "norm_label": "trackinghandler",
       "source_file": "server.js",
-      "source_location": "L20"
-    },
-    {
-      "id": "server_trackingbroadcasthandler",
-      "label": "trackingBroadcastHandler",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "trackingbroadcasthandler",
-      "source_file": "server.js",
-      "source_location": "L23"
-    },
-    {
-      "id": "server_trackingmessagehandler",
-      "label": "trackingMessageHandler",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "trackingmessagehandler",
-      "source_file": "server.js",
-      "source_location": "L22"
+      "source_location": "L21"
     },
     {
       "id": "server_url",
@@ -3612,6 +3534,7 @@
     {
       "id": "ref_libsql_client_web",
       "label": "ref_libsql_client_web",
+      "_origin": "semantic",
       "community": 0,
       "community_name": "turso.js",
       "external": true,
@@ -3623,8 +3546,9 @@
     {
       "id": "ref_fs",
       "label": "ref_fs",
+      "_origin": "semantic",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "external": true,
       "file_type": "concept",
       "norm_label": "ref_fs",
@@ -3634,8 +3558,9 @@
     {
       "id": "ref_http",
       "label": "ref_http",
+      "_origin": "semantic",
       "community": 1,
-      "community_name": "scriptures.js",
+      "community_name": "extract-metadata.js",
       "external": true,
       "file_type": "concept",
       "norm_label": "ref_http",
@@ -3643,9 +3568,22 @@
       "type": "external"
     },
     {
+      "id": "ref_path",
+      "label": "ref_path",
+      "_origin": "semantic",
+      "community": 1,
+      "community_name": "extract-metadata.js",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_path",
+      "source_file": "",
+      "type": "external"
+    },
+    {
       "id": "ref_https",
       "label": "ref_https",
-      "community": 1,
+      "_origin": "semantic",
+      "community": 12,
       "community_name": "scriptures.js",
       "external": true,
       "file_type": "concept",
@@ -3654,19 +3592,9 @@
       "type": "external"
     },
     {
-      "id": "ref_path",
-      "label": "ref_path",
-      "community": 1,
-      "community_name": "scriptures.js",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_path",
-      "source_file": "",
-      "type": "external"
-    },
-    {
       "id": "ref_crypto",
       "label": "ref_crypto",
+      "_origin": "semantic",
       "community": 2,
       "community_name": "server.js",
       "external": true,
@@ -3678,6 +3606,7 @@
     {
       "id": "ref_url",
       "label": "ref_url",
+      "_origin": "semantic",
       "community": 2,
       "community_name": "server.js",
       "external": true,
@@ -3689,6 +3618,7 @@
     {
       "id": "ref_zlib",
       "label": "ref_zlib",
+      "_origin": "semantic",
       "community": 4,
       "community_name": "optimize-icons.js",
       "external": true,
@@ -5304,7 +5234,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L143",
+      "source_location": "L142",
       "weight": 1.0
     },
     {
@@ -5316,43 +5246,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L149",
+      "source_location": "L148",
       "weight": 1.0
     },
     {
       "source": "server_server",
-      "target": "server_subscribershandler",
+      "target": "server_trackinghandler",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L154",
-      "weight": 1.0
-    },
-    {
-      "source": "server_server",
-      "target": "server_trackingmessagehandler",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "server.js",
-      "source_location": "L160",
-      "weight": 1.0
-    },
-    {
-      "source": "server_server",
-      "target": "server_trackingbroadcasthandler",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "server.js",
-      "source_location": "L166",
+      "source_location": "L155",
       "weight": 1.0
     },
     {
@@ -5364,7 +5270,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L172",
+      "source_location": "L161",
       "weight": 1.0
     },
     {
@@ -5376,19 +5282,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L177",
+      "source_location": "L166",
       "weight": 1.0
     },
     {
       "source": "server_server",
-      "target": "server_adminsendhandler",
+      "target": "server_adminhandler",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L183",
+      "source_location": "L172",
       "weight": 1.0
     },
     {
@@ -5400,7 +5306,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L188",
+      "source_location": "L178",
       "weight": 1.0
     },
     {
@@ -5412,7 +5318,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L193",
+      "source_location": "L183",
       "weight": 1.0
     },
     {
@@ -5424,7 +5330,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L200",
+      "source_location": "L190",
       "weight": 1.0
     },
     {
@@ -5436,7 +5342,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L208",
+      "source_location": "L198",
       "weight": 1.0
     },
     {
@@ -5813,30 +5719,6 @@
     },
     {
       "source": "api_subscribe",
-      "target": "lib_turso_addsubscriber",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "api/subscribe.js",
-      "source_location": "L8",
-      "weight": 1.0
-    },
-    {
-      "source": "api_subscribe",
-      "target": "lib_turso_initdatabase",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "api/subscribe.js",
-      "source_location": "L8",
-      "weight": 1.0
-    },
-    {
-      "source": "api_subscribe",
       "target": "lib_rate_limiter_checkratelimit",
       "relation": "imports",
       "_origin": "ast",
@@ -5844,7 +5726,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "api/subscribe.js",
-      "source_location": "L9",
+      "source_location": "L10",
       "weight": 1.0
     },
     {
@@ -5856,103 +5738,103 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "api/subscribe.js",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "api_subscribe",
+      "target": "lib_turso_addsubscriber",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "api/subscribe.js",
       "source_location": "L9",
       "weight": 1.0
     },
     {
-      "source": "api_subscribers",
+      "source": "api_subscribe",
       "target": "lib_turso_getallsubscribers",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/subscribers.js",
-      "source_location": "L7",
+      "source_file": "api/subscribe.js",
+      "source_location": "L9",
       "weight": 1.0
     },
     {
-      "source": "api_subscribers",
+      "source": "api_subscribe",
       "target": "lib_turso_initdatabase",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/subscribers.js",
-      "source_location": "L7",
+      "source_file": "api/subscribe.js",
+      "source_location": "L9",
       "weight": 1.0
     },
     {
-      "source": "api_tracking_broadcast",
+      "source": "api_tracking_type",
       "target": "lib_turso_getbroadcastlogsforweek",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/tracking/broadcast.js",
-      "source_location": "L9",
+      "source_file": "api/tracking/[type].js",
+      "source_location": "L11",
       "weight": 1.0
     },
     {
-      "source": "api_tracking_broadcast",
+      "source": "api_tracking_type",
       "target": "lib_turso_initdatabase",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/tracking/broadcast.js",
-      "source_location": "L9",
+      "source_file": "api/tracking/[type].js",
+      "source_location": "L11",
       "weight": 1.0
     },
     {
-      "source": "api_tracking_broadcast",
-      "target": "lib_turso_recordbroadcastlogs",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "api/tracking/broadcast.js",
-      "source_location": "L9",
-      "weight": 1.0
-    },
-    {
-      "source": "api_tracking_message",
-      "target": "lib_turso_initdatabase",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "api/tracking/message.js",
-      "source_location": "L9",
-      "weight": 1.0
-    },
-    {
-      "source": "api_tracking_message",
+      "source": "api_tracking_type",
       "target": "lib_turso_ismessageprocessed",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/tracking/message.js",
-      "source_location": "L9",
+      "source_file": "api/tracking/[type].js",
+      "source_location": "L11",
       "weight": 1.0
     },
     {
-      "source": "api_tracking_message",
+      "source": "api_tracking_type",
+      "target": "lib_turso_recordbroadcastlogs",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "api/tracking/[type].js",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "api_tracking_type",
       "target": "lib_turso_recordprocessedmessage",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/tracking/message.js",
-      "source_location": "L9",
+      "source_file": "api/tracking/[type].js",
+      "source_location": "L11",
       "weight": 1.0
     },
     {
@@ -6040,14 +5922,14 @@
       "weight": 1.0
     },
     {
-      "source": "api_admin_send",
+      "source": "api_admin",
       "target": "ref_crypto",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/admin/send.js",
+      "source_file": "api/admin.js",
       "source_location": "L12",
       "weight": 1.0
     },
@@ -6209,18 +6091,6 @@
     },
     {
       "source": "api_subscribe",
-      "target": "lib_turso",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "api/subscribe.js",
-      "source_location": "L8",
-      "weight": 1.0
-    },
-    {
-      "source": "api_subscribe",
       "target": "lib_rate_limiter",
       "relation": "imports_from",
       "_origin": "ast",
@@ -6228,43 +6098,31 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "api/subscribe.js",
-      "source_location": "L9",
+      "source_location": "L10",
       "weight": 1.0
     },
     {
-      "source": "api_subscribers",
+      "source": "api_subscribe",
       "target": "lib_turso",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/subscribers.js",
-      "source_location": "L7",
+      "source_file": "api/subscribe.js",
+      "source_location": "L9",
       "weight": 1.0
     },
     {
-      "source": "api_tracking_broadcast",
+      "source": "api_tracking_type",
       "target": "lib_turso",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/tracking/broadcast.js",
-      "source_location": "L9",
-      "weight": 1.0
-    },
-    {
-      "source": "api_tracking_message",
-      "target": "lib_turso",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "api/tracking/message.js",
-      "source_location": "L9",
+      "source_file": "api/tracking/[type].js",
+      "source_location": "L11",
       "weight": 1.0
     },
     {
@@ -6629,7 +6487,7 @@
     },
     {
       "source": "server",
-      "target": "api_subscribers",
+      "target": "api_gallery",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -6641,7 +6499,7 @@
     },
     {
       "source": "server",
-      "target": "api_gallery",
+      "target": "api_tracking_type",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -6653,7 +6511,7 @@
     },
     {
       "source": "server",
-      "target": "api_tracking_message",
+      "target": "api_encouragements",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -6665,7 +6523,7 @@
     },
     {
       "source": "server",
-      "target": "api_tracking_broadcast",
+      "target": "api_stats",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -6677,7 +6535,7 @@
     },
     {
       "source": "server",
-      "target": "api_encouragements",
+      "target": "api_admin",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -6685,30 +6543,6 @@
       "context": "import",
       "source_file": "server.js",
       "source_location": "L24",
-      "weight": 1.0
-    },
-    {
-      "source": "server",
-      "target": "api_stats",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "server.js",
-      "source_location": "L25",
-      "weight": 1.0
-    },
-    {
-      "source": "server",
-      "target": "api_admin_send",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "server.js",
-      "source_location": "L26",
       "weight": 1.0
     },
     {
@@ -6724,24 +6558,24 @@
       "weight": 1.0
     },
     {
-      "source": "api_admin_send",
-      "target": "api_admin_send_crypto",
+      "source": "api_admin",
+      "target": "api_admin_crypto",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "api/admin/send.js",
+      "source_file": "api/admin.js",
       "source_location": "L12",
       "weight": 1.0
     },
     {
-      "source": "api_admin_send",
-      "target": "api_admin_send_timingsafematch",
+      "source": "api_admin",
+      "target": "api_admin_timingsafematch",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "api/admin/send.js",
+      "source_file": "api/admin.js",
       "source_location": "L14",
       "weight": 1.0
     },
@@ -6868,79 +6702,46 @@
     },
     {
       "source": "api_subscribe",
-      "target": "api_subscribe_addsubscriber_initdatabase",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "api/subscribe.js",
-      "source_location": "L8",
-      "weight": 1.0
-    },
-    {
-      "source": "api_subscribe",
       "target": "api_subscribe_checkratelimit_ishoneypottriggered",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "api/subscribe.js",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "api_subscribe",
+      "target": "api_subscribe_addsubscriber_getallsubscribers_initdatabase",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "api/subscribe.js",
       "source_location": "L9",
       "weight": 1.0
     },
     {
-      "source": "api_subscribers",
-      "target": "api_subscribers_getallsubscribers_initdatabase",
+      "source": "api_tracking_type",
+      "target": "api_tracking_type_ismessageprocessed_recordprocessedmessage_getbroadcastlogsforweek_recordbroadcastlogs_initdatabase",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "api/subscribers.js",
-      "source_location": "L7",
-      "weight": 1.0
-    },
-    {
-      "source": "api_tracking_broadcast",
-      "target": "api_tracking_broadcast_verifysecret",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "api/tracking/broadcast.js",
+      "source_file": "api/tracking/[type].js",
       "source_location": "L11",
       "weight": 1.0
     },
     {
-      "source": "api_tracking_broadcast",
-      "target": "api_tracking_broadcast_getbroadcastlogsforweek_recordbroadcastlogs_initdatabase",
+      "source": "api_tracking_type",
+      "target": "api_tracking_type_verifysecret",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "api/tracking/broadcast.js",
-      "source_location": "L9",
-      "weight": 1.0
-    },
-    {
-      "source": "api_tracking_message",
-      "target": "api_tracking_message_verifysecret",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "api/tracking/message.js",
-      "source_location": "L11",
-      "weight": 1.0
-    },
-    {
-      "source": "api_tracking_message",
-      "target": "api_tracking_message_ismessageprocessed_recordprocessedmessage_initdatabase",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "api/tracking/message.js",
-      "source_location": "L9",
+      "source_file": "api/tracking/[type].js",
+      "source_location": "L19",
       "weight": 1.0
     },
     {
@@ -8980,7 +8781,7 @@
     },
     {
       "source": "server",
-      "target": "server_subscribershandler",
+      "target": "server_galleryhandler",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -8991,7 +8792,7 @@
     },
     {
       "source": "server",
-      "target": "server_galleryhandler",
+      "target": "server_trackinghandler",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -9002,7 +8803,7 @@
     },
     {
       "source": "server",
-      "target": "server_trackingmessagehandler",
+      "target": "server_encouragementshandler",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -9013,7 +8814,7 @@
     },
     {
       "source": "server",
-      "target": "server_trackingbroadcasthandler",
+      "target": "server_statshandler",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -9024,7 +8825,7 @@
     },
     {
       "source": "server",
-      "target": "server_encouragementshandler",
+      "target": "server_adminhandler",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -9035,35 +8836,13 @@
     },
     {
       "source": "server",
-      "target": "server_statshandler",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "server.js",
-      "source_location": "L25",
-      "weight": 1.0
-    },
-    {
-      "source": "server",
-      "target": "server_adminsendhandler",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "server.js",
-      "source_location": "L26",
-      "weight": 1.0
-    },
-    {
-      "source": "server",
       "target": "server_public_dir",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "server.js",
-      "source_location": "L29",
+      "source_location": "L28",
       "weight": 1.0
     },
     {
@@ -9074,7 +8853,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "server.js",
-      "source_location": "L32",
+      "source_location": "L31",
       "weight": 1.0
     },
     {
@@ -9085,7 +8864,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "server.js",
-      "source_location": "L44",
+      "source_location": "L43",
       "weight": 1.0
     },
     {
@@ -9107,7 +8886,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "server.js",
-      "source_location": "L98",
+      "source_location": "L97",
       "weight": 1.0
     },
     {
@@ -9145,17 +8924,6 @@
     },
     {
       "source": "vercel",
-      "target": "vercel_headers",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "vercel.json",
-      "source_location": "L38",
-      "weight": 1.0
-    },
-    {
-      "source": "vercel",
       "target": "vercel_redirects",
       "relation": "contains",
       "_origin": "ast",
@@ -9163,6 +8931,17 @@
       "confidence_score": 1.0,
       "source_file": "vercel.json",
       "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "vercel",
+      "target": "vercel_headers",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "vercel.json",
+      "source_location": "L46",
       "weight": 1.0
     },
     {
@@ -9656,5 +9435,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "2be940dad9e19ee4515d711fec583843316f3207"
+  "built_at_commit": "8a22ffa0c04c4a55f7e6ecc5002276d058c831b5"
 }

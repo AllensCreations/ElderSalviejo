@@ -1,17 +1,17 @@
 # Graph Report - ElderSalviejo  (2026-09-19)
 
 ## Corpus Check
-- 46 files · ~1,874,959 words
+- 46 files · ~1,876,270 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: .css 4, (none) 3, .ico 2)
 
 ## Summary
-- 315 nodes · 502 edges · 22 communities (18 shown, 4 thin omitted)
+- 316 nodes · 504 edges · 22 communities (19 shown, 3 thin omitted)
 - Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 40 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8a22ffa0`
+- Built from commit: `91b19bc6`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -57,17 +57,17 @@
 ## Import Cycles
 - None detected.
 
-## Communities (22 total, 4 thin omitted)
+## Communities (22 total, 3 thin omitted)
 
 ### Community 0 - "turso.js"
-Cohesion: 0.10
-Nodes (42): { searchAllContent, initDatabase }, { getMissionStats, initDatabase }, {
+Cohesion: 0.09
+Nodes (44): { searchAllContent, initDatabase }, { getMissionStats, initDatabase }, { addSubscriber, getAllSubscribers, initDatabase }, { checkRateLimit, isHoneypotTriggered }, {
   isMessageProcessed,
   recordProcessedMessage,
   getBroadcastLogsForWeek,
   recordBroadcastLogs,
   initDatabase
-}, { getWeekBySlugOrId, initDatabase }, addEncouragement(), addSubscriber(), { createClient }, exportCompleteDatabase() (+34 more)
+}, { getWeekBySlugOrId, initDatabase }, addEncouragement(), addSubscriber() (+36 more)
 
 ### Community 1 - "extract-metadata.js"
 Cohesion: 0.09
@@ -110,8 +110,8 @@ Cohesion: 0.21
 Nodes (10): { autoSaveToGitHub }, { exportCompleteDatabase, initDatabase }, { autoSaveToGitHub }, { lookupScripture }, { saveWeeklyDiary, saveGalleryEntry, initDatabase, getAllSubscribers }, autoSaveToGitHub(), buildMarkdownLetter(), fetchExistingJsonFile() (+2 more)
 
 ### Community 11 - "encouragements.js"
-Cohesion: 0.27
-Nodes (8): { addEncouragement, getEncouragementsForSlug, initDatabase }, { checkRateLimit, isHoneypotTriggered }, { addSubscriber, getAllSubscribers, initDatabase }, { checkRateLimit, isHoneypotTriggered }, checkRateLimit(), getClientIp(), ipRequests, isHoneypotTriggered()
+Cohesion: 0.36
+Nodes (6): { addEncouragement, getEncouragementsForSlug, initDatabase }, { checkRateLimit, isHoneypotTriggered }, checkRateLimit(), getClientIp(), ipRequests, isHoneypotTriggered()
 
 ### Community 12 - "scriptures.js"
 Cohesion: 0.20
@@ -127,7 +127,7 @@ Nodes (8): background_color, description, display, icons, name, short_name, star
 
 ### Community 15 - "book.js"
 Cohesion: 0.57
-Nodes (7): escapeAttr(), escapeHtml(), loadCompleteBook(), loadGalleryAppendix(), planMasonrySheets(), renderAppendixCard(), renderEntryCard()
+Nodes (7): escapeAttr(), escapeHtml(), loadCompleteBook(), loadGalleryAppendix(), planAdaptiveSheets(), renderAdaptivePhotoTile(), renderEntryCard()
 
 ### Community 16 - "appsscript.json"
 Cohesion: 0.29
@@ -137,10 +137,14 @@ Nodes (6): dependencies, enabledAdvancedServices, exceptionLogging, oauthScopes,
 Cohesion: 0.33
 Nodes (5): cleanUrls, headers, redirects, rewrites, version
 
+### Community 18 - "print-helper.js"
+Cohesion: 0.60
+Nodes (3): preloadAllImages(), showPrintGuidanceToast(), triggerPrintWithPreload()
+
 ## Knowledge Gaps
 - **131 isolated node(s):** `crypto`, `{ exportCompleteDatabase, initDatabase }`, `{ autoSaveToGitHub }`, `{ addEncouragement, getEncouragementsForSlug, initDatabase }`, `{ checkRateLimit, isHoneypotTriggered }` (+126 more)
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 154 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -152,7 +156,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **What connects `crypto`, `{ exportCompleteDatabase, initDatabase }`, `{ autoSaveToGitHub }` to the rest of the system?**
   _131 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `turso.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.09948979591836735 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09276018099547512 - nodes in this community are weakly interconnected._
 - **Should `extract-metadata.js` be split into smaller, more focused modules?**
   _Cohesion score 0.0873015873015873 - nodes in this community are weakly interconnected._
 - **Should `server.js` be split into smaller, more focused modules?**

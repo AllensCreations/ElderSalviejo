@@ -1,23 +1,23 @@
 # Graph Report - ElderSalviejo  (2026-09-19)
 
 ## Corpus Check
-- 48 files · ~1,875,055 words
+- 46 files · ~1,874,959 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: .css 4, (none) 3, .ico 2)
 
 ## Summary
-- 322 nodes · 515 edges · 22 communities (18 shown, 4 thin omitted)
+- 315 nodes · 502 edges · 22 communities (18 shown, 4 thin omitted)
 - Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 40 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2be940da`
+- Built from commit: `8a22ffa0`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - turso.js
-- scriptures.js
+- extract-metadata.js
 - server.js
 - package.json
 - optimize-icons.js
@@ -28,7 +28,7 @@
 - lightbox.js
 - ingest.js
 - encouragements.js
-- extract-metadata.js
+- scriptures.js
 - week.js
 - manifest.json
 - book.js
@@ -41,8 +41,8 @@
 ## God Nodes (most connected - your core abstractions)
 1. `isTursoConfigured()` - 19 edges
 2. `getDbClient()` - 19 edges
-3. `initDatabase()` - 19 edges
-4. `server` - 13 edges
+3. `initDatabase()` - 17 edges
+4. `server` - 11 edges
 5. `readLocalDb()` - 9 edges
 6. `bindEvents()` - 9 edges
 7. `autoSaveToGitHub()` - 7 edges
@@ -60,16 +60,22 @@
 ## Communities (22 total, 4 thin omitted)
 
 ### Community 0 - "turso.js"
-Cohesion: 0.09
-Nodes (44): { searchAllContent, initDatabase }, { getMissionStats, initDatabase }, { getAllSubscribers, initDatabase }, { getBroadcastLogsForWeek, recordBroadcastLogs, initDatabase }, { isMessageProcessed, recordProcessedMessage, initDatabase }, { getWeekBySlugOrId, initDatabase }, addEncouragement(), addSubscriber() (+36 more)
+Cohesion: 0.10
+Nodes (42): { searchAllContent, initDatabase }, { getMissionStats, initDatabase }, {
+  isMessageProcessed,
+  recordProcessedMessage,
+  getBroadcastLogsForWeek,
+  recordBroadcastLogs,
+  initDatabase
+}, { getWeekBySlugOrId, initDatabase }, addEncouragement(), addSubscriber(), { createClient }, exportCompleteDatabase() (+34 more)
 
-### Community 1 - "scriptures.js"
-Cohesion: 0.08
-Nodes (28): { getAllGalleryPhotos, initDatabase }, BOOK_TO_VOLUME, cache, cleanVerseInput(), fetchJson(), findBookKey(), fs, getVolumeData() (+20 more)
+### Community 1 - "extract-metadata.js"
+Cohesion: 0.09
+Nodes (24): { getAllGalleryPhotos, initDatabase }, ref_fs, ref_http, ref_path, fs, parsed, path, payloadData (+16 more)
 
 ### Community 2 - "server.js"
 Cohesion: 0.10
-Nodes (26): crypto, crypto, { getAllWeeks, initDatabase }, ref_crypto, ref_url, adminSendHandler, crypto, encouragementsHandler (+18 more)
+Nodes (24): crypto, crypto, { getAllWeeks, initDatabase }, ref_crypto, ref_url, adminHandler, crypto, encouragementsHandler (+16 more)
 
 ### Community 3 - "package.json"
 Cohesion: 0.10
@@ -105,11 +111,11 @@ Nodes (10): { autoSaveToGitHub }, { exportCompleteDatabase, initDatabase }, { au
 
 ### Community 11 - "encouragements.js"
 Cohesion: 0.27
-Nodes (8): { addEncouragement, getEncouragementsForSlug, initDatabase }, { checkRateLimit, isHoneypotTriggered }, { addSubscriber, initDatabase }, { checkRateLimit, isHoneypotTriggered }, checkRateLimit(), getClientIp(), ipRequests, isHoneypotTriggered()
+Nodes (8): { addEncouragement, getEncouragementsForSlug, initDatabase }, { checkRateLimit, isHoneypotTriggered }, { addSubscriber, getAllSubscribers, initDatabase }, { checkRateLimit, isHoneypotTriggered }, checkRateLimit(), getClientIp(), ipRequests, isHoneypotTriggered()
 
-### Community 12 - "extract-metadata.js"
-Cohesion: 0.24
-Nodes (9): extractExifDateTime(), formatMetadata(), fs, INDEX_JSON_PATH, path, PHOTOS_DIR, PUBLIC_INDEX_JSON_PATH, PUBLIC_PHOTOS_DIR (+1 more)
+### Community 12 - "scriptures.js"
+Cohesion: 0.20
+Nodes (13): BOOK_TO_VOLUME, cache, cleanVerseInput(), fetchJson(), findBookKey(), fs, getVolumeData(), https (+5 more)
 
 ### Community 13 - "week.js"
 Cohesion: 0.44
@@ -132,24 +138,24 @@ Cohesion: 0.33
 Nodes (5): cleanUrls, headers, redirects, rewrites, version
 
 ## Knowledge Gaps
-- **133 isolated node(s):** `crypto`, `{ exportCompleteDatabase, initDatabase }`, `{ autoSaveToGitHub }`, `{ addEncouragement, getEncouragementsForSlug, initDatabase }`, `{ checkRateLimit, isHoneypotTriggered }` (+128 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 157 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **131 isolated node(s):** `crypto`, `{ exportCompleteDatabase, initDatabase }`, `{ autoSaveToGitHub }`, `{ addEncouragement, getEncouragementsForSlug, initDatabase }`, `{ checkRateLimit, isHoneypotTriggered }` (+126 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 154 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `initDatabase()` connect `turso.js` to `server.js`, `scriptures.js`, `ingest.js`, `encouragements.js`?**
-  _High betweenness centrality (0.015) - this node is a cross-community bridge._
+- **Why does `initDatabase()` connect `turso.js` to `server.js`, `extract-metadata.js`, `ingest.js`, `encouragements.js`?**
+  _High betweenness centrality (0.013) - this node is a cross-community bridge._
 - **Why does `lookupScripture()` connect `scriptures.js` to `ingest.js`?**
   _High betweenness centrality (0.002) - this node is a cross-community bridge._
 - **What connects `crypto`, `{ exportCompleteDatabase, initDatabase }`, `{ autoSaveToGitHub }` to the rest of the system?**
-  _133 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _131 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `turso.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.08735150244584207 - nodes in this community are weakly interconnected._
-- **Should `scriptures.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.08064516129032258 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09948979591836735 - nodes in this community are weakly interconnected._
+- **Should `extract-metadata.js` be split into smaller, more focused modules?**
+  _Cohesion score 0.0873015873015873 - nodes in this community are weakly interconnected._
 - **Should `server.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.09885057471264368 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.10317460317460317 - nodes in this community are weakly interconnected._
 - **Should `package.json` be split into smaller, more focused modules?**
   _Cohesion score 0.1 - nodes in this community are weakly interconnected._

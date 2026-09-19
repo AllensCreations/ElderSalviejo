@@ -90,9 +90,9 @@
     "semantic_hash": ""
   },
   "public/js/book.js": {
-    "mtime": 1789563531.1328795,
-    "seen": 1789806287.7253833,
-    "ast_hash": "2a2b7e754fda35b1012f2afcc4c24577",
+    "mtime": 1789824332.9408796,
+    "seen": 1789824503.8445842,
+    "ast_hash": "6d302ca46e23cc486616bee2a23b34d1",
     "semantic_hash": ""
   },
   "public/js/countdown.js": {
@@ -120,9 +120,9 @@
     "semantic_hash": ""
   },
   "public/js/print-helper.js": {
-    "mtime": 1788969551.5815916,
-    "seen": 1789806287.7253928,
-    "ast_hash": "710440a7ffccf80d7aa19162a0532ba0",
+    "mtime": 1789824450.6048796,
+    "seen": 1789824503.8488584,
+    "ast_hash": "eae4949e54b04e15e5dbfd53cbdc42e8",
     "semantic_hash": ""
   },
   "public/js/week.js": {
@@ -246,9 +246,9 @@
     "semantic_hash": ""
   },
   "public/book.html": {
-    "mtime": 1789563499.8368795,
-    "seen": 1789806287.7254372,
-    "ast_hash": "d48fcdc2fa631a38b0e10ce44cdc2a2c",
+    "mtime": 1789824438.6848795,
+    "seen": 1789824503.868117,
+    "ast_hash": "7e72d5d583139ae24d15ef15a86fd913",
     "semantic_hash": ""
   },
   "public/call.html": {

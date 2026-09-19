@@ -378,30 +378,49 @@
   }
 
   /**
-   * Plans balanced 3-column masonry compositions across sheets (~5-6 photos per sheet).
-   * For 38 photos, distributes them into 7 balanced sheets in strict chronological order.
+   * Plans balanced full-height adaptive grid compositions across sheets (~4-6 photos per sheet).
+   * Eliminates empty cells and dead space by distributing photos into 3x2 (6) and 2x2 (4) grids.
    */
-  function planMasonrySheets(total) {
+  function planAdaptiveSheets(total) {
+    if (total <= 0) return [];
     const plans = [];
-    let remaining = total;
-    while (remaining > 0) {
-      let count = 6;
-      if (remaining <= 6) {
-        count = remaining;
-      } else if (remaining === 7 || remaining === 8) {
-        count = Math.ceil(remaining / 2);
-      } else if (remaining % 6 === 1 || remaining % 6 === 2) {
-        count = 5;
+    let rem = total;
+    while (rem > 0) {
+      if (rem === 2) {
+        plans.push({ count: 2, layout: '2x1' });
+        rem -= 2;
+      } else if (rem === 4) {
+        plans.push({ count: 4, layout: '2x2' });
+        rem -= 4;
+      } else if (rem === 8) {
+        plans.push({ count: 4, layout: '2x2' });
+        plans.push({ count: 4, layout: '2x2' });
+        rem -= 8;
+      } else if (rem >= 6) {
+        const after6 = rem - 6;
+        if (after6 === 1 || after6 === 2 || after6 === 3) {
+          plans.push({ count: 4, layout: '2x2' });
+          rem -= 4;
+        } else {
+          plans.push({ count: 6, layout: '3x2' });
+          rem -= 6;
+        }
+      } else if (rem === 5) {
+        plans.push({ count: 5, layout: '5-pack' });
+        rem -= 5;
+      } else if (rem === 3) {
+        plans.push({ count: 3, layout: '3x1' });
+        rem -= 3;
+      } else {
+        plans.push({ count: rem, layout: '2x2' });
+        rem = 0;
       }
-      count = Math.min(count, remaining);
-      plans.push({ count });
-      remaining -= count;
     }
     return plans;
   }
 
   /**
-   * Loads and organizes all gallery photos into 3-column auto-adjusting masonry sheets.
+   * Loads and organizes all gallery photos into full-height adaptive grid sheets.
    */
   async function loadGalleryAppendix(startPageNum) {
     const appendixContainer = document.getElementById('bookGalleryAppendix');
@@ -458,14 +477,14 @@
       caption: p.caption || p.text || 'Official archival documentary missionary photograph preserved in the Philippines Dumaguete Mission registry.'
     }));
 
-    // Generate balanced sheet distribution (5-6 plates per sheet)
-    const masonryPlan = planMasonrySheets(galleryPhotos.length);
+    // Generate balanced full-height sheet distribution (smart 2x2 and 3x2 grids)
+    const sheetPlans = planAdaptiveSheets(galleryPhotos.length);
     let appendixHtml = '';
     let currentPage = startPageNum;
     let photoOffset = 0;
 
-    for (let sIdx = 0; sIdx < masonryPlan.length; sIdx++) {
-      const plan = masonryPlan[sIdx];
+    for (let sIdx = 0; sIdx < sheetPlans.length; sIdx++) {
+      const plan = sheetPlans[sIdx];
       const sheetPhotos = galleryPhotos.slice(photoOffset, photoOffset + plan.count);
       const sheetPageNum = String(currentPage++).padStart(2, '0');
       const startPlateNum = photoOffset + 1;
@@ -478,7 +497,7 @@
           <div class="sheet-header">
             <div>
               <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">
-                Appendix 01 • Part ${sIdx + 1} of ${masonryPlan.length} • Field Archive
+                Appendix 01 • Part ${sIdx + 1} of ${sheetPlans.length} • Field Archive
               </span>
               <h2 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5">
                 Photographic Archive & Field Plates
@@ -489,10 +508,10 @@
             </div>
           </div>
 
-          <!-- Sheet Body: 3-Column Masonry (Auto-Adjusted Proportions, 0% Cropping, Zero Dead Space) -->
+          <!-- Sheet Body: Full-Height Adaptive Grid (Zero Dead Space, Full-Tile Bleed) -->
           <div class="sheet-content">
-            <div class="appendix-masonry-3col">
-              ${sheetPhotos.map((p, pIdx) => renderAppendixCard(p, photoOffset + pIdx)).join('')}
+            <div class="appendix-grid-container appendix-grid-${plan.layout}">
+              ${sheetPhotos.map((p, pIdx) => renderAdaptivePhotoTile(p, photoOffset + pIdx)).join('')}
             </div>
           </div>
 
@@ -511,45 +530,35 @@
     return currentPage;
   }
 
-  function renderAppendixCard(p, globalIndex) {
+  function renderAdaptivePhotoTile(p, globalIndex) {
     const shotNumber = String(globalIndex + 1).padStart(3, '0');
     const imgSrc = p.src || p.localSrc || `/vault/gallery/photos/${p.filename}`;
     const cdnFallback = p.cdnSrc || (p.filename ? `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${p.filename}` : '');
     const legacyCdn = p.legacyCdnSrc || (p.filename ? `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${p.filename}` : '');
     const stampText = p.archivalStamp || p.capturedDateTime || (p.capturedDate ? `${p.capturedDate} • ${p.capturedTime}` : 'DUMAGUETE • 2026');
-    const aspectStyle = (p.width && p.height) ? `aspect-ratio: ${p.width} / ${p.height};` : (p.aspectRatio ? `aspect-ratio: ${p.aspectRatio};` : '');
 
     return `
       <div
-        class="polaroid-frame appendix-card cursor-pointer group hover:border-stone-400 transition duration-150 avoid-break"
+        class="appendix-grid-tile group cursor-pointer"
         onclick="openAppendixPlate(${globalIndex})"
         title="Plate #${shotNumber} (Click to inspect in ratio-locked zoom lightbox)"
       >
-        <!-- Ratio Auto-Adjusting Photo Container (0% Cropping, Zero Dead Space) -->
-        <div
-          class="polaroid-photo-wrap overflow-hidden rounded-xs bg-white"
-          style="${aspectStyle}"
-        >
-          <img
-            src="${escapeAttr(imgSrc)}"
-            alt="Plate #${shotNumber}"
-            class="book-plate-img w-full h-full object-contain rounded-xs group-hover:scale-101 transition duration-150 block"
-            loading="eager"
-            decoding="async"
-            onload="if (this.naturalWidth && this.naturalHeight) this.parentElement.style.aspectRatio = this.naturalWidth + ' / ' + this.naturalHeight;"
-            onerror="handleBookImgError(this, '${escapeAttr(cdnFallback)}', '${escapeAttr(legacyCdn)}')"
-          />
-        </div>
+        <img
+          src="${escapeAttr(imgSrc)}"
+          alt="Plate #${shotNumber}"
+          class="book-plate-img"
+          loading="eager"
+          decoding="async"
+          onerror="handleBookImgError(this, '${escapeAttr(cdnFallback)}', '${escapeAttr(legacyCdn)}')"
+        />
 
-        <!-- Compact Metadata Strip -->
-        <div class="pt-1.5 border-t border-stone-100 mt-1.5 shrink-0">
-          <div class="flex items-center justify-between font-mono text-[10px]">
-            <span class="font-bold text-stone-900 flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-red-800"></span>
-              <span>#${shotNumber}</span>
-            </span>
-            <span class="text-stone-500 truncate ml-1 text-[9px] uppercase tracking-wider">${escapeHtml(stampText)}</span>
-          </div>
+        <!-- Compact Editorial Metadata Overlay -->
+        <div class="appendix-tile-badge font-mono">
+          <span class="w-1.5 h-1.5 rounded-full bg-red-600 inline-block"></span>
+          <span>#${shotNumber}</span>
+        </div>
+        <div class="appendix-tile-date font-mono truncate max-w-[50%]">
+          <span>${escapeHtml(stampText)}</span>
         </div>
       </div>
     `;

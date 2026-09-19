@@ -1,10 +1,4 @@
 {
-  "api/admin/send.js": {
-    "mtime": 1789806163.932015,
-    "seen": 1789806287.7253268,
-    "ast_hash": "052fdf43b4afd13700ab732227860d06",
-    "semantic_hash": ""
-  },
   "api/backup.js": {
     "mtime": 1788969551.4735916,
     "seen": 1789806287.72534,
@@ -42,27 +36,9 @@
     "semantic_hash": ""
   },
   "api/subscribe.js": {
-    "mtime": 1788969551.4815917,
-    "seen": 1789806287.7253566,
-    "ast_hash": "8c987fab32fe0fe5729bedb052fc83e1",
-    "semantic_hash": ""
-  },
-  "api/subscribers.js": {
-    "mtime": 1788969551.4855917,
-    "seen": 1789806287.7253585,
-    "ast_hash": "606a504c97c2cdd011de2e37bc596274",
-    "semantic_hash": ""
-  },
-  "api/tracking/broadcast.js": {
-    "mtime": 1788969551.4855917,
-    "seen": 1789806287.7253606,
-    "ast_hash": "38a9ef8794e70f66bd75f7208aad78ab",
-    "semantic_hash": ""
-  },
-  "api/tracking/message.js": {
-    "mtime": 1788969551.4855917,
-    "seen": 1789806287.7253628,
-    "ast_hash": "8640d26b31af40c6fa53f753e8e9c6a1",
+    "mtime": 1789806537.972015,
+    "seen": 1789806618.6881607,
+    "ast_hash": "43801696c9d4edf02aceeb048e1bc0a9",
     "semantic_hash": ""
   },
   "api/weeks/[id].js": {
@@ -210,9 +186,9 @@
     "semantic_hash": ""
   },
   "server.js": {
-    "mtime": 1789806213.1840148,
-    "seen": 1789806287.7254155,
-    "ast_hash": "c4bbe2f41d9bbbedbdb6dc32dcedf673",
+    "mtime": 1789806588.7080147,
+    "seen": 1789806618.7379048,
+    "ast_hash": "d5caee95f7bd444cede6a7c2a35e8ac2",
     "semantic_hash": ""
   },
   "tailwind.config.js": {
@@ -246,9 +222,9 @@
     "semantic_hash": ""
   },
   "vercel.json": {
-    "mtime": 1789806218.8280149,
-    "seen": 1789806287.7254279,
-    "ast_hash": "e52dda20f08525ff67de9e4e315a7455",
+    "mtime": 1789806567.2760148,
+    "seen": 1789806618.7466536,
+    "ast_hash": "5b3a0c73c1f853fe29ff255cace01372",
     "semantic_hash": ""
   },
   "README.md": {
@@ -264,9 +240,9 @@
     "semantic_hash": ""
   },
   "public/admin.html": {
-    "mtime": 1789806181.580015,
-    "seen": 1789806287.725435,
-    "ast_hash": "5805e87d6a4bfdbe7764100ac86ee14c",
+    "mtime": 1789823216.5608797,
+    "seen": 1789823263.5061567,
+    "ast_hash": "3318c18ff9b7c70eadac91a36c8d87a4",
     "semantic_hash": ""
   },
   "public/book.html": {
@@ -837,6 +813,18 @@
     "mtime": 1788969551.6975918,
     "seen": 1789806287.7256284,
     "ast_hash": "e66ae0993987f4130a19e23f68f9873c",
+    "semantic_hash": ""
+  },
+  "api/admin.js": {
+    "mtime": 1789823172.80488,
+    "seen": 1789823263.4634185,
+    "ast_hash": "cf8ad2a3b7c8818a01630d4053276872",
+    "semantic_hash": ""
+  },
+  "api/tracking/[type].js": {
+    "mtime": 1789806523.4800148,
+    "seen": 1789806618.6881664,
+    "ast_hash": "9c1015311f932d55e8a2d76a6b0346d2",
     "semantic_hash": ""
   }
 }
