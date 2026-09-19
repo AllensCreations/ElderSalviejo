@@ -173,13 +173,15 @@
       display: block !important;
     }
 
-    /* Commemorative Frame */
+    /* Commemorative Dual-Hairline Monograph Frame */
     .cover-catalog-frame {
       width: 100% !important;
       height: 100% !important;
       box-sizing: border-box !important;
-      border: 1.5px solid #09090b !important;
-      padding: 2.25rem 1.5rem !important;
+      border: 1.5px solid #1c1917 !important;
+      outline: 1px solid #d6d3d1 !important;
+      outline-offset: -8px !important;
+      padding: 2.5rem 1.75rem !important;
       display: flex !important;
       flex-direction: column !important;
       justify-content: space-between !important;
@@ -188,14 +190,14 @@
       background: #ffffff !important;
     }
 
-    /* Non-colliding drop cap */
+    /* Editorial Drop Cap with Descender Clearance */
     .call-dropcap::first-letter,
     .docket-dropcap::first-letter {
       font-family: var(--font-serif, "Newsreader", serif);
-      font-size: 3.1em;
-      line-height: 0.92;
+      font-size: 3.2em;
+      line-height: 0.96;
       float: left;
-      margin: 0.06em 0.14em 0 0;
+      margin: 0.04em 0.14em 0.05em 0;
       font-weight: 700;
       color: #09090b;
     }
@@ -389,8 +391,10 @@
       .cover-catalog-frame {
         width: 100% !important;
         height: 100% !important;
-        border: 1.5px solid #000000 !important;
-        padding: 2.25rem 1.5rem !important;
+        border: 1.5px solid #1c1917 !important;
+        outline: 1px solid #d6d3d1 !important;
+        outline-offset: -8px !important;
+        padding: 2.5rem 1.75rem !important;
         box-sizing: border-box !important;
         display: flex !important;
         flex-direction: column !important;
@@ -744,15 +748,16 @@
           </a>
         </div>
 
-        <!-- Mission Purpose & Commission Callout to balance sheet vertically -->
-        <div class="mt-6 p-4 rounded-lg bg-stone-50 border border-stone-200 text-stone-700 font-sans text-xs space-y-2">
-          <div class="font-mono text-[10px] uppercase font-bold tracking-widest text-red-800">
-            Missionary Purpose & Commission
+        <!-- Mission Purpose & Commission Callout (Balanced Editorial Layout) -->
+        <div class="mt-6 p-4 rounded-lg bg-stone-50/90 border-l-2 border-l-red-800 border border-stone-200 text-stone-700 font-sans text-xs space-y-2">
+          <div class="font-mono text-[9.5px] uppercase font-bold tracking-widest text-red-800 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-red-800 shrink-0"></span>
+            <span>Missionary Purpose & Commission</span>
           </div>
-          <p class="leading-relaxed text-stone-700">
+          <p class="font-serif italic text-xs sm:text-[13px] text-stone-800 leading-relaxed">
             “Invite others to come unto Christ by helping them receive the restored gospel through faith in Jesus Christ and His Atonement, repentance, baptism, receiving the gift of the Holy Ghost, and enduring to the end.”
           </p>
-          <div class="pt-2 border-t border-stone-200 flex items-center justify-between text-[10px] font-mono text-stone-500">
+          <div class="pt-2 border-t border-stone-200 flex items-center justify-between text-[9.5px] font-mono text-stone-500">
             <span>Preach My Gospel • Chapter 1</span>
             <span>Philippines Dumaguete Mission</span>
           </div>
