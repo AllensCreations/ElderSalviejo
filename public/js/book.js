@@ -113,9 +113,9 @@
             <!-- Pinned Sheet Header -->
             <div class="sheet-header">
               <div>
-                <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Chapter 02 • Standing Field Notice</span>
+                <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Chapter 02 • Field Letters & Weekly Journals</span>
                 <h2 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5">
-                  Field Chapters & Weekly Chronicles
+                  Field Letters & Weekly Journals
                 </h2>
               </div>
               <div class="font-mono text-xs text-stone-500 text-right">
@@ -134,7 +134,7 @@
 
                 <div class="space-y-1.5">
                   <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-red-800">
-                    Field Monograph Dispatch Notice
+                    Preparation Day Journal Registry
                   </span>
                   <h3 class="font-serif text-2xl font-bold text-stone-900 tracking-tight">
                     Field Chapters Begin Following MTC Entrance
@@ -143,10 +143,10 @@
 
                 <div class="p-4 bg-stone-50 border border-stone-200 rounded-lg text-left font-sans text-xs sm:text-sm text-stone-700 leading-relaxed space-y-2">
                   <p>
-                    Elder Mark Salviejo reports to the Missionary Training Center on <strong class="text-stone-900">December 11, 2026</strong> to prepare for service in the <strong class="text-stone-900">Philippines Dumaguete Mission</strong>.
+                    Elder Salviejo reports to the Missionary Training Center on <strong class="text-stone-900">December 11, 2026</strong> to prepare for service in the <strong class="text-stone-900">Philippines Dumaguete Mission</strong>.
                   </p>
                   <p class="text-stone-600">
-                    Upon entering the mission field, each week’s Preparation Day (P-Day) reflections, missionary companion dispatches, and photographs will automatically be cataloged into this chapter registry.
+                    Upon entering the mission field, each week’s Preparation Day (P-Day) reflections, missionary companion notes, and photographs will be recorded into this journal.
                   </p>
                 </div>
 
@@ -161,14 +161,14 @@
                 </div>
 
                 <div class="font-mono text-[10px] text-stone-400 uppercase tracking-widest">
-                  Automated Monograph Registry • Standing by for Field Ingest
+                  Preparation Day Journal Registry • Standing by for December 2026 Entries
                 </div>
               </div>
             </div>
 
             <!-- Pinned Sheet Footer -->
             <div class="sheet-footer">
-              <span>Elder Mark Salviejo • Philippines Dumaguete Mission</span>
+              <span>Elder Salviejo • Philippines Dumaguete Mission</span>
               <span>Page ${String(runningPageNum++).padStart(2, '0')}</span>
             </div>
           </section>
@@ -281,7 +281,7 @@
 
                 <!-- Sheet Footer -->
                 <div class="sheet-footer">
-                  <span>Elder Mark Salviejo • Philippines Dumaguete Mission</span>
+                  <span>Elder Salviejo • Philippines Dumaguete Mission</span>
                   <span>Page ${pageNum}</span>
                 </div>
               </section>
@@ -294,7 +294,7 @@
         container.innerHTML = chaptersHtml;
       }
 
-      // 3. Compile & Append the Dynamic Clustered Photographic Archive Appendix
+      // 3. Compile & Append the Photographic Archive Appendix
       runningPageNum = await loadGalleryAppendix(runningPageNum);
 
       // 4. Update Final Epilogue Page Number
@@ -304,10 +304,10 @@
       }
 
     } catch (err) {
-      console.error('Error compiling monograph book:', err);
+      console.error('Error loading mission record book:', err);
       if (loadingState) {
         loadingState.innerHTML = `
-          <p class="text-xs text-stone-600 font-mono">Unable to compile full book monograph.</p>
+          <p class="text-xs text-stone-600 font-mono">Unable to load mission record book.</p>
           <button onclick="location.reload()" class="mt-2 text-xs font-mono uppercase px-3 py-1.5 bg-stone-900 text-white rounded">Retry</button>
         `;
       }
@@ -606,7 +606,7 @@
       capturedDate: p.capturedDate || '2026',
       capturedTime: p.capturedTime || '12:07 PM',
       archivalStamp: p.archivalStamp || p.capturedDateTime || (p.capturedDate ? `${p.capturedDate} • ${p.capturedTime}` : 'DUMAGUETE • 2026'),
-      caption: p.caption || p.text || 'Official archival documentary missionary photograph preserved in the Philippines Dumaguete Mission registry.'
+      caption: p.caption || p.text || 'Photographic memory from the Philippines Dumaguete Mission.'
     }));
 
     // Generate dynamic orientation sheet distribution (greedy fill with balanced rows)
@@ -645,14 +645,14 @@
           <div class="sheet-header">
             <div>
               <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">
-                Appendix 01 • Part ${sIdx + 1} of ${sheetPlans.length} • Field Archive
+                Photographic Record • Part ${sIdx + 1} of ${sheetPlans.length}
               </span>
               <h2 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5">
-                Photographic Archive & Field Plates
+                Philippines Dumaguete Mission • Photo Collection
               </h2>
             </div>
             <div class="font-mono text-xs text-stone-500 text-right">
-              <span>Plates ${String(startPlateNum).padStart(3, '0')}–${String(endPlateNum).padStart(3, '0')}</span>
+              <span>Photographs ${String(startPlateNum).padStart(3, '0')}–${String(endPlateNum).padStart(3, '0')}</span>
             </div>
           </div>
 
@@ -665,7 +665,7 @@
 
           <!-- Sheet Footer -->
           <div class="sheet-footer">
-            <span>Elder Mark Salviejo • Philippines Dumaguete Mission</span>
+            <span>Elder Salviejo • Philippines Dumaguete Mission</span>
             <span>Page ${sheetPageNum}</span>
           </div>
         </section>
@@ -728,44 +728,44 @@
                 Philippines Dumaguete Mission
               </div>
               <div class="text-[9px] text-stone-500 font-mono">
-                Official Archival Photographic Registry • Volume I
+                Photographic Collection • Volume I
               </div>
             </div>
           </div>
           <div class="text-right font-mono text-[9.5px] text-stone-600">
-            <span class="font-bold text-stone-900">${totalPlates} Plates</span> Cataloged
-            <div class="text-stone-400 text-[8.5px]">2024–2026 Field Archive</div>
+            <span class="font-bold text-stone-900">${totalPlates} Photographs</span> Recorded
+            <div class="text-stone-400 text-[8.5px]">Mission Field Memories</div>
           </div>
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[9px] font-mono py-1">
           <div class="bg-white p-2 rounded border border-stone-200">
             <div class="text-stone-400 text-[8px] uppercase tracking-wider">Missionary</div>
-            <div class="font-bold text-stone-900 truncate">Elder Mark Salviejo</div>
+            <div class="font-bold text-stone-900 truncate">Elder Salviejo</div>
           </div>
           <div class="bg-white p-2 rounded border border-stone-200">
             <div class="text-stone-400 text-[8px] uppercase tracking-wider">Format Standard</div>
-            <div class="font-bold text-stone-900">US Letter WYSIWYG</div>
+            <div class="font-bold text-stone-900">US Letter Keepsake</div>
           </div>
           <div class="bg-white p-2 rounded border border-stone-200">
             <div class="text-stone-400 text-[8px] uppercase tracking-wider">Preservation</div>
-            <div class="font-bold text-stone-900">Archival Master Plates</div>
+            <div class="font-bold text-stone-900">Field Photographs</div>
           </div>
           <div class="bg-white p-2 rounded border border-stone-200">
             <div class="text-stone-400 text-[8px] uppercase tracking-wider">Status</div>
             <div class="font-bold text-emerald-800 flex items-center gap-1">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 inline-block"></span>
-              <span>Certified Monograph</span>
+              <span>Mission Keepsake Record</span>
             </div>
           </div>
         </div>
 
         <div class="mt-2 pt-2 border-t border-stone-200 flex items-center justify-between text-[8.5px] font-mono text-stone-500">
           <p class="leading-relaxed pr-3">
-            Official end-of-volume certification. Photographic field plates cataloged in strict chronological order with original camera capture records.
+            Photographs preserved in chronological order with date and time records from missionary service in Dumaguete.
           </p>
           <div class="shrink-0 font-bold uppercase tracking-widest text-[8px] text-stone-700 border border-stone-300 px-2 py-1 rounded bg-stone-50">
-            PDM • SEAL OF DEPOSIT
+            PDM • DUMAGUETE RECORD
           </div>
         </div>
       </div>

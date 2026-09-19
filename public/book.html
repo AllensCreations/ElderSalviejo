@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Elder Mark Salviejo • Archival Missionary Monograph & Journal Book | Philippines Dumaguete Mission</title>
+  <title>Elder Salviejo • Philippines Dumaguete Mission Record | Journal & Memory Book</title>
   
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -50,7 +50,7 @@
       box-sizing: border-box;
     }
 
-    /* True WYSIWYG Strict 8.5 x 11 in Sheet Container */
+    /* True WYSIWYG Strict 8.5 x 11 in Sheet Container with Non-Overlapping Flex Flow */
     .book-sheet {
       width: var(--sheet-width) !important;
       height: var(--sheet-height) !important;
@@ -58,39 +58,44 @@
       max-height: var(--sheet-height) !important;
       margin: 2.5rem auto;
       background: #ffffff;
-      padding: 0 !important;
+      padding: var(--sheet-pad-y) var(--sheet-pad-x) !important;
       box-sizing: border-box !important;
       position: relative !important;
       overflow: hidden !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 25px -3px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.06);
       border-radius: 4px;
     }
 
-    /* Absolute Coordinate Pinned Header */
+    /* Natural Height Non-Overlapping Header */
     .sheet-header {
-      position: absolute !important;
-      top: var(--sheet-pad-y) !important;
-      left: var(--sheet-pad-x) !important;
-      right: var(--sheet-pad-x) !important;
-      height: 0.65in !important;
+      position: relative !important;
+      width: 100% !important;
+      min-height: 0.65in !important;
+      height: auto !important;
+      flex-shrink: 0 !important;
       border-bottom: 1px solid #d6d3d1 !important;
       padding-bottom: 0.35rem !important;
+      margin-bottom: 0.4rem !important;
       display: flex !important;
       align-items: baseline !important;
       justify-content: space-between !important;
+      gap: 1rem !important;
       box-sizing: border-box !important;
       z-index: 10;
     }
 
-    /* Absolute Coordinate Pinned Footer */
+    /* Natural Bottom-Pinned Footer */
     .sheet-footer {
-      position: absolute !important;
-      bottom: var(--sheet-pad-y) !important;
-      left: var(--sheet-pad-x) !important;
-      right: var(--sheet-pad-x) !important;
+      position: relative !important;
+      width: 100% !important;
       height: 0.35in !important;
+      flex-shrink: 0 !important;
       border-top: 1px solid #d6d3d1 !important;
       padding-top: 0.35rem !important;
+      margin-top: 0.4rem !important;
       display: flex !important;
       align-items: center !important;
       justify-content: space-between !important;
@@ -101,28 +106,21 @@
       z-index: 10;
     }
 
-    /* Strictly Bounded Middle Content Area */
+    /* Flex-Fluid Bounded Middle Content Area */
     .sheet-content {
-      position: absolute !important;
-      top: 1.25in !important;
-      bottom: 0.95in !important;
-      left: var(--sheet-pad-x) !important;
-      right: var(--sheet-pad-x) !important;
-      height: 8.80in !important;
-      max-height: 8.80in !important;
+      position: relative !important;
+      width: 100% !important;
+      flex: 1 1 auto !important;
+      min-height: 0 !important;
+      max-height: none !important;
       overflow: hidden !important;
       box-sizing: border-box !important;
     }
 
-    /* Swiss Museum Catalog Cover Frame */
+    /* Commemorative Frame */
     .cover-catalog-frame {
-      position: absolute !important;
-      top: var(--sheet-pad-y) !important;
-      bottom: var(--sheet-pad-y) !important;
-      left: var(--sheet-pad-x) !important;
-      right: var(--sheet-pad-x) !important;
-      width: calc(var(--sheet-width) - (2 * var(--sheet-pad-x))) !important;
-      height: calc(var(--sheet-height) - (2 * var(--sheet-pad-y))) !important;
+      width: 100% !important;
+      height: 100% !important;
       box-sizing: border-box !important;
       border: 1.5px solid #09090b !important;
       padding: 2.25rem 1.5rem !important;
@@ -132,6 +130,54 @@
       align-items: center !important;
       text-align: center !important;
       background: #ffffff !important;
+    }
+
+    /* Non-colliding drop cap */
+    .call-dropcap::first-letter,
+    .docket-dropcap::first-letter {
+      font-family: var(--font-serif, "Newsreader", serif);
+      font-size: 3.1em;
+      line-height: 0.92;
+      float: left;
+      margin: 0.06em 0.14em 0 0;
+      font-weight: 700;
+      color: #09090b;
+    }
+
+    /* Appendix Non-Colliding Badges */
+    .appendix-tile-badge {
+      position: absolute !important;
+      top: 8px !important;
+      left: 8px !important;
+      bottom: auto !important;
+      right: auto !important;
+      background: rgba(24, 24, 27, 0.85) !important;
+      color: #ffffff !important;
+      font-family: var(--font-mono, monospace) !important;
+      font-size: 9.5px !important;
+      font-weight: 700 !important;
+      padding: 2px 7px !important;
+      border-radius: 3px !important;
+      z-index: 2 !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 4px !important;
+    }
+
+    .appendix-tile-date {
+      position: absolute !important;
+      bottom: 8px !important;
+      right: 8px !important;
+      top: auto !important;
+      left: auto !important;
+      max-width: 75% !important;
+      background: rgba(24, 24, 27, 0.85) !important;
+      color: #d4d4d8 !important;
+      font-family: var(--font-mono, monospace) !important;
+      font-size: 9px !important;
+      padding: 2px 7px !important;
+      border-radius: 3px !important;
+      z-index: 2 !important;
     }
 
     /* Avoid page breaking in print */
@@ -205,18 +251,20 @@
         height: 10.98in !important;
         min-height: 10.98in !important;
         max-height: 10.98in !important;
+        padding: 0.55in 0.65in !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
         page-break-after: always !important;
         break-after: page !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
         margin: 0 !important;
-        padding: 0 !important;
         border: none !important;
         border-radius: 0 !important;
         box-shadow: none !important;
         background: #ffffff !important;
         overflow: hidden !important;
-        position: relative !important;
         box-sizing: border-box !important;
       }
 
@@ -226,28 +274,30 @@
       }
 
       .sheet-header {
-        position: absolute !important;
-        top: 0.55in !important;
-        left: 0.65in !important;
-        right: 0.65in !important;
-        height: 0.65in !important;
+        position: relative !important;
+        width: 100% !important;
+        min-height: 0.65in !important;
+        height: auto !important;
+        flex-shrink: 0 !important;
         border-bottom: 1px solid #d6d3d1 !important;
         padding-bottom: 0.35rem !important;
+        margin-bottom: 0.4rem !important;
         display: flex !important;
         align-items: baseline !important;
         justify-content: space-between !important;
+        gap: 1rem !important;
         box-sizing: border-box !important;
         z-index: 10 !important;
       }
 
       .sheet-footer {
-        position: absolute !important;
-        bottom: 0.55in !important;
-        left: 0.65in !important;
-        right: 0.65in !important;
+        position: relative !important;
+        width: 100% !important;
         height: 0.35in !important;
+        flex-shrink: 0 !important;
         border-top: 1px solid #d6d3d1 !important;
         padding-top: 0.35rem !important;
+        margin-top: 0.4rem !important;
         display: flex !important;
         align-items: center !important;
         justify-content: space-between !important;
@@ -259,28 +309,27 @@
       }
 
       .sheet-content {
-        position: absolute !important;
-        top: 1.25in !important;
-        bottom: 0.95in !important;
-        left: 0.65in !important;
-        right: 0.65in !important;
-        height: 8.78in !important;
-        max-height: 8.78in !important;
+        position: relative !important;
+        width: 100% !important;
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
         overflow: hidden !important;
         box-sizing: border-box !important;
       }
 
       .cover-catalog-frame {
+        width: 100% !important;
+        height: 100% !important;
         border: 1.5px solid #000000 !important;
-        position: absolute !important;
-        top: 0.55in !important;
-        bottom: 0.55in !important;
-        left: 0.65in !important;
-        right: 0.65in !important;
-        width: calc(8.5in - 1.3in) !important;
-        height: calc(10.98in - 1.1in) !important;
         padding: 2.25rem 1.5rem !important;
         box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        text-align: center !important;
+        background: #ffffff !important;
       }
 
       .avoid-break {
@@ -416,7 +465,7 @@
           <h1 class="font-serif text-base sm:text-lg font-bold tracking-tight text-stone-900 group-hover:text-red-800 transition flex items-center gap-2 truncate">
             Elder Salviejo
             <span class="hidden sm:inline-block font-mono text-[10px] font-medium px-2 py-0.5 rounded bg-stone-100 text-stone-700 border border-stone-200 uppercase tracking-wider">
-              Monograph Book
+              Mission Record
             </span>
           </h1>
           <p class="font-mono text-[11px] text-stone-500 truncate hidden xs:block">Philippines Dumaguete Mission</p>
@@ -437,7 +486,7 @@
           </svg>
           <span>Gallery</span>
         </a>
-        <a href="/book" class="inline-flex items-center gap-1.5 text-xs bg-stone-900 text-white font-mono uppercase tracking-wider px-3 py-1.5 rounded-md shadow-xs transition" title="Complete Printable Missionary Monograph">
+        <a href="/book" class="inline-flex items-center gap-1.5 text-xs bg-stone-900 text-white font-mono uppercase tracking-wider px-3 py-1.5 rounded-md shadow-xs transition" title="Printable Missionary Record & Memory Book">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
           </svg>
@@ -460,7 +509,7 @@
   <main class="letter-viewport px-3 sm:px-0 py-6 sm:py-10 flex-1 w-full space-y-8 sm:space-y-10">
 
     <!-- ========================================== -->
-    <!-- SHEET 1: MONOGRAPH COVER PAGE (SWISS CATALOG) -->
+    <!-- SHEET 1: MISSION RECORD COVER PAGE -->
     <!-- ========================================== -->
     <section id="bookCover" class="book-sheet">
       <div class="cover-catalog-frame">
@@ -498,10 +547,10 @@
 
           <div class="space-y-2 pt-1">
             <span class="font-mono text-[11px] uppercase tracking-widest text-red-800 font-semibold block">
-              Official Archival Monograph & Field Chronicle
+              Missionary Journal & Field Record
             </span>
             <h1 class="font-serif text-3xl sm:text-4xl font-bold text-stone-900 tracking-tight leading-tight uppercase">
-              Missionary Journal Vault
+              Philippines Dumaguete Mission Record
             </h1>
             <p class="font-serif italic text-sm sm:text-base text-stone-700 max-w-md mx-auto leading-relaxed">
               “The Lord does not call the qualified, He qualifies the called.”
@@ -520,9 +569,9 @@
 
         <!-- Bottom Publication Footer -->
         <div class="w-full pt-3 border-t border-stone-200 text-[11px] font-mono text-stone-500 flex flex-col sm:flex-row items-center justify-between gap-1.5">
-          <span class="font-semibold text-stone-900 uppercase">Elder Mark Allen Bongolan Salviejo</span>
-          <span class="uppercase tracking-wider">Archival Monograph Edition</span>
-          <span>Permanent Record</span>
+          <span class="font-semibold text-stone-900 uppercase">Elder Salviejo</span>
+          <span class="uppercase tracking-wider">Commemorative Edition</span>
+          <span>Philippines Dumaguete Mission • 2026–2028</span>
         </div>
 
       </div>
@@ -530,26 +579,26 @@
 
 
     <!-- ========================================== -->
-    <!-- SHEET 2: TABLE OF CONTENTS & ARCHIVAL REGISTRY -->
+    <!-- SHEET 2: TABLE OF CONTENTS & MISSION RECORD -->
     <!-- ========================================== -->
     <section id="bookTableOfContents" class="book-sheet">
       <!-- Sheet Header -->
       <div class="sheet-header">
         <div>
-          <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Archival Registry</span>
+          <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Table of Contents</span>
           <h2 class="font-serif text-2xl sm:text-3xl font-bold text-stone-900 mt-0.5">
             Table of Contents
           </h2>
         </div>
         <div class="font-mono text-xs text-stone-500 text-right">
-          <span>Dumaguete Monograph</span>
+          <span>Philippines Dumaguete Mission</span>
         </div>
       </div>
 
       <!-- Sheet Body -->
       <div class="sheet-content space-y-4">
         <p class="text-xs sm:text-sm text-stone-600 leading-relaxed font-sans">
-          Chronological catalog of official missionary calling credentials, origin documentary plates, weekly letters, scriptures, and field photography.
+          Weekly letters, official calling papers, and mission photographs from Elder Salviejo's service in Negros Oriental.
         </p>
 
         <!-- Institutional Credentials Summary Box -->
@@ -591,7 +640,7 @@
             <div class="flex items-baseline gap-2.5 min-w-0">
               <span class="font-mono font-bold text-xs text-stone-900 shrink-0">PL 01.</span>
               <span class="text-xs sm:text-sm text-stone-900 group-hover:text-red-800 font-medium truncate">
-                Origin Documentary Plates & Chapel Gathering
+                Call Announcement & Chapel Gathering
               </span>
             </div>
             <div class="border-b border-dotted border-stone-300 flex-1 mx-2"></div>
@@ -606,7 +655,7 @@
             <div class="flex items-baseline gap-2.5 min-w-0">
               <span class="font-mono font-bold text-xs text-stone-900 shrink-0">APP 01.</span>
               <span class="text-xs sm:text-sm text-stone-900 group-hover:text-red-800 font-medium truncate">
-                Photographic Archive Appendix • Field Plates
+                Mission Field Photo Collection
               </span>
             </div>
             <div class="border-b border-dotted border-stone-300 flex-1 mx-2"></div>
@@ -628,7 +677,7 @@
 
       <!-- Sheet Footer -->
       <div class="sheet-footer">
-        <span>Elder Mark Salviejo • Philippines Dumaguete Mission</span>
+        <span>Elder Salviejo • Philippines Dumaguete Mission</span>
         <span>Page 02</span>
       </div>
     </section>
@@ -641,7 +690,7 @@
       <!-- Sheet Header -->
       <div class="sheet-header">
         <div>
-          <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Chapter 01 • Docket Ref: 2246341</span>
+          <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Chapter 01 • Official Mission Call (Ref: 2246341)</span>
           <h2 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5">
             The Official Missionary Call
           </h2>
@@ -670,7 +719,7 @@
             <div class="p-1.5 bg-stone-800/90 rounded border border-stone-700/60">
               <span class="text-[9px] text-stone-400 uppercase tracking-wider block">MTC Entrance</span>
               <span class="text-xs sm:text-sm font-bold text-red-400 mt-0.5 block">Dec 11, 2026</span>
-              <span class="text-[9px] text-stone-400">Friday Ingest</span>
+              <span class="text-[9px] text-stone-400">Report Date: Friday</span>
             </div>
             <div class="p-1.5 bg-stone-800/90 rounded border border-stone-700/60">
               <span class="text-[9px] text-stone-400 uppercase tracking-wider block">Term of Service</span>
@@ -688,7 +737,7 @@
           
           <p class="font-mono text-xs text-stone-600 font-semibold pt-0.5">Dear Elder Salviejo,</p>
           
-          <p class="docket-dropcap">
+          <p class="call-dropcap">
             You are hereby called to serve as a missionary of The Church of Jesus Christ of Latter-day Saints. You are assigned to labor in the <strong>Philippines Dumaguete Mission</strong>. You should report to the Missionary Training Center on <strong>Friday, December 11, 2026</strong>. You will prepare to preach the gospel in the <strong>Cebuano</strong> language.
           </p>
 
@@ -739,26 +788,26 @@
 
       <!-- Sheet Footer -->
       <div class="sheet-footer">
-        <span>Elder Mark Salviejo • Philippines Dumaguete Mission</span>
+        <span>Elder Salviejo • Philippines Dumaguete Mission</span>
         <span>Page 03</span>
       </div>
     </section>
 
 
     <!-- ========================================== -->
-    <!-- SHEET 4: CHAPTER 01 (CONT.) — ORIGIN STORY PLATES -->
+    <!-- SHEET 4: CHAPTER 01 (CONT.) — CALL ANNOUNCEMENT PLATES -->
     <!-- ========================================== -->
     <section id="chapter-call-origin" class="book-sheet">
       <!-- Sheet Header -->
       <div class="sheet-header">
         <div>
-          <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Chapter 01 (Continued) • Origin Story</span>
+          <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Chapter 01 (Cont.) • Call Announcement</span>
           <h2 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5">
             The Call Announcement & Chapel Gathering
           </h2>
         </div>
         <div class="font-mono text-xs text-stone-500 text-right">
-          <span>Camera Capture: Sep 06, 2026 • 12:07 PHT</span>
+          <span>September 6, 2026 • 12:07 PM PHT</span>
         </div>
       </div>
 
@@ -766,7 +815,7 @@
       <div class="sheet-content space-y-3">
         
         <p class="text-xs sm:text-sm text-stone-600 leading-relaxed font-sans">
-          Documentary plates captured at the chapel meetinghouse on <strong>September 6, 2026 at 12:07 PM PHT</strong> marking the opening of the official call letter with family and fellow district young single adults.
+          Photographs from September 6, 2026 at the meetinghouse, reading the call letter with family and district friends.
         </p>
 
         <!-- 5 Origin Documentary Plates Grid (Preserving True 3:4 Portrait & 4:3 Landscape Ratios) -->
@@ -858,7 +907,7 @@
 
       <!-- Sheet Footer -->
       <div class="sheet-footer">
-        <span>Elder Mark Salviejo • Philippines Dumaguete Mission</span>
+        <span>Elder Salviejo • Philippines Dumaguete Mission</span>
         <span>Page 04</span>
       </div>
     </section>
@@ -869,7 +918,7 @@
     <!-- ========================================== -->
     <div id="bookWeeklyChapters" class="space-y-8 sm:space-y-10">
       <div id="bookLoadingState" class="book-sheet text-center py-16 no-print">
-        <p class="font-mono text-xs uppercase tracking-widest text-stone-400">Compiling publication chapters...</p>
+        <p class="font-mono text-xs uppercase tracking-widest text-stone-400">Opening memory book chapters...</p>
       </div>
     </div>
 
@@ -889,7 +938,7 @@
       <!-- Sheet Header -->
       <div class="sheet-header">
         <div>
-          <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Finis Monographia</span>
+          <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Concluding Testimony</span>
           <h2 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5">
             Epilogue & Release Testimony
           </h2>
@@ -918,20 +967,20 @@
 
         <div class="pt-6 border-t border-stone-200 text-xs font-mono text-stone-600 space-y-2">
           <p class="font-semibold text-stone-900 uppercase">
-            Elder Mark Allen Bongolan Salviejo
+            Elder Salviejo
           </p>
           <p>
             Called as a Full-Time Missionary of Jesus Christ • 2026–2028
           </p>
           <p class="text-[11px] text-stone-400">
-            Archival Monograph Repository • Permanent Historical Record
+            Philippines Dumaguete Mission • Consecrated Service Record
           </p>
         </div>
       </div>
 
       <!-- Sheet Footer -->
       <div class="sheet-footer">
-        <span>Elder Mark Salviejo • Philippines Dumaguete Mission</span>
+        <span>Elder Salviejo • Philippines Dumaguete Mission</span>
         <span id="epiloguePageNum">Page XX</span>
       </div>
     </section>
@@ -953,8 +1002,8 @@
   <!-- Unified Minimalist Footer -->
   <footer class="no-print mt-auto border-t border-stone-200 bg-white text-stone-500 py-6 text-xs font-mono">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-      <p>Elder Mark Salviejo • Philippines Dumaguete Mission</p>
-      <p class="text-stone-400 text-[11px]">Monograph Publication • US Letter WYSIWYG Standard</p>
+      <p>Elder Salviejo • Philippines Dumaguete Mission</p>
+      <p class="text-stone-400 text-[11px]">Philippines Dumaguete Mission Record • Printable Keepsake Edition</p>
     </div>
   </footer>
 
@@ -993,7 +1042,7 @@
         capturedDate: 'Sep 06, 2026',
         capturedTime: '12:07 PM',
         archivalStamp: 'SEP 06, 2026 • 12:07 PHT',
-        caption: 'Elder Mark Salviejo outside the chapel of The Church of Jesus Christ of Latter-day Saints holding his mission call letter. Captured Sep 06, 2026 • 12:07 PM PHT.'
+        caption: 'Elder Salviejo outside the chapel of The Church of Jesus Christ of Latter-day Saints holding his mission call letter. Captured Sep 06, 2026 • 12:07 PM PHT.'
       },
       {
         src: '/assets/images/intro/photo-1.jpg',

@@ -90,9 +90,9 @@
     "semantic_hash": ""
   },
   "public/js/book.js": {
-    "mtime": 1789827411.4088793,
-    "seen": 1789827580.7127166,
-    "ast_hash": "21e139372f2eaf1738cc81256fc83b04",
+    "mtime": 1789830001.5808787,
+    "seen": 1789830122.9291272,
+    "ast_hash": "bb9be2f9b5b7f9d1ba5cb57e165c6924",
     "semantic_hash": ""
   },
   "public/js/countdown.js": {
@@ -246,9 +246,9 @@
     "semantic_hash": ""
   },
   "public/book.html": {
-    "mtime": 1789827531.796879,
-    "seen": 1789827580.734925,
-    "ast_hash": "dd7d58d3a235ffc9cabd2a45c017bca1",
+    "mtime": 1789829752.584879,
+    "seen": 1789830122.9542036,
+    "ast_hash": "d3f861546e80576a6bf7c351c5b89edc",
     "semantic_hash": ""
   },
   "public/call.html": {
