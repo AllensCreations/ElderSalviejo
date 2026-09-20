@@ -11,8 +11,9 @@ let showDateStamp = localStorage.getItem('galleryDateStamp') !== 'false';
 let touchStartX = 0;
 let touchEndX = 0;
 
-const PAGE_SIZE = 24;
+const PAGE_SIZE = 20;
 let displayedCount = PAGE_SIZE;
+
 
 const TILT_CLASSES = [
   'tilt-neg-2',
@@ -202,6 +203,8 @@ function renderGallery() {
     const stampText = item.archivalStamp || item.capturedDateTime || (item.capturedDate ? `${item.capturedDate} • ${item.capturedTime}` : 'DUMAGUETE • 2026');
     const shotNumber = String(index + 1).padStart(3, '0');
 
+    const aspectStyle = (item.aspectRatio && item.aspectRatio !== 'auto') ? `aspect-ratio: ${item.aspectRatio};` : '';
+
     return `
       <div 
         class="polaroid-pinned-card ${tiltClass} w-full" 
@@ -214,11 +217,12 @@ function renderGallery() {
         <div class="polaroid-pin"></div>
         <div class="polaroid-frame polaroid-snug">
           <!-- Natural aspect ratio — portrait tall, landscape wide, no forced crop -->
-          <div class="polaroid-photo-wrap">
+          <div class="polaroid-photo-wrap" style="${aspectStyle}">
             <img 
               src="${escapeAttr(imgSrc)}" 
               alt="Elder Salviejo Plate ${shotNumber}" 
               class="w-full h-auto object-contain rounded-xs transition duration-150"
+              style="${aspectStyle ? `aspect-ratio: ${item.aspectRatio};` : ''}"
               loading="${isPriority ? 'eager' : 'lazy'}"
               ${isPriority ? 'fetchpriority="high"' : ''}
               decoding="async"
@@ -232,6 +236,7 @@ function renderGallery() {
         </div>
       </div>
     `;
+
   }).join('');
 
   grid.classList.remove('hidden');

@@ -88,10 +88,47 @@
   <!-- Main Scrollable Container -->
   <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-1 w-full">
 
-    <!-- Loading State -->
-    <div id="loadingState" class="py-24 text-center">
-      <p class="font-mono text-xs uppercase tracking-widest text-stone-400 mb-2">[RETRIEVING_ENTRY]</p>
-      <h3 class="font-serif text-lg font-semibold text-stone-800">Accessing Journal Record...</h3>
+    <!-- Loading State: Shape-matched journal sheet skeleton -->
+    <div id="loadingState" class="space-y-10">
+      <!-- Skeleton Header Card -->
+      <div class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-10 shadow-xs space-y-4">
+        <div class="skeleton-shimmer h-3 w-40 mx-auto rounded"></div>
+        <div class="skeleton-shimmer h-8 w-3/4 max-w-md mx-auto rounded"></div>
+        <div class="skeleton-shimmer h-3 w-64 mx-auto rounded pt-2 border-t border-stone-100"></div>
+      </div>
+      <!-- Skeleton Journal Sheet 1 -->
+      <div class="journal-sheet space-y-6">
+        <div class="flex items-center gap-3">
+          <div class="flex-1 h-px bg-stone-200"></div>
+          <div class="skeleton-shimmer h-4 w-28 rounded"></div>
+          <div class="flex-1 h-px bg-stone-200"></div>
+        </div>
+        <div class="space-y-3 max-w-2xl mx-auto">
+          <div class="skeleton-shimmer h-4 w-full rounded"></div>
+          <div class="skeleton-shimmer h-4 w-5/6 rounded"></div>
+          <div class="skeleton-shimmer h-4 w-4/6 rounded"></div>
+        </div>
+        <div class="polaroid-card">
+          <div class="skeleton-shimmer w-full" style="padding-bottom: 75%; border-radius: 1px;"></div>
+          <div class="skeleton-shimmer h-4 w-1/2 mx-auto mt-3 rounded"></div>
+        </div>
+      </div>
+      <!-- Skeleton Journal Sheet 2 -->
+      <div class="journal-sheet space-y-6">
+        <div class="flex items-center gap-3">
+          <div class="flex-1 h-px bg-stone-200"></div>
+          <div class="skeleton-shimmer h-4 w-28 rounded"></div>
+          <div class="flex-1 h-px bg-stone-200"></div>
+        </div>
+        <div class="space-y-3 max-w-2xl mx-auto">
+          <div class="skeleton-shimmer h-4 w-full rounded"></div>
+          <div class="skeleton-shimmer h-4 w-5/6 rounded"></div>
+        </div>
+        <div class="polaroid-card">
+          <div class="skeleton-shimmer w-full" style="padding-bottom: 75%; border-radius: 1px;"></div>
+          <div class="skeleton-shimmer h-4 w-1/2 mx-auto mt-3 rounded"></div>
+        </div>
+      </div>
     </div>
 
     <!-- Error State -->

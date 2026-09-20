@@ -252,9 +252,57 @@
     </div>
 
     <!-- Letter Feed Container -->
-    <div id="weeksList" class="space-y-4">
-      <div class="py-16 text-center text-stone-500">
-        <p class="font-mono text-xs uppercase tracking-widest text-stone-400">Loading Missionary Journal Vault...</p>
+    <div id="weeksList" class="space-y-3">
+      <!-- Shape-matched ledger row skeleton cards — shown while weeks load -->
+      <div id="vaultSkeleton" class="space-y-3">
+        <!-- Skeleton card 1 (tall) -->
+        <div class="ledger-row overflow-hidden" style="pointer-events:none">
+          <div class="flex flex-col sm:flex-row sm:items-stretch gap-0">
+            <div class="skeleton-shimmer shrink-0 sm:w-40 md:w-44 min-h-[160px] rounded-l-md"></div>
+            <div class="flex-1 p-5 flex flex-col gap-3">
+              <div class="skeleton-shimmer h-3 w-28 rounded"></div>
+              <div class="skeleton-shimmer h-5 w-4/5 rounded"></div>
+              <div class="skeleton-shimmer h-3 w-full rounded"></div>
+              <div class="skeleton-shimmer h-3 w-3/4 rounded"></div>
+              <div class="mt-auto pt-3 border-t border-stone-100 flex justify-between">
+                <div class="skeleton-shimmer h-3 w-20 rounded"></div>
+                <div class="skeleton-shimmer h-3 w-14 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Skeleton card 2 -->
+        <div class="ledger-row overflow-hidden" style="pointer-events:none">
+          <div class="flex flex-col sm:flex-row sm:items-stretch gap-0">
+            <div class="skeleton-shimmer shrink-0 sm:w-40 md:w-44 min-h-[140px] rounded-l-md"></div>
+            <div class="flex-1 p-5 flex flex-col gap-3">
+              <div class="skeleton-shimmer h-3 w-24 rounded"></div>
+              <div class="skeleton-shimmer h-5 w-3/5 rounded"></div>
+              <div class="skeleton-shimmer h-3 w-full rounded"></div>
+              <div class="skeleton-shimmer h-3 w-2/3 rounded"></div>
+              <div class="mt-auto pt-3 border-t border-stone-100 flex justify-between">
+                <div class="skeleton-shimmer h-3 w-20 rounded"></div>
+                <div class="skeleton-shimmer h-3 w-14 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Skeleton card 3 -->
+        <div class="ledger-row overflow-hidden" style="pointer-events:none">
+          <div class="flex flex-col sm:flex-row sm:items-stretch gap-0">
+            <div class="skeleton-shimmer shrink-0 sm:w-40 md:w-44 min-h-[150px] rounded-l-md"></div>
+            <div class="flex-1 p-5 flex flex-col gap-3">
+              <div class="skeleton-shimmer h-3 w-32 rounded"></div>
+              <div class="skeleton-shimmer h-5 w-2/3 rounded"></div>
+              <div class="skeleton-shimmer h-3 w-full rounded"></div>
+              <div class="skeleton-shimmer h-3 w-4/5 rounded"></div>
+              <div class="mt-auto pt-3 border-t border-stone-100 flex justify-between">
+                <div class="skeleton-shimmer h-3 w-20 rounded"></div>
+                <div class="skeleton-shimmer h-3 w-14 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
