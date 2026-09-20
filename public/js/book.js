@@ -232,63 +232,145 @@
           const chapId = `chapter-week-${w.slug || i + 1}`;
           const chapNum = String(i + 2).padStart(2, '0');
 
-          // Dynamic multi-part entry chunking for 100% WYSIWYG letter sheet fit
-          const hasVerse = Boolean(verse && (verse.reference || verse.text));
-          const entryChunks = chunkWeekEntries(entries, hasVerse);
-          let entryGlobalOffset = 0;
+          const pageNum = String(runningPageNum++).padStart(2, '0');
 
-          for (let cIdx = 0; cIdx < entryChunks.length; cIdx++) {
-            const chunk = entryChunks[cIdx];
-            const pageNum = String(runningPageNum++).padStart(2, '0');
-            const isFirstPart = cIdx === 0;
-            const partNum = cIdx + 1;
-            const partLabel = isFirstPart ? 'Part 1' : `Part ${partNum} (Cont.)`;
-            const headerRight = isFirstPart ? pDayDate : 'Negros Oriental';
-
-            chaptersHtml += `
-              <section ${isFirstPart ? `id="${chapId}"` : ''} class="book-sheet">
-                <!-- Sheet Header -->
-                <div class="sheet-header">
-                  <div>
-                    <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Chapter ${chapNum} • ${partLabel}</span>
-                    <h${isFirstPart ? '2' : '3'} class="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5">
-                      ${escapeHtml(weekDetails.title || `Weekly Letter #${i + 1}`)}
-                    </h${isFirstPart ? '2' : '3'}>
-                  </div>
-                  <div class="font-mono text-xs text-stone-500 text-right">
-                    <span>${escapeHtml(headerRight)}</span>
-                  </div>
+          chaptersHtml += `
+            <section id="${chapId}" class="book-sheet">
+              <!-- Pinned Sheet Header -->
+              <div class="sheet-header">
+                <div>
+                  <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Chapter ${chapNum} • Field Letter & Weekly Journal</span>
+                  <h2 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5 truncate max-w-xl">
+                    ${escapeHtml(weekDetails.title || `Weekly Letter #${i + 1}`)}
+                  </h2>
                 </div>
+                <div class="font-mono text-xs text-stone-500 text-right shrink-0">
+                  <span class="block text-stone-700 font-medium">${escapeHtml(pDayDate)}</span>
+                  <span class="text-[10px] text-stone-400 font-normal">Dumaguete City, Negros Oriental</span>
+                </div>
+              </div>
 
-                <!-- Sheet Content -->
-                <div class="sheet-content space-y-3.5">
-                  ${isFirstPart && hasVerse ? `
-                    <div class="avoid-break p-3 bg-stone-50 border-l-3 border-l-red-800 border border-stone-200 rounded-md">
-                      <div class="font-mono text-[10px] uppercase font-bold tracking-widest text-red-800 mb-0.5">
-                        Scripture Reflection • ${escapeHtml(verse.reference || '')}
-                      </div>
-                      <blockquote class="font-serif italic text-stone-800 text-xs sm:text-sm leading-relaxed">
-                        “${escapeHtml(verse.text || '')}”
-                      </blockquote>
+              <!-- Pinned Sheet Content (1 Week per 8.5x11in Sheet: Top Scripture, Daily Diary Log, Bottom 7-Photo Gallery) -->
+              <div class="sheet-content flex flex-col justify-between overflow-hidden">
+                
+                <!-- 1. Top Scripture Reflection Banner -->
+                ${hasVerse ? `
+                  <div class="avoid-break px-3 py-2 bg-stone-50 border-l-3 border-l-red-800 border border-stone-200 rounded shrink-0 mb-2">
+                    <div class="flex items-center justify-between text-[9px] font-mono uppercase font-bold tracking-wider text-red-800 mb-0.5">
+                      <span>Scripture Reflection • ${escapeHtml(verse.reference || '')}</span>
+                      <span class="text-stone-400 font-normal">Philippines Dumaguete Mission</span>
                     </div>
-                  ` : ''}
+                    <blockquote class="font-serif italic text-stone-800 text-xs sm:text-[12.5px] leading-snug">
+                      “${escapeHtml(verse.text || '')}”
+                    </blockquote>
+                  </div>
+                ` : ''}
 
-                  <!-- Entries Batch -->
-                  <div class="space-y-3.5">
-                    ${chunk.map((entry, eIdx) => renderEntryCard(entry, entryGlobalOffset + eIdx, chapNum)).join('')}
+                <!-- 2. Mid: Daily Missionary Diary Logs (Clean 2-Column Ledger) -->
+                <div class="diary-days-grid grid grid-cols-2 gap-x-4 gap-y-2 border border-stone-200 bg-stone-50/50 rounded p-2.5 shrink-0 mb-2.5">
+                  ${entries.slice(0, 7).map((entry, eIdx) => {
+                    const dayClean = cleanBookDayName(entry.day, eIdx);
+                    const cleanText = cleanBookEntryText(entry.text);
+                    const timeStamp = entry.time || (entry.archivalStamp ? entry.archivalStamp.split('•')[1]?.trim() : '') || '12:00 PHT';
+                    return `
+                      <div class="diary-day-entry min-w-0 border-b border-stone-200/60 pb-1.5 last:border-b-0">
+                        <div class="flex items-baseline justify-between gap-1 mb-0.5">
+                          <span class="font-mono text-[10px] font-bold uppercase tracking-wider text-stone-900 flex items-center gap-1 truncate">
+                            <span class="w-1.5 h-1.5 rounded-full bg-red-800 shrink-0"></span>
+                            <span>${escapeHtml(dayClean)}</span>
+                            ${entry.date ? `<span class="text-stone-400 font-normal text-[9px]">(${escapeHtml(entry.date)})</span>` : ''}
+                          </span>
+                          <span class="font-mono text-[8.5px] text-stone-500 uppercase shrink-0">
+                            ${escapeHtml(timeStamp)}
+                          </span>
+                        </div>
+                        <p class="font-sans text-[11px] leading-[1.38] text-stone-700 line-clamp-3">
+                          ${escapeHtml(cleanText || 'Field work and missionary service in Dumaguete.')}
+                        </p>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+
+                <!-- 3. Bottom: 7-Photo Mini-Gallery Grid (1 Week 7 Photos Strip) -->
+                <div class="weekly-photos-section flex-1 min-h-0 flex flex-col justify-end">
+                  <div class="flex items-center justify-between pb-1 border-b border-stone-200 mb-1.5 shrink-0">
+                    <span class="font-mono text-[9px] uppercase font-bold tracking-widest text-stone-500">
+                      Weekly Field Plates • 7-Day Photographic Sequence
+                    </span>
+                    <span class="font-mono text-[9px] text-stone-400">
+                      Authentic Aspect Ratios • Click to Zoom
+                    </span>
+                  </div>
+
+                  <!-- 7 Photos Row / Compact Grid -->
+                  <div class="grid grid-cols-7 gap-1.5 h-full max-h-[175px] items-stretch">
+                    ${entries.slice(0, 7).map((entry, eIdx) => {
+                      const dayClean = cleanBookDayName(entry.day, eIdx);
+                      const hasImg = Boolean(entry.image || entry.cdnImage);
+                      let imgSrc = entry.cdnImage || entry.image || '';
+                      let cdnFallback = '';
+                      let legacyCdn = '';
+
+                      if (entry.imageFilename) {
+                        cdnFallback = `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${entry.imageFilename}`;
+                        legacyCdn = `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${entry.imageFilename}`;
+                      }
+
+                      let weeklyPlateIdx = -1;
+                      if (hasImg) {
+                        weeklyPlateIdx = window.BOOK_WEEKLY_PLATES.length;
+                        window.BOOK_WEEKLY_PLATES.push({
+                          src: imgSrc,
+                          fallback: cdnFallback,
+                          legacyCdnSrc: legacyCdn,
+                          title: `${dayClean} • Chapter ${chapNum}`,
+                          category: 'Weekly Missionary Journal',
+                          capturedDate: entry.date || '2026',
+                          capturedTime: entry.time || '12:07 PM',
+                          archivalStamp: `${dayClean} • ${entry.time || '2026'}`,
+                          caption: cleanBookEntryText(entry.text) || 'Weekly field reflection from Negros Oriental.'
+                        });
+                      }
+
+                      return `
+                        <div
+                          class="weekly-grid-polaroid group flex flex-col justify-between bg-white border border-stone-200 rounded-xs p-1 shadow-2xs cursor-pointer hover:border-stone-400 transition"
+                          ${hasImg ? `onclick="openWeeklyPlate(${weeklyPlateIdx})"` : ''}
+                          title="${escapeAttr(dayClean)} Plate (Click to zoom)"
+                        >
+                          <div class="weekly-polaroid-img-wrap flex-1 min-h-0 bg-stone-900 rounded-2xs overflow-hidden flex items-center justify-center">
+                            ${hasImg ? `
+                              <img
+                                src="${escapeAttr(imgSrc)}"
+                                alt="${escapeAttr(dayClean)} Plate"
+                                class="w-full h-full object-cover group-hover:scale-103 transition duration-150 block"
+                                loading="eager"
+                                decoding="async"
+                                onerror="handleBookImgError(this, '${escapeAttr(cdnFallback)}', '${escapeAttr(legacyCdn)}')"
+                              />
+                            ` : `
+                              <div class="text-[8px] font-mono text-stone-500 text-center px-1">Plate Pending</div>
+                            `}
+                          </div>
+                          <div class="pt-1 text-center font-mono text-[8px] font-bold text-stone-700 uppercase truncate">
+                            ${escapeHtml(dayClean.slice(0, 3))}
+                          </div>
+                        </div>
+                      `;
+                    }).join('')}
                   </div>
                 </div>
 
-                <!-- Sheet Footer -->
-                <div class="sheet-footer">
-                  <span>Elder Salviejo • Philippines Dumaguete Mission</span>
-                  <span>Page ${pageNum}</span>
-                </div>
-              </section>
-            `;
+              </div>
 
-            entryGlobalOffset += chunk.length;
-          }
+              <!-- Pinned Sheet Footer -->
+              <div class="sheet-footer">
+                <span>Elder Salviejo • Philippines Dumaguete Mission</span>
+                <span>Page ${pageNum}</span>
+              </div>
+            </section>
+          `;
         }
 
         container.innerHTML = chaptersHtml;
@@ -314,119 +396,22 @@
     }
   }
 
-  function renderEntryCard(entry, idx, chapNum) {
-    const dayName = entry.day || `Day ${idx + 1}`;
-    const timeStamp = entry.archivalStamp || entry.capturedDateTime || (entry.time ? `${dayName} • ${entry.time} PHT` : `${dayName} • 2026`);
-    const cleanText = entry.text || '';
-    const hasImage = Boolean(entry.image);
-
-    // Fallbacks for entry images
-    let imgSrc = entry.image || '';
-    let cdnFallback = '';
-    let legacyCdn = '';
-
-    if (entry.imageFilename) {
-      cdnFallback = `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${entry.imageFilename}`;
-      legacyCdn = `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${entry.imageFilename}`;
+  function cleanBookDayName(dayStr, index) {
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    if (!dayStr) return days[index % 7];
+    const cleaned = dayStr.replace(/^[—\-\s]+|[—\-\s]+$/g, '').trim();
+    if (cleaned.length > 0) {
+      return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
     }
-
-    let weeklyPlateIdx = -1;
-    if (hasImage) {
-      weeklyPlateIdx = window.BOOK_WEEKLY_PLATES.length;
-      window.BOOK_WEEKLY_PLATES.push({
-        src: imgSrc,
-        fallback: cdnFallback,
-        legacyCdnSrc: legacyCdn,
-        title: `${dayName} • Chapter ${chapNum}`,
-        category: 'Weekly Missionary Journal',
-        capturedDate: entry.date || '2026',
-        capturedTime: entry.time || '12:07 PM',
-        archivalStamp: timeStamp,
-        caption: cleanText || 'Weekly missionary journal field entry from Negros Oriental.'
-      });
-    }
-
-    return `
-      <div class="avoid-break border-t border-stone-100 pt-3.5 first:border-t-0 first:pt-0">
-        <div class="flex items-center justify-between gap-3 mb-1.5">
-          <h4 class="font-mono text-xs font-bold uppercase tracking-wider text-stone-900 flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-red-800"></span>
-            <span>${escapeHtml(dayName)}</span>
-            ${entry.date ? `<span class="text-stone-400 font-normal">(${escapeHtml(entry.date)})</span>` : ''}
-          </h4>
-          <span class="font-mono text-[10px] text-stone-500 uppercase tracking-wider">
-            ${escapeHtml(timeStamp)}
-          </span>
-        </div>
-
-        ${hasImage ? `
-          <div class="grid grid-cols-1 sm:grid-cols-12 gap-3.5 items-start mt-2">
-            <div class="sm:col-span-8">
-              <p class="text-xs sm:text-sm text-stone-700 leading-relaxed font-sans">
-                ${escapeHtml(cleanText)}
-              </p>
-            </div>
-            <div class="sm:col-span-4 flex justify-center avoid-break">
-              <!-- Snug, shrink-wrapped polaroid card -->
-              <div
-                class="polaroid-frame weekly-plate-card cursor-pointer group hover:border-stone-400 transition avoid-break"
-                onclick="openWeeklyPlate(${weeklyPlateIdx})"
-                title="Click to inspect photo in ratio-locked zoom lightbox"
-              >
-                <div class="weekly-snug-wrap overflow-hidden rounded-xs bg-white">
-                  <img
-                    src="${escapeAttr(imgSrc)}"
-                    alt="${escapeAttr(dayName)} Plate"
-                    class="book-plate-img block rounded-xs group-hover:scale-101 transition duration-150"
-                    loading="eager"
-                    decoding="async"
-                    onload="autoAdjustWeeklyPlate(this)"
-                    onerror="handleBookImgError(this, '${escapeAttr(cdnFallback)}', '${escapeAttr(legacyCdn)}')"
-                  />
-                </div>
-                <div class="polaroid-stamp truncate text-[9px] mt-1.5 flex items-center justify-between px-0.5">
-                  <span class="truncate">${escapeHtml(timeStamp)}</span>
-                  <span class="no-print text-stone-400 text-[10px] group-hover:text-stone-900 ml-1">&rarr;</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        ` : `
-          <div class="mt-1">
-            <p class="text-xs sm:text-sm text-stone-700 leading-relaxed font-sans">
-              ${escapeHtml(cleanText)}
-            </p>
-          </div>
-        `}
-      </div>
-    `;
+    return days[index % 7];
   }
 
-  /**
-   * Chunks entries dynamically across letter sheets (~3-4 entries per sheet).
-   * Accommodates scripture reflection box on Sheet 1 without vertical overflow.
-   */
-  function chunkWeekEntries(entries, hasVerse) {
-    if (!entries || entries.length === 0) return [];
-    const chunks = [];
-    const firstSheetMax = hasVerse ? 3 : 4;
-    if (entries.length <= firstSheetMax) {
-      return [entries];
-    }
-    chunks.push(entries.slice(0, firstSheetMax));
-    let i = firstSheetMax;
-    while (i < entries.length) {
-      const rem = entries.length - i;
-      if (rem === 5) {
-        chunks.push(entries.slice(i, i + 3));
-        i += 3;
-      } else {
-        const take = Math.min(4, rem);
-        chunks.push(entries.slice(i, i + take));
-        i += take;
-      }
-    }
-    return chunks;
+  function cleanBookEntryText(rawText) {
+    if (!rawText) return '';
+    return rawText
+      .replace(/^[-*•\s]+/, '')
+      .replace(/<[^>]*>/g, '')
+      .trim();
   }
 
   const KNOWN_LANDSCAPES = new Set([
