@@ -8,6 +8,11 @@ let allWeeks = [];
 let activeDocketIndex = -1;
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Clear search input to prevent accidental filtering
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) searchInput.value = '';
+  console.log('[DEBUG] Search input cleared');
+
   setupImageProtection();
   fetchWeeks();
   fetchStats();
