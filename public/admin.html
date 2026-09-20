@@ -970,19 +970,38 @@
 
         } else if (id === 'week1') {
           diagLog('── Week 1 Detail (/api/weeks/week-1-*) ──', 'head');
-          var slug = 'week-1-dumaguete-city-negros-oriental';
-          var r = await fetch('/api/weeks/' + encodeURIComponent(slug), { cache: 'no-store' });
-          diagLog('HTTP ' + r.status + ' for slug: ' + slug, r.ok ? 'ok' : 'err');
-          if (r.ok) {
-            var d = await r.json();
-            diagLog('Title: ' + (d.week && d.week.title), 'ok');
-            diagLog('Entries: ' + (d.week && Array.isArray(d.week.entries) ? d.week.entries.length : '?'), 'info');
-          } else {
-            var t = await r.text();
-            diagLog('Response: ' + t.substring(0, 120), 'err');
-            diagLog('🔧 Fix: Ensure week exists in database or check slug format', 'info');
+          // Get the first week's slug from the API to test
+          try {
+            var weeksResponse = await fetch('/api/weeks', { cache: 'no-store' });
+            if (weeksResponse.ok) {
+              var weeksData = await weeksResponse.json();
+              if (weeksData.weeks && weeksData.weeks.length > 0) {
+                var slug = weeksData.weeks[0].slug;
+                diagLog('Testing week 1 detail for slug: ' + slug, 'info');
+                var r = await fetch('/api/weeks/' + encodeURIComponent(slug), { cache: 'no-store' });
+                diagLog('HTTP ' + r.status + ' for slug: ' + slug, r.ok ? 'ok' : 'err');
+                if (r.ok) {
+                  var d = await r.json();
+                  diagLog('Title: ' + (d.week && d.week.title), 'ok');
+                  diagLog('Entries: ' + (d.week && Array.isArray(d.week.entries) ? d.week.entries.length : '?'), 'info');
+                } else {
+                  var t = await r.text();
+                  diagLog('Response: ' + t.substring(0, 120), 'err');
+                  diagLog('🔧 Fix: Ensure week exists in database or check slug format', 'info');
+                }
+                setBtnState('week1', r.ok ? 'ok' : 'err');
+              } else {
+                diagLog('No weeks available to test', 'warn');
+                setBtnState('week1', 'err');
+              }
+            } else {
+              diagLog('Failed to fetch weeks list', 'err');
+              setBtnState('week1', 'err');
+            }
+          } catch (e) {
+            diagLog('Error fetching weeks for week1 test: ' + e.message, 'err');
+            setBtnState('week1', 'err');
           }
-          setBtnState('week1', r.ok ? 'ok' : 'err');
 
         } else if (id === 'gallery') {
           diagLog('── Gallery Photos (/api/gallery) ──', 'head');
