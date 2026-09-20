@@ -170,12 +170,64 @@
       </div>
     </div>
 
-    <!-- Loading Skeleton -->
+    <!-- Shape-Matched Polaroid Skeleton Loader -->
     <div id="gallerySkeleton" class="gallery-masonry">
-      <div class="polaroid-frame mb-6 animate-pulse aspect-4-3 bg-stone-200"></div>
-      <div class="polaroid-frame mb-6 animate-pulse aspect-square bg-stone-200"></div>
-      <div class="polaroid-frame mb-6 animate-pulse aspect-4-3 bg-stone-200"></div>
-      <div class="polaroid-frame mb-6 animate-pulse aspect-square bg-stone-200"></div>
+      <!-- Tall portrait -->
+      <div class="polaroid-pinned-card tilt-neg-1">
+        <div class="polaroid-frame polaroid-snug">
+          <div class="skeleton-shimmer" style="width:100%;padding-bottom:133%;border-radius:1px;"></div>
+          <div class="skeleton-shimmer" style="height:32px;margin-top:10px;border-radius:3px;"></div>
+        </div>
+      </div>
+      <!-- Landscape -->
+      <div class="polaroid-pinned-card tilt-pos-2">
+        <div class="polaroid-frame polaroid-snug">
+          <div class="skeleton-shimmer" style="width:100%;padding-bottom:75%;border-radius:1px;"></div>
+          <div class="skeleton-shimmer" style="height:32px;margin-top:10px;border-radius:3px;"></div>
+        </div>
+      </div>
+      <!-- Square -->
+      <div class="polaroid-pinned-card tilt-neg-2">
+        <div class="polaroid-frame polaroid-snug">
+          <div class="skeleton-shimmer" style="width:100%;padding-bottom:100%;border-radius:1px;"></div>
+          <div class="skeleton-shimmer" style="height:32px;margin-top:10px;border-radius:3px;"></div>
+        </div>
+      </div>
+      <!-- Landscape short -->
+      <div class="polaroid-pinned-card tilt-pos-1">
+        <div class="polaroid-frame polaroid-snug">
+          <div class="skeleton-shimmer" style="width:100%;padding-bottom:66%;border-radius:1px;"></div>
+          <div class="skeleton-shimmer" style="height:32px;margin-top:10px;border-radius:3px;"></div>
+        </div>
+      </div>
+      <!-- Portrait short -->
+      <div class="polaroid-pinned-card tilt-zero">
+        <div class="polaroid-frame polaroid-snug">
+          <div class="skeleton-shimmer" style="width:100%;padding-bottom:120%;border-radius:1px;"></div>
+          <div class="skeleton-shimmer" style="height:32px;margin-top:10px;border-radius:3px;"></div>
+        </div>
+      </div>
+      <!-- Square -->
+      <div class="polaroid-pinned-card tilt-neg-1">
+        <div class="polaroid-frame polaroid-snug">
+          <div class="skeleton-shimmer" style="width:100%;padding-bottom:100%;border-radius:1px;"></div>
+          <div class="skeleton-shimmer" style="height:32px;margin-top:10px;border-radius:3px;"></div>
+        </div>
+      </div>
+      <!-- Landscape -->
+      <div class="polaroid-pinned-card tilt-pos-2">
+        <div class="polaroid-frame polaroid-snug">
+          <div class="skeleton-shimmer" style="width:100%;padding-bottom:75%;border-radius:1px;"></div>
+          <div class="skeleton-shimmer" style="height:32px;margin-top:10px;border-radius:3px;"></div>
+        </div>
+      </div>
+      <!-- Tall portrait -->
+      <div class="polaroid-pinned-card tilt-neg-2">
+        <div class="polaroid-frame polaroid-snug">
+          <div class="skeleton-shimmer" style="width:100%;padding-bottom:133%;border-radius:1px;"></div>
+          <div class="skeleton-shimmer" style="height:32px;margin-top:10px;border-radius:3px;"></div>
+        </div>
+      </div>
     </div>
 
     <!-- Polaroid Masonry Board -->
@@ -190,17 +242,22 @@
       <p class="text-xs text-stone-500 max-w-sm mx-auto mt-1">Select another filter or refresh the gallery repository.</p>
     </div>
 
-    <!-- Load More Controls -->
-    <div id="galleryLoadMoreContainer" class="mt-12 text-center hidden">
-      <button 
-        id="loadMoreBtn" 
-        onclick="loadMorePhotos()" 
-        class="px-6 py-2.5 bg-stone-900 hover:bg-stone-800 text-white text-xs font-mono uppercase tracking-wider rounded-md shadow-xs transition"
+    <!-- Load 20 More Button -->
+    <div id="galleryLoadMoreContainer" class="mt-14 mb-4 flex flex-col items-center gap-3 hidden">
+      <button
+        id="loadMoreBtn"
+        onclick="loadMorePhotos()"
+        class="group inline-flex items-center gap-2.5 px-8 py-3 bg-white hover:bg-stone-900 text-stone-900 hover:text-white border border-stone-300 hover:border-stone-900 text-xs font-mono uppercase tracking-[0.15em] rounded-sm shadow-sm transition-all duration-200"
       >
-        Load More Plates
+        <svg class="w-3.5 h-3.5 shrink-0 group-hover:translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+        Load 20 More Plates
       </button>
-      <p id="galleryProgressText" class="text-xs font-mono text-stone-500 mt-2.5"></p>
+      <p id="galleryProgressText" class="text-[11px] font-mono text-stone-400 uppercase tracking-wider"></p>
     </div>
+
+
 
   </main>
 
