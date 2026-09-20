@@ -2410,7 +2410,7 @@ function sendNowDiaryTemplate(toEmail) {
     return;
   }
   const subject = `Weekly Reflection: Week 1 in Dumaguete ${ctx.diaryPasscode}`;
-  const body = `-VERSE- (Alma 26:12)\n\n--- MONDAY ---\nPreparation day! Did laundry, wrote emails to family, and companion study in Dumaguete.\n\n--- TUESDAY ---\nMorning proselyting and teaching discussions in Sibulan district.\n\n--- WEDNESDAY ---\nTaught the Plan of Salvation to Brother Bautista and enjoyed fresh buko juice.\n\n--- THURSDAY ---\nDistrict Council meeting in Dumaguete City. Practiced Cebuano language roleplays.\n\n--- FRIDAY ---\nService project helping local families repair bamboo fences.\n\n--- SATURDAY ---\nStreet contacting along Rizal Boulevard during sunset overlooking the ocean.\n\n--- SUNDAY ---\nSacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior Jesus Christ.`;
+  const body = `-VERSE- (Alma 26:12)\n\n(MONDAY)\n- Preparation day! Did laundry, wrote emails to family, and companion study in Dumaguete.\n\n(TUESDAY)\n- Morning proselyting and teaching discussions in Sibulan district.\n\n(WEDNESDAY)\n- Taught the Plan of Salvation to Brother Bautista and enjoyed fresh buko juice.\n\n(THURSDAY)\n- District Council meeting in Dumaguete City. Practiced Cebuano language roleplays.\n\n(FRIDAY)\n- Service project helping local families repair bamboo fences.\n\n(SATURDAY)\n- Street contacting along Rizal Boulevard during sunset overlooking the ocean.\n\n(SUNDAY)\n- Sacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior Jesus Christ.`;
   
   GmailApp.sendEmail(target, subject, body, { name: 'Elder Salviejo' });
   Logger.log(`[PASS] Dispatched 159266 Diary Template to: ${target}`);
@@ -2834,7 +2834,7 @@ function getSenderWebAppHtml() {
           return 'Weekly Reflection: Week 1 in Dumaguete ' + (ctx.diaryPasscode || '159266');
         },
         getBody: function() {
-          return '-VERSE- (Alma 26:12)\\n\\n--- MONDAY ---\\nPreparation day! Did laundry, wrote emails to family, and companion study in Dumaguete.\\n\\n--- TUESDAY ---\\nMorning proselyting and teaching discussions in Sibulan district.\\n\\n--- WEDNESDAY ---\\nTaught the Plan of Salvation to Brother Bautista and enjoyed fresh buko juice.\\n\\n--- THURSDAY ---\\nDistrict Council meeting in Dumaguete City. Practiced Cebuano language roleplays.\\n\\n--- FRIDAY ---\\nService project helping local families repair bamboo fences.\\n\\n--- SATURDAY ---\\nStreet contacting along Rizal Boulevard during sunset overlooking the ocean.\\n\\n--- SUNDAY ---\\nSacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior Jesus Christ.';
+          return '-VERSE- (Alma 26:12)\\n\\n(MONDAY)\\n- Preparation day! Did laundry, wrote emails to family, and companion study in Dumaguete.\\n\\n(TUESDAY)\\n- Morning proselyting and teaching discussions in Sibulan district.\\n\\n(WEDNESDAY)\\n- Taught the Plan of Salvation to Brother Bautista and enjoyed fresh buko juice.\\n\\n(THURSDAY)\\n- District Council meeting in Dumaguete City. Practiced Cebuano language roleplays.\\n\\n(FRIDAY)\\n- Service project helping local families repair bamboo fences.\\n\\n(SATURDAY)\\n- Street contacting along Rizal Boulevard during sunset overlooking the ocean.\\n\\n(SUNDAY)\\n- Sacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior Jesus Christ.';
         }
       },
       gallery: {
@@ -3057,7 +3057,7 @@ function buildMissionaryKitEmailHtml(dummyInbox, diaryPasscode, galleryPasscode,
   const url = siteUrl || 'https://eldersalviejo.vercel.app';
 
   const diarySubject = `Weekly Reflection: Week 1 in Dumaguete ${diaryCode}`;
-  const diaryBody = `-VERSE- (Alma 26:12)\n\n--- MONDAY ---\nPreparation day! Did laundry, wrote emails to family, and companion study in Dumaguete.\n\n--- TUESDAY ---\nMorning proselyting and teaching discussions in Sibulan district.\n\n--- WEDNESDAY ---\nTaught the Plan of Salvation to Brother Bautista and enjoyed fresh buko juice.\n\n--- THURSDAY ---\nDistrict Council meeting in Dumaguete City. Practiced Cebuano language roleplays.\n\n--- FRIDAY ---\nService project helping local families repair bamboo fences.\n\n--- SATURDAY ---\nStreet contacting along Rizal Boulevard during sunset overlooking the ocean.\n\n--- SUNDAY ---\nSacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior Jesus Christ.`;
+  const diaryBody = `-VERSE- (Alma 26:12)\n\n(MONDAY)\n- Preparation day! Did laundry, wrote emails to family, and companion study in Dumaguete.\n\n(TUESDAY)\n- Morning proselyting and teaching discussions in Sibulan district.\n\n(WEDNESDAY)\n- Taught the Plan of Salvation to Brother Bautista and enjoyed fresh buko juice.\n\n(THURSDAY)\n- District Council meeting in Dumaguete City. Practiced Cebuano language roleplays.\n\n(FRIDAY)\n- Service project helping local families repair bamboo fences.\n\n(SATURDAY)\n- Street contacting along Rizal Boulevard during sunset overlooking the ocean.\n\n(SUNDAY)\n- Sacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior Jesus Christ.`;
 
   const gallerySubject = `Dumaguete District Conference [Mission] ${galleryCode}`;
   const galleryBody = `Wonderful district conference gathering with companions and members across Negros Oriental!`;
