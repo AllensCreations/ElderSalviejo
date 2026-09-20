@@ -91,8 +91,10 @@ async function loadSamplePayload(slug) {
 function renderWeek(week) {
   const loadingEl = document.getElementById('loadingState');
   const contentEl = document.getElementById('diaryContent');
+  const errorEl = document.getElementById('errorState');
   if (loadingEl) loadingEl.classList.add('hidden');
   if (contentEl) contentEl.classList.remove('hidden');
+  if (errorEl) errorEl.classList.add('hidden');
 
   const titleEl = document.getElementById('weekTitle');
   if (titleEl) titleEl.innerText = week.title || 'Weekly Missionary Journal';
@@ -137,9 +139,28 @@ function renderWeek(week) {
       capturedDate: entry.date,
       capturedTime: entry.time,
       archivalStamp: timeStamp,
-      caption: cleanEntryText(entry.text) || 'Weekly missionary reflection from Negros Oriental.'
+      caption: cleanEntryText(entry.text) || 'Weekly missionary reflection from Negros Oriental.',
+      // Store original image dimensions for aspect ratio handling if available
+      width: entry.width || null,
+      height: entry.height || null
     };
   });
+
+  // Proportional auto-resize for weekly journal images (0% cropping, zero dead space)
+  window.autoAdjustWeeklyJournalImage = function (img) {
+    if (!img || !img.naturalWidth || !img.naturalHeight) return;
+    const ratio = img.naturalWidth / img.naturalHeight;
+    const wrap = img.parentElement;
+    if (!wrap) return;
+
+    // Set aspect ratio on wrapper to prevent layout shift
+    wrap.style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`;
+
+    // Constrain width to prevent overflow, height will auto-adjust based on aspect ratio
+    wrap.style.width = '100%';
+    wrap.style.maxWidth = '560px'; // Match the polaroid-card max-width
+    wrap.style.height = 'auto';
+  };
 
   window.openWeekPlate = function (idx) {
     if (window.UniversalLightbox && window.WEEK_PLATES) {
@@ -201,6 +222,8 @@ function renderWeek(week) {
                 decoding="async"
                 draggable="false"
                 oncontextmenu="return false;"
+                class="weekly-journal-image"
+                onload="autoAdjustWeeklyJournalImage(this)"
               />
             </div>
             <div class="polaroid-caption">
