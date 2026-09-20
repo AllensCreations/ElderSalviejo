@@ -372,6 +372,70 @@ function scheduleContinuationTrigger() {
 }
 
 /**
+ * Diagnostic: Tests the live Vercel connection and checks if Turso is configured.
+ * Run this from the Apps Script toolbar to instantly verify:
+ *   1. Vercel endpoint is reachable
+ *   2. TURSO_DATABASE_URL is set on Vercel
+ *   3. How many weeks are in the live database
+ * 
+ * If weekCount is 0 or tursoConfigured is false, go to:
+ * Vercel Dashboard -> Project -> Settings -> Environment Variables
+ * and add TURSO_DATABASE_URL and TURSO_AUTH_TOKEN.
+ */
+function testVercelConnection() {
+  Logger.log('====================================================');
+  Logger.log('=== VERCEL + TURSO CONNECTION DIAGNOSTIC ===');
+  Logger.log('====================================================');
+
+  const siteUrl = (PropertiesService.getScriptProperties().getProperty('SITE_URL') || CONFIG.SITE_URL).replace(/\/$/, '');
+  const ingestSecret = PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || CONFIG.INGEST_SECRET;
+
+  try {
+    const debugUrl = `${siteUrl}/api/debug`;
+    Logger.log(`Hitting: ${debugUrl}`);
+    const res = UrlFetchApp.fetch(debugUrl, {
+      method: 'get',
+      headers: { 'Authorization': `Bearer ${ingestSecret}` },
+      muteHttpExceptions: true
+    });
+    const code = res.getResponseCode();
+    Logger.log(`HTTP Status: ${code}`);
+
+    if (code === 200) {
+      const data = JSON.parse(res.getContentText());
+      Logger.log(`Environment   : ${data.environment || 'unknown'}`);
+      Logger.log(`Turso Ready   : ${data.turso.configured ? 'YES - Connected' : 'NO - MISSING ENV VARS!'}`);
+      Logger.log(`URL Present   : ${data.turso.urlPresent ? 'YES' : 'NO - TURSO_DATABASE_URL not set'}`);
+      Logger.log(`Token Present : ${data.turso.tokenPresent ? 'YES' : 'NO - TURSO_AUTH_TOKEN not set'}`);
+      Logger.log(`Week Count    : ${data.turso.weekCount} week(s) in database`);
+      if (data.turso.error) Logger.log(`DB Error      : ${data.turso.error}`);
+      Logger.log(`Action        : ${data.action}`);
+
+      if (!data.turso.configured) {
+        Logger.log('');
+        Logger.log('[ACTION REQUIRED] TURSO_DATABASE_URL and TURSO_AUTH_TOKEN are NOT set on Vercel!');
+        Logger.log('Go to: https://vercel.com -> Your Project -> Settings -> Environment Variables');
+        Logger.log('Add: TURSO_DATABASE_URL = libsql://your-db-name.turso.io');
+        Logger.log('Add: TURSO_AUTH_TOKEN = your-auth-token');
+        Logger.log('Then redeploy the project.');
+      } else if (data.turso.weekCount === 0) {
+        Logger.log('');
+        Logger.log('[NOTE] Turso is connected but has 0 weeks. Run processWeeklyDiaryEmails() to ingest emails.');
+      } else {
+        Logger.log('');
+        Logger.log(`[OK] Everything is configured. ${data.turso.weekCount} week(s) live in the vault.`);
+      }
+    } else {
+      Logger.log(`Unexpected response (${code}): ${res.getContentText().substring(0, 200)}`);
+    }
+  } catch (err) {
+    Logger.log(`Connection error: ${err.message}`);
+    Logger.log('Check that VERCEL_INGEST_URL / SITE_URL property is set correctly.');
+  }
+  Logger.log('====================================================');
+}
+
+/**
  * Diagnostic tool: Run from toolbar to verify last 5 emails in inbox and why they match or don't match.
  */
 function debugCheckInbox() {

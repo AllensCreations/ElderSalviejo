@@ -9,7 +9,7 @@
  * 4. PWA offline support & 1-tap installation
  */
 
-const CACHE_VERSION = 'v9';
+const CACHE_VERSION = 'v10';
 const STATIC_CACHE = `elder-salviejo-shell-${CACHE_VERSION}`;
 const IMAGE_CACHE = `elder-salviejo-images-${CACHE_VERSION}`;
 const DATA_CACHE = `elder-salviejo-data-${CACHE_VERSION}`;
@@ -125,12 +125,36 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 2. API REQUESTS: Stale-While-Revalidate strategy
-  if (url.pathname.startsWith('/api/weeks') || url.pathname.startsWith('/api/gallery') || url.pathname.startsWith('/api/stats')) {
+  // 2. API REQUESTS:
+  //    /api/weeks* → Network-First: always fetch fresh data, only use cache when offline.
+  //    /api/gallery, /api/stats → Stale-While-Revalidate: speed matters more than freshness.
+  if (url.pathname.startsWith('/api/weeks')) {
+    event.respondWith(
+      caches.open(DATA_CACHE).then(async (cache) => {
+        try {
+          // Always try network first for week data — never serve stale vault list
+          const networkResponse = await fetch(event.request);
+          if (networkResponse && networkResponse.status === 200) {
+            cache.put(event.request, networkResponse.clone()).catch(() => {});
+          }
+          return networkResponse;
+        } catch (_) {
+          // Only fall back to cache when fully offline
+          const cachedResponse = await cache.match(event.request);
+          return cachedResponse || new Response(JSON.stringify({ success: true, weeks: [], count: 0, offline: true }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        }
+      })
+    );
+    return;
+  }
+
+  if (url.pathname.startsWith('/api/gallery') || url.pathname.startsWith('/api/stats')) {
     event.respondWith(
       caches.open(DATA_CACHE).then(async (cache) => {
         const cachedResponse = await cache.match(event.request);
-
         const fetchPromise = fetch(event.request)
           .then((networkResponse) => {
             if (networkResponse && networkResponse.status === 200) {
@@ -139,8 +163,6 @@ self.addEventListener('fetch', (event) => {
             return networkResponse;
           })
           .catch(() => cachedResponse);
-
-        // Return cached version immediately if available, otherwise wait for network
         return cachedResponse || fetchPromise;
       })
     );

@@ -5,8 +5,7 @@
  * for the Index Vault directory.
  */
 
-const crypto = require('crypto');
-const { getAllWeeks, initDatabase } = require('../../lib/turso');
+const { getAllWeeks, initDatabase, isTursoConfigured } = require('../../lib/turso');
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'GET' && req.method !== 'HEAD') {
@@ -14,33 +13,35 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
   }
 
+  // Always prevent CDN and browser caching — vault list must always be fresh
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  res.setHeader('Content-Type', 'application/json');
+
+  const tursoReady = isTursoConfigured();
+  if (!tursoReady) {
+    console.warn('[/api/weeks] TURSO_DATABASE_URL is not configured — falling back to local-vault.json. On Vercel, set TURSO_DATABASE_URL and TURSO_AUTH_TOKEN in project environment variables.');
+  }
+
   try {
     await initDatabase();
     const weeks = await getAllWeeks();
-    const payload = JSON.stringify({
+
+    console.log(`[/api/weeks] Returned ${weeks.length} weeks (turso=${tursoReady})`);
+
+    return res.status(200).json({
       success: true,
       count: weeks.length,
-      weeks
+      weeks,
+      _debug: { tursoConfigured: tursoReady }
     });
-
-    const etag = '"' + crypto.createHash('md5').update(payload).digest('hex').slice(0, 16) + '"';
-    res.setHeader('ETag', etag);
-    res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
-
-    if (req.headers && req.headers['if-none-match'] === etag) {
-      return res.status(304).end();
-    }
-
-    res.setHeader('Content-Type', 'application/json');
-    if (res.send) {
-      return res.status(200).send(payload);
-    }
-    return res.status(200).end(payload);
   } catch (error) {
-    console.error('Error fetching weeks:', error);
+    console.error('[/api/weeks] Error fetching weeks:', error);
     return res.status(500).json({
       error: 'Internal Server Error fetching diary weeks',
-      details: error.message
+      details: error.message,
+      _debug: { tursoConfigured: tursoReady }
     });
   }
 };
