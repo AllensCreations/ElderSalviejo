@@ -128,14 +128,16 @@ vault/scriptures/
 * **The Index Vault (`/`)**:
   * Clean archive list, Polaroid count, and Month of 24 Months missionary progress bar.
 * **The Dynamic Journal View (`/week/[slug]`)**:
-  * Responsive Polaroid cards & sticky-note reflections.
+  * Responsive Polaroid cards & sticky-note reflections with fixed error handling and image aspect ratio preservation.
   * **Family & Friends Encouragement Board**: Live message feed powered by Turso SQLite.
-  * **1-Click Save / Print PDF**: Clean printable layout for scrapbooks.
+  * **1-Click Save / Print PDF**: Clean printable layout for scrapbooks with optimized 7-image weekly layout.
   * **PWA Support**: "Add to Home Screen" on iOS & Android.
 * **The Polaroid Photo Wall (`/gallery`)**:
   * Pinned 3D pushpin Polaroid cards organized by category albums with lightbox view.
+  * **Image Aspect Ratios**: Preserved original proportions with zero cropping or layout shift.
 * **The Digital Memory Book (`/book`)**:
   * 24-Month commemorative keepsake with scripture epilogue from Alma 7:24.
+  * **Weekly Photo Layout**: Optimized bento grid design (12×12) for zero empty space, matching specified weekly allocations.
 
 ---
 
