@@ -240,6 +240,7 @@
             : (typeof weekDetails.entries === 'string' ? JSON.parse(weekDetails.entries || '[]') : []);
 
           const verse = weekDetails.verse;
+          const hasVerse = verse && (verse.text || verse.reference);
           const chapId = `chapter-week-${w.slug || i + 1}`;
           const chapNum = String(i + 2).padStart(2, '0');
 

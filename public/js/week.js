@@ -53,17 +53,16 @@ async function loadWeek() {
   try {
     const response = await fetch(`/api/weeks/${encodeURIComponent(slug)}`);
     if (!response.ok) {
-      if (response.status === 404) {
-        showError('The requested weekly journal entry was not found in the archive.');
-        return;
-      }
-      throw new Error(`HTTP ${response.status}`);
+      // Even on 404, try sample fallback — stale SW cache may have poisoned this URL
+      console.warn(`API returned ${response.status} for ${slug}, trying fallback`);
+      loadSamplePayload(slug);
+      return;
     }
 
     const data = await response.json();
     const week = data.week;
     if (!week) {
-      showError('Empty response from archive.');
+      loadSamplePayload(slug);
       return;
     }
 
@@ -74,18 +73,18 @@ async function loadWeek() {
     renderWeek(week);
   } catch (err) {
     console.warn('API error, attempting sample fallback:', err);
-    loadSamplePayload();
+    loadSamplePayload(slug);
   }
 }
 
-async function loadSamplePayload() {
+async function loadSamplePayload(slug) {
   try {
     const res = await fetch('/sample-data/sample-payload.json');
     if (!res.ok) throw new Error('Failed to load sample payload');
     const sample = await res.json();
     renderWeek(sample);
   } catch (err) {
-    showError('Unable to load weekly journal entries.');
+    showError(`Unable to load weekly journal entries for "${slug || 'this week'}". Please check your connection and try again.`);
   }
 }
 
