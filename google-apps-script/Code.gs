@@ -1532,6 +1532,52 @@ function removeAllTriggers() {
   const matches = parenMatches.length >= dashMatches.length ? parenMatches : dashMatches;
 
   if (matches.length > 0) {
+    // Hybrid Day-to-Image Matching:
+    // 1. Check if image filename contains the day name (e.g. "monday.jpg", "mon_1.png", "day1.jpeg")
+    // 2. Unmatched images fill remaining day slots sequentially
+    const dayOrder = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'];
+    const matchedImageMap = {}; // dayName -> encodedImage
+    const usedImageIndices = new Set();
+
+    // Pass 1: Match by filename keywords
+    matches.forEach(m => {
+      const day = m.dayName;
+      const dayShort = day.substring(0, 3).toLowerCase(); // 'mon', 'tue', etc.
+      const dayFull = day.toLowerCase();
+      const dayIndexStr = String(dayOrder.indexOf(day) + 1); // '1' for Monday, '2' for Tuesday
+
+      for (let idx = 0; idx < encodedImages.length; idx++) {
+        if (usedImageIndices.has(idx)) continue;
+        const fname = (encodedImages[idx].filename || '').toLowerCase();
+        // Check for full day name, 3-letter prefix, or day number (e.g., day_1, day-1, d1)
+        if (
+          fname.includes(dayFull) || 
+          fname.includes(dayShort) || 
+          new RegExp(`(?:day|img|photo)[-_ ]*0*${dayIndexStr}(?:[^0-9]|$)`, 'i').test(fname)
+        ) {
+          matchedImageMap[day] = encodedImages[idx];
+          usedImageIndices.add(idx);
+          break;
+        }
+      }
+    });
+
+    // Pass 2: Fill remaining unmatched days with unused images in sequential order
+    let remainingImageIdx = 0;
+    matches.forEach(m => {
+      const day = m.dayName;
+      if (!matchedImageMap[day]) {
+        while (remainingImageIdx < encodedImages.length && usedImageIndices.has(remainingImageIdx)) {
+          remainingImageIdx++;
+        }
+        if (remainingImageIdx < encodedImages.length) {
+          matchedImageMap[day] = encodedImages[remainingImageIdx];
+          usedImageIndices.add(remainingImageIdx);
+          remainingImageIdx++;
+        }
+      }
+    });
+
     for (let i = 0; i < matches.length; i++) {
       const current = matches[i];
       const contentStart = current.startIndex + current.headerLength;
@@ -1546,25 +1592,27 @@ function removeAllTriggers() {
         .replace(/^[-—:\s]+/, '')
         .trim();
 
-      // Pair image attachments in order (image 1 → Monday, 2 → Tuesday, etc.)
-      const imageObj = encodedImages[i] ? encodedImages[i].dataUri : null;
+      const pairedImg = matchedImageMap[current.dayName] || null;
 
       entries.push({
         day: current.dayName,
         text: dayText,
-        image: imageObj,
-        imageFilename: encodedImages[i] ? encodedImages[i].filename : null
+        image: pairedImg ? pairedImg.dataUri : null,
+        imageFilename: pairedImg ? pairedImg.filename : null
       });
     }
 
-    // Extra images beyond the day count get appended as bonus plates
-    for (let j = matches.length; j < encodedImages.length; j++) {
-      entries.push({
-        day: `EXTRA PHOTO ${j - matches.length + 1}`,
-        text: '',
-        image: encodedImages[j].dataUri,
-        imageFilename: encodedImages[j].filename
-      });
+    // Extra images not assigned to any day get appended as bonus plates
+    let extraCount = 1;
+    for (let j = 0; j < encodedImages.length; j++) {
+      if (!usedImageIndices.has(j)) {
+        entries.push({
+          day: `EXTRA PHOTO ${extraCount++}`,
+          text: '',
+          image: encodedImages[j].dataUri,
+          imageFilename: encodedImages[j].filename
+        });
+      }
     }
 
   } else {
@@ -1748,6 +1796,16 @@ function sendPayloadToVercel(payload) {
   const url = getIngestUrl();
   const secret = PropertiesService.getScriptProperties().getProperty('INGEST_SECRET') || CONFIG.INGEST_SECRET;
   
+  const serializedPayload = JSON.stringify(payload);
+  const payloadBytes = serializedPayload.length;
+  const payloadMb = (payloadBytes / (1024 * 1024)).toFixed(2);
+
+  if (payloadBytes > 4.2 * 1024 * 1024) {
+    Logger.log(`[CRITICAL WARNING] Ingest payload size is ${payloadMb} MB, which may exceed Vercel's 4.5 MB serverless limit!`);
+  } else {
+    Logger.log(`Ingest payload size: ${payloadMb} MB (${payloadBytes} bytes).`);
+  }
+
   const options = {
     method: 'post',
     contentType: 'application/json',
@@ -1755,7 +1813,7 @@ function sendPayloadToVercel(payload) {
       'Authorization': 'Bearer ' + secret,
       'User-Agent': 'ElderSalviejo-GAS/2.0'
     },
-    payload: JSON.stringify(payload),
+    payload: serializedPayload,
     muteHttpExceptions: true
   };
   
@@ -1924,8 +1982,8 @@ function compressAndResizeAttachment(att, targetWidth) {
   const origKb = Math.round(originalBytes.length / 1024);
   const contentType = att.getContentType() || 'image/jpeg';
 
-  // If the image size is already small (<= 350 KB), preserve original quality and skip compression
-  const MAX_UNCOMPRESSED_KB = 350;
+  // If the image size is already small (<= 200 KB), preserve original quality and skip compression
+  const MAX_UNCOMPRESSED_KB = 200;
   if (origKb <= MAX_UNCOMPRESSED_KB) {
     Logger.log(`Image "${att.getName()}" is already optimal (${origKb} KB <= ${MAX_UNCOMPRESSED_KB} KB). Skipping compression.`);
     return {
