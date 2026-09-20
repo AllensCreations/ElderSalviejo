@@ -158,80 +158,97 @@ function renderWeeks(weeks) {
   container.innerHTML = weeks.map((w, index) => {
     const pubDate = new Date(w.publishedAt || w.createdAt || Date.now());
     const formattedDate = pubDate.toLocaleDateString('en-US', {
-      month: 'short',
+      month: 'long',
       day: 'numeric',
       year: 'numeric'
     });
 
     const weekNum = String(weeks.length - index).padStart(2, '0');
-    const titleText = escapeHtml(w.title || `Weekly Missionary Journal • Week ${weekNum}`);
-    const snippetText = escapeHtml(w.snippet || 'Click to examine daily routine reflections and view field polaroids...');
-    const scriptureText = w.verse && w.verse.reference ? escapeHtml(w.verse.reference) : 'Dumaguete, Negros Oriental';
+    const titleText = escapeHtml(w.title || `Week ${weekNum} — Dumaguete Field Letter`);
+    const snippetText = escapeHtml(w.snippet || 'Daily field reflections, companion study notes, and polaroid photographs from the Philippine mission.');
+    const scriptureRef = w.verse && w.verse.reference ? escapeHtml(w.verse.reference) : null;
     const photoCount = w.imageCount || (Array.isArray(w.entries) ? w.entries.length : 7);
+    const isCurrent = index === 0;
 
-    // Extract time or archival stamp if available
-    let photoDateStamp = 'SEPTEMBER 2026';
+    let photoDateStamp = formattedDate.toUpperCase();
     if (w.entries && w.entries[0] && w.entries[0].archivalStamp) {
       photoDateStamp = w.entries[0].archivalStamp;
     }
 
     return `
-      <div class="ledger-row ${index === 0 ? 'ledger-row-active' : ''} p-5 sm:p-6 cursor-pointer" onclick="openDocket(${index})" role="button" tabindex="0" onkeydown="if(event.key==='Enter') openDocket(${index})">
-        <div class="flex flex-col md:flex-row md:items-start justify-between gap-5">
-          
-          <!-- Left Column: Archival Ledger Metadata -->
-          <div class="w-full md:w-56 shrink-0 border-b md:border-b-0 md:border-r border-stone-200 pb-4 md:pb-0 md:pr-5">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-stone-100 text-stone-800 border border-stone-300">
-                WK ${weekNum}
-              </span>
-              ${index === 0 ? '<span class="font-mono text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded bg-red-50 text-red-700 border border-red-200">Current</span>' : ''}
-            </div>
-            <div class="font-mono text-xs text-stone-500 mb-1">
-              ${formattedDate}
-            </div>
-            <div class="font-mono text-[11px] text-stone-600 flex items-center gap-1.5 mt-2">
-              <svg class="w-3.5 h-3.5 text-stone-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-              <span>${photoCount} Photo Plates</span>
-            </div>
-            <div class="text-[11px] text-stone-500 truncate mt-1">
-              Ref: <span class="text-stone-800 font-medium">${scriptureText}</span>
-            </div>
-          </div>
+      <div
+        class="ledger-row ${isCurrent ? 'ledger-row-active' : ''} cursor-pointer group"
+        onclick="openDocket(${index})"
+        role="button"
+        tabindex="0"
+        onkeydown="if(event.key==='Enter') openDocket(${index})"
+      >
+        <div class="flex flex-col sm:flex-row sm:items-stretch gap-0">
 
-          <!-- Middle Column: Headline & Editorial Narrative -->
-          <div class="flex-1 min-w-0 pr-0 md:pr-4">
-            <h3 class="font-serif text-lg sm:text-xl font-bold text-stone-900 leading-snug group-hover:text-red-900 transition">
-              ${titleText}
-            </h3>
-            <p class="text-xs sm:text-sm text-stone-600 mt-2 leading-relaxed line-clamp-3">
-              ${snippetText}
-            </p>
-            <div class="mt-4 flex items-center gap-3">
-              <span class="inline-flex items-center gap-1 text-xs font-semibold text-red-800 hover:text-red-950 transition font-mono uppercase tracking-wider">
-                <span>Read Docket</span>
-                <span>&rarr;</span>
-              </span>
-              <a href="/week/${encodeURIComponent(w.slug || w.id)}" onclick="event.stopPropagation()" class="text-xs text-stone-400 hover:text-stone-700 font-mono underline transition" title="Open Permalink Sheet">
-                Permalink
-              </a>
-            </div>
-          </div>
-
-          <!-- Right Column: Refined Polaroid Preview with Date & Time Stamp -->
+          <!-- Left: photo preview (full-height, flush edge) -->
           ${w.previewImage ? `
-            <div class="w-full sm:w-44 md:w-36 shrink-0 self-center md:self-start">
-              <div class="polaroid-frame">
-                <div class="polaroid-photo-wrap aspect-4-3 sm:aspect-square">
-                  <img src="${w.previewImage}" alt="Week ${weekNum} Plate" loading="lazy" />
-                </div>
-                <div class="polaroid-stamp">
-                  ${photoDateStamp}
-                </div>
+            <div class="relative shrink-0 sm:w-40 md:w-44 overflow-hidden rounded-l-md bg-stone-900">
+              <img
+                src="${w.previewImage}"
+                alt="Week ${weekNum} preview"
+                loading="lazy"
+                class="w-full h-full object-cover min-h-[120px] sm:min-h-[160px] opacity-90 group-hover:opacity-100 transition duration-300"
+              />
+              <!-- Week badge over photo -->
+              <span class="absolute top-3 left-3 font-mono text-[10px] font-bold bg-stone-900/80 text-stone-100 px-2 py-0.5 rounded tracking-widest uppercase">
+                Wk ${weekNum}
+              </span>
+            </div>
+          ` : `
+            <!-- No photo: minimal week badge column -->
+            <div class="shrink-0 sm:w-20 md:w-24 bg-stone-50 border-r border-stone-200 flex items-center justify-center rounded-l-md">
+              <div class="text-center py-6 sm:py-0">
+                <span class="font-mono text-2xl font-black text-stone-300">${weekNum}</span>
+                <p class="font-mono text-[8px] text-stone-400 uppercase tracking-widest mt-0.5">WK</p>
               </div>
             </div>
-          ` : ''}
+          `}
 
+          <!-- Right: content -->
+          <div class="flex-1 min-w-0 p-4 sm:p-5 flex flex-col gap-1.5">
+
+            <!-- Date + current badge -->
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="font-mono text-[10px] text-stone-400 uppercase tracking-wider">${formattedDate}</span>
+              ${isCurrent ? '<span class="font-mono text-[9px] font-bold px-1.5 py-0.5 rounded bg-red-50 text-red-700 border border-red-200 uppercase tracking-widest">Current</span>' : ''}
+            </div>
+
+            <!-- Title -->
+            <h3 class="font-serif text-base sm:text-lg font-bold text-stone-900 leading-snug group-hover:text-red-900 transition line-clamp-2">
+              ${titleText}
+            </h3>
+
+            <!-- Snippet -->
+            <p class="text-xs sm:text-sm text-stone-500 leading-relaxed line-clamp-2 flex-1">
+              ${snippetText}
+            </p>
+
+            <!-- Footer row -->
+            <div class="flex items-center justify-between mt-2 pt-2 border-t border-stone-100">
+              <div class="flex items-center gap-3 text-[11px] font-mono text-stone-400">
+                <span>${photoCount} plates</span>
+                ${scriptureRef ? `<span class="text-stone-300">•</span><span class="text-amber-700">${scriptureRef}</span>` : ''}
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="font-mono text-[11px] font-bold text-red-800 group-hover:text-red-950 transition uppercase tracking-wider">
+                  Open &rarr;
+                </span>
+                <a
+                  href="/week/${encodeURIComponent(w.slug || w.id)}"
+                  onclick="event.stopPropagation()"
+                  class="font-mono text-[10px] text-stone-400 hover:text-stone-700 underline transition"
+                >
+                  Permalink
+                </a>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     `;

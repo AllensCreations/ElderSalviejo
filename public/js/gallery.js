@@ -212,13 +212,13 @@ function renderGallery() {
         onkeydown="if(event.key==='Enter') openLightbox(${index})"
       >
         <div class="polaroid-pin"></div>
-        <div class="polaroid-frame">
-          <!-- Snug Ratio-Preserving Wrap -->
-          <div class="polaroid-photo-wrap overflow-hidden rounded-xs bg-stone-100/70 p-1 flex items-center justify-center">
+        <div class="polaroid-frame polaroid-snug">
+          <!-- Natural aspect ratio — portrait tall, landscape wide, no forced crop -->
+          <div class="polaroid-photo-wrap">
             <img 
               src="${escapeAttr(imgSrc)}" 
               alt="Elder Salviejo Plate ${shotNumber}" 
-              class="w-full h-auto object-contain rounded-xs group-hover:scale-101 transition duration-150"
+              class="w-full h-auto object-contain rounded-xs transition duration-150"
               loading="${isPriority ? 'eager' : 'lazy'}"
               ${isPriority ? 'fetchpriority="high"' : ''}
               decoding="async"

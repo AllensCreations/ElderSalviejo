@@ -1,6 +1,6 @@
 /* ==========================================================================
-   Elder Salviejo • Weekly Missionary Journal Vault
-   Week View Stylesheet - Archival Editorial Edition
+   Elder Salviejo • Weekly Journal View
+   Archival Editorial Edition — redesigned for clarity and typographic strength
    ========================================================================== */
 
 body.week-view {
@@ -9,104 +9,201 @@ body.week-view {
 }
 
 /* --------------------------------------------------------------------------
-   Archival Editorial Sheet
+   Journal Sheet — each day's card
    -------------------------------------------------------------------------- */
 .journal-sheet {
   background-color: #ffffff;
   border: 1px solid var(--border-archival);
-  border-radius: 12px;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-  padding: clamp(20px, 4vw, 40px);
+  border-radius: 10px;
+  box-shadow: 0 2px 12px -2px rgba(0, 0, 0, 0.04);
+  padding: clamp(24px, 4vw, 48px);
   position: relative;
 }
 
+/* Subtle paper texture top-edge line */
+.journal-sheet::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 5%, var(--border-archival) 20%, var(--border-archival) 80%, transparent 95%);
+  border-radius: 10px 10px 0 0;
+  opacity: 0.5;
+}
+
 /* --------------------------------------------------------------------------
-   Refined Polaroid Card Component
+   Day Divider Rule — "— MONDAY —"
+   -------------------------------------------------------------------------- */
+.day-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.day-divider-line {
+  flex: 1;
+  height: 1px;
+  background: #e2ded9;
+}
+
+.day-divider-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: #57534e;
+  text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+   Reflection Body Typography
+   -------------------------------------------------------------------------- */
+.journal-sheet p {
+  font-family: var(--font-sans);
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.78;
+  color: #44403c;
+}
+
+/* Drop-cap for the first letter of the first entry */
+.docket-dropcap::first-letter {
+  font-family: var(--font-serif);
+  font-size: 3.6em;
+  line-height: 0.78;
+  float: left;
+  margin: 0.05em 0.12em 0 0;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+/* --------------------------------------------------------------------------
+   Polaroid Card (weekly view) — big photo, text caption below
    -------------------------------------------------------------------------- */
 .polaroid-card {
   position: relative;
   width: 100%;
-  max-width: 540px;
+  max-width: 560px;
   margin: 0 auto 32px;
   background-color: #ffffff;
-  padding: 12px 12px 16px;
-  border-radius: 4px;
-  border: 1px solid #e7e5e4;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  padding: 10px 10px 0 10px;
+  border-radius: 3px;
+  border: 1px solid #dbd7d2;
+  box-shadow:
+    0 14px 28px -6px rgba(0, 0, 0, 0.1),
+    0 4px 10px -2px rgba(0, 0, 0, 0.06),
+    2px 2px 0 rgba(0,0,0,0.04);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
 }
 
 .polaroid-card:hover {
-  box-shadow: 0 16px 32px -4px rgba(0, 0, 0, 0.12), 0 6px 14px -2px rgba(0, 0, 0, 0.06);
+  transform: translateY(-3px) rotate(0.3deg);
+  box-shadow:
+    0 22px 44px -8px rgba(0, 0, 0, 0.14),
+    0 6px 16px -3px rgba(0, 0, 0, 0.08),
+    2px 2px 0 rgba(0,0,0,0.04);
 }
 
 .polaroid-photo-frame {
   width: 100%;
   background-color: #18181b;
-  border-radius: 2px;
+  border-radius: 1px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .polaroid-photo-frame img {
   width: 100%;
   height: auto;
-  max-height: 520px;
+  max-height: 540px;
   object-fit: contain;
   display: block;
   margin: 0 auto;
   user-select: none;
 }
 
+/* Caption area — the thick white polaroid bottom */
 .polaroid-caption {
-  margin-top: 10px;
+  padding: 12px 6px 14px;
   text-align: center;
-  font-family: var(--font-mono);
-  font-size: 11px;
+}
+
+.polaroid-caption span:first-child {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 13px;
   font-weight: 500;
-  letter-spacing: 0.06em;
-  color: #78716c;
-  text-transform: uppercase;
+  color: #292524;
   line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.polaroid-caption .font-mono,
+.polaroid-caption span:last-child {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: #a8a29e;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 4px;
 }
 
 /* --------------------------------------------------------------------------
-   Scripture Callout Card
+   Scripture / Verse Callout Card
    -------------------------------------------------------------------------- */
 .scripture-card {
-  background-color: #ffffff;
+  background-color: #fdfcfb;
   border: 1px solid var(--border-archival);
   border-left: 3px solid var(--color-crimson);
   border-radius: 8px;
-  padding: clamp(20px, 3vw, 32px);
-  margin: 28px 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  padding: clamp(20px, 3vw, 36px);
+  margin: 32px 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
 }
 
 .scripture-text {
   font-family: var(--font-serif);
-  font-size: clamp(16px, 2.2vw, 20px);
+  font-size: clamp(15px, 2vw, 19px);
   font-style: italic;
-  line-height: 1.6;
-  color: var(--color-ink);
+  line-height: 1.65;
+  color: #1c1917;
+  margin: 0 0 12px;
 }
 
 .scripture-ref {
   font-family: var(--font-mono);
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-crimson);
-  margin-top: 10px;
   display: block;
 }
 
 /* --------------------------------------------------------------------------
-   Print & PDF Styles
+   Week header archival card
+   -------------------------------------------------------------------------- */
+.week-header-card {
+  background: #ffffff;
+  border: 1px solid var(--border-archival);
+  border-radius: 12px;
+  padding: clamp(24px, 4vw, 48px);
+  text-align: center;
+  box-shadow: 0 2px 12px -2px rgba(0,0,0,0.04);
+}
+
+/* --------------------------------------------------------------------------
+   Print & PDF
    -------------------------------------------------------------------------- */
 @media print {
   *, *:before, *:after {
@@ -122,20 +219,27 @@ body.week-view {
     line-height: 1.5 !important;
   }
 
-  .no-print {
-    display: none !important;
-  }
+  .no-print { display: none !important; }
 
   .journal-sheet {
     box-shadow: none !important;
     border: 1px solid #d6d3d1 !important;
-    padding: 16px !important;
+    padding: 18px !important;
+    break-inside: avoid !important;
   }
+
+  .journal-sheet::after { display: none !important; }
 
   .polaroid-card {
     box-shadow: none !important;
     border: 1px solid #d6d3d1 !important;
     break-inside: avoid !important;
     page-break-inside: avoid !important;
+  }
+
+  .scripture-card {
+    box-shadow: none !important;
+    border: 1px solid #e7e5e4 !important;
+    border-left: 2px solid #991b1b !important;
   }
 }

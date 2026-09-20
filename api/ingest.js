@@ -24,10 +24,11 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
   }
 
-  // 1. Authenticate secret token against INGEST_SECRET environment variable
+  // 1. Optional secret auth — only enforced if INGEST_SECRET env var is set and non-empty.
+  //    If INGEST_SECRET is not configured, all POST requests are accepted.
   const authHeader = req.headers.authorization || '';
   const token = authHeader.replace(/^Bearer\s+/i, '').trim();
-  const configuredSecret = process.env.INGEST_SECRET;
+  const configuredSecret = (process.env.INGEST_SECRET || '').trim();
 
   if (configuredSecret && token !== configuredSecret) {
     console.warn('Unauthorized /api/ingest attempt with invalid token.');

@@ -30,70 +30,59 @@
   </noscript>
 
   <style>
-    /* Archival Polaroid Masonry Board */
+    /* Archival Polaroid Masonry Board — redesigned for editorial breathing room */
     .gallery-masonry {
       column-count: 1;
-      column-gap: 1.25rem;
+      column-gap: 1.5rem;
       width: 100%;
     }
 
     @media (min-width: 480px) {
-      .gallery-masonry {
-        column-count: 2;
-        column-gap: 1.5rem;
-      }
+      .gallery-masonry { column-count: 2; column-gap: 1.75rem; }
     }
 
     @media (min-width: 768px) {
-      .gallery-masonry {
-        column-count: 3;
-        column-gap: 1.75rem;
-      }
+      .gallery-masonry { column-count: 3; column-gap: 2rem; }
     }
 
     @media (min-width: 1024px) {
-      .gallery-masonry {
-        column-count: 4;
-        column-gap: 1.75rem;
-      }
+      .gallery-masonry { column-count: 4; column-gap: 2.25rem; }
     }
 
-    @media (min-width: 1280px) {
-      .gallery-masonry {
-        column-count: 4;
-        column-gap: 2rem;
-      }
+    @media (min-width: 1400px) {
+      .gallery-masonry { column-count: 5; column-gap: 2.5rem; }
     }
 
     .polaroid-pinned-card {
       position: relative;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
       display: inline-block;
       width: 100%;
       break-inside: avoid;
       -webkit-column-break-inside: avoid;
       page-break-inside: avoid;
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), z-index 0.25s ease;
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, z-index 0.28s ease;
       cursor: pointer;
       user-select: none;
     }
 
     .polaroid-pinned-card:hover {
-      transform: scale(1.025) rotate(0deg) !important;
+      transform: scale(1.03) rotate(0deg) !important;
       z-index: 30;
     }
 
-    .tilt-neg-2 { transform: rotate(-1.5deg); }
-    .tilt-neg-1 { transform: rotate(-0.8deg); }
-    .tilt-pos-1 { transform: rotate(0.8deg); }
-    .tilt-pos-2 { transform: rotate(1.5deg); }
+    /* Slightly exaggerated tilts for authentic pinboard feel */
+    .tilt-neg-2 { transform: rotate(-2.2deg); }
+    .tilt-neg-1 { transform: rotate(-1.1deg); }
+    .tilt-pos-1 { transform: rotate(1.1deg); }
+    .tilt-pos-2 { transform: rotate(2.2deg); }
     .tilt-zero  { transform: rotate(0deg); }
 
     .lightbox-image {
       max-width: min(92vw, 1000px);
       max-height: min(78dvh, 80vh);
       object-fit: contain;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85);
+      box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.9);
     }
   </style>
 </head>
@@ -220,7 +209,7 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
       <div class="flex items-center gap-2">
         <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
-        <p class="font-mono text-stone-800">Elder Mark Salviejo • Philippines Dumaguete Mission</p>
+        <p class="font-mono text-stone-800">Elder Salviejo • Philippines Dumaguete Mission</p>
       </div>
       <div class="flex items-center gap-4 text-stone-400 font-mono text-[11px]">
         <span>Archival Photo Gallery</span>
