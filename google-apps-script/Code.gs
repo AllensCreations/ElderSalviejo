@@ -1471,46 +1471,84 @@ function removeAllTriggers() {
 /**
  * Parses daily markdown blocks and weekly scripture verse.
  */
-function parseDiaryContent(bodyText, encodedImages) {
-  let cleanBody = bodyText || '';
+ function parseDiaryContent(bodyText, encodedImages) {
+  let cleanBody = (bodyText || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
   let extractedVerse = null;
 
-  // Clean out standalone Report or Key Indicators sections before day splitting
-  cleanBody = cleanBody.replace(/(?:^|\n)\s*[-—#*~]*\s*(?:WEEKLY\s+REPORT|MISSIONARY\s+REPORT|KEY\s+INDICATORS|STATISTICS|REPORT)\s*[-—#*~:]*[\s\S]*?(?=\n\s*[-—#*~]*\s*(?:MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY|VERSE)|$)/gi, '\n');
+  // ── Step 1: Strip boilerplate report sections ──────────────────────────────
+  cleanBody = cleanBody.replace(
+    /(?:^|\n)\s*[-—#*~]*\s*(?:WEEKLY\s+REPORT|MISSIONARY\s+REPORT|KEY\s+INDICATORS|STATISTICS|REPORT)\s*[-—#*~:]*[\s\S]*?(?=\n\s*(?:\((?:MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\)|[-—#*~]*\s*(?:MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY))|\s*-VERSE-|$)/gi,
+    '\n'
+  );
 
-  const verseRegex = /(?:^|\n)\s*[-—#*~]*\s*VERSE\s*[-—#*~:]*\s*([\s\S]*)$/i;
-  const verseMatch = cleanBody.match(verseRegex);
-  if (verseMatch) {
-    const rawVerseText = verseMatch[1].trim();
-    extractedVerse = parseVerseString(rawVerseText);
-    cleanBody = cleanBody.substring(0, verseMatch.index).trim();
+  // ── Step 2: Extract -VERSE- (Alma 26:12) — can be inline at end of any day ─
+  // Matches:  -VERSE- (Alma 26:12)   or   -VERSE-(Alma 26:12)   etc.
+  const inlineVerseRegex = /\s*-\s*VERSE\s*-\s*(\([^)]+\)[^\n]*)/i;
+  const inlineVerseMatch = cleanBody.match(inlineVerseRegex);
+  if (inlineVerseMatch) {
+    extractedVerse = parseVerseString(inlineVerseMatch[1].trim());
+    cleanBody = cleanBody.replace(inlineVerseRegex, '').trim();
+  }
+
+  // If no inline verse found, try old standalone-line VERSE format
+  if (!extractedVerse) {
+    const standaloneVerseRegex = /(?:^|\n)\s*[-—#*~]*\s*VERSE\s*[-—#*~:]*\s*([\s\S]*)$/i;
+    const standaloneVerseMatch = cleanBody.match(standaloneVerseRegex);
+    if (standaloneVerseMatch) {
+      extractedVerse = parseVerseString(standaloneVerseMatch[1].trim());
+      cleanBody = cleanBody.substring(0, standaloneVerseMatch.index).trim();
+    }
   }
 
   const entries = [];
-  const headerRegex = /(?:^|\n)\s*[-—#*~]*\s*(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s*[-—#*~:]*\s*(?:\n|$)/gi;
 
-  const matches = [];
-  let match;
-  while ((match = headerRegex.exec(cleanBody)) !== null) {
-    matches.push({
-      dayName: match[1].toUpperCase(),
-      startIndex: match.index,
-      headerLength: match[0].length
+  // ── Step 3: Detect format ─────────────────────────────────────────────────
+  // Primary: (MONDAY)  format
+  // Fallback: --- MONDAY --- / #MONDAY / MONDAY: format
+
+  const parenHeaderRegex = /(?:^|\n)\s*\(\s*(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s*\)\s*(?:\n|$)/gi;
+  const parenMatches = [];
+  let m;
+  while ((m = parenHeaderRegex.exec(cleanBody)) !== null) {
+    parenMatches.push({
+      dayName: m[1].toUpperCase(),
+      startIndex: m.index,
+      headerLength: m[0].length
     });
   }
+
+  // Dash/hash fallback
+  const dashHeaderRegex = /(?:^|\n)\s*[-—#*~]*\s*(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s*[-—#*~:]*\s*(?:\n|$)/gi;
+  const dashMatches = [];
+  while ((m = dashHeaderRegex.exec(cleanBody)) !== null) {
+    dashMatches.push({
+      dayName: m[1].toUpperCase(),
+      startIndex: m.index,
+      headerLength: m[0].length
+    });
+  }
+
+  // Pick whichever format has more day matches
+  const matches = parenMatches.length >= dashMatches.length ? parenMatches : dashMatches;
 
   if (matches.length > 0) {
     for (let i = 0; i < matches.length; i++) {
       const current = matches[i];
       const contentStart = current.startIndex + current.headerLength;
       const contentEnd = (i + 1 < matches.length) ? matches[i + 1].startIndex : cleanBody.length;
-      
-      let dayText = cleanBody.substring(contentStart, contentEnd).trim();
-      dayText = dayText.replace(/^\s*[-—#*~]*\s*(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s*[-—#*~:]*\s*/i, '');
-      dayText = dayText.replace(/^[-—:\s]+/, '').trim();
 
+      let dayText = cleanBody.substring(contentStart, contentEnd).trim();
+
+      // Strip any leftover day header artifacts from the text body
+      dayText = dayText
+        .replace(/^\s*\(\s*(?:MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s*\)\s*/i, '')
+        .replace(/^\s*[-—#*~]*\s*(?:MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s*[-—#*~:]*\s*/i, '')
+        .replace(/^[-—:\s]+/, '')
+        .trim();
+
+      // Pair image attachments in order (image 1 → Monday, 2 → Tuesday, etc.)
       const imageObj = encodedImages[i] ? encodedImages[i].dataUri : null;
-      
+
       entries.push({
         day: current.dayName,
         text: dayText,
@@ -1519,17 +1557,18 @@ function parseDiaryContent(bodyText, encodedImages) {
       });
     }
 
-    if (encodedImages.length > matches.length) {
-      for (let j = matches.length; j < encodedImages.length; j++) {
-        entries.push({
-          day: `EXTRA PHOTO ${j - matches.length + 1}`,
-          text: '',
-          image: encodedImages[j].dataUri,
-          imageFilename: encodedImages[j].filename
-        });
-      }
+    // Extra images beyond the day count get appended as bonus plates
+    for (let j = matches.length; j < encodedImages.length; j++) {
+      entries.push({
+        day: `EXTRA PHOTO ${j - matches.length + 1}`,
+        text: '',
+        image: encodedImages[j].dataUri,
+        imageFilename: encodedImages[j].filename
+      });
     }
+
   } else {
+    // No day headers found — treat whole body as a single Monday entry
     entries.push({
       day: 'MONDAY',
       text: cleanBody.trim(),

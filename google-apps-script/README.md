@@ -97,42 +97,47 @@ You can submit two types of emails to your dummy receiver account:
 #### Option A: Weekly Diary Reflections (P-Day Letters)
 - **To**: `your-dummy-account@gmail.com`
 - **Subject**: `Weekly Reflection: Week 2 in Dumaguete [YOUR_DIARY_PASSCODE]` *(e.g. `Weekly Reflection: Week 2 in Dumaguete 159266`)*
-- **Body Format**:
+- **Body Format** *(primary — parentheses format)*:
   ```text
-  -VERSE- (Alma 26:12)
+  (MONDAY)
+  Preparation day! Did laundry, wrote emails to family, and companion study in Dumaguete.
 
-  --- MONDAY ---
-  Preparation day! Did laundry, wrote emails home, and played basketball with the district elders.
+  (TUESDAY)
+  Morning proselyting and teaching discussions in Sibulan district.
 
-  --- TUESDAY ---
-  Morning companion study in Alma 26. Walked through Sibulan and met an investigator family.
+  (WEDNESDAY)
+  Taught the Plan of Salvation to Brother Bautista and enjoyed fresh buko juice.
 
-  --- WEDNESDAY ---
-  Taught the Plan of Salvation to Brother Bautista and enjoyed fresh buko juice from their tree.
-
-  --- THURSDAY ---
+  (THURSDAY)
   District Council meeting in Dumaguete City. Practiced Cebuano language roleplays.
 
-  --- FRIDAY ---
-  Service project helping Nanay Elena repair her bamboo fence after the rain.
+  (FRIDAY)
+  Service project helping local families repair bamboo fences.
 
-  --- SATURDAY ---
+  (SATURDAY)
   Street contacting along Rizal Boulevard during sunset overlooking the ocean.
 
+  (SUNDAY)
+  Sacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior Jesus Christ. -VERSE- (Alma 26:12)
+  ```
+- **Alternative body format** *(dash/hash format — also supported)*:
+  ```text
+  --- MONDAY ---
+  Preparation day! ...
+
   --- SUNDAY ---
-  Sacrament meeting in Dumaguete 1st Ward. Bore testimony of the Savior Jesus Christ.
+  Sacrament meeting... -VERSE- (Alma 26:12)
   ```
 - **Scripture Formats Supported**:
-  - `-VERSE- (Alma 26:12)` or `(Alma 26:12)` -> Automatically retrieves verse text from scripture dataset.
-  - `-VERSE- (VERSE 26:12)` or `(VERSE 26:12)` -> Automatically defaults to Alma in Book of Mormon.
-  - `-VERSE- (Alma 26:12) (Custom quote text)` -> Overrides verse text with your custom translation/note.
-  - Supports all Standard Works: Book of Mormon, Doctrine & Covenants, Pearl of Great Price, New Testament, Old Testament.
-- **Attachments**: 7 photos (.jpg, .png, .heic) matching each day from Monday to Sunday.
+  - `-VERSE- (Alma 26:12)` at end of any day line → auto-fetches scripture text.
+  - `-VERSE- (Alma 26:12) (Custom quote text)` → overrides verse with your own words.
+  - Supports: Book of Mormon, D&C, Pearl of Great Price, New Testament, Old Testament.
+- **Attachments**: 7 photos (.jpg, .png, .heic) — paired to days **in order**: image 1 → Monday, image 2 → Tuesday, ..., image 7 → Sunday.
 - **What Happens**:
-  1. The reflection and daily photos are saved to GitHub, jsDelivr CDN, and Turso SQLite.
-  2. All website subscribers receive the **Weekly Broadcast Newsletter**.
+  1. Reflections and photos are saved to GitHub, jsDelivr CDN, and Turso SQLite.
+  2. All subscribers receive the **Weekly Broadcast Newsletter**.
   3. Elder Salviejo receives an instant **Confirmation Receipt**.
-  4. The thread in the dummy account is labeled **`diary-processed`**.
+  4. The thread is labeled **`diary-processed`**.
 
 ---
 
