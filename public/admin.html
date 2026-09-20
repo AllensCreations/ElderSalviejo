@@ -295,6 +295,118 @@
       background: #fef3c7;
       color: #92400e;
     }
+    /* Tab Navigation */
+    .tab-nav {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid var(--border);
+      padding: 0 24px;
+      background: #fafaf9;
+    }
+    .tab-btn {
+      padding: 14px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active {
+      color: var(--amber-dark);
+      border-bottom-color: var(--amber);
+      background: none;
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    /* Diagnostics */
+    .diag-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .diag-btn {
+      padding: 11px 14px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--stone-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s;
+      text-align: left;
+    }
+    .diag-btn:hover { background: #f5f4f2; border-color: #aaa; }
+    .diag-btn.running { opacity: 0.6; pointer-events: none; }
+    .diag-btn.green { border-color: #6ee7b7; background: #ecfdf5; color: #065f46; }
+    .diag-btn.red   { border-color: #fca5a5; background: #fef2f2; color: #991b1b; }
+    .diag-btn .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #d1d5db;
+      flex-shrink: 0;
+    }
+    .diag-btn.green .dot { background: #10b981; }
+    .diag-btn.red   .dot { background: #ef4444; }
+    /* Logger */
+    #diagLogger {
+      background: #1c1917;
+      color: #d6d3d1;
+      border-radius: 10px;
+      padding: 16px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 12px;
+      line-height: 1.7;
+      min-height: 280px;
+      max-height: 420px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      border: 1px solid #44403c;
+    }
+    .log-ts { color: #78716c; }
+    .log-ok  { color: #34d399; }
+    .log-err { color: #f87171; }
+    .log-warn{ color: #fbbf24; }
+    .log-info{ color: #60a5fa; }
+    .log-head{ color: #e2e8f0; font-weight: bold; }
+    .logger-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .logger-controls button {
+      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      background: #fff;
+      cursor: pointer;
+      color: var(--muted);
+    }
+    .logger-controls button:hover { background: #f5f4f2; color: var(--text); }
+    .logger-controls .log-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-right: auto;
+    }
   </style>
 </head>
 <body>
@@ -331,154 +443,275 @@
           <h1>Elder Salviejo</h1>
           <p style="font-size: 12px; color: #a8a29e; font-style: italic;">Missionary Archival Administration &bull; Version 3.1</p>
         </div>
-        <button type="button" class="btn-logout" onclick="handleLogout()">Lock & Logout</button>
+        <button type="button" class="btn-logout" onclick="handleLogout()">Lock &amp; Logout</button>
       </div>
 
-      <div class="body-content">
-        
-        <div class="grid-2">
+      <!-- Tab Navigation -->
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('main', this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Admin &amp; Sender
+        </button>
+        <button class="tab-btn" onclick="switchTab('diag', this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          System Diagnostics
+        </button>
+      </div>
+
+      <!-- TAB 1: Main Admin -->
+      <div id="tab-main" class="tab-panel active">
+        <div class="body-content">
           
-          <!-- Column 1: Send All-in-One Template Kit -->
-          <div>
-            <div class="section-card">
-              <div class="section-title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                  <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
-                Register Sender &amp; Send Congratulatory Kit
-              </div>
-              <p class="section-desc">
-                Dispatches the official <strong>Congratulatory Missionary Sender Registration &amp; Submission Kit</strong> to Elder Salviejo featuring the <strong>4-step "How to Send" guide</strong> and <strong>2 prominent 1-click action buttons ("Send Weekly" &amp; "Send Gallery")</strong>.
-              </p>
-
-              <form onsubmit="handleSendKit(event)">
-                <div class="form-group">
-                  <label for="recipientInput">Missionary / Sender Email Address:</label>
-                  <input type="email" id="recipientInput" placeholder="e.g. 2ndsalviejomark2019@gmail.com" oninput="saveAndSyncLinks()" required>
-                  <p style="font-size: 11px; color: var(--muted); margin-top: 4px;">
-                    Saved automatically in this browser.
-                  </p>
-                </div>
-
-                <div class="form-group">
-                  <label for="dummyInput">Dummy Receiver Inbox Address:</label>
-                  <input type="email" id="dummyInput" value="dummy@gmail.com" placeholder="dummy-receiver@gmail.com" oninput="saveAndSyncLinks()" required>
-                  <p style="font-size: 11px; color: var(--muted); margin-top: 4px;">
-                    The inbox running Google Apps Script that receives letters &amp; photos.
-                  </p>
-                </div>
-
-                <div class="form-group">
-                  <label for="appsScriptUrlInput">Google Apps Script Web App URL (For direct automated sending):</label>
-                  <input type="text" id="appsScriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec" oninput="saveAndSyncLinks()">
-                  <p style="font-size: 11px; color: var(--muted); margin-top: 4px;">
-                    Enter your deployed Apps Script Web App URL once ("Who has access: Anyone").
-                  </p>
-                </div>
-
-                <button type="submit" class="btn-primary" id="btnSendKit">
+          <div class="grid-2">
+            
+            <!-- Column 1: Send All-in-One Template Kit -->
+            <div>
+              <div class="section-card">
+                <div class="section-title">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="22" y1="2" x2="11" y2="13"></line>
-                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
                   </svg>
-                  <span id="btnSendKitText">Send Congratulatory Sender Kit Email</span>
-                </button>
-              </form>
-
-              <div id="sendKitStatus" class="status-box"></div>
-
-              <!-- Direct Google Apps Script Quick Runner Card -->
-              <div style="background-color: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 14px 16px; margin-top: 16px;">
-                <div style="display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 12px; color: #334155; margin-bottom: 4px;">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                  Direct 1-Click Runner in Google Apps Script (Zero Setup)
+                  Register Sender &amp; Send Congratulatory Kit
                 </div>
-                <p style="font-size: 11px; color: #64748b; line-height: 1.5; margin: 0 0 6px 0;">
-                  Want to test delivery immediately to your inbox without configuring Web App webhooks?
+                <p class="section-desc">
+                  Dispatches the official <strong>Congratulatory Missionary Sender Registration &amp; Submission Kit</strong> to Elder Salviejo featuring the <strong>4-step "How to Send" guide</strong> and <strong>2 prominent 1-click action buttons ("Send Weekly" &amp; "Send Gallery")</strong>.
                 </p>
-                <ol style="margin: 0; padding-left: 18px; font-size: 11px; color: #475569; line-height: 1.6;">
-                  <li>Open your script at <a href="https://script.google.com" target="_blank" style="color: #0284c7; text-decoration: underline;">script.google.com</a>.</li>
-                  <li>In the toolbar function dropdown, select <strong><code>runTestSendToMyInbox</code></strong>.</li>
-                  <li>Click <strong>Run</strong> (Grant permissions if prompted on first execution).</li>
-                  <li>Check your Gmail inbox — the congratulatory HTML kit arrives instantly!</li>
-                </ol>
-              </div>
 
-              <!-- 2-Button Action Kit Card (Always ready and live) -->
-              <div id="kitResultCard" class="kit-result-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                  <span style="font-size: 13px; font-weight: 700; color: #92400e;">
-                    Direct Submission Buttons
-                  </span>
-                  <span class="badge-tag">1-Click Ready</span>
-                </div>
-                <p style="font-size: 12px; color: #78350f; margin-bottom: 12px;">
-                  Elder Salviejo receives these 2 buttons in his email. Clicking either button opens his native mail app with the subject, passcode, and body ready:
-                </p>
-                <div class="kit-btn-row">
-                  <a href="#" id="linkSendWeekly" class="kit-btn-amber">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <form onsubmit="handleSendKit(event)">
+                  <div class="form-group">
+                    <label for="recipientInput">Missionary / Sender Email Address:</label>
+                    <input type="email" id="recipientInput" placeholder="e.g. 2ndsalviejomark2019@gmail.com" oninput="saveAndSyncLinks()" required>
+                    <p style="font-size: 11px; color: var(--muted); margin-top: 4px;">
+                      Saved automatically in this browser.
+                    </p>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="dummyInput">Dummy Receiver Inbox Address:</label>
+                    <input type="email" id="dummyInput" value="dummy@gmail.com" placeholder="dummy-receiver@gmail.com" oninput="saveAndSyncLinks()" required>
+                    <p style="font-size: 11px; color: var(--muted); margin-top: 4px;">
+                      The inbox running Google Apps Script that receives letters &amp; photos.
+                    </p>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="appsScriptUrlInput">Google Apps Script Web App URL (For direct automated sending):</label>
+                    <input type="text" id="appsScriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec" oninput="saveAndSyncLinks()">
+                    <p style="font-size: 11px; color: var(--muted); margin-top: 4px;">
+                      Enter your deployed Apps Script Web App URL once ("Who has access: Anyone").
+                    </p>
+                  </div>
+
+                  <button type="submit" class="btn-primary" id="btnSendKit">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <line x1="22" y1="2" x2="11" y2="13"></line>
                       <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                     </svg>
-                    Send Weekly (159266)
-                  </a>
-                  <a href="#" id="linkSendGallery" class="kit-btn-stone">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                      <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                      <polyline points="21 15 16 10 5 21"></polyline>
-                    </svg>
-                    Send Gallery (073000)
-                  </a>
+                    <span id="btnSendKitText">Send Congratulatory Sender Kit Email</span>
+                  </button>
+                </form>
+
+                <div id="sendKitStatus" class="status-box"></div>
+
+                <!-- Direct Google Apps Script Quick Runner Card -->
+                <div style="background-color: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 14px 16px; margin-top: 16px;">
+                  <div style="display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 12px; color: #334155; margin-bottom: 4px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    Direct 1-Click Runner in Google Apps Script (Zero Setup)
+                  </div>
+                  <p style="font-size: 11px; color: #64748b; line-height: 1.5; margin: 0 0 6px 0;">
+                    Want to test delivery immediately to your inbox without configuring Web App webhooks?
+                  </p>
+                  <ol style="margin: 0; padding-left: 18px; font-size: 11px; color: #475569; line-height: 1.6;">
+                    <li>Open your script at <a href="https://script.google.com" target="_blank" style="color: #0284c7; text-decoration: underline;">script.google.com</a>.</li>
+                    <li>In the toolbar function dropdown, select <strong><code>runTestSendToMyInbox</code></strong>.</li>
+                    <li>Click <strong>Run</strong> (Grant permissions if prompted on first execution).</li>
+                    <li>Check your Gmail inbox — the congratulatory HTML kit arrives instantly!</li>
+                  </ol>
+                </div>
+
+                <!-- 2-Button Action Kit Card (Always ready and live) -->
+                <div id="kitResultCard" class="kit-result-card">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 13px; font-weight: 700; color: #92400e;">
+                      Direct Submission Buttons
+                    </span>
+                    <span class="badge-tag">1-Click Ready</span>
+                  </div>
+                  <p style="font-size: 12px; color: #78350f; margin-bottom: 12px;">
+                    Elder Salviejo receives these 2 buttons in his email. Clicking either button opens his native mail app with the subject, passcode, and body ready:
+                  </p>
+                  <div class="kit-btn-row">
+                    <a href="#" id="linkSendWeekly" class="kit-btn-amber">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                      </svg>
+                      Send Weekly (159266)
+                    </a>
+                    <a href="#" id="linkSendGallery" class="kit-btn-stone">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                      </svg>
+                      Send Gallery (073000)
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Column 2: Overview & Controls -->
+            <div>
+              <!-- Subscriber Stats -->
+              <div class="section-card">
+                <div class="section-title">Newsletter Subscribers</div>
+                <p class="section-desc">Family, friends, and supporters subscribed for weekly Monday P-Day updates.</p>
+                <div class="stat-badge" id="subscribersCount">...</div>
+                <button type="button" class="btn-secondary" onclick="fetchSubscriberStats()" style="width: 100%; justify-content: center; margin-top: 8px;">
+                  Refresh Count
+                </button>
+              </div>
+
+              <!-- Keepsake Backup -->
+              <div class="section-card">
+                <div class="section-title">Database Keepsake Backup</div>
+                <p class="section-desc">Download a complete JSON export of all weekly letters, polaroids, and encouragement messages.</p>
+                <button type="button" class="btn-secondary" onclick="downloadBackup()" style="width: 100%; justify-content: center;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  Download Backup JSON
+                </button>
+              </div>
+
+              <!-- Quick Links -->
+              <div class="section-card">
+                <div class="section-title">Quick Vault Navigation</div>
+                <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+                  <a href="/compose" class="btn-secondary" target="_blank">Manual Template Composer</a>
+                  <a href="/gallery" class="btn-secondary" target="_blank">Polaroid Gallery Wall</a>
+                  <a href="/book" class="btn-secondary" target="_blank">24-Month Monograph Book</a>
+                  <a href="/" class="btn-secondary" target="_blank">Index Vault Directory</a>
                 </div>
               </div>
 
-            </div>
-          </div>
-
-          <!-- Column 2: Overview & Controls -->
-          <div>
-            <!-- Subscriber Stats -->
-            <div class="section-card">
-              <div class="section-title">Newsletter Subscribers</div>
-              <p class="section-desc">Family, friends, and supporters subscribed for weekly Monday P-Day updates.</p>
-              <div class="stat-badge" id="subscribersCount">...</div>
-              <button type="button" class="btn-secondary" onclick="fetchSubscriberStats()" style="width: 100%; justify-content: center; margin-top: 8px;">
-                Refresh Count
-              </button>
-            </div>
-
-            <!-- Keepsake Backup -->
-            <div class="section-card">
-              <div class="section-title">Database Keepsake Backup</div>
-              <p class="section-desc">Download a complete JSON export of all weekly letters, polaroids, and encouragement messages.</p>
-              <button type="button" class="btn-secondary" onclick="downloadBackup()" style="width: 100%; justify-content: center;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                  <polyline points="7 10 12 15 17 10"></polyline>
-                  <line x1="12" y1="15" x2="12" y2="3"></line>
-                </svg>
-                Download Backup JSON
-              </button>
-            </div>
-
-            <!-- Quick Links -->
-            <div class="section-card">
-              <div class="section-title">Quick Vault Navigation</div>
-              <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
-                <a href="/compose" class="btn-secondary" target="_blank">Manual Template Composer</a>
-                <a href="/gallery" class="btn-secondary" target="_blank">Polaroid Gallery Wall</a>
-                <a href="/book" class="btn-secondary" target="_blank">24-Month Monograph Book</a>
-                <a href="/" class="btn-secondary" target="_blank">Index Vault Directory</a>
-              </div>
             </div>
 
           </div>
 
         </div>
+      </div>
 
+      <!-- TAB 2: System Diagnostics -->
+      <div id="tab-diag" class="tab-panel">
+        <div class="body-content">
+
+          <div class="section-card" style="margin-bottom: 0;">
+            <div class="section-title" style="margin-bottom: 4px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              System Diagnostics &amp; Live Tester
+            </div>
+            <p class="section-desc" style="margin-bottom: 18px;">Run tests against all live endpoints and services. Results stream into the logger below in real time.</p>
+
+            <!-- Test Button Grid -->
+            <div class="diag-grid">
+
+              <button class="diag-btn" id="btn-debug" onclick="runTest('debug')">
+                <span class="dot"></span>
+                <div><div>Full System Check</div><div style="font-size:10px;font-weight:400;color:#78716c;">/api/debug</div></div>
+              </button>
+
+              <button class="diag-btn" id="btn-weeks" onclick="runTest('weeks')">
+                <span class="dot"></span>
+                <div><div>Vault Week List</div><div style="font-size:10px;font-weight:400;color:#78716c;">/api/weeks</div></div>
+              </button>
+
+              <button class="diag-btn" id="btn-week1" onclick="runTest('week1')">
+                <span class="dot"></span>
+                <div><div>Week 1 Detail</div><div style="font-size:10px;font-weight:400;color:#78716c;">/api/weeks/week-1-*</div></div>
+              </button>
+
+              <button class="diag-btn" id="btn-gallery" onclick="runTest('gallery')">
+                <span class="dot"></span>
+                <div><div>Gallery Photos</div><div style="font-size:10px;font-weight:400;color:#78716c;">/api/gallery</div></div>
+              </button>
+
+              <button class="diag-btn" id="btn-stats" onclick="runTest('stats')">
+                <span class="dot"></span>
+                <div><div>Site Statistics</div><div style="font-size:10px;font-weight:400;color:#78716c;">/api/stats</div></div>
+              </button>
+
+              <button class="diag-btn" id="btn-sub" onclick="runTest('sub')">
+                <span class="dot"></span>
+                <div><div>Subscribers</div><div style="font-size:10px;font-weight:400;color:#78716c;">/api/stats (subs)</div></div>
+              </button>
+
+              <button class="diag-btn" id="btn-sw" onclick="runTest('sw')">
+                <span class="dot"></span>
+                <div><div>Service Worker</div><div style="font-size:10px;font-weight:400;color:#78716c;">SW registration</div></div>
+              </button>
+
+              <button class="diag-btn" id="btn-cache" onclick="runTest('cache')">
+                <span class="dot"></span>
+                <div><div>Cache Storage</div><div style="font-size:10px;font-weight:400;color:#78716c;">List all caches</div></div>
+              </button>
+
+              <button class="diag-btn" id="btn-ingest-dry" onclick="runTest('ingest_dry')">
+                <span class="dot"></span>
+                <div><div>Ingest Dry-Run</div><div style="font-size:10px;font-weight:400;color:#78716c;">POST /api/ingest (test)</div></div>
+              </button>
+
+              <button class="diag-btn" id="btn-backup" onclick="runTest('backup')">
+                <span class="dot"></span>
+                <div><div>Backup Endpoint</div><div style="font-size:10px;font-weight:400;color:#78716c;">/api/backup</div></div>
+              </button>
+
+              <button class="diag-btn" id="btn-sample" onclick="runTest('sample')">
+                <span class="dot"></span>
+                <div><div>Sample Payload</div><div style="font-size:10px;font-weight:400;color:#78716c;">/sample-data/...</div></div>
+              </button>
+
+              <button class="diag-btn" id="btn-localstorage" onclick="runTest('localstorage')">
+                <span class="dot"></span>
+                <div><div>LocalStorage Cache</div><div style="font-size:10px;font-weight:400;color:#78716c;">gdv_cached_weeks</div></div>
+              </button>
+
+            </div>
+
+            <!-- Run All + Clear Cache buttons -->
+            <div style="display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap;">
+              <button class="btn-primary" style="width: auto; padding: 10px 22px;" onclick="runAllTests()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Run All Tests
+              </button>
+              <button class="btn-secondary" onclick="clearDiagCaches()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.97"/></svg>
+                Clear All Caches
+              </button>
+              <button class="btn-secondary" onclick="clearDiagLog()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+                Clear Log
+              </button>
+            </div>
+
+            <!-- Logger -->
+            <div class="logger-controls">
+              <span class="log-label">Live System Log</span>
+              <button onclick="diagLog('', 'separator')">— Separator —</button>
+              <button onclick="navigator.clipboard && navigator.clipboard.writeText(document.getElementById('diagLogger').innerText)">Copy Log</button>
+            </div>
+            <div id="diagLogger"><span class="log-info">Ready. Click any test button or "Run All Tests" to begin.</span>
+</div>
+
+          </div>
+
+        </div>
       </div>
 
     </div>
@@ -635,6 +868,274 @@
       if (!currentToken) return;
       var backupUrl = '/api/backup?token=' + encodeURIComponent(currentToken) + '&download=true';
       window.open(backupUrl, '_blank');
+    }
+
+    // ─── TAB SWITCHING ──────────────────────────────────────────
+    function switchTab(id, btn) {
+      document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+      document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+      document.getElementById('tab-' + id).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    // ─── DIAGNOSTICS LOGGER ──────────────────────────────────────
+    function diagLog(msg, type) {
+      var el = document.getElementById('diagLogger');
+      var ts = new Date().toLocaleTimeString('en-US', { hour12: false });
+      var line;
+      if (type === 'separator') {
+        line = '<span class="log-ts">───────────────────────────────────────</span>\n';
+      } else if (type === 'head') {
+        line = '<span class="log-head">' + msg + '</span>\n';
+      } else if (type === 'ok') {
+        line = '<span class="log-ts">[' + ts + ']</span> <span class="log-ok">✔ ' + msg + '</span>\n';
+      } else if (type === 'err') {
+        line = '<span class="log-ts">[' + ts + ']</span> <span class="log-err">✘ ' + msg + '</span>\n';
+      } else if (type === 'warn') {
+        line = '<span class="log-ts">[' + ts + ']</span> <span class="log-warn">⚠ ' + msg + '</span>\n';
+      } else {
+        line = '<span class="log-ts">[' + ts + ']</span> <span class="log-info">' + msg + '</span>\n';
+      }
+      el.innerHTML += line;
+      el.scrollTop = el.scrollHeight;
+    }
+
+    function clearDiagLog() {
+      document.getElementById('diagLogger').innerHTML = '<span class="log-info">Log cleared.</span>\n';
+    }
+
+    function setBtnState(id, state) {
+      var btn = document.getElementById('btn-' + id);
+      if (!btn) return;
+      btn.className = 'diag-btn' + (state === 'ok' ? ' green' : state === 'err' ? ' red' : '');
+    }
+
+    // ─── INDIVIDUAL TESTS ────────────────────────────────────────
+    async function runTest(id) {
+      setBtnState(id.replace('_','-'), '');
+      var btn = document.getElementById('btn-' + id.replace('_','-'));
+      if (btn) btn.classList.add('running');
+
+      try {
+        if (id === 'debug') {
+          diagLog('── Full System Check (/api/debug) ──', 'head');
+          var r = await fetch('/api/debug', { cache: 'no-store' });
+          var d = await r.json();
+          diagLog('HTTP ' + r.status, r.ok ? 'ok' : 'err');
+          diagLog('Turso configured: ' + d.turso.configured, d.turso.configured ? 'ok' : 'err');
+          diagLog('URL present: ' + d.turso.urlPresent, d.turso.urlPresent ? 'ok' : 'err');
+          diagLog('Token present: ' + d.turso.tokenPresent, d.turso.tokenPresent ? 'ok' : 'err');
+          diagLog('Week count: ' + d.turso.weekCount, d.turso.weekCount > 0 ? 'ok' : 'warn');
+          diagLog('Action: ' + d.action, 'info');
+          if (d.turso.error) diagLog('DB error: ' + d.turso.error, 'err');
+          setBtnState('debug', r.ok && d.turso.configured ? 'ok' : 'err');
+
+        } else if (id === 'weeks') {
+          diagLog('── Vault Week List (/api/weeks) ──', 'head');
+          var r = await fetch('/api/weeks', { cache: 'no-store' });
+          var d = await r.json();
+          diagLog('HTTP ' + r.status, r.ok ? 'ok' : 'err');
+          diagLog('Week count: ' + (d.count || 0), (d.count || 0) > 0 ? 'ok' : 'warn');
+          diagLog('Turso configured: ' + (d._debug && d._debug.tursoConfigured), (d._debug && d._debug.tursoConfigured) ? 'ok' : 'warn');
+          if (d.weeks && d.weeks.length > 0) {
+            d.weeks.slice(0, 3).forEach(function(w) {
+              diagLog('  → [' + w.id + '] ' + w.slug, 'info');
+            });
+          } else {
+            diagLog('No weeks returned — check Turso env vars on Vercel', 'warn');
+          }
+          setBtnState('weeks', (d.count || 0) > 0 ? 'ok' : 'err');
+
+        } else if (id === 'week1') {
+          diagLog('── Week 1 Detail (/api/weeks/week-1-*) ──', 'head');
+          var slug = 'week-1-dumaguete-city-negros-oriental';
+          var r = await fetch('/api/weeks/' + encodeURIComponent(slug), { cache: 'no-store' });
+          diagLog('HTTP ' + r.status + ' for slug: ' + slug, r.ok ? 'ok' : 'err');
+          if (r.ok) {
+            var d = await r.json();
+            diagLog('Title: ' + (d.week && d.week.title), 'ok');
+            diagLog('Entries: ' + (d.week && Array.isArray(d.week.entries) ? d.week.entries.length : '?'), 'info');
+          } else {
+            var t = await r.text();
+            diagLog('Response: ' + t.substring(0, 120), 'err');
+          }
+          setBtnState('week1', r.ok ? 'ok' : 'err');
+
+        } else if (id === 'gallery') {
+          diagLog('── Gallery Photos (/api/gallery) ──', 'head');
+          var r = await fetch('/api/gallery', { cache: 'no-store' });
+          var d = await r.json();
+          diagLog('HTTP ' + r.status, r.ok ? 'ok' : 'err');
+          diagLog('Photos: ' + (d.count || 0), 'info');
+          setBtnState('gallery', r.ok ? 'ok' : 'err');
+
+        } else if (id === 'stats') {
+          diagLog('── Site Statistics (/api/stats) ──', 'head');
+          var r = await fetch('/api/stats', { cache: 'no-store' });
+          var d = await r.json();
+          diagLog('HTTP ' + r.status, r.ok ? 'ok' : 'err');
+          diagLog('Weeks: ' + d.weeksCount, 'info');
+          diagLog('Photos: ' + d.photosCount, 'info');
+          diagLog('Subscribers: ' + d.subscribersCount, 'info');
+          setBtnState('stats', r.ok ? 'ok' : 'err');
+
+        } else if (id === 'sub') {
+          diagLog('── Subscribers (/api/stats) ──', 'head');
+          var r = await fetch('/api/stats', { cache: 'no-store' });
+          var d = await r.json();
+          diagLog('Subscriber count: ' + d.subscribersCount, d.subscribersCount > 0 ? 'ok' : 'warn');
+          setBtnState('sub', r.ok ? 'ok' : 'err');
+
+        } else if (id === 'sw') {
+          diagLog('── Service Worker Status ──', 'head');
+          if (!('serviceWorker' in navigator)) {
+            diagLog('Service Worker: NOT SUPPORTED in this browser', 'warn');
+            setBtnState('sw', 'err');
+          } else {
+            var regs = await navigator.serviceWorker.getRegistrations();
+            diagLog('Registrations: ' + regs.length, regs.length > 0 ? 'ok' : 'warn');
+            regs.forEach(function(reg, i) {
+              diagLog('  SW #' + (i+1) + ' scope: ' + reg.scope, 'info');
+              diagLog('  State: ' + (reg.active ? reg.active.state : 'no active worker'), reg.active ? 'ok' : 'warn');
+            });
+            if (regs.length === 0) diagLog('No SW registered — pages may not cache offline', 'warn');
+            setBtnState('sw', regs.length > 0 ? 'ok' : 'err');
+          }
+
+        } else if (id === 'cache') {
+          diagLog('── Cache Storage ──', 'head');
+          if (!('caches' in window)) {
+            diagLog('CacheStorage: NOT AVAILABLE', 'warn');
+            setBtnState('cache', 'err');
+          } else {
+            var keys = await caches.keys();
+            diagLog('Total caches: ' + keys.length, keys.length > 0 ? 'ok' : 'warn');
+            for (var i = 0; i < keys.length; i++) {
+              var c = await caches.open(keys[i]);
+              var ckeys = await c.keys();
+              diagLog('  [' + keys[i] + '] — ' + ckeys.length + ' entries', 'info');
+            }
+            setBtnState('cache', 'ok');
+          }
+
+        } else if (id === 'ingest_dry') {
+          diagLog('── Ingest Dry-Run (POST /api/ingest) ──', 'head');
+          diagLog('Sending minimal test payload...', 'info');
+          var r = await fetch('/api/ingest', {
+            method: 'POST',
+            cache: 'no-store',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + currentToken
+            },
+            body: JSON.stringify({
+              slug: 'diag-test-' + Date.now(),
+              title: '[DIAG] Test Entry — Safe to Ignore',
+              publishedAt: new Date().toISOString(),
+              rawSubject: 'DIAG Test',
+              sender: 'diag@test.local',
+              entries: [{ day: 'Monday', text: 'Diagnostic test entry. Safe to ignore.', image: null }],
+              totalEntries: 1,
+              imageCount: 0
+            })
+          });
+          var d = await r.json();
+          diagLog('HTTP ' + r.status, r.ok ? 'ok' : 'err');
+          if (r.ok && d.success) {
+            diagLog('Ingested slug: ' + d.slug, 'ok');
+            diagLog('Note: A test entry was created — you may delete it from your DB', 'warn');
+          } else {
+            diagLog('Error: ' + (d.error || d.details || JSON.stringify(d)), 'err');
+          }
+          setBtnState('ingest-dry', r.ok ? 'ok' : 'err');
+
+        } else if (id === 'backup') {
+          diagLog('── Backup Endpoint (/api/backup) ──', 'head');
+          var r = await fetch('/api/backup?token=' + encodeURIComponent(currentToken), { cache: 'no-store' });
+          diagLog('HTTP ' + r.status, r.ok ? 'ok' : 'err');
+          if (r.ok) {
+            var d = await r.json();
+            var wCount = d.tables && d.tables.journal_weeks ? d.tables.journal_weeks.length : '?';
+            diagLog('Weeks in backup: ' + wCount, 'ok');
+            diagLog('Backup ready to download from Admin tab', 'info');
+          } else {
+            diagLog('Backup failed: ' + r.status, 'err');
+          }
+          setBtnState('backup', r.ok ? 'ok' : 'err');
+
+        } else if (id === 'sample') {
+          diagLog('── Sample Payload (/sample-data/sample-payload.json) ──', 'head');
+          var r = await fetch('/sample-data/sample-payload.json', { cache: 'no-store' });
+          diagLog('HTTP ' + r.status, r.ok ? 'ok' : 'err');
+          if (r.ok) {
+            var d = await r.json();
+            diagLog('Slug: ' + d.slug, 'ok');
+            diagLog('Entries: ' + (d.entries ? d.entries.length : 0), 'info');
+          } else {
+            diagLog('Sample payload not found', 'err');
+          }
+          setBtnState('sample', r.ok ? 'ok' : 'err');
+
+        } else if (id === 'localstorage') {
+          diagLog('── LocalStorage Cache ──', 'head');
+          var cached = localStorage.getItem('gdv_cached_weeks');
+          if (cached) {
+            try {
+              var weeks = JSON.parse(cached);
+              diagLog('gdv_cached_weeks: ' + weeks.length + ' weeks cached', weeks.length > 0 ? 'ok' : 'warn');
+              if (weeks.length > 0) {
+                diagLog('  Latest: ' + weeks[0].slug, 'info');
+              }
+            } catch(e) {
+              diagLog('gdv_cached_weeks: CORRUPT — clearing', 'err');
+              localStorage.removeItem('gdv_cached_weeks');
+            }
+          } else {
+            diagLog('gdv_cached_weeks: empty (first load or cleared)', 'warn');
+          }
+          var allKeys = Object.keys(localStorage).filter(function(k) { return k.startsWith('gdv_'); });
+          diagLog('All gdv_* keys: [' + allKeys.join(', ') + ']', 'info');
+          setBtnState('localstorage', 'ok');
+        }
+
+      } catch (err) {
+        diagLog('Exception: ' + err.message, 'err');
+        setBtnState(id.replace('_','-'), 'err');
+      }
+
+      if (btn) btn.classList.remove('running');
+    }
+
+    // ─── RUN ALL TESTS ───────────────────────────────────────────
+    async function runAllTests() {
+      clearDiagLog();
+      diagLog('Running all system diagnostics...', 'head');
+      diagLog('', 'separator');
+      var tests = ['debug','weeks','week1','gallery','stats','sub','sw','cache','sample','localstorage','backup'];
+      for (var i = 0; i < tests.length; i++) {
+        await runTest(tests[i]);
+        diagLog('', 'separator');
+      }
+      diagLog('All tests complete.', 'head');
+    }
+
+    // ─── CLEAR ALL CACHES ────────────────────────────────────────
+    async function clearDiagCaches() {
+      diagLog('── Clearing All Caches ──', 'head');
+      // 1. Clear CacheStorage
+      if ('caches' in window) {
+        var keys = await caches.keys();
+        for (var i = 0; i < keys.length; i++) {
+          await caches.delete(keys[i]);
+          diagLog('Deleted cache: ' + keys[i], 'ok');
+        }
+      }
+      // 2. Clear gdv_ localStorage keys
+      Object.keys(localStorage).filter(function(k) { return k.startsWith('gdv_'); }).forEach(function(k) {
+        localStorage.removeItem(k);
+        diagLog('Removed localStorage: ' + k, 'ok');
+      });
+      diagLog('All caches cleared. Reload the page to fetch fresh data.', 'ok');
     }
   </script>
 </body>
