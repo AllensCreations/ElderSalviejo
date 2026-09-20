@@ -923,11 +923,26 @@
           var d = await r.json();
           diagLog('HTTP ' + r.status, r.ok ? 'ok' : 'err');
           diagLog('Turso configured: ' + d.turso.configured, d.turso.configured ? 'ok' : 'err');
+          if (!d.turso.configured) {
+            diagLog('🔧 Fix: Set TURSO_DATABASE_URL and TURSO_AUTH_TOKEN in Vercel Environment Variables', 'info');
+          }
           diagLog('URL present: ' + d.turso.urlPresent, d.turso.urlPresent ? 'ok' : 'err');
+          if (!d.turso.urlPresent) {
+            diagLog('🔧 Fix: Add TURSO_DATABASE_URL=libsql://your-db-name-your-org.turso.io to Vercel env vars', 'info');
+          }
           diagLog('Token present: ' + d.turso.tokenPresent, d.turso.tokenPresent ? 'ok' : 'err');
+          if (!d.turso.tokenPresent) {
+            diagLog('🔧 Fix: Add TURSO_AUTH_TOKEN=your-jwt-token to Vercel env vars', 'info');
+          }
           diagLog('Week count: ' + d.turso.weekCount, d.turso.weekCount > 0 ? 'ok' : 'warn');
+          if (d.turso.weekCount === 0 && d.turso.configured) {
+            diagLog('🔧 Fix: Check Turso database - run ingestion or verify data exists', 'info');
+          }
           diagLog('Action: ' + d.action, 'info');
-          if (d.turso.error) diagLog('DB error: ' + d.turso.error, 'err');
+          if (d.turso.error) {
+            diagLog('DB error: ' + d.turso.error, 'err');
+            diagLog('🔧 Fix: Check Turso connection - verify URL and token are correct', 'info');
+          }
           setBtnState('debug', r.ok && d.turso.configured ? 'ok' : 'err');
 
         } else if (id === 'weeks') {
@@ -936,7 +951,14 @@
           var d = await r.json();
           diagLog('HTTP ' + r.status, r.ok ? 'ok' : 'err');
           diagLog('Week count: ' + (d.count || 0), (d.count || 0) > 0 ? 'ok' : 'warn');
+          if ((d.count || 0) === 0) {
+            diagLog('🔧 Fix: Set up Turso database OR check local data source', 'info');
+            diagLog('🔧 Fix: Verify TURSO_DATABASE_URL and TURSO_AUTH_TOKEN are set in Vercel', 'info');
+          }
           diagLog('Turso configured: ' + (d._debug && d._debug.tursoConfigured), (d._debug && d._debug.tursoConfigured) ? 'ok' : 'warn');
+          if (d._debug && !d._debug.tursoConfigured) {
+            diagLog('🔧 Fix: Turso not detected - set environment variables in Vercel project settings', 'info');
+          }
           if (d.weeks && d.weeks.length > 0) {
             d.weeks.slice(0, 3).forEach(function(w) {
               diagLog('  → [' + w.id + '] ' + w.slug, 'info');
@@ -958,6 +980,7 @@
           } else {
             var t = await r.text();
             diagLog('Response: ' + t.substring(0, 120), 'err');
+            diagLog('🔧 Fix: Ensure week exists in database or check slug format', 'info');
           }
           setBtnState('week1', r.ok ? 'ok' : 'err');
 
@@ -967,6 +990,9 @@
           var d = await r.json();
           diagLog('HTTP ' + r.status, r.ok ? 'ok' : 'err');
           diagLog('Photos: ' + (d.count || 0), 'info');
+          if ((d.count || 0) === 0) {
+            diagLog('🔧 Fix: Check vault/gallery/index.json exists or verify Turso connection', 'info');
+          }
           setBtnState('gallery', r.ok ? 'ok' : 'err');
 
         } else if (id === 'stats') {
@@ -984,12 +1010,16 @@
           var r = await fetch('/api/stats', { cache: 'no-store' });
           var d = await r.json();
           diagLog('Subscriber count: ' + d.subscribersCount, d.subscribersCount > 0 ? 'ok' : 'warn');
+          if (d.subscribersCount === 0) {
+            diagLog('🔧 Fix: No subscribers found - check database or add test subscribers', 'info');
+          }
           setBtnState('sub', r.ok ? 'ok' : 'err');
 
         } else if (id === 'sw') {
           diagLog('── Service Worker Status ──', 'head');
           if (!('serviceWorker' in navigator)) {
             diagLog('Service Worker: NOT SUPPORTED in this browser', 'warn');
+            diagLog('🔧 Fix: Use a modern browser that supports Service Workers (Chrome, Firefox, Safari, Edge)', 'info');
             setBtnState('sw', 'err');
           } else {
             var regs = await navigator.serviceWorker.getRegistrations();
@@ -998,7 +1028,10 @@
               diagLog('  SW #' + (i+1) + ' scope: ' + reg.scope, 'info');
               diagLog('  State: ' + (reg.active ? reg.active.state : 'no active worker'), reg.active ? 'ok' : 'warn');
             });
-            if (regs.length === 0) diagLog('No SW registered — pages may not cache offline', 'warn');
+            if (regs.length === 0) {
+              diagLog('No SW registered — pages may not cache offline', 'warn');
+              diagLog('🔧 Fix: Ensure service worker is registered and scope is correct', 'info');
+            }
             setBtnState('sw', regs.length > 0 ? 'ok' : 'err');
           }
 
@@ -1006,6 +1039,7 @@
           diagLog('── Cache Storage ──', 'head');
           if (!('caches' in window)) {
             diagLog('CacheStorage: NOT AVAILABLE', 'warn');
+            diagLog('🔧 Fix: Use a modern browser that supports Cache API', 'info');
             setBtnState('cache', 'err');
           } else {
             var keys = await caches.keys();
@@ -1046,6 +1080,7 @@
             diagLog('Note: A test entry was created — you may delete it from your DB', 'warn');
           } else {
             diagLog('Error: ' + (d.error || d.details || JSON.stringify(d)), 'err');
+            diagLog('🔧 Fix: Check Turso connection or INGEST_SECRET if auth enabled', 'info');
           }
           setBtnState('ingest-dry', r.ok ? 'ok' : 'err');
 
