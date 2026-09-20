@@ -304,7 +304,7 @@
                   }).join('')}
                 </div>
 
-                <!-- 3. Bottom: 7-Photo Mini-Gallery Grid (1 Week 7 Photos Strip) -->
+                <!-- 3. Bottom: 7-Photo Bento Grid Layout (Optimized for Zero Empty Space) -->
                 <div class="weekly-photos-section flex-1 min-h-0 flex flex-col justify-end">
                   <div class="flex items-center justify-between pb-1 border-b border-stone-200 mb-1.5 shrink-0">
                     <span class="font-mono text-[9px] uppercase font-bold tracking-widest text-stone-500">
@@ -315,10 +315,10 @@
                     </span>
                   </div>
 
-                  <!-- 7 Photos Row / Compact Grid -->
-                  <div class="grid grid-cols-7 gap-1.5 h-full items-start">
+                  <!-- 7 Photos Bento Grid (12x12) -->
+                  <div class="grid grid-cols-12 grid-rows-12 gap-4 h-full">
                     ${entries.slice(0, 7).map((entry, eIdx) => {
-                      const dayClean = cleanBookDayName(entry.day, eIdx);
+                      const dayClean = cleanBookDayName(entry.day, eIdx).toLowerCase();
                       const hasImg = Boolean(entry.image || entry.cdnImage);
                       let imgSrc = entry.cdnImage || entry.image || '';
                       let cdnFallback = '';
@@ -345,27 +345,55 @@
                         });
                       }
 
+                      // Bento grid area assignments (optimized for zero empty space)
+                      let gridClass = '';
+                      switch (dayClean) {
+                        case 'monday':
+                          gridClass = 'col-span-5 row-span-4';
+                          break;
+                        case 'tuesday':
+                          gridClass = 'col-span-7 row-span-4';
+                          break;
+                        case 'wednesday':
+                          gridClass = 'col-span-4 row-span-5';
+                          break;
+                        case 'thursday':
+                          gridClass = 'col-span-4 row-span-5';
+                          break;
+                        case 'friday':
+                          gridClass = 'col-span-4 row-span-5';
+                          break;
+                        case 'saturday':
+                          gridClass = 'col-span-6 row-span-3';
+                          break;
+                        case 'sunday':
+                          gridClass = 'col-span-6 row-span-3';
+                          break;
+                        default:
+                          gridClass = 'col-span-2 row-span-2'; // fallback
+                      }
+
                       return `
                         <div
-                          class="weekly-grid-polaroid group flex flex-col items-start bg-white border border-stone-200 rounded p-1 shadow-2xs cursor-pointer hover:border-stone-400 transition"
+                          class="weekly-grid-polaroid group ${gridClass} bg-white border border-stone-200 rounded p-1 shadow-2xs cursor-pointer hover:border-stone-400 transition"
                           ${hasImg ? `onclick="openWeeklyPlate(${weeklyPlateIdx})"` : ''}
                           title="${escapeAttr(dayClean)} Plate (Click to zoom)"
                         >
-                          <div class="weekly-polaroid-img-wrap w-[80px] h-[80px] bg-stone-900 rounded-xs overflow-hidden flex items-center justify-center shrink-0">
+                          <div class="weekly-polaroid-img-wrap aspect-[4/3] bg-stone-900 rounded-xs overflow-hidden flex items-center justify-center">
                             ${hasImg ? `
                               <img
                                 src="${escapeAttr(imgSrc)}"
                                 alt="${escapeAttr(dayClean)} Plate"
-                                class="h-full w-auto object-contain group-hover:scale-105 transition duration-150 block"
+                                class="w-full h-full object-contain group-hover:scale-105 transition duration-150 block"
                                 loading="eager"
                                 decoding="async"
                                 onerror="handleBookImgError(this, '${escapeAttr(cdnFallback)}', '${escapeAttr(legacyCdn)}')"
                               />
                             ` : `
-                              <div class="text-[8px] font-mono text-stone-400 text-center px-1">Plate Pending</div>
+                              <div class="text-[8px] font-mono text-stone-400 text-center">Plate Pending</div>
                             `}
                           </div>
-                          <div class="pt-1 text-center font-mono text-[8px] font-bold text-stone-700 uppercase truncate w-full">
+                          <div class="mt-2 text-center font-mono text-[8px] font-bold text-stone-700 uppercase truncate">
                             ${escapeHtml(dayClean.slice(0, 3))}
                           </div>
                         </div>
