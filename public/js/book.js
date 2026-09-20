@@ -350,12 +350,12 @@
                           ${hasImg ? `onclick="openWeeklyPlate(${weeklyPlateIdx})"` : ''}
                           title="${escapeAttr(dayClean)} Plate (Click to zoom)"
                         >
-                          <div class="weekly-polaroid-img-wrap flex-1 min-h-0 bg-stone-100 border border-stone-200/70 rounded-xs overflow-hidden flex items-center justify-center p-0.5">
+                          <div class="weekly-polaroid-img-wrap flex-1 min-h-0 bg-stone-900 rounded-xs overflow-hidden flex items-center justify-center">
                             ${hasImg ? `
                               <img
                                 src="${escapeAttr(imgSrc)}"
                                 alt="${escapeAttr(dayClean)} Plate"
-                                class="w-full h-full max-h-full max-w-full object-contain group-hover:scale-102 transition duration-150 block mx-auto"
+                                class="w-full h-full object-cover group-hover:scale-102 transition duration-150 block"
                                 loading="eager"
                                 decoding="async"
                                 onerror="handleBookImgError(this, '${escapeAttr(cdnFallback)}', '${escapeAttr(legacyCdn)}')"
