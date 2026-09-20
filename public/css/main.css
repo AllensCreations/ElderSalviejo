@@ -219,20 +219,41 @@ textarea,
   color: inherit;
   background-color: #ffffff;
   border: 1px solid var(--border-archival);
-  border-radius: 12px;
-  margin-bottom: 16px;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 8px;
+  margin-bottom: 12px;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
+  position: relative;
+}
+
+.ledger-row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: transparent;
+  transition: background 0.18s ease;
+  border-radius: 8px 0 0 8px;
 }
 
 .ledger-row:hover {
-  border-color: #d6d3d1;
-  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
-  transform: translateY(-2px);
+  border-color: #c5c0bb;
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08), 0 1px 4px -1px rgba(0, 0, 0, 0.04);
+  transform: translateY(-1px);
+}
+
+.ledger-row:hover::before {
+  background: var(--color-crimson);
 }
 
 .ledger-row-active {
-  border-left: 3px solid var(--color-crimson);
+  border-left-color: var(--color-crimson);
+}
+
+.ledger-row-active::before {
+  background: var(--color-crimson);
 }
 
 /* --------------------------------------------------------------------------
@@ -256,27 +277,16 @@ textarea,
 /* --------------------------------------------------------------------------
    Aspect Ratio & Containment Utilities (Anti-Cropping / Natural Ratios)
    -------------------------------------------------------------------------- */
-.aspect-4-3 {
-  aspect-ratio: 4 / 3;
-}
-
-.aspect-3-4 {
-  aspect-ratio: 3 / 4;
-}
-
-.aspect-square {
-  aspect-ratio: 1 / 1;
-}
-
-.aspect-letter {
-  aspect-ratio: 8.5 / 11;
-}
+.aspect-4-3 { aspect-ratio: 4 / 3; }
+.aspect-3-4 { aspect-ratio: 3 / 4; }
+.aspect-square { aspect-ratio: 1 / 1; }
+.aspect-letter { aspect-ratio: 8.5 / 11; }
 
 .polaroid-photo-wrap {
   position: relative;
   overflow: hidden;
   background-color: #f5f5f4;
-  border-radius: 2px;
+  border-radius: 1px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -293,35 +303,39 @@ textarea,
   transition: opacity 0.2s ease;
 }
 
-/* Snug Polaroid: Frame hugs the natural dimensions of the photo without black bars */
-.polaroid-snug {
-  display: flex;
-  flex-direction: column;
-}
+/* Snug Polaroid: Frame hugs the natural dimensions of the photo */
+.polaroid-snug { display: flex; flex-direction: column; }
+.polaroid-snug .polaroid-photo-wrap { background-color: transparent; min-height: 0; width: 100%; }
+.polaroid-snug .polaroid-photo-wrap img { width: 100%; height: auto; object-fit: contain; }
 
-.polaroid-snug .polaroid-photo-wrap {
-  background-color: transparent;
-  min-height: 0;
-  width: 100%;
-}
-
-.polaroid-snug .polaroid-photo-wrap img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
+/* Polaroid pin dot — the red/orange tack */
+.polaroid-pin {
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f87171, #991b1b 80%);
+  box-shadow: 0 2px 8px rgba(153, 27, 27, 0.45), inset 0 1px 0 rgba(255,255,255,0.25);
+  z-index: 2;
+  flex-shrink: 0;
 }
 
 .polaroid-stamp {
   font-family: var(--font-mono);
   font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  color: #78716c;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #57534e;
   text-align: center;
   text-transform: uppercase;
-  margin-top: 8px;
-  line-height: 1.3;
+  margin-top: 10px;
+  padding: 0 2px;
+  line-height: 1.35;
 }
+
 
 /* --------------------------------------------------------------------------
    Universal Archival Lightbox & Ratio-Preserving Zoom Canvas
