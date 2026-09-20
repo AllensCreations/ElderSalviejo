@@ -170,17 +170,14 @@ function renderWeek(week) {
     return `
       <article class="journal-sheet mb-12">
         
-        <!-- Day Heading -->
-        <div class="flex items-center justify-between gap-3 border-b border-stone-200 pb-3 mb-6">
-          <div class="flex items-center gap-2">
-            <span class="font-mono text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded bg-stone-100 text-stone-800 border border-stone-300">
-              ${escapeHtml(dayClean)}
-            </span>
-            ${entry.date ? `<span class="font-mono text-xs text-stone-500">${escapeHtml(entry.date)}</span>` : ''}
-          </div>
-          <span class="font-mono text-[11px] text-stone-500 uppercase tracking-widest">
-            ${escapeHtml(stampText)}
+        <!-- Day Divider: — MONDAY — -->
+        <div class="flex items-center gap-3 mb-7">
+          <div class="flex-1 h-px bg-stone-200"></div>
+          <span class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-stone-700 whitespace-nowrap select-none">
+            &mdash;&nbsp;${escapeHtml(dayClean)}&nbsp;&mdash;
           </span>
+          ${entry.date ? `<span class="font-mono text-[10px] text-stone-400">${escapeHtml(entry.date)}</span>` : ''}
+          <div class="flex-1 h-px bg-stone-200"></div>
         </div>
 
         <!-- Reflection Body (full text, shown above the polaroid) -->
