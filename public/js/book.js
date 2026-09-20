@@ -46,6 +46,17 @@
     }
   };
 
+  // Dynamic natural aspect ratio sync for Appendix photo plates
+  window.autoAdjustAppendixTile = function (img) {
+    if (!img || !img.naturalWidth || !img.naturalHeight) return;
+    const ratio = img.naturalWidth / img.naturalHeight;
+    const tile = img.closest('.appendix-row-tile');
+    if (!tile) return;
+
+    tile.style.flex = `${ratio} ${ratio} 0%`;
+    tile.style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`;
+  };
+
   // Weekly plates collection for interactive lightbox
   window.BOOK_WEEKLY_PLATES = [];
 
@@ -674,7 +685,7 @@
     return `
       <div
         class="appendix-row-tile group cursor-pointer"
-        style="flex: ${ratio} ${ratio} 0%;"
+        style="flex: ${ratio} ${ratio} 0%; aspect-ratio: ${ratio};"
         onclick="openAppendixPlate(${globalIndex})"
         title="Plate #${shotNumber} (Click to inspect in ratio-locked zoom lightbox)"
       >
@@ -684,6 +695,7 @@
           class="book-plate-img"
           loading="eager"
           decoding="async"
+          onload="autoAdjustAppendixTile(this)"
           onerror="handleBookImgError(this, '${escapeAttr(cdnFallback)}', '${escapeAttr(legacyCdn)}')"
         />
 
