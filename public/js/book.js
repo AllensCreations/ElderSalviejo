@@ -335,22 +335,22 @@
 
                       return `
                         <div
-                          class="weekly-grid-polaroid group flex flex-col justify-between bg-white border border-stone-200 rounded-xs p-1 shadow-2xs cursor-pointer hover:border-stone-400 transition"
+                          class="weekly-grid-polaroid group flex flex-col justify-between bg-white border border-stone-200 rounded p-1 shadow-2xs cursor-pointer hover:border-stone-400 transition"
                           ${hasImg ? `onclick="openWeeklyPlate(${weeklyPlateIdx})"` : ''}
                           title="${escapeAttr(dayClean)} Plate (Click to zoom)"
                         >
-                          <div class="weekly-polaroid-img-wrap flex-1 min-h-0 bg-stone-900 rounded-2xs overflow-hidden flex items-center justify-center">
+                          <div class="weekly-polaroid-img-wrap flex-1 min-h-0 bg-stone-100 border border-stone-200/70 rounded-xs overflow-hidden flex items-center justify-center p-0.5">
                             ${hasImg ? `
                               <img
                                 src="${escapeAttr(imgSrc)}"
                                 alt="${escapeAttr(dayClean)} Plate"
-                                class="w-full h-full object-cover group-hover:scale-103 transition duration-150 block"
+                                class="w-full h-full max-h-full max-w-full object-contain group-hover:scale-102 transition duration-150 block mx-auto"
                                 loading="eager"
                                 decoding="async"
                                 onerror="handleBookImgError(this, '${escapeAttr(cdnFallback)}', '${escapeAttr(legacyCdn)}')"
                               />
                             ` : `
-                              <div class="text-[8px] font-mono text-stone-500 text-center px-1">Plate Pending</div>
+                              <div class="text-[8px] font-mono text-stone-400 text-center px-1">Plate Pending</div>
                             `}
                           </div>
                           <div class="pt-1 text-center font-mono text-[8px] font-bold text-stone-700 uppercase truncate">
