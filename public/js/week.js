@@ -176,73 +176,108 @@ function renderWeek(week) {
     }
   };
 
-  // Render Daily Journal Sheets
+  // Render 7-Polaroid Scrapbook Bento Grid (12x12) for weekly journal view
   const container = document.getElementById('entriesList');
   if (!container) return;
 
-  container.innerHTML = entries.map((entry, index) => {
-    const dayClean = cleanDayName(entry.day, index);
-    const cleanText = cleanEntryText(entry.text);
-    const stampText = entry.archivalStamp || entry.capturedDateTime || (entry.time ? `${dayClean} • ${entry.time} (PHT)` : `${dayClean} • 2026`);
-    // Short excerpt for inside the polaroid caption (max 80 chars)
-    const shortCaption = cleanText ? (cleanText.length > 80 ? cleanText.slice(0, 80).trimEnd() + '…' : cleanText) : stampText;
+  // Debug: Log entries count
+  console.log('Rendering week with', entries.length, 'entries');
 
-    return `
-      <article class="journal-sheet mb-12">
-        
-        <!-- Day Divider: — MONDAY — -->
-        <div class="flex items-center gap-3 mb-7">
-          <div class="flex-1 h-px bg-stone-200"></div>
-          <span class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-stone-700 whitespace-nowrap select-none">
-            &mdash;&nbsp;${escapeHtml(dayClean)}&nbsp;&mdash;
-          </span>
-          ${entry.date ? `<span class="font-mono text-[10px] text-stone-400">${escapeHtml(entry.date)}</span>` : ''}
-          <div class="flex-1 h-px bg-stone-200"></div>
-        </div>
+  // Create bento grid container
+  container.innerHTML = `
+    <div class="scrapbook-grid">
+      ${entries.map((entry, index) => {
+        const dayClean = cleanDayName(entry.day, index).toLowerCase();
+        const cleanText = cleanEntryText(entry.text);
+        const stampText = entry.archivalStamp || entry.capturedDateTime || (entry.time ? `${dayClean} • ${entry.time} (PHT)` : `${dayClean} • 2026`);
+        // Short excerpt for inside the polaroid caption (max 80 chars)
+        const shortCaption = cleanText ? (cleanText.length > 80 ? cleanText.slice(0, 80).trimEnd() + '…' : cleanText) : stampText;
 
-        <!-- Reflection Body (full text, shown above the polaroid) -->
-        <div class="max-w-2xl mx-auto space-y-4 mb-8">
-          <p class="${index === 0 ? 'docket-dropcap' : ''} text-stone-700 text-sm sm:text-base leading-relaxed font-sans">
-            ${escapeHtml(cleanText || 'No reflection recorded for this day.')}
-          </p>
-        </div>
+        // Determine grid class based on day
+        let gridClass = '';
+        let tiltClass = '';
+        let isSplitLayout = false;
 
-        <!-- Polaroid Photo Card: Big photo first, short caption excerpt below inside the frame -->
-        ${(entry.cdnImage || entry.image) ? `
-          <div
-            class="polaroid-card cursor-pointer group"
-            onclick="openWeekPlate(${index})"
-            title="Click to open photo in lightbox"
-          >
-            <div class="polaroid-photo-frame">
-              <img
-                src="${entry.cdnImage || entry.image}"
-                alt="${escapeHtml(dayClean)} missionary photograph"
-                loading="lazy"
-                decoding="async"
-                draggable="false"
-                oncontextmenu="return false;"
-                class="weekly-journal-image"
-                onload="autoAdjustWeeklyJournalImage(this)"
-              />
+        switch (dayClean) {
+          case 'monday':
+            gridClass = 'cell-mon';
+            tiltClass = 'tilt-left';
+            break;
+          case 'tuesday':
+            gridClass = 'cell-tue';
+            tiltClass = 'tilt-right';
+            break;
+          case 'wednesday':
+            gridClass = 'cell-wed';
+            tiltClass = 'tilt-subtle';
+            break;
+          case 'thursday':
+            gridClass = 'cell-thu';
+            tiltClass = 'tilt-right';
+            break;
+          case 'friday':
+            gridClass = 'cell-fri';
+            tiltClass = 'tilt-left';
+            break;
+          case 'saturday':
+            gridClass = 'cell-sat';
+            tiltClass = 'tilt-subtle';
+            isSplitLayout = true;
+            break;
+          case 'sunday':
+            gridClass = 'cell-sun';
+            tiltClass = 'tilt-right';
+            isSplitLayout = true;
+            break;
+          default:
+            gridClass = 'col-span-2 row-span-2';
+            tiltClass = 'tilt-subtle';
+        }
+
+        return `
+          <article class="polaroid ${gridClass} ${tiltClass}">
+            <div class="tape"></div>
+            <div class="photo-frame">
+              ${(entry.cdnImage || entry.image) ? `
+                <img
+                  src="${entry.cdnImage || entry.image}"
+                  alt="${escapeHtml(dayClean)} missionary photograph"
+                  loading="eager"
+                  decoding="async"
+                  draggable="false"
+                  oncontextmenu="return false;"
+                  class="weekly-journal-image group-hover:scale-105 transition duration-150 block"
+                  onload="autoAdjustWeeklyJournalImage(this)"
+                  onerror="handleWeeklyImgError(this, '${entry.cdnImage || ''}', '${entry.image || ''}')"
+                />
+              ` : `
+                <div class="flex items-center justify-center h-full text-[8px] font-mono text-stone-400">Plate Pending</div>
+              `}
             </div>
-            <div class="polaroid-caption">
-              <span class="block truncate">${escapeHtml(shortCaption)}</span>
-              <span class="block text-stone-400 text-[10px] mt-0.5 font-mono uppercase tracking-widest">${escapeHtml(stampText)}</span>
+            <div class="polaroid-chin ${isSplitLayout ? 'flex items-center justify-center' : ''}">
+              ${isSplitLayout ? `
+                <div class="flex-1">
+                  <div class="chin-header">
+                    <strong>${escapeHtml(dayClean.slice(0, 3).toUpperCase())}</strong>
+                    <span>12:00 PHT</span>
+                  </div>
+                </div>
+                <div class="flex-1">
+                  <div class="chin-caption">${escapeHtml(shortCaption)}</div>
+                </div>
+              ` : `
+                <div class="chin-header">
+                  <strong>${escapeHtml(dayClean.slice(0, 3).toUpperCase())}</strong>
+                  <span>12:00 PHT</span>
+                </div>
+                <div class="chin-caption">${escapeHtml(shortCaption)}</div>
+              `}
             </div>
-          </div>
-        ` : ''}
-
-        <!-- Footer stamp -->
-        <div class="pt-4 border-t border-stone-100 flex items-center justify-between font-mono text-xs text-stone-400">
-          <span>Day ${index + 1} of ${entries.length} • Dumaguete Field Record</span>
-          <span>Elder Salviejo</span>
-        </div>
-
-
-      </article>
-    `;
-  }).join('');
+          </article>
+        `;
+      }).join('')}
+    </div>
+  `;
 }
 
 function cleanDayName(rawDay, index) {
@@ -268,6 +303,23 @@ function showError(msg) {
   if (contentEl) contentEl.classList.add('hidden');
   if (errorEl) errorEl.classList.remove('hidden');
   if (msgEl) msgEl.innerText = msg;
+}
+
+function handleWeeklyImgError(img, cdnFallback, legacyCdn) {
+  // Try CDN fallback first
+  if (cdnFallback) {
+    img.src = cdnFallback;
+    return;
+  }
+
+  // Try legacy CDN
+  if (legacyCdn) {
+    img.src = legacyCdn;
+    return;
+  }
+
+  // If all else fails, keep the broken image icon (will show alt text)
+  img.onerror = null; // Prevent infinite loop
 }
 
 document.addEventListener('DOMContentLoaded', () => {

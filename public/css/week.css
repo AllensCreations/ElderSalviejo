@@ -243,3 +243,155 @@ body.week-view {
     border-left: 2px solid #991b1b !important;
   }
 }
+
+/* ==========================================================================
+   Bento Grid Layout for Weekly Journal View (Scrapbook Style)
+   ========================================================================== */
+
+/* 12-Column x 12-Row Bento Grid Container */
+.scrapbook-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(12, 1fr);
+  gap: 7px;
+  min-height: 0;
+  width: 100%;
+}
+
+/* Polaroid Frame - matching the HTML reference */
+.polaroid {
+  background: #ffffff;
+  border: 1px solid #dfd8cc;
+  border-radius: 2px;
+  padding: 5px 5px 6px 5px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  min-height: 0;
+  position: relative;
+}
+
+/* Masking Tape Accent */
+.polaroid .tape {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 12px;
+  background: rgba(229, 221, 196, 0.78);
+  border-radius: 1px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  z-index: 2;
+}
+
+/* Photo Frame inside Polaroid */
+.polaroid .photo-frame {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 1px;
+  background-color: #e5e7eb;
+  position: relative;
+}
+
+.polaroid .photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Polaroid Bottom Chin with Handwritten Details */
+.polaroid .polaroid-chin {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.polaroid .chin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 7.5px;
+  color: #6b7280;
+  font-family: 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.polaroid .chin-header strong {
+  color: #1f2937;
+}
+
+.polaroid .chin-caption {
+  font-family: 'Geist', cursive;
+  font-size: 13.5px;
+  line-height: 1.1;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+/* Natural Scrapbook Rotations */
+.tilt-left  { transform: rotate(-0.7deg); }
+.tilt-right { transform: rotate(0.8deg); }
+.tilt-subtle { transform: rotate(-0.3deg); }
+
+/* Grid Coordinates (Mon-Sun) - Matching HTML Reference */
+.cell-mon { grid-column: span 6; grid-row: span 4; }
+.cell-tue { grid-column: span 6; grid-row: span 4; }
+
+.cell-wed { grid-column: span 4; grid-row: span 5; }
+.cell-thu { grid-column: span 4; grid-row: span 5; }
+.cell-fri { grid-column: span 4; grid-row: span 5; }
+
+.cell-sat { grid-column: span 6; grid-row: span 3; }
+.cell-sun { grid-column: span 6; grid-row: span 3; }
+
+/* Split-Row Layout for Sat & Sun to Preserve Full Photo Details */
+.cell-sat, .cell-sun {
+  flex-direction: row;
+  gap: 7px;
+  padding: 5px 6px;
+}
+.cell-sat .photo-frame, .cell-sun .photo-frame {
+  width: 48%;
+  height: 100%;
+}
+.cell-sat .polaroid-chin, .cell-sun .polaroid-chin {
+  width: 52%;
+  margin-top: 0;
+  justify-content: center;
+}
+.cell-sat .chin-caption, .cell-sun .chin-caption {
+  white-space: normal;
+  font-size: 13px;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .scrapbook-grid {
+    gap: 4px;
+  }
+
+  .polaroid .tape {
+    width: 30px;
+    height: 8px;
+  }
+
+  .polaroid .chin-header {
+    font-size: 6px;
+  }
+
+  .polaroid .chin-caption {
+    font-size: 11px;
+  }
+
+  .cell-sat .chin-caption, .cell-sun .chin-caption {
+    font-size: 11px;
+  }
+}
