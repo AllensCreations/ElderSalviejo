@@ -88,20 +88,54 @@
 
     try {
       let weeks = [];
+      let isFullBookBatch = false;
+
+      // SWR: Instant local cache render if available
       try {
-        const res = await fetch('/api/weeks');
-        if (res.ok) {
-          const data = await res.json();
-          weeks = data.weeks || [];
+        const cached = localStorage.getItem('gdv_cached_book');
+        if (cached) {
+          const cachedData = JSON.parse(cached);
+          if (Array.isArray(cachedData) && cachedData.length > 0) {
+            weeks = cachedData;
+            isFullBookBatch = true;
+          }
         }
       } catch (_) {}
 
+      // 1. Batch book endpoint (instant compilation in 1 request)
+      try {
+        const bookRes = await fetch('/api/book');
+        if (bookRes.ok) {
+          const bookData = await bookRes.json();
+          if (Array.isArray(bookData.weeks) && bookData.weeks.length > 0) {
+            weeks = bookData.weeks;
+            isFullBookBatch = true;
+            try {
+              localStorage.setItem('gdv_cached_book', JSON.stringify(weeks));
+            } catch (_) {}
+          }
+        }
+      } catch (_) {}
+
+      // 2. Fallback to /api/weeks
+      if (!weeks || weeks.length === 0) {
+        try {
+          const res = await fetch('/api/weeks');
+          if (res.ok) {
+            const data = await res.json();
+            weeks = data.weeks || [];
+          }
+        } catch (_) {}
+      }
+
+      // 3. Fallback to sample payload if still empty
       if (!weeks || weeks.length === 0) {
         try {
           const sampleRes = await fetch('/sample-data/sample-payload.json');
           if (sampleRes.ok) {
             const sample = await sampleRes.json();
             weeks = [sample];
+            isFullBookBatch = true;
           }
         } catch (_) {}
       }
@@ -209,22 +243,29 @@
           }).join('');
         }
 
-        // 2. Fetch Detailed Week Data & Render into WYSIWYG Book Sheets
+        // 2. Fetch Detailed Week Data (Parallel or Pre-compiled Batch) & Render into WYSIWYG Book Sheets
+        const detailedWeeks = isFullBookBatch
+          ? sortedWeeks
+          : await Promise.all(
+              sortedWeeks.map(async (w) => {
+                if (Array.isArray(w.entries) && w.entries.length > 0) return w;
+                try {
+                  const detailRes = await fetch(`/api/weeks/${encodeURIComponent(w.slug || w.id)}`);
+                  if (detailRes.ok) {
+                    const detailData = await detailRes.json();
+                    if (detailData && detailData.week) {
+                      return detailData.week;
+                    }
+                  }
+                } catch (_) {}
+                return w;
+              })
+            );
+
         let chaptersHtml = '';
 
-        for (let i = 0; i < sortedWeeks.length; i++) {
-          const w = sortedWeeks[i];
-          let weekDetails = w;
-
-          try {
-            const detailRes = await fetch(`/api/weeks/${encodeURIComponent(w.slug || w.id)}`);
-            if (detailRes.ok) {
-              const detailData = await detailRes.json();
-              if (detailData && detailData.week) {
-                weekDetails = detailData.week;
-              }
-            }
-          } catch (_) {}
+        for (let i = 0; i < detailedWeeks.length; i++) {
+          const weekDetails = detailedWeeks[i];
 
           const pDayDate = weekDetails.publishedAt
             ? new Date(weekDetails.publishedAt).toLocaleDateString('en-US', {

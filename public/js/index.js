@@ -87,7 +87,7 @@ async function fetchWeeks() {
   } catch (_) {}
 
   try {
-    const response = await fetch('/api/weeks', { cache: 'no-store' });
+    const response = await fetch('/api/weeks');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
     allWeeks = data.weeks || [];

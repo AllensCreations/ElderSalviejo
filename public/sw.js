@@ -9,7 +9,7 @@
  * 4. PWA offline support & 1-tap installation
  */
 
-const CACHE_VERSION = 'v11';
+const CACHE_VERSION = 'v12';
 const STATIC_CACHE = `elder-salviejo-shell-${CACHE_VERSION}`;
 const IMAGE_CACHE = `elder-salviejo-images-${CACHE_VERSION}`;
 const DATA_CACHE = `elder-salviejo-data-${CACHE_VERSION}`;
@@ -151,7 +151,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  if (url.pathname.startsWith('/api/gallery') || url.pathname.startsWith('/api/stats')) {
+  if (url.pathname.startsWith('/api/gallery') || url.pathname.startsWith('/api/stats') || url.pathname.startsWith('/api/book')) {
     event.respondWith(
       caches.open(DATA_CACHE).then(async (cache) => {
         const cachedResponse = await cache.match(event.request);

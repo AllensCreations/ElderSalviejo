@@ -14,7 +14,7 @@
   "12": "test-receiver.js",
   "13": "week.js",
   "14": "manifest.json",
-  "15": "js/book.js",
+  "15": "book.js",
   "16": "appsscript.json",
   "17": "vercel.json",
   "18": "print-helper.js",
@@ -22,6 +22,5 @@
   "20": "sw.js",
   "21": "tailwind.config.js",
   "22": "Cloudflare Email Routing & Worker Trigger Guide",
-  "23": "fetch",
-  "24": "Frontend Design"
+  "23": "fetch"
 }

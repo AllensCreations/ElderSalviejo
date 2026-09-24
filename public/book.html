@@ -70,6 +70,26 @@
       border-radius: 4px;
     }
 
+    /* True 8.5x11in Scrapbook Sheet for Weekly Chapters (Reference Implementation) */
+    .book-sheet.sheet {
+      background: #fbf7ee !important;
+      padding: 0.32in 0.38in 0.28in 0.38in !important;
+      font-family: 'Special Elite', monospace !important;
+      color: #2b2b2b !important;
+      border-radius: 2px !important;
+    }
+
+    .book-sheet.sheet .sheet-footer {
+      height: auto !important;
+      border-top: 1px solid #e5e7eb !important;
+      padding-top: 3px !important;
+      margin-top: 5px !important;
+      font-size: 8px !important;
+      color: #9ca3af !important;
+      letter-spacing: 0.5px !important;
+      font-family: 'Special Elite', monospace !important;
+    }
+
     /* Natural Height Non-Overlapping Header */
     .sheet-header {
       position: relative !important;
@@ -326,6 +346,30 @@
         background: #ffffff !important;
         overflow: hidden !important;
         box-sizing: border-box !important;
+      }
+
+      .book-sheet.sheet {
+        background: #fbf7ee !important;
+        padding: 0.32in 0.38in 0.28in 0.38in !important;
+        width: 8.5in !important;
+        height: 10.98in !important;
+        max-height: 10.98in !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        overflow: hidden !important;
+      }
+
+      .book-sheet.sheet .sheet-footer {
+        height: auto !important;
+        border-top: 1px solid #e5e7eb !important;
+        padding-top: 3px !important;
+        margin-top: 5px !important;
+        font-size: 8px !important;
+        color: #9ca3af !important;
+        letter-spacing: 0.5px !important;
+        font-family: 'Special Elite', monospace !important;
       }
 
       #chapter-epilogue {

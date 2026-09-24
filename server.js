@@ -22,6 +22,7 @@ const trackingHandler = require('./api/tracking/[type]');
 const encouragementsHandler = require('./api/encouragements');
 const statsHandler = require('./api/stats');
 const adminHandler = require('./api/admin');
+const bookHandler = require('./api/book');
 
 
 const PORT = process.env.PORT || 3000;
@@ -178,7 +179,12 @@ const server = http.createServer(async (req, res) => {
       return await weeksHandler(req, res);
     }
 
-    // 2b. API: GET /api/gallery
+    // 2b. API: GET /api/book
+    if (pathname === '/api/book') {
+      return await bookHandler(req, res);
+    }
+
+    // 2c. API: GET /api/gallery
     if (pathname === '/api/gallery') {
       return await galleryHandler(req, res);
     }

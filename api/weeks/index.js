@@ -13,10 +13,8 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
   }
 
-  // Always prevent CDN and browser caching — vault list must always be fresh
-  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
-  res.setHeader('Pragma', 'no-cache');
-  res.setHeader('Expires', '0');
+  // Edge SWR cache: fast archive loading with background refresh
+  res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=120');
   res.setHeader('Content-Type', 'application/json');
 
   const tursoReady = isTursoConfigured();

@@ -85,7 +85,16 @@
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "no-store, no-cache, must-revalidate"
+          "value": "public, s-maxage=30, stale-while-revalidate=120"
+        }
+      ]
+    },
+    {
+      "source": "/api/book",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, s-maxage=300, stale-while-revalidate=600"
         }
       ]
     },
