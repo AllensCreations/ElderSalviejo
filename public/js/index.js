@@ -90,7 +90,8 @@ async function fetchWeeks() {
     const response = await fetch('/api/weeks');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
-    allWeeks = data.weeks || [];
+    const rawWeeks = data.weeks || [];
+    allWeeks = rawWeeks.filter(w => !w.slug?.startsWith('test-') && !String(w.id || '').startsWith('test-'));
 
     if (allWeeks.length === 0) {
       try {
@@ -119,9 +120,7 @@ async function fetchWeeks() {
       localStorage.setItem('gdv_cached_weeks', JSON.stringify(allWeeks));
     } catch (_) {}
 
-    const countEl = document.getElementById('totalWeeksCount');
-    if (countEl) countEl.innerText = allWeeks.length;
-
+    updateVaultStats(allWeeks);
     renderWeeks(allWeeks);
   } catch (err) {
     console.warn('API error, attempting sample payload fallback:', err);
@@ -143,8 +142,7 @@ async function fetchWeeks() {
           snippet: sample.entries && sample.entries[0] ? sample.entries[0].text : '',
           entries: sample.entries
         }];
-        const countEl = document.getElementById('totalWeeksCount');
-        if (countEl) countEl.innerText = allWeeks.length;
+        updateVaultStats(allWeeks);
         renderWeeks(allWeeks);
         return;
       }
@@ -161,6 +159,36 @@ async function fetchWeeks() {
       </div>
     `;
   }
+}
+
+function updateVaultStats(weeks) {
+  let photoCount = 0;
+  weeks.forEach(w => {
+    if (w.imageCount) {
+      photoCount += Number(w.imageCount);
+    } else if (Array.isArray(w.entries)) {
+      photoCount += w.entries.filter(e => e.image || e.cdnImage || e.imageFilename).length;
+    } else {
+      photoCount += 7;
+    }
+  });
+
+  // Query gallery count for total photo plates in vault
+  fetch('/api/gallery')
+    .then(r => r.json())
+    .then(gData => {
+      const gCount = (gData.photos && gData.photos.length) || 38;
+      const total = Math.max(photoCount, gCount);
+      const totalPhotosEl = document.getElementById('totalPhotosCount');
+      if (totalPhotosEl) totalPhotosEl.innerText = total;
+    })
+    .catch(() => {
+      const totalPhotosEl = document.getElementById('totalPhotosCount');
+      if (totalPhotosEl) totalPhotosEl.innerText = Math.max(photoCount, 38);
+    });
+
+  const totalWeeksEl = document.getElementById('totalWeeksCount');
+  if (totalWeeksEl) totalWeeksEl.innerText = weeks.length;
 }
 
 // Render weekly journal entries in Archival Two-Column Ledger layout
@@ -198,9 +226,26 @@ function renderWeeks(weeks) {
     const photoCount = w.imageCount || (Array.isArray(w.entries) ? w.entries.length : 7);
     const isCurrent = index === 0;
 
-    let photoDateStamp = formattedDate.toUpperCase();
-    if (w.entries && w.entries[0] && w.entries[0].archivalStamp) {
-      photoDateStamp = w.entries[0].archivalStamp;
+    let entriesStripHtml = '';
+    const rawEntries = Array.isArray(w.entries)
+      ? w.entries
+      : (typeof w.entries === 'string' ? JSON.parse(w.entries || '[]') : []);
+    if (rawEntries.length > 0) {
+      const dayLetters = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+      entriesStripHtml = rawEntries.slice(0, 7).map((e, idx) => {
+        const thumb = e.cdnImage || e.image || (e.imageFilename ? `/vault/gallery/photos/${e.imageFilename}` : null);
+        const dayLabel = dayLetters[idx] || (e.day ? e.day.slice(0, 1) : String(idx + 1));
+        return `
+          <div class="relative w-9 h-9 sm:w-11 sm:h-11 rounded border border-stone-200 bg-stone-100 overflow-hidden shrink-0 group/thumb shadow-2xs" title="${escapeHtml(e.day || 'Day ' + (idx + 1))}: ${escapeHtml(e.text ? e.text.slice(0, 60) : '')}">
+            ${thumb ? `
+              <img src="${thumb}" alt="${escapeHtml(e.day || 'Plate')}" class="w-full h-full object-cover group-hover/thumb:scale-110 transition duration-200" loading="lazy" />
+            ` : `
+              <div class="w-full h-full flex items-center justify-center font-mono text-[8px] text-stone-400">P</div>
+            `}
+            <span class="absolute bottom-0 right-0 font-mono text-[7.5px] font-bold bg-stone-900/80 text-white px-1 leading-none rounded-tl">${dayLabel}</span>
+          </div>
+        `;
+      }).join('');
     }
 
     return `
@@ -256,22 +301,41 @@ function renderWeeks(weeks) {
               ${snippetText}
             </p>
 
-            <!-- Footer row -->
-            <div class="flex items-center justify-between mt-2 pt-2 border-t border-stone-100">
-              <div class="flex items-center gap-3 text-[11px] font-mono text-stone-400">
-                <span>${photoCount} plates</span>
-                ${scriptureRef ? `<span class="text-stone-300">•</span><span class="text-amber-700">${scriptureRef}</span>` : ''}
+            <!-- 7-Photo Preview Strip -->
+            ${entriesStripHtml ? `
+              <div class="mt-1.5 flex items-center gap-1.5 overflow-x-auto pb-1">
+                ${entriesStripHtml}
               </div>
-              <div class="flex items-center gap-3">
-                <span class="font-mono text-[11px] font-bold text-red-800 group-hover:text-red-950 transition uppercase tracking-wider">
-                  Open &rarr;
-                </span>
+            ` : ''}
+
+            <!-- Footer row with Action Buttons -->
+            <div class="flex flex-wrap items-center justify-between gap-2 mt-2 pt-2 border-t border-stone-100">
+              <div class="flex items-center gap-2 text-[11px] font-mono text-stone-400">
+                <span>${photoCount} plates</span>
+                ${scriptureRef ? `<span class="text-stone-300">•</span><span class="text-amber-700 truncate max-w-[120px] sm:max-w-none">${scriptureRef}</span>` : ''}
+              </div>
+              <div class="flex items-center gap-2" onclick="event.stopPropagation()">
                 <a
                   href="/week/${encodeURIComponent(w.slug || w.id)}"
-                  onclick="event.stopPropagation()"
-                  class="font-mono text-[10px] text-stone-400 hover:text-stone-700 underline transition"
+                  class="font-mono text-[10.5px] font-medium text-stone-700 hover:text-stone-950 bg-stone-100 hover:bg-stone-200 px-2 py-0.5 rounded border border-stone-200 transition"
+                  title="Open 7-Photo Weekly Journal Sheet"
                 >
-                  Permalink
+                  Sheet &rarr;
+                </a>
+                <a
+                  href="/book#chapter-week-${encodeURIComponent(w.slug || w.id)}"
+                  class="font-mono text-[10.5px] font-medium text-stone-700 hover:text-stone-950 bg-stone-100 hover:bg-stone-200 px-2 py-0.5 rounded border border-stone-200 transition"
+                  title="Open in Keepsake Book"
+                >
+                  Book
+                </a>
+                <a
+                  href="/book.pdf"
+                  download="Elder-Salviejo-Dumaguete-Mission-Record.pdf"
+                  class="font-mono text-[10.5px] font-medium text-red-800 hover:text-red-950 bg-red-50 hover:bg-red-100 px-2 py-0.5 rounded border border-red-200 transition"
+                  title="Download Commemorative PDF"
+                >
+                  PDF
                 </a>
               </div>
             </div>

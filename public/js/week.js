@@ -177,7 +177,7 @@ function renderWeek(week) {
         day: dayName,
         dayKey: stdDay,
         text: cleanEntryText(found.text) || `${dayName} field reflections and missionary service in Dumaguete.`,
-        image: found.cdnImage || found.image || null,
+        image: found.image || (found.imageFilename ? `/vault/gallery/photos/${found.imageFilename}` : (found.cdnImage || null)),
         cdnFallback: found.imageFilename ? `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${found.imageFilename}` : '',
         legacyCdn: found.imageFilename ? `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${found.imageFilename}` : '',
         aspectRatio: (found && (found.aspectRatio || (found.width && found.height ? found.width / found.height : 0.75))) || 0.75,

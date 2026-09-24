@@ -352,8 +352,8 @@
             const dayName = stdDay.charAt(0).toUpperCase() + stdDay.slice(1);
             if (found) {
               const cleanText = cleanBookEntryText(found.text);
-              const hasImg = Boolean(found.image || found.cdnImage);
-              let imgSrc = found.cdnImage || found.image || '';
+              const hasImg = Boolean(found.image || found.cdnImage || found.imageFilename);
+              let imgSrc = found.image || (found.imageFilename ? `/vault/gallery/photos/${found.imageFilename}` : (found.cdnImage || ''));
               let cdnFallback = '';
               let legacyCdn = '';
 
@@ -417,13 +417,12 @@
             const weight = rowWeights[rIdx];
             const cardsHtml = row.map((entry) => {
               const flexVal = (entry.aspectRatio || 0.75).toFixed(3);
-              const shortCaption = entry.text.length > 55 ? entry.text.slice(0, 55).trimEnd() + '…' : entry.text;
               return `
                 <article
                   class="polaroid-card"
                   style="flex: ${flexVal} ${flexVal} 0px;"
                   ${entry.hasImg ? `onclick="openWeeklyPlate(${entry.plateIdx})"` : ''}
-                  title="${escapeAttr(entry.day)} Plate (Click to zoom)"
+                  title="${escapeAttr(entry.day)} Reflection (Click to zoom)"
                 >
                   <div class="photo-frame">
                     ${entry.hasImg ? `
@@ -439,14 +438,16 @@
                       <div class="flex items-center justify-center h-full text-[8px] font-mono text-stone-400">Plate Pending</div>
                     `}
                   </div>
-                  <div class="polaroid-chin">
-                    <div class="flex items-baseline gap-1 shrink-0">
-                      <strong class="chin-badge">${entry.day.slice(0, 3).toUpperCase()}</strong>
-                      <span class="chin-time">${escapeHtml(entry.time)}</span>
+                  <div class="polaroid-chin flex flex-col gap-0.5 p-1 bg-white border-t border-stone-100">
+                    <div class="flex items-baseline justify-between gap-1 shrink-0">
+                      <div class="flex items-baseline gap-1">
+                        <strong class="chin-badge font-mono text-[8.5px] font-bold text-red-900 uppercase tracking-wide">${entry.day.slice(0, 3).toUpperCase()}</strong>
+                        <span class="chin-time font-mono text-[7px] text-stone-400">${escapeHtml(entry.time)}</span>
+                      </div>
                     </div>
-                    <div class="chin-caption" title="${escapeAttr(entry.text)}">
-                      ${escapeHtml(shortCaption)}
-                    </div>
+                    <p class="font-sans text-[8.5px] sm:text-[9px] text-stone-700 leading-snug line-clamp-3 overflow-hidden text-left" title="${escapeAttr(entry.text)}">
+                      ${escapeHtml(entry.text)}
+                    </p>
                   </div>
                 </article>
               `;
@@ -459,7 +460,7 @@
             `;
           }).join('');
 
-          // Sheet 1: 7-Photo Scrapbook Sheet (1 Sheet for All 7 Photos, Gapless Aspect-Ratio Adaptive)
+          // Single Unified Weekly Chapter Sheet (Photos + Full Journal Text Combined on 1 Page)
           chaptersHtml += `
             <section id="${chapId}" class="book-sheet sheet sheet-photo-page">
               <!-- Masthead -->
@@ -487,7 +488,7 @@
                 </div>
               ` : ''}
 
-              <!-- 7-Polaroid Adaptive Justified Rows (Aspect-Ratio Locked, Zero Open Spaces) -->
+              <!-- 7-Polaroid Adaptive Justified Rows (Unified Photo & Daily Reflections) -->
               <div class="scrapbook-adaptive-container">
                 ${justifiedRowsHtml}
               </div>
@@ -496,61 +497,6 @@
               <div class="sheet-footer">
                 <span>Elder Salviejo • Philippines Dumaguete Mission</span>
                 <span>Page ${photoPageNum}</span>
-              </div>
-            </section>
-          `;
-
-          // Sheet 2: Dedicated Full-Length Transcription Reading Page
-          const textPageNum = String(runningPageNum++).padStart(2, '0');
-          chaptersHtml += `
-            <section id="${chapId}-transcripts" class="book-sheet sheet-transcripts-page">
-              <!-- Sheet Header -->
-              <div class="sheet-header">
-                <div>
-                  <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">
-                    Chapter ${chapNum} • Full Field Journal Transcriptions
-                  </span>
-                  <h2 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5">
-                    ${escapeHtml(weekDetails.title || `Weekly Letter #${i + 1}`)}
-                  </h2>
-                </div>
-                <div class="font-mono text-xs text-stone-500 text-right">
-                  <span>${escapeHtml(pDayDate)}</span>
-                </div>
-              </div>
-
-              <!-- Sheet Body: Clean Editorial Full Text Readings -->
-              <div class="sheet-content overflow-hidden flex flex-col justify-start py-2">
-                ${hasVerse ? `
-                  <div class="mb-3 p-2.5 bg-stone-50 border-l-2 border-red-800 rounded-r text-stone-700 text-xs">
-                    <p class="font-serif italic text-xs leading-relaxed">“${escapeHtml(verse.text || '')}”</p>
-                    <span class="block mt-1 font-mono text-[9px] uppercase tracking-wider text-red-900 font-semibold">— ${escapeHtml(verse.reference || 'Negros Oriental')}</span>
-                  </div>
-                ` : ''}
-
-                <div class="space-y-2.5 font-sans flex-1">
-                  ${sevenDays.map(entry => `
-                    <div class="border-b border-stone-200 pb-2">
-                      <div class="flex items-center gap-2 mb-0.5">
-                        <span class="font-mono font-bold text-[10px] uppercase tracking-wider text-red-900 bg-stone-100 px-1.5 py-0.5 rounded border border-stone-200">
-                          ${escapeHtml(entry.day.toUpperCase())}
-                        </span>
-                        <span class="font-mono text-[9.5px] text-stone-400">
-                          ${escapeHtml(entry.time || '12:00 PHT')}
-                        </span>
-                      </div>
-                      <p class="text-stone-700 leading-relaxed text-[11.5px] pl-1 font-sans">
-                        ${escapeHtml(entry.text)}
-                      </p>
-                    </div>
-                  `).join('')}
-                </div>
-              </div>
-
-              <!-- Pinned Sheet Footer -->
-              <div class="sheet-footer">
-                <span>Elder Salviejo • Philippines Dumaguete Mission</span>
-                <span>Page ${textPageNum}</span>
               </div>
             </section>
           `;

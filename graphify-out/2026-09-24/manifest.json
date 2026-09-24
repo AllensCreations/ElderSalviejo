@@ -60,9 +60,9 @@
     "semantic_hash": ""
   },
   "lib/turso.js": {
-    "mtime": 1790236473.652879,
-    "seen": 1790237175.6411643,
-    "ast_hash": "2ec85d28342ef35a417685a28c289b2f",
+    "mtime": 1790231591.0088797,
+    "seen": 1790232493.3060358,
+    "ast_hash": "556b59455638ba7222b68d351c35c796",
     "semantic_hash": ""
   },
   "package.json": {
@@ -72,9 +72,9 @@
     "semantic_hash": ""
   },
   "public/js/book.js": {
-    "mtime": 1790236651.748879,
-    "seen": 1790237175.6417298,
-    "ast_hash": "27c847499dd58373b92bb8ddfb3328f5",
+    "mtime": 1790234572.776879,
+    "seen": 1790235030.7466946,
+    "ast_hash": "771c952bacc9f57cb7989aa095fc5b80",
     "semantic_hash": ""
   },
   "public/js/countdown.js": {
@@ -90,9 +90,9 @@
     "semantic_hash": ""
   },
   "public/js/index.js": {
-    "mtime": 1790236262.584879,
-    "seen": 1790237175.643621,
-    "ast_hash": "ccad9f8974212a02f28aa03f8d64772b",
+    "mtime": 1790228909.74088,
+    "seen": 1790228982.0648406,
+    "ast_hash": "6ee986af363ec1885a179b49d705d139",
     "semantic_hash": ""
   },
   "public/js/lightbox.js": {
@@ -108,9 +108,9 @@
     "semantic_hash": ""
   },
   "public/js/week.js": {
-    "mtime": 1790237005.788879,
-    "seen": 1790237175.645564,
-    "ast_hash": "97dc8fc740d3bb7378042c1321160ce2",
+    "mtime": 1790234688.9768791,
+    "seen": 1790235030.7507782,
+    "ast_hash": "1b5c32f5c92e72a0c2a722ac250966c5",
     "semantic_hash": ""
   },
   "public/manifest.json": {
@@ -876,15 +876,15 @@
     "semantic_hash": ""
   },
   "public/book.pdf": {
-    "mtime": 1790237121.8568788,
-    "seen": 1790237175.6727128,
-    "ast_hash": "dd3ac6d91173c8ed62334127cbed4ad9",
+    "mtime": 1790234930.424879,
+    "seen": 1790235030.7782192,
+    "ast_hash": "67192054e5dbe6c35cc10f7eec5b8e36",
     "semantic_hash": ""
   },
   "vault/book.pdf": {
-    "mtime": 1790237121.8688788,
-    "seen": 1790237175.6727188,
-    "ast_hash": "dd3ac6d91173c8ed62334127cbed4ad9",
+    "mtime": 1790234930.440879,
+    "seen": 1790235030.7782254,
+    "ast_hash": "67192054e5dbe6c35cc10f7eec5b8e36",
     "semantic_hash": ""
   }
 }

@@ -1,17 +1,17 @@
-# Graph Report - ElderSalviejo  (2026-09-24)
+# Graph Report - ElderSalviejo  (2026-09-23)
 
 ## Corpus Check
-- 53 files · ~1,896,619 words
+- 53 files · ~1,896,447 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 12 file(s) not represented in the graph (top: .css 4, (none) 3, .ico 2)
 
 ## Summary
-- 373 nodes · 579 edges · 26 communities (22 shown, 4 thin omitted)
+- 372 nodes · 577 edges · 26 communities (22 shown, 4 thin omitted)
 - Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 41 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ee5c86fe`
+- Built from commit: `e0d5eed4`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -24,7 +24,7 @@
 - Data Flow Architecture
 - js/gallery.js
 - Step-by-Step Setup in the Dummy Account
-- index.js
+- js/index.js
 - lightbox.js
 - scriptures.js
 - ingest.js
@@ -101,9 +101,9 @@ Nodes (11): allPhotos, escapeAttr(), escapeHtml(), filterByCategory(), filteredP
 Cohesion: 0.08
 Nodes (23): 1. Create the Google Apps Script Project, 2. Configure Private Credentials (Zero Secrets in Public Git), 3. Automated Trigger Setup: Instant & Scheduled Modes, 4. How to Send Submissions from Gmail, 5. Scripture Dataset Location (`bcbooks/scriptures-json`), 6. Version 3.0: Template Composer & Quick "Send Now" Web App, 7. Testing & Diagnostic Guide: How to Verify the Pipeline, A. Accessing the Interactive Web App (GUI) (+15 more)
 
-### Community 8 - "index.js"
-Cohesion: 0.22
-Nodes (12): allWeeks, closeDocket(), escapeHtml(), fetchWeeks(), filterWeeks(), nextDocket(), openDocket(), prevDocket() (+4 more)
+### Community 8 - "js/index.js"
+Cohesion: 0.23
+Nodes (11): allWeeks, closeDocket(), escapeHtml(), fetchWeeks(), filterWeeks(), nextDocket(), openDocket(), prevDocket() (+3 more)
 
 ### Community 9 - "lightbox.js"
 Cohesion: 0.33
