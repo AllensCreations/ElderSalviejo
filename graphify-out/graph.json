@@ -412,78 +412,6 @@
       "source_location": "L80"
     },
     {
-      "id": "api_ingest_generateslug",
-      "label": "generateSlug()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "generateslug()",
-      "source_file": "api/ingest.js",
-      "source_location": "L183"
-    },
-    {
-      "id": "lib_github_vault_autosavetogithub",
-      "label": "autoSaveToGitHub()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "autosavetogithub()",
-      "source_file": "lib/github-vault.js",
-      "source_location": "L31"
-    },
-    {
-      "id": "lib_github_vault_buildmarkdownletter",
-      "label": "buildMarkdownLetter()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "buildmarkdownletter()",
-      "source_file": "lib/github-vault.js",
-      "source_location": "L337"
-    },
-    {
-      "id": "lib_github_vault_fetchexistingjsonfile",
-      "label": "fetchExistingJsonFile()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "fetchexistingjsonfile()",
-      "source_file": "lib/github-vault.js",
-      "source_location": "L318"
-    },
-    {
-      "id": "lib_github_vault_getgithubconfig",
-      "label": "getGitHubConfig()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "getgithubconfig()",
-      "source_file": "lib/github-vault.js",
-      "source_location": "L12"
-    },
-    {
-      "id": "lib_github_vault_purgejsdelivr",
-      "label": "purgeJsdelivr()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "purgejsdelivr()",
-      "source_file": "lib/github-vault.js",
-      "source_location": "L376"
-    },
-    {
       "id": "lib_scriptures_cleanverseinput",
       "label": "cleanVerseInput()",
       "_callable": true,
@@ -940,18 +868,6 @@
       "source_location": "L43"
     },
     {
-      "id": "api_admin_timingsafematch",
-      "label": "timingSafeMatch()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "timingsafematch()",
-      "source_file": "api/admin.js",
-      "source_location": "L14"
-    },
-    {
       "id": "scripts_verify_performance_request",
       "label": "request()",
       "_callable": true,
@@ -985,7 +901,7 @@
       "file_type": "code",
       "norm_label": "servestaticfile()",
       "source_file": "server.js",
-      "source_location": "L44"
+      "source_location": "L42"
     },
     {
       "id": "public_sw_isimagerequest",
@@ -1034,6 +950,90 @@
       "norm_label": "scheduled()",
       "source_file": "cloudflare/email-worker.js",
       "source_location": "L57"
+    },
+    {
+      "id": "api_admin_timingsafematch",
+      "label": "timingSafeMatch()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "timingsafematch()",
+      "source_file": "api/admin.js",
+      "source_location": "L17"
+    },
+    {
+      "id": "api_ingest_generateslug",
+      "label": "generateSlug()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "generateslug()",
+      "source_file": "api/ingest.js",
+      "source_location": "L183"
+    },
+    {
+      "id": "lib_github_vault_autosavetogithub",
+      "label": "autoSaveToGitHub()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "autosavetogithub()",
+      "source_file": "lib/github-vault.js",
+      "source_location": "L31"
+    },
+    {
+      "id": "lib_github_vault_buildmarkdownletter",
+      "label": "buildMarkdownLetter()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "buildmarkdownletter()",
+      "source_file": "lib/github-vault.js",
+      "source_location": "L337"
+    },
+    {
+      "id": "lib_github_vault_fetchexistingjsonfile",
+      "label": "fetchExistingJsonFile()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "fetchexistingjsonfile()",
+      "source_file": "lib/github-vault.js",
+      "source_location": "L318"
+    },
+    {
+      "id": "lib_github_vault_getgithubconfig",
+      "label": "getGitHubConfig()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "getgithubconfig()",
+      "source_file": "lib/github-vault.js",
+      "source_location": "L12"
+    },
+    {
+      "id": "lib_github_vault_purgejsdelivr",
+      "label": "purgeJsdelivr()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "purgejsdelivr()",
+      "source_file": "lib/github-vault.js",
+      "source_location": "L376"
     },
     {
       "id": "scripts_optimize_icons_buildico",
@@ -1576,50 +1576,6 @@
       "source_location": "L340"
     },
     {
-      "id": "api_book",
-      "label": "api/book.js",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "turso.js",
-      "file_type": "code",
-      "norm_label": "api/book.js",
-      "source_file": "api/book.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "api_book_getfullbookweeks_initdatabase_istursoconfigured",
-      "label": "{ getFullBookWeeks, initDatabase, isTursoConfigured }",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "turso.js",
-      "file_type": "code",
-      "norm_label": "{ getfullbookweeks, initdatabase, istursoconfigured }",
-      "source_file": "api/book.js",
-      "source_location": "L9"
-    },
-    {
-      "id": "api_debug",
-      "label": "debug.js",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "turso.js",
-      "file_type": "code",
-      "norm_label": "debug.js",
-      "source_file": "api/debug.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "api_debug_istursoconfigured_initdatabase_getallweeks",
-      "label": "{ isTursoConfigured, initDatabase, getAllWeeks }",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "turso.js",
-      "file_type": "code",
-      "norm_label": "{ istursoconfigured, initdatabase, getallweeks }",
-      "source_file": "api/debug.js",
-      "source_location": "L9"
-    },
-    {
       "id": "api_search",
       "label": "search.js",
       "_origin": "ast",
@@ -1664,39 +1620,6 @@
       "source_location": "L8"
     },
     {
-      "id": "api_subscribe",
-      "label": "subscribe.js",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "turso.js",
-      "file_type": "code",
-      "norm_label": "subscribe.js",
-      "source_file": "api/subscribe.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "api_subscribe_addsubscriber_getallsubscribers_initdatabase",
-      "label": "{ addSubscriber, getAllSubscribers, initDatabase }",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "turso.js",
-      "file_type": "code",
-      "norm_label": "{ addsubscriber, getallsubscribers, initdatabase }",
-      "source_file": "api/subscribe.js",
-      "source_location": "L9"
-    },
-    {
-      "id": "api_subscribe_checkratelimit_ishoneypottriggered",
-      "label": "{ checkRateLimit, isHoneypotTriggered }",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "turso.js",
-      "file_type": "code",
-      "norm_label": "{ checkratelimit, ishoneypottriggered }",
-      "source_file": "api/subscribe.js",
-      "source_location": "L10"
-    },
-    {
       "id": "api_tracking_type",
       "label": "[type].js",
       "_origin": "ast",
@@ -1719,48 +1642,26 @@
       "source_location": "L11"
     },
     {
-      "id": "api_weeks_id",
-      "label": "[id].js",
+      "id": "api_weeks",
+      "label": "weeks.js",
       "_origin": "ast",
       "community": 0,
       "community_name": "turso.js",
       "file_type": "code",
-      "norm_label": "[id].js",
-      "source_file": "api/weeks/[id].js",
+      "norm_label": "weeks.js",
+      "source_file": "api/weeks.js",
       "source_location": "L1"
     },
     {
-      "id": "api_weeks_id_getweekbyslugorid_initdatabase",
-      "label": "{ getWeekBySlugOrId, initDatabase }",
+      "id": "api_weeks_getallweeks_getweekbyslugorid_getfullbookweeks_initdatabase_istursoconfigured",
+      "label": "{ getAllWeeks, getWeekBySlugOrId, getFullBookWeeks, initDatabase, isTursoConfigured }",
       "_origin": "ast",
       "community": 0,
       "community_name": "turso.js",
       "file_type": "code",
-      "norm_label": "{ getweekbyslugorid, initdatabase }",
-      "source_file": "api/weeks/[id].js",
-      "source_location": "L8"
-    },
-    {
-      "id": "api_weeks_index",
-      "label": "weeks/index.js",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "turso.js",
-      "file_type": "code",
-      "norm_label": "weeks/index.js",
-      "source_file": "api/weeks/index.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "api_weeks_index_getallweeks_initdatabase_istursoconfigured",
-      "label": "{ getAllWeeks, initDatabase, isTursoConfigured }",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "turso.js",
-      "file_type": "code",
-      "norm_label": "{ getallweeks, initdatabase, istursoconfigured }",
-      "source_file": "api/weeks/index.js",
-      "source_location": "L8"
+      "norm_label": "{ getallweeks, getweekbyslugorid, getfullbookweeks, initdatabase, istursoconfigured }",
+      "source_file": "api/weeks.js",
+      "source_location": "L10"
     },
     {
       "id": "lib_turso",
@@ -1972,94 +1873,6 @@
       "source_location": "L14"
     },
     {
-      "id": "api_backup",
-      "label": "backup.js",
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "backup.js",
-      "source_file": "api/backup.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "api_backup_autosavetogithub",
-      "label": "{ autoSaveToGitHub }",
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "{ autosavetogithub }",
-      "source_file": "api/backup.js",
-      "source_location": "L11"
-    },
-    {
-      "id": "api_backup_exportcompletedatabase_initdatabase",
-      "label": "{ exportCompleteDatabase, initDatabase }",
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "{ exportcompletedatabase, initdatabase }",
-      "source_file": "api/backup.js",
-      "source_location": "L10"
-    },
-    {
-      "id": "api_ingest",
-      "label": "ingest.js",
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "ingest.js",
-      "source_file": "api/ingest.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "api_ingest_autosavetogithub",
-      "label": "{ autoSaveToGitHub }",
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "{ autosavetogithub }",
-      "source_file": "api/ingest.js",
-      "source_location": "L11"
-    },
-    {
-      "id": "api_ingest_lookupscripture",
-      "label": "{ lookupScripture }",
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "{ lookupscripture }",
-      "source_file": "api/ingest.js",
-      "source_location": "L10"
-    },
-    {
-      "id": "api_ingest_saveweeklydiary_savegalleryentry_initdatabase_getallsubscribers",
-      "label": "{ saveWeeklyDiary, saveGalleryEntry, initDatabase, getAllSubscribers }",
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "{ saveweeklydiary, savegalleryentry, initdatabase, getallsubscribers }",
-      "source_file": "api/ingest.js",
-      "source_location": "L9"
-    },
-    {
-      "id": "lib_github_vault",
-      "label": "github-vault.js",
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "github-vault.js",
-      "source_file": "lib/github-vault.js",
-      "source_location": "L1"
-    },
-    {
       "id": "lib_scriptures",
       "label": "scriptures.js",
       "_origin": "ast",
@@ -2168,6 +1981,39 @@
       "norm_label": "{ checkratelimit, ishoneypottriggered }",
       "source_file": "api/encouragements.js",
       "source_location": "L11"
+    },
+    {
+      "id": "api_subscribe",
+      "label": "subscribe.js",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "encouragements.js",
+      "file_type": "code",
+      "norm_label": "subscribe.js",
+      "source_file": "api/subscribe.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "api_subscribe_addsubscriber_getallsubscribers_initdatabase",
+      "label": "{ addSubscriber, getAllSubscribers, initDatabase }",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "encouragements.js",
+      "file_type": "code",
+      "norm_label": "{ addsubscriber, getallsubscribers, initdatabase }",
+      "source_file": "api/subscribe.js",
+      "source_location": "L9"
+    },
+    {
+      "id": "api_subscribe_checkratelimit_ishoneypottriggered",
+      "label": "{ checkRateLimit, isHoneypotTriggered }",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "encouragements.js",
+      "file_type": "code",
+      "norm_label": "{ checkratelimit, ishoneypottriggered }",
+      "source_file": "api/subscribe.js",
+      "source_location": "L10"
     },
     {
       "id": "lib_rate_limiter",
@@ -2325,12 +2171,12 @@
     },
     {
       "id": "public_js_book",
-      "label": "js/book.js",
+      "label": "book.js",
       "_origin": "ast",
       "community": 15,
       "community_name": "js/book.js",
       "file_type": "code",
-      "norm_label": "js/book.js",
+      "norm_label": "book.js",
       "source_file": "public/js/book.js",
       "source_location": "L1"
     },
@@ -2442,7 +2288,7 @@
       "file_type": "code",
       "norm_label": "headers",
       "source_file": "vercel.json",
-      "source_location": "L46"
+      "source_location": "L62"
     },
     {
       "id": "vercel_redirects",
@@ -2498,28 +2344,6 @@
       "norm_label": "countdown.js",
       "source_file": "public/js/countdown.js",
       "source_location": "L1"
-    },
-    {
-      "id": "api_admin",
-      "label": "admin.js",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "admin.js",
-      "source_file": "api/admin.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "api_admin_crypto",
-      "label": "crypto",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "crypto",
-      "source_file": "api/admin.js",
-      "source_location": "L12"
     },
     {
       "id": "api_gallery",
@@ -2750,18 +2574,7 @@
       "file_type": "code",
       "norm_label": "adminhandler",
       "source_file": "server.js",
-      "source_location": "L24"
-    },
-    {
-      "id": "server_bookhandler",
-      "label": "bookHandler",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "bookhandler",
-      "source_file": "server.js",
-      "source_location": "L25"
+      "source_location": "L23"
     },
     {
       "id": "server_crypto",
@@ -2783,7 +2596,7 @@
       "file_type": "code",
       "norm_label": "encouragementshandler",
       "source_file": "server.js",
-      "source_location": "L22"
+      "source_location": "L21"
     },
     {
       "id": "server_fs",
@@ -2805,7 +2618,7 @@
       "file_type": "code",
       "norm_label": "galleryhandler",
       "source_file": "server.js",
-      "source_location": "L20"
+      "source_location": "L19"
     },
     {
       "id": "server_http",
@@ -2838,7 +2651,7 @@
       "file_type": "code",
       "norm_label": "mime_types",
       "source_file": "server.js",
-      "source_location": "L32"
+      "source_location": "L30"
     },
     {
       "id": "server_path",
@@ -2860,7 +2673,7 @@
       "file_type": "code",
       "norm_label": "public_dir",
       "source_file": "server.js",
-      "source_location": "L29"
+      "source_location": "L27"
     },
     {
       "id": "server_server",
@@ -2871,18 +2684,7 @@
       "file_type": "code",
       "norm_label": "server",
       "source_file": "server.js",
-      "source_location": "L98"
-    },
-    {
-      "id": "server_singleweekhandler",
-      "label": "singleWeekHandler",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "server.js",
-      "file_type": "code",
-      "norm_label": "singleweekhandler",
-      "source_file": "server.js",
-      "source_location": "L18"
+      "source_location": "L96"
     },
     {
       "id": "server_statshandler",
@@ -2893,7 +2695,7 @@
       "file_type": "code",
       "norm_label": "statshandler",
       "source_file": "server.js",
-      "source_location": "L23"
+      "source_location": "L22"
     },
     {
       "id": "server_subscribehandler",
@@ -2904,7 +2706,7 @@
       "file_type": "code",
       "norm_label": "subscribehandler",
       "source_file": "server.js",
-      "source_location": "L19"
+      "source_location": "L18"
     },
     {
       "id": "server_trackinghandler",
@@ -2915,7 +2717,7 @@
       "file_type": "code",
       "norm_label": "trackinghandler",
       "source_file": "server.js",
-      "source_location": "L21"
+      "source_location": "L20"
     },
     {
       "id": "server_url",
@@ -3177,6 +2979,105 @@
       "norm_label": "restraint and self-critique",
       "source_file": ".claude/skills/frontend-design/SKILL.md",
       "source_location": "L57"
+    },
+    {
+      "id": "api_admin",
+      "label": "admin.js",
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "admin.js",
+      "source_file": "api/admin.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "api_admin_autosavetogithub",
+      "label": "{ autoSaveToGitHub }",
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "{ autosavetogithub }",
+      "source_file": "api/admin.js",
+      "source_location": "L15"
+    },
+    {
+      "id": "api_admin_crypto",
+      "label": "crypto",
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "crypto",
+      "source_file": "api/admin.js",
+      "source_location": "L13"
+    },
+    {
+      "id": "api_admin_istursoconfigured_initdatabase_getallweeks_exportcompletedatabase",
+      "label": "{ isTursoConfigured, initDatabase, getAllWeeks, exportCompleteDatabase }",
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "{ istursoconfigured, initdatabase, getallweeks, exportcompletedatabase }",
+      "source_file": "api/admin.js",
+      "source_location": "L14"
+    },
+    {
+      "id": "api_ingest",
+      "label": "ingest.js",
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "ingest.js",
+      "source_file": "api/ingest.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "api_ingest_autosavetogithub",
+      "label": "{ autoSaveToGitHub }",
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "{ autosavetogithub }",
+      "source_file": "api/ingest.js",
+      "source_location": "L11"
+    },
+    {
+      "id": "api_ingest_lookupscripture",
+      "label": "{ lookupScripture }",
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "{ lookupscripture }",
+      "source_file": "api/ingest.js",
+      "source_location": "L10"
+    },
+    {
+      "id": "api_ingest_saveweeklydiary_savegalleryentry_initdatabase_getallsubscribers",
+      "label": "{ saveWeeklyDiary, saveGalleryEntry, initDatabase, getAllSubscribers }",
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "{ saveweeklydiary, savegalleryentry, initdatabase, getallsubscribers }",
+      "source_file": "api/ingest.js",
+      "source_location": "L9"
+    },
+    {
+      "id": "lib_github_vault",
+      "label": "github-vault.js",
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "github-vault.js",
+      "source_file": "lib/github-vault.js",
+      "source_location": "L1"
     },
     {
       "id": "package",
@@ -4091,12 +3992,12 @@
     },
     {
       "id": "public_js_index",
-      "label": "js/index.js",
+      "label": "index.js",
       "_origin": "ast",
       "community": 8,
       "community_name": "js/index.js",
       "file_type": "code",
-      "norm_label": "js/index.js",
+      "norm_label": "index.js",
       "source_file": "public/js/index.js",
       "source_location": "L1"
     },
@@ -5981,7 +5882,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L143",
+      "source_location": "L141",
       "weight": 1.0
     },
     {
@@ -5993,7 +5894,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L149",
+      "source_location": "L147",
       "weight": 1.0
     },
     {
@@ -6005,7 +5906,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L156",
+      "source_location": "L154",
       "weight": 1.0
     },
     {
@@ -6017,7 +5918,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L162",
+      "source_location": "L160",
       "weight": 1.0
     },
     {
@@ -6029,7 +5930,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L167",
+      "source_location": "L165",
       "weight": 1.0
     },
     {
@@ -6041,24 +5942,12 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L173",
+      "source_location": "L171",
       "weight": 1.0
     },
     {
       "source": "server_server",
       "target": "server_weekshandler",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "server.js",
-      "source_location": "L179",
-      "weight": 1.0
-    },
-    {
-      "source": "server_server",
-      "target": "server_bookhandler",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -6077,19 +5966,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L189",
-      "weight": 1.0
-    },
-    {
-      "source": "server_server",
-      "target": "server_singleweekhandler",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "server.js",
-      "source_location": "L196",
+      "source_location": "L198",
       "weight": 1.0
     },
     {
@@ -6101,7 +5978,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L204",
+      "source_location": "L206",
       "weight": 1.0
     },
     {
@@ -6249,111 +6126,63 @@
       "weight": 1.0
     },
     {
-      "source": "api_backup",
+      "source": "api_admin",
       "target": "lib_turso_exportcompletedatabase",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/backup.js",
-      "source_location": "L10",
+      "source_file": "api/admin.js",
+      "source_location": "L14",
       "weight": 1.0
     },
     {
-      "source": "api_backup",
-      "target": "lib_turso_initdatabase",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "api/backup.js",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "api_backup",
-      "target": "lib_github_vault_autosavetogithub",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "api/backup.js",
-      "source_location": "L11",
-      "weight": 1.0
-    },
-    {
-      "source": "api_book",
-      "target": "lib_turso_getfullbookweeks",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "api/book.js",
-      "source_location": "L9",
-      "weight": 1.0
-    },
-    {
-      "source": "api_book",
-      "target": "lib_turso_initdatabase",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "api/book.js",
-      "source_location": "L9",
-      "weight": 1.0
-    },
-    {
-      "source": "api_book",
-      "target": "lib_turso_istursoconfigured",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "api/book.js",
-      "source_location": "L9",
-      "weight": 1.0
-    },
-    {
-      "source": "api_debug",
+      "source": "api_admin",
       "target": "lib_turso_getallweeks",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/debug.js",
-      "source_location": "L9",
+      "source_file": "api/admin.js",
+      "source_location": "L14",
       "weight": 1.0
     },
     {
-      "source": "api_debug",
+      "source": "api_admin",
       "target": "lib_turso_initdatabase",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/debug.js",
-      "source_location": "L9",
+      "source_file": "api/admin.js",
+      "source_location": "L14",
       "weight": 1.0
     },
     {
-      "source": "api_debug",
+      "source": "api_admin",
       "target": "lib_turso_istursoconfigured",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/debug.js",
-      "source_location": "L9",
+      "source_file": "api/admin.js",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "api_admin",
+      "target": "lib_github_vault_autosavetogithub",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "api/admin.js",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -6681,63 +6510,63 @@
       "weight": 1.0
     },
     {
-      "source": "api_weeks_id",
-      "target": "lib_turso_getweekbyslugorid",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "api/weeks/[id].js",
-      "source_location": "L8",
-      "weight": 1.0
-    },
-    {
-      "source": "api_weeks_id",
-      "target": "lib_turso_initdatabase",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "api/weeks/[id].js",
-      "source_location": "L8",
-      "weight": 1.0
-    },
-    {
-      "source": "api_weeks_index",
+      "source": "api_weeks",
       "target": "lib_turso_getallweeks",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/weeks/index.js",
-      "source_location": "L8",
+      "source_file": "api/weeks.js",
+      "source_location": "L10",
       "weight": 1.0
     },
     {
-      "source": "api_weeks_index",
+      "source": "api_weeks",
+      "target": "lib_turso_getfullbookweeks",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "api/weeks.js",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "api_weeks",
+      "target": "lib_turso_getweekbyslugorid",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "api/weeks.js",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "api_weeks",
       "target": "lib_turso_initdatabase",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/weeks/index.js",
-      "source_location": "L8",
+      "source_file": "api/weeks.js",
+      "source_location": "L10",
       "weight": 1.0
     },
     {
-      "source": "api_weeks_index",
+      "source": "api_weeks",
       "target": "lib_turso_istursoconfigured",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/weeks/index.js",
-      "source_location": "L8",
+      "source_file": "api/weeks.js",
+      "source_location": "L10",
       "weight": 1.0
     },
     {
@@ -6785,55 +6614,31 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "api/admin.js",
-      "source_location": "L12",
+      "source_location": "L13",
       "weight": 1.0
     },
     {
-      "source": "api_backup",
+      "source": "api_admin",
       "target": "lib_turso",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/backup.js",
-      "source_location": "L10",
+      "source_file": "api/admin.js",
+      "source_location": "L14",
       "weight": 1.0
     },
     {
-      "source": "api_backup",
+      "source": "api_admin",
       "target": "lib_github_vault",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/backup.js",
-      "source_location": "L11",
-      "weight": 1.0
-    },
-    {
-      "source": "api_book",
-      "target": "lib_turso",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "api/book.js",
-      "source_location": "L9",
-      "weight": 1.0
-    },
-    {
-      "source": "api_debug",
-      "target": "lib_turso",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "api/debug.js",
-      "source_location": "L9",
+      "source_file": "api/admin.js",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -7005,27 +6810,15 @@
       "weight": 1.0
     },
     {
-      "source": "api_weeks_id",
+      "source": "api_weeks",
       "target": "lib_turso",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "api/weeks/[id].js",
-      "source_location": "L8",
-      "weight": 1.0
-    },
-    {
-      "source": "api_weeks_index",
-      "target": "lib_turso",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "api/weeks/index.js",
-      "source_location": "L8",
+      "source_file": "api/weeks.js",
+      "source_location": "L10",
       "weight": 1.0
     },
     {
@@ -7342,7 +7135,7 @@
     },
     {
       "source": "server",
-      "target": "api_weeks_index",
+      "target": "api_weeks",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -7354,7 +7147,7 @@
     },
     {
       "source": "server",
-      "target": "api_weeks_id",
+      "target": "api_subscribe",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -7366,7 +7159,7 @@
     },
     {
       "source": "server",
-      "target": "api_subscribe",
+      "target": "api_gallery",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -7378,7 +7171,7 @@
     },
     {
       "source": "server",
-      "target": "api_gallery",
+      "target": "api_tracking_type",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -7390,7 +7183,7 @@
     },
     {
       "source": "server",
-      "target": "api_tracking_type",
+      "target": "api_encouragements",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -7402,7 +7195,7 @@
     },
     {
       "source": "server",
-      "target": "api_encouragements",
+      "target": "api_stats",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -7414,18 +7207,6 @@
     },
     {
       "source": "server",
-      "target": "api_stats",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "server.js",
-      "source_location": "L23",
-      "weight": 1.0
-    },
-    {
-      "source": "server",
       "target": "api_admin",
       "relation": "imports_from",
       "_origin": "ast",
@@ -7433,19 +7214,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "server.js",
-      "source_location": "L24",
-      "weight": 1.0
-    },
-    {
-      "source": "server",
-      "target": "api_book",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "server.js",
-      "source_location": "L25",
+      "source_location": "L23",
       "weight": 1.0
     },
     {
@@ -7468,7 +7237,29 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "api/admin.js",
-      "source_location": "L12",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "api_admin",
+      "target": "api_admin_istursoconfigured_initdatabase_getallweeks_exportcompletedatabase",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "api/admin.js",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "api_admin",
+      "target": "api_admin_autosavetogithub",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "api/admin.js",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -7479,51 +7270,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "api/admin.js",
-      "source_location": "L14",
-      "weight": 1.0
-    },
-    {
-      "source": "api_backup",
-      "target": "api_backup_exportcompletedatabase_initdatabase",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "api/backup.js",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "api_backup",
-      "target": "api_backup_autosavetogithub",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "api/backup.js",
-      "source_location": "L11",
-      "weight": 1.0
-    },
-    {
-      "source": "api_book",
-      "target": "api_book_getfullbookweeks_initdatabase_istursoconfigured",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "api/book.js",
-      "source_location": "L9",
-      "weight": 1.0
-    },
-    {
-      "source": "api_debug",
-      "target": "api_debug_istursoconfigured_initdatabase_getallweeks",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "api/debug.js",
-      "source_location": "L9",
+      "source_location": "L17",
       "weight": 1.0
     },
     {
@@ -7670,25 +7417,14 @@
       "weight": 1.0
     },
     {
-      "source": "api_weeks_id",
-      "target": "api_weeks_id_getweekbyslugorid_initdatabase",
+      "source": "api_weeks",
+      "target": "api_weeks_getallweeks_getweekbyslugorid_getfullbookweeks_initdatabase_istursoconfigured",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "api/weeks/[id].js",
-      "source_location": "L8",
-      "weight": 1.0
-    },
-    {
-      "source": "api_weeks_index",
-      "target": "api_weeks_index_getallweeks_initdatabase_istursoconfigured",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "api/weeks/index.js",
-      "source_location": "L8",
+      "source_file": "api/weeks.js",
+      "source_location": "L10",
       "weight": 1.0
     },
     {
@@ -10102,7 +9838,7 @@
     },
     {
       "source": "server",
-      "target": "server_singleweekhandler",
+      "target": "server_subscribehandler",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -10113,7 +9849,7 @@
     },
     {
       "source": "server",
-      "target": "server_subscribehandler",
+      "target": "server_galleryhandler",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -10124,7 +9860,7 @@
     },
     {
       "source": "server",
-      "target": "server_galleryhandler",
+      "target": "server_trackinghandler",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -10135,7 +9871,7 @@
     },
     {
       "source": "server",
-      "target": "server_trackinghandler",
+      "target": "server_encouragementshandler",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -10146,7 +9882,7 @@
     },
     {
       "source": "server",
-      "target": "server_encouragementshandler",
+      "target": "server_statshandler",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -10157,7 +9893,7 @@
     },
     {
       "source": "server",
-      "target": "server_statshandler",
+      "target": "server_adminhandler",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -10168,35 +9904,13 @@
     },
     {
       "source": "server",
-      "target": "server_adminhandler",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "server.js",
-      "source_location": "L24",
-      "weight": 1.0
-    },
-    {
-      "source": "server",
-      "target": "server_bookhandler",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "server.js",
-      "source_location": "L25",
-      "weight": 1.0
-    },
-    {
-      "source": "server",
       "target": "server_public_dir",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "server.js",
-      "source_location": "L29",
+      "source_location": "L27",
       "weight": 1.0
     },
     {
@@ -10207,7 +9921,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "server.js",
-      "source_location": "L32",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -10218,7 +9932,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "server.js",
-      "source_location": "L44",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
@@ -10240,7 +9954,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "server.js",
-      "source_location": "L98",
+      "source_location": "L96",
       "weight": 1.0
     },
     {
@@ -10295,7 +10009,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "vercel.json",
-      "source_location": "L46",
+      "source_location": "L62",
       "weight": 1.0
     },
     {
@@ -10448,7 +10162,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1442",
+      "source_location": "L1452",
       "weight": 1.0
     },
     {
@@ -10460,7 +10174,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1443",
+      "source_location": "L1453",
       "weight": 1.0
     },
     {
@@ -10472,7 +10186,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1444",
+      "source_location": "L1454",
       "weight": 1.0
     },
     {
@@ -10484,7 +10198,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1445",
+      "source_location": "L1455",
       "weight": 1.0
     },
     {
@@ -10496,7 +10210,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1446",
+      "source_location": "L1456",
       "weight": 1.0
     },
     {
@@ -10508,7 +10222,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1447",
+      "source_location": "L1457",
       "weight": 1.0
     },
     {
@@ -10520,7 +10234,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1448",
+      "source_location": "L1458",
       "weight": 1.0
     },
     {
@@ -10532,7 +10246,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1449",
+      "source_location": "L1459",
       "weight": 1.0
     },
     {
@@ -10544,7 +10258,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1450",
+      "source_location": "L1460",
       "weight": 1.0
     },
     {
@@ -10556,7 +10270,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1451",
+      "source_location": "L1461",
       "weight": 1.0
     },
     {
@@ -10568,7 +10282,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1452",
+      "source_location": "L1462",
       "weight": 1.0
     },
     {
@@ -10580,7 +10294,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1453",
+      "source_location": "L1463",
       "weight": 1.0
     },
     {
@@ -10592,7 +10306,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1454",
+      "source_location": "L1464",
       "weight": 1.0
     },
     {
@@ -10604,7 +10318,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1455",
+      "source_location": "L1465",
       "weight": 1.0
     },
     {
@@ -10616,7 +10330,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1456",
+      "source_location": "L1466",
       "weight": 1.0
     },
     {
@@ -10628,7 +10342,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1457",
+      "source_location": "L1467",
       "weight": 1.0
     },
     {
@@ -10640,7 +10354,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1458",
+      "source_location": "L1468",
       "weight": 1.0
     },
     {
@@ -10652,7 +10366,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1459",
+      "source_location": "L1469",
       "weight": 1.0
     },
     {
@@ -10664,7 +10378,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1460",
+      "source_location": "L1470",
       "weight": 1.0
     },
     {
@@ -10676,7 +10390,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1461",
+      "source_location": "L1471",
       "weight": 1.0
     },
     {
@@ -10688,7 +10402,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1462",
+      "source_location": "L1472",
       "weight": 1.0
     },
     {
@@ -10700,7 +10414,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1463",
+      "source_location": "L1473",
       "weight": 1.0
     },
     {
@@ -10801,5 +10515,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "43e053e2ed5a97655305a0fd50ae4a5f678d9249"
+  "built_at_commit": "bdae25f855a0f4c61f6cf76438ec1a795dfc98e6"
 }

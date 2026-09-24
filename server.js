@@ -14,15 +14,13 @@ const zlib = require('zlib');
 const crypto = require('crypto');
 
 const ingestHandler = require('./api/ingest');
-const weeksHandler = require('./api/weeks/index');
-const singleWeekHandler = require('./api/weeks/[id]');
+const weeksHandler = require('./api/weeks');
 const subscribeHandler = require('./api/subscribe');
 const galleryHandler = require('./api/gallery');
 const trackingHandler = require('./api/tracking/[type]');
 const encouragementsHandler = require('./api/encouragements');
 const statsHandler = require('./api/stats');
 const adminHandler = require('./api/admin');
-const bookHandler = require('./api/book');
 
 
 const PORT = process.env.PORT || 3000;
@@ -167,33 +165,37 @@ const server = http.createServer(async (req, res) => {
       return await statsHandler(req, res);
     }
 
-    // 1f. API: POST /api/admin & /api/admin/send
+    // 1f. API: POST /api/admin & /api/admin/send, GET /api/debug, GET /api/backup
     if (pathname === '/api/admin/send' || pathname === '/api/admin') {
       if (req.method === 'POST') req.body = await readBody();
       return await adminHandler(req, res);
     }
+    if (pathname === '/api/debug') {
+      req.query.action = 'debug';
+      return await adminHandler(req, res);
+    }
+    if (pathname === '/api/backup') {
+      req.query.action = 'backup';
+      return await adminHandler(req, res);
+    }
 
-
-    // 2. API: GET /api/weeks
+    // 2. API: GET /api/weeks & /api/book & /api/weeks/:id
     if (pathname === '/api/weeks') {
       return await weeksHandler(req, res);
     }
-
-    // 2b. API: GET /api/book
     if (pathname === '/api/book') {
-      return await bookHandler(req, res);
+      req.query.type = 'book';
+      return await weeksHandler(req, res);
     }
-
-    // 2c. API: GET /api/gallery
-    if (pathname === '/api/gallery') {
-      return await galleryHandler(req, res);
-    }
-
-    // 3. API: GET /api/weeks/:id
     if (pathname.startsWith('/api/weeks/')) {
       const id = pathname.replace('/api/weeks/', '');
       req.query.id = decodeURIComponent(id);
-      return await singleWeekHandler(req, res);
+      return await weeksHandler(req, res);
+    }
+
+    // 2b. API: GET /api/gallery
+    if (pathname === '/api/gallery') {
+      return await galleryHandler(req, res);
     }
 
     // 4. Sample data serving

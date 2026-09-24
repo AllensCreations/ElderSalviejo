@@ -35,6 +35,22 @@
       "destination": "/admin"
     },
     {
+      "source": "/api/weeks/:id",
+      "destination": "/api/weeks?id=:id"
+    },
+    {
+      "source": "/api/book",
+      "destination": "/api/weeks?type=book"
+    },
+    {
+      "source": "/api/debug",
+      "destination": "/api/admin?action=debug"
+    },
+    {
+      "source": "/api/backup",
+      "destination": "/api/admin?action=backup"
+    },
+    {
       "source": "/api/subscribers",
       "destination": "/api/subscribe"
     },

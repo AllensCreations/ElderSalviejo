@@ -25,7 +25,7 @@
       "file_type": "code",
       "norm_label": "addencouragement()",
       "source_file": "lib/turso.js",
-      "source_location": "L938"
+      "source_location": "L1027"
     },
     {
       "id": "lib_turso_addsubscriber",
@@ -37,7 +37,7 @@
       "file_type": "code",
       "norm_label": "addsubscriber()",
       "source_file": "lib/turso.js",
-      "source_location": "L767"
+      "source_location": "L856"
     },
     {
       "id": "lib_turso_exportcompletedatabase",
@@ -49,7 +49,7 @@
       "file_type": "code",
       "norm_label": "exportcompletedatabase()",
       "source_file": "lib/turso.js",
-      "source_location": "L1287"
+      "source_location": "L1376"
     },
     {
       "id": "lib_turso_extractmissionaryhighlightsnippet",
@@ -61,7 +61,7 @@
       "file_type": "code",
       "norm_label": "extractmissionaryhighlightsnippet()",
       "source_file": "lib/turso.js",
-      "source_location": "L57"
+      "source_location": "L59"
     },
     {
       "id": "lib_turso_extractsnippet",
@@ -73,7 +73,7 @@
       "file_type": "code",
       "norm_label": "extractsnippet()",
       "source_file": "lib/turso.js",
-      "source_location": "L1269"
+      "source_location": "L1358"
     },
     {
       "id": "lib_turso_getallgalleryphotos",
@@ -85,7 +85,7 @@
       "file_type": "code",
       "norm_label": "getallgalleryphotos()",
       "source_file": "lib/turso.js",
-      "source_location": "L522"
+      "source_location": "L659"
     },
     {
       "id": "lib_turso_getallsubscribers",
@@ -97,7 +97,7 @@
       "file_type": "code",
       "norm_label": "getallsubscribers()",
       "source_file": "lib/turso.js",
-      "source_location": "L797"
+      "source_location": "L886"
     },
     {
       "id": "lib_turso_getallweeks",
@@ -109,7 +109,7 @@
       "file_type": "code",
       "norm_label": "getallweeks()",
       "source_file": "lib/turso.js",
-      "source_location": "L439"
+      "source_location": "L441"
     },
     {
       "id": "lib_turso_getbroadcastlogsforweek",
@@ -121,7 +121,7 @@
       "file_type": "code",
       "norm_label": "getbroadcastlogsforweek()",
       "source_file": "lib/turso.js",
-      "source_location": "L868"
+      "source_location": "L957"
     },
     {
       "id": "lib_turso_getdbclient",
@@ -133,7 +133,7 @@
       "file_type": "code",
       "norm_label": "getdbclient()",
       "source_file": "lib/turso.js",
-      "source_location": "L45"
+      "source_location": "L47"
     },
     {
       "id": "lib_turso_getencouragementsforslug",
@@ -145,7 +145,19 @@
       "file_type": "code",
       "norm_label": "getencouragementsforslug()",
       "source_file": "lib/turso.js",
-      "source_location": "L994"
+      "source_location": "L1083"
+    },
+    {
+      "id": "lib_turso_getfullbookweeks",
+      "label": "getFullBookWeeks()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "getfullbookweeks()",
+      "source_file": "lib/turso.js",
+      "source_location": "L557"
     },
     {
       "id": "lib_turso_getmissionstats",
@@ -157,7 +169,7 @@
       "file_type": "code",
       "norm_label": "getmissionstats()",
       "source_file": "lib/turso.js",
-      "source_location": "L1038"
+      "source_location": "L1127"
     },
     {
       "id": "lib_turso_getpendingsubscribersforweek",
@@ -169,7 +181,7 @@
       "file_type": "code",
       "norm_label": "getpendingsubscribersforweek()",
       "source_file": "lib/turso.js",
-      "source_location": "L929"
+      "source_location": "L1018"
     },
     {
       "id": "lib_turso_getweekbyslugorid",
@@ -181,7 +193,7 @@
       "file_type": "code",
       "norm_label": "getweekbyslugorid()",
       "source_file": "lib/turso.js",
-      "source_location": "L714"
+      "source_location": "L798"
     },
     {
       "id": "lib_turso_initdatabase",
@@ -193,7 +205,7 @@
       "file_type": "code",
       "norm_label": "initdatabase()",
       "source_file": "lib/turso.js",
-      "source_location": "L171"
+      "source_location": "L173"
     },
     {
       "id": "lib_turso_invalidateapicaches",
@@ -205,7 +217,7 @@
       "file_type": "code",
       "norm_label": "invalidateapicaches()",
       "source_file": "lib/turso.js",
-      "source_location": "L31"
+      "source_location": "L32"
     },
     {
       "id": "lib_turso_ismessageprocessed",
@@ -217,7 +229,7 @@
       "file_type": "code",
       "norm_label": "ismessageprocessed()",
       "source_file": "lib/turso.js",
-      "source_location": "L814"
+      "source_location": "L903"
     },
     {
       "id": "lib_turso_istursoconfigured",
@@ -229,7 +241,7 @@
       "file_type": "code",
       "norm_label": "istursoconfigured()",
       "source_file": "lib/turso.js",
-      "source_location": "L36"
+      "source_location": "L38"
     },
     {
       "id": "lib_turso_readlocaldb",
@@ -241,7 +253,7 @@
       "file_type": "code",
       "norm_label": "readlocaldb()",
       "source_file": "lib/turso.js",
-      "source_location": "L89"
+      "source_location": "L91"
     },
     {
       "id": "lib_turso_readlocalgallery",
@@ -253,7 +265,7 @@
       "file_type": "code",
       "norm_label": "readlocalgallery()",
       "source_file": "lib/turso.js",
-      "source_location": "L136"
+      "source_location": "L138"
     },
     {
       "id": "lib_turso_recordbroadcastlogs",
@@ -265,7 +277,7 @@
       "file_type": "code",
       "norm_label": "recordbroadcastlogs()",
       "source_file": "lib/turso.js",
-      "source_location": "L892"
+      "source_location": "L981"
     },
     {
       "id": "lib_turso_recordprocessedmessage",
@@ -277,7 +289,7 @@
       "file_type": "code",
       "norm_label": "recordprocessedmessage()",
       "source_file": "lib/turso.js",
-      "source_location": "L838"
+      "source_location": "L927"
     },
     {
       "id": "lib_turso_savegalleryentry",
@@ -289,7 +301,7 @@
       "file_type": "code",
       "norm_label": "savegalleryentry()",
       "source_file": "lib/turso.js",
-      "source_location": "L365"
+      "source_location": "L367"
     },
     {
       "id": "lib_turso_saveweeklydiary",
@@ -301,7 +313,7 @@
       "file_type": "code",
       "norm_label": "saveweeklydiary()",
       "source_file": "lib/turso.js",
-      "source_location": "L292"
+      "source_location": "L294"
     },
     {
       "id": "lib_turso_searchallcontent",
@@ -313,7 +325,7 @@
       "file_type": "code",
       "norm_label": "searchallcontent()",
       "source_file": "lib/turso.js",
-      "source_location": "L1082"
+      "source_location": "L1171"
     },
     {
       "id": "lib_turso_writelocaldb",
@@ -325,7 +337,7 @@
       "file_type": "code",
       "norm_label": "writelocaldb()",
       "source_file": "lib/turso.js",
-      "source_location": "L125"
+      "source_location": "L127"
     },
     {
       "id": "lib_turso_writelocalgallery",
@@ -337,7 +349,7 @@
       "file_type": "code",
       "norm_label": "writelocalgallery()",
       "source_file": "lib/turso.js",
-      "source_location": "L153"
+      "source_location": "L155"
     },
     {
       "id": "scripts_init_db_main",
@@ -400,30 +412,6 @@
       "source_location": "L80"
     },
     {
-      "id": "scripts_verify_performance_request",
-      "label": "request()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "extract-metadata.js",
-      "file_type": "code",
-      "norm_label": "request()",
-      "source_file": "scripts/verify-performance.js",
-      "source_location": "L15"
-    },
-    {
-      "id": "scripts_verify_performance_runbenchmark",
-      "label": "runBenchmark()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "extract-metadata.js",
-      "file_type": "code",
-      "norm_label": "runbenchmark()",
-      "source_file": "scripts/verify-performance.js",
-      "source_location": "L45"
-    },
-    {
       "id": "api_ingest_generateslug",
       "label": "generateSlug()",
       "_callable": true,
@@ -433,7 +421,7 @@
       "file_type": "code",
       "norm_label": "generateslug()",
       "source_file": "api/ingest.js",
-      "source_location": "L182"
+      "source_location": "L183"
     },
     {
       "id": "lib_github_vault_autosavetogithub",
@@ -625,7 +613,7 @@
       "file_type": "code",
       "norm_label": "cleandayname()",
       "source_file": "public/js/week.js",
-      "source_location": "L226"
+      "source_location": "L320"
     },
     {
       "id": "public_js_week_cleanentrytext",
@@ -637,7 +625,31 @@
       "file_type": "code",
       "norm_label": "cleanentrytext()",
       "source_file": "public/js/week.js",
-      "source_location": "L231"
+      "source_location": "L325"
+    },
+    {
+      "id": "public_js_week_escapeattr",
+      "label": "escapeAttr()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "week.js",
+      "file_type": "code",
+      "norm_label": "escapeattr()",
+      "source_file": "public/js/week.js",
+      "source_location": "L315"
+    },
+    {
+      "id": "public_js_week_escapehtml",
+      "label": "escapeHtml()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "week.js",
+      "file_type": "code",
+      "norm_label": "escapehtml()",
+      "source_file": "public/js/week.js",
+      "source_location": "L310"
     },
     {
       "id": "public_js_week_getslugfrompath",
@@ -652,6 +664,18 @@
       "source_location": "L23"
     },
     {
+      "id": "public_js_week_handleweeklyimgerror",
+      "label": "handleWeeklyImgError()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "week.js",
+      "file_type": "code",
+      "norm_label": "handleweeklyimgerror()",
+      "source_file": "public/js/week.js",
+      "source_location": "L345"
+    },
+    {
       "id": "public_js_week_loadsamplepayload",
       "label": "loadSamplePayload()",
       "_callable": true,
@@ -661,7 +685,7 @@
       "file_type": "code",
       "norm_label": "loadsamplepayload()",
       "source_file": "public/js/week.js",
-      "source_location": "L81"
+      "source_location": "L80"
     },
     {
       "id": "public_js_week_loadweek",
@@ -685,7 +709,7 @@
       "file_type": "code",
       "norm_label": "renderweek()",
       "source_file": "public/js/week.js",
-      "source_location": "L92"
+      "source_location": "L91"
     },
     {
       "id": "public_js_week_setupimageprotection",
@@ -709,19 +733,31 @@
       "file_type": "code",
       "norm_label": "showerror()",
       "source_file": "public/js/week.js",
-      "source_location": "L239"
+      "source_location": "L333"
     },
     {
-      "id": "public_js_book_chunkweekentries",
-      "label": "chunkWeekEntries()",
+      "id": "public_js_book_cleanbookdayname",
+      "label": "cleanBookDayName()",
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "book.js",
+      "community_name": "js/book.js",
       "file_type": "code",
-      "norm_label": "chunkweekentries()",
+      "norm_label": "cleanbookdayname()",
       "source_file": "public/js/book.js",
-      "source_location": "L409"
+      "source_location": "L501"
+    },
+    {
+      "id": "public_js_book_cleanbookentrytext",
+      "label": "cleanBookEntryText()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "js/book.js",
+      "file_type": "code",
+      "norm_label": "cleanbookentrytext()",
+      "source_file": "public/js/book.js",
+      "source_location": "L511"
     },
     {
       "id": "public_js_book_escapeattr",
@@ -729,11 +765,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "book.js",
+      "community_name": "js/book.js",
       "file_type": "code",
       "norm_label": "escapeattr()",
       "source_file": "public/js/book.js",
-      "source_location": "L785"
+      "source_location": "L873"
     },
     {
       "id": "public_js_book_escapehtml",
@@ -741,11 +777,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "book.js",
+      "community_name": "js/book.js",
       "file_type": "code",
       "norm_label": "escapehtml()",
       "source_file": "public/js/book.js",
-      "source_location": "L775"
+      "source_location": "L863"
     },
     {
       "id": "public_js_book_getphotoorientation",
@@ -753,11 +789,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "book.js",
+      "community_name": "js/book.js",
       "file_type": "code",
       "norm_label": "getphotoorientation()",
       "source_file": "public/js/book.js",
-      "source_location": "L444"
+      "source_location": "L531"
     },
     {
       "id": "public_js_book_getphotoratio",
@@ -765,11 +801,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "book.js",
+      "community_name": "js/book.js",
       "file_type": "code",
       "norm_label": "getphotoratio()",
       "source_file": "public/js/book.js",
-      "source_location": "L452"
+      "source_location": "L539"
     },
     {
       "id": "public_js_book_loadcompletebook",
@@ -777,11 +813,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "book.js",
+      "community_name": "js/book.js",
       "file_type": "code",
       "norm_label": "loadcompletebook()",
       "source_file": "public/js/book.js",
-      "source_location": "L70"
+      "source_location": "L81"
     },
     {
       "id": "public_js_book_loadgalleryappendix",
@@ -789,11 +825,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "book.js",
+      "community_name": "js/book.js",
       "file_type": "code",
       "norm_label": "loadgalleryappendix()",
       "source_file": "public/js/book.js",
-      "source_location": "L555"
+      "source_location": "L642"
     },
     {
       "id": "public_js_book_plandynamicorientationsheets",
@@ -801,11 +837,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "book.js",
+      "community_name": "js/book.js",
       "file_type": "code",
       "norm_label": "plandynamicorientationsheets()",
       "source_file": "public/js/book.js",
-      "source_location": "L464"
+      "source_location": "L551"
     },
     {
       "id": "public_js_book_renderarchivalcolophon",
@@ -813,23 +849,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "book.js",
+      "community_name": "js/book.js",
       "file_type": "code",
       "norm_label": "renderarchivalcolophon()",
       "source_file": "public/js/book.js",
-      "source_location": "L717"
-    },
-    {
-      "id": "public_js_book_renderentrycard",
-      "label": "renderEntryCard()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "book.js",
-      "file_type": "code",
-      "norm_label": "renderentrycard()",
-      "source_file": "public/js/book.js",
-      "source_location": "L317"
+      "source_location": "L805"
     },
     {
       "id": "public_js_book_renderrowphototile",
@@ -837,11 +861,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "book.js",
+      "community_name": "js/book.js",
       "file_type": "code",
       "norm_label": "renderrowphototile()",
       "source_file": "public/js/book.js",
-      "source_location": "L681"
+      "source_location": "L768"
     },
     {
       "id": "public_js_print_helper_preloadallimages",
@@ -928,6 +952,30 @@
       "source_location": "L14"
     },
     {
+      "id": "scripts_verify_performance_request",
+      "label": "request()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "request()",
+      "source_file": "scripts/verify-performance.js",
+      "source_location": "L15"
+    },
+    {
+      "id": "scripts_verify_performance_runbenchmark",
+      "label": "runBenchmark()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "runbenchmark()",
+      "source_file": "scripts/verify-performance.js",
+      "source_location": "L45"
+    },
+    {
       "id": "server_servestaticfile",
       "label": "serveStaticFile()",
       "_callable": true,
@@ -937,7 +985,7 @@
       "file_type": "code",
       "norm_label": "servestaticfile()",
       "source_file": "server.js",
-      "source_location": "L43"
+      "source_location": "L44"
     },
     {
       "id": "public_sw_isimagerequest",
@@ -1057,7 +1105,7 @@
       "file_type": "code",
       "norm_label": "closelightbox()",
       "source_file": "public/js/gallery.js",
-      "source_location": "L281"
+      "source_location": "L286"
     },
     {
       "id": "public_js_gallery_escapeattr",
@@ -1069,7 +1117,7 @@
       "file_type": "code",
       "norm_label": "escapeattr()",
       "source_file": "public/js/gallery.js",
-      "source_location": "L305"
+      "source_location": "L310"
     },
     {
       "id": "public_js_gallery_escapehtml",
@@ -1081,7 +1129,7 @@
       "file_type": "code",
       "norm_label": "escapehtml()",
       "source_file": "public/js/gallery.js",
-      "source_location": "L300"
+      "source_location": "L305"
     },
     {
       "id": "public_js_gallery_filterbycategory",
@@ -1093,7 +1141,7 @@
       "file_type": "code",
       "norm_label": "filterbycategory()",
       "source_file": "public/js/gallery.js",
-      "source_location": "L117"
+      "source_location": "L118"
     },
     {
       "id": "public_js_gallery_loadgallery",
@@ -1105,7 +1153,7 @@
       "file_type": "code",
       "norm_label": "loadgallery()",
       "source_file": "public/js/gallery.js",
-      "source_location": "L44"
+      "source_location": "L45"
     },
     {
       "id": "public_js_gallery_loadmorephotos",
@@ -1117,7 +1165,7 @@
       "file_type": "code",
       "norm_label": "loadmorephotos()",
       "source_file": "public/js/gallery.js",
-      "source_location": "L162"
+      "source_location": "L163"
     },
     {
       "id": "public_js_gallery_navigatelightbox",
@@ -1129,7 +1177,7 @@
       "file_type": "code",
       "norm_label": "navigatelightbox()",
       "source_file": "public/js/gallery.js",
-      "source_location": "L285"
+      "source_location": "L290"
     },
     {
       "id": "public_js_gallery_openlightbox",
@@ -1141,7 +1189,7 @@
       "file_type": "code",
       "norm_label": "openlightbox()",
       "source_file": "public/js/gallery.js",
-      "source_location": "L260"
+      "source_location": "L265"
     },
     {
       "id": "public_js_gallery_renderfilters",
@@ -1153,7 +1201,7 @@
       "file_type": "code",
       "norm_label": "renderfilters()",
       "source_file": "public/js/gallery.js",
-      "source_location": "L125"
+      "source_location": "L126"
     },
     {
       "id": "public_js_gallery_rendergallery",
@@ -1165,7 +1213,7 @@
       "file_type": "code",
       "norm_label": "rendergallery()",
       "source_file": "public/js/gallery.js",
-      "source_location": "L167"
+      "source_location": "L168"
     },
     {
       "id": "public_js_gallery_setcategory",
@@ -1177,7 +1225,7 @@
       "file_type": "code",
       "norm_label": "setcategory()",
       "source_file": "public/js/gallery.js",
-      "source_location": "L154"
+      "source_location": "L155"
     },
     {
       "id": "public_js_gallery_setupkeyboardandtouch",
@@ -1189,7 +1237,7 @@
       "file_type": "code",
       "norm_label": "setupkeyboardandtouch()",
       "source_file": "public/js/gallery.js",
-      "source_location": "L296"
+      "source_location": "L301"
     },
     {
       "id": "public_js_gallery_toggledatestamp",
@@ -1201,7 +1249,7 @@
       "file_type": "code",
       "norm_label": "toggledatestamp()",
       "source_file": "public/js/gallery.js",
-      "source_location": "L292"
+      "source_location": "L297"
     },
     {
       "id": "public_js_index_closedocket",
@@ -1213,7 +1261,7 @@
       "file_type": "code",
       "norm_label": "closedocket()",
       "source_file": "public/js/index.js",
-      "source_location": "L382"
+      "source_location": "L430"
     },
     {
       "id": "public_js_index_escapehtml",
@@ -1225,7 +1273,7 @@
       "file_type": "code",
       "norm_label": "escapehtml()",
       "source_file": "public/js/index.js",
-      "source_location": "L479"
+      "source_location": "L527"
     },
     {
       "id": "public_js_index_fetchstats",
@@ -1237,7 +1285,7 @@
       "file_type": "code",
       "norm_label": "fetchstats()",
       "source_file": "public/js/index.js",
-      "source_location": "L52"
+      "source_location": "L57"
     },
     {
       "id": "public_js_index_fetchweeks",
@@ -1249,7 +1297,7 @@
       "file_type": "code",
       "norm_label": "fetchweeks()",
       "source_file": "public/js/index.js",
-      "source_location": "L66"
+      "source_location": "L71"
     },
     {
       "id": "public_js_index_filterweeks",
@@ -1261,7 +1309,7 @@
       "file_type": "code",
       "norm_label": "filterweeks()",
       "source_file": "public/js/index.js",
-      "source_location": "L414"
+      "source_location": "L462"
     },
     {
       "id": "public_js_index_handlesubscribe",
@@ -1273,7 +1321,7 @@
       "file_type": "code",
       "norm_label": "handlesubscribe()",
       "source_file": "public/js/index.js",
-      "source_location": "L432"
+      "source_location": "L480"
     },
     {
       "id": "public_js_index_nextdocket",
@@ -1285,7 +1333,7 @@
       "file_type": "code",
       "norm_label": "nextdocket()",
       "source_file": "public/js/index.js",
-      "source_location": "L396"
+      "source_location": "L444"
     },
     {
       "id": "public_js_index_opendocket",
@@ -1297,7 +1345,7 @@
       "file_type": "code",
       "norm_label": "opendocket()",
       "source_file": "public/js/index.js",
-      "source_location": "L242"
+      "source_location": "L287"
     },
     {
       "id": "public_js_index_prevdocket",
@@ -1309,7 +1357,7 @@
       "file_type": "code",
       "norm_label": "prevdocket()",
       "source_file": "public/js/index.js",
-      "source_location": "L390"
+      "source_location": "L438"
     },
     {
       "id": "public_js_index_renderdocketbody",
@@ -1321,7 +1369,7 @@
       "file_type": "code",
       "norm_label": "renderdocketbody()",
       "source_file": "public/js/index.js",
-      "source_location": "L300"
+      "source_location": "L348"
     },
     {
       "id": "public_js_index_renderweeks",
@@ -1333,7 +1381,7 @@
       "file_type": "code",
       "norm_label": "renderweeks()",
       "source_file": "public/js/index.js",
-      "source_location": "L139"
+      "source_location": "L167"
     },
     {
       "id": "public_js_index_setupimageprotection",
@@ -1345,7 +1393,7 @@
       "file_type": "code",
       "norm_label": "setupimageprotection()",
       "source_file": "public/js/index.js",
-      "source_location": "L18"
+      "source_location": "L23"
     },
     {
       "id": "public_js_index_setupkeyboardnavigation",
@@ -1357,7 +1405,7 @@
       "file_type": "code",
       "norm_label": "setupkeyboardnavigation()",
       "source_file": "public/js/index.js",
-      "source_location": "L402"
+      "source_location": "L450"
     },
     {
       "id": "public_js_lightbox_applytransform",
@@ -1528,6 +1576,50 @@
       "source_location": "L340"
     },
     {
+      "id": "api_book",
+      "label": "api/book.js",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "api/book.js",
+      "source_file": "api/book.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "api_book_getfullbookweeks_initdatabase_istursoconfigured",
+      "label": "{ getFullBookWeeks, initDatabase, isTursoConfigured }",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "{ getfullbookweeks, initdatabase, istursoconfigured }",
+      "source_file": "api/book.js",
+      "source_location": "L9"
+    },
+    {
+      "id": "api_debug",
+      "label": "debug.js",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "debug.js",
+      "source_file": "api/debug.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "api_debug_istursoconfigured_initdatabase_getallweeks",
+      "label": "{ isTursoConfigured, initDatabase, getAllWeeks }",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "{ istursoconfigured, initdatabase, getallweeks }",
+      "source_file": "api/debug.js",
+      "source_location": "L9"
+    },
+    {
       "id": "api_search",
       "label": "search.js",
       "_origin": "ast",
@@ -1570,6 +1662,39 @@
       "norm_label": "{ getmissionstats, initdatabase }",
       "source_file": "api/stats.js",
       "source_location": "L8"
+    },
+    {
+      "id": "api_subscribe",
+      "label": "subscribe.js",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "subscribe.js",
+      "source_file": "api/subscribe.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "api_subscribe_addsubscriber_getallsubscribers_initdatabase",
+      "label": "{ addSubscriber, getAllSubscribers, initDatabase }",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "{ addsubscriber, getallsubscribers, initdatabase }",
+      "source_file": "api/subscribe.js",
+      "source_location": "L9"
+    },
+    {
+      "id": "api_subscribe_checkratelimit_ishoneypottriggered",
+      "label": "{ checkRateLimit, isHoneypotTriggered }",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "{ checkratelimit, ishoneypottriggered }",
+      "source_file": "api/subscribe.js",
+      "source_location": "L10"
     },
     {
       "id": "api_tracking_type",
@@ -1616,6 +1741,28 @@
       "source_location": "L8"
     },
     {
+      "id": "api_weeks_index",
+      "label": "weeks/index.js",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "weeks/index.js",
+      "source_file": "api/weeks/index.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "api_weeks_index_getallweeks_initdatabase_istursoconfigured",
+      "label": "{ getAllWeeks, initDatabase, isTursoConfigured }",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "{ getallweeks, initdatabase, istursoconfigured }",
+      "source_file": "api/weeks/index.js",
+      "source_location": "L8"
+    },
+    {
       "id": "lib_turso",
       "label": "turso.js",
       "_origin": "ast",
@@ -1625,6 +1772,17 @@
       "norm_label": "turso.js",
       "source_file": "lib/turso.js",
       "source_location": "L1"
+    },
+    {
+      "id": "lib_turso_bookcache",
+      "label": "_bookCache",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "_bookcache",
+      "source_file": "lib/turso.js",
+      "source_location": "L30"
     },
     {
       "id": "lib_turso_createclient",
@@ -1737,94 +1895,6 @@
       "source_location": "L11"
     },
     {
-      "id": "api_gallery",
-      "label": "api/gallery.js",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "extract-metadata.js",
-      "file_type": "code",
-      "norm_label": "api/gallery.js",
-      "source_file": "api/gallery.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "api_gallery_getallgalleryphotos_initdatabase",
-      "label": "{ getAllGalleryPhotos, initDatabase }",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "extract-metadata.js",
-      "file_type": "code",
-      "norm_label": "{ getallgalleryphotos, initdatabase }",
-      "source_file": "api/gallery.js",
-      "source_location": "L9"
-    },
-    {
-      "id": "sample_data_send_test_ingest",
-      "label": "send-test-ingest.js",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "extract-metadata.js",
-      "file_type": "code",
-      "norm_label": "send-test-ingest.js",
-      "source_file": "sample-data/send-test-ingest.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "sample_data_send_test_ingest_fs",
-      "label": "fs",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "extract-metadata.js",
-      "file_type": "code",
-      "norm_label": "fs",
-      "source_file": "sample-data/send-test-ingest.js",
-      "source_location": "L12"
-    },
-    {
-      "id": "sample_data_send_test_ingest_parsed",
-      "label": "parsed",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "extract-metadata.js",
-      "file_type": "code",
-      "norm_label": "parsed",
-      "source_file": "sample-data/send-test-ingest.js",
-      "source_location": "L26"
-    },
-    {
-      "id": "sample_data_send_test_ingest_path",
-      "label": "path",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "extract-metadata.js",
-      "file_type": "code",
-      "norm_label": "path",
-      "source_file": "sample-data/send-test-ingest.js",
-      "source_location": "L13"
-    },
-    {
-      "id": "sample_data_send_test_ingest_payloaddata",
-      "label": "payloadData",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "extract-metadata.js",
-      "file_type": "code",
-      "norm_label": "payloaddata",
-      "source_file": "sample-data/send-test-ingest.js",
-      "source_location": "L25"
-    },
-    {
-      "id": "sample_data_send_test_ingest_payloadpath",
-      "label": "payloadPath",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "extract-metadata.js",
-      "file_type": "code",
-      "norm_label": "payloadpath",
-      "source_file": "sample-data/send-test-ingest.js",
-      "source_location": "L18"
-    },
-    {
       "id": "scripts_extract_metadata",
       "label": "extract-metadata.js",
       "_origin": "ast",
@@ -1900,61 +1970,6 @@
       "norm_label": "public_photos_dir",
       "source_file": "scripts/extract-metadata.js",
       "source_location": "L14"
-    },
-    {
-      "id": "scripts_verify_performance",
-      "label": "verify-performance.js",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "extract-metadata.js",
-      "file_type": "code",
-      "norm_label": "verify-performance.js",
-      "source_file": "scripts/verify-performance.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "scripts_verify_performance_fs",
-      "label": "fs",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "extract-metadata.js",
-      "file_type": "code",
-      "norm_label": "fs",
-      "source_file": "scripts/verify-performance.js",
-      "source_location": "L7"
-    },
-    {
-      "id": "scripts_verify_performance_http",
-      "label": "http",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "extract-metadata.js",
-      "file_type": "code",
-      "norm_label": "http",
-      "source_file": "scripts/verify-performance.js",
-      "source_location": "L6"
-    },
-    {
-      "id": "scripts_verify_performance_path",
-      "label": "path",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "extract-metadata.js",
-      "file_type": "code",
-      "norm_label": "path",
-      "source_file": "scripts/verify-performance.js",
-      "source_location": "L8"
-    },
-    {
-      "id": "scripts_verify_performance_server",
-      "label": "server",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "extract-metadata.js",
-      "file_type": "code",
-      "norm_label": "server",
-      "source_file": "scripts/verify-performance.js",
-      "source_location": "L13"
     },
     {
       "id": "api_backup",
@@ -2155,39 +2170,6 @@
       "source_location": "L11"
     },
     {
-      "id": "api_subscribe",
-      "label": "subscribe.js",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "encouragements.js",
-      "file_type": "code",
-      "norm_label": "subscribe.js",
-      "source_file": "api/subscribe.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "api_subscribe_addsubscriber_getallsubscribers_initdatabase",
-      "label": "{ addSubscriber, getAllSubscribers, initDatabase }",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "encouragements.js",
-      "file_type": "code",
-      "norm_label": "{ addsubscriber, getallsubscribers, initdatabase }",
-      "source_file": "api/subscribe.js",
-      "source_location": "L9"
-    },
-    {
-      "id": "api_subscribe_checkratelimit_ishoneypottriggered",
-      "label": "{ checkRateLimit, isHoneypotTriggered }",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "encouragements.js",
-      "file_type": "code",
-      "norm_label": "{ checkratelimit, ishoneypottriggered }",
-      "source_file": "api/subscribe.js",
-      "source_location": "L10"
-    },
-    {
       "id": "lib_rate_limiter",
       "label": "rate-limiter.js",
       "_origin": "ast",
@@ -2343,12 +2325,12 @@
     },
     {
       "id": "public_js_book",
-      "label": "book.js",
+      "label": "js/book.js",
       "_origin": "ast",
       "community": 15,
-      "community_name": "book.js",
+      "community_name": "js/book.js",
       "file_type": "code",
-      "norm_label": "book.js",
+      "norm_label": "js/book.js",
       "source_file": "public/js/book.js",
       "source_location": "L1"
     },
@@ -2540,37 +2522,213 @@
       "source_location": "L12"
     },
     {
-      "id": "api_weeks_index",
-      "label": "weeks/index.js",
+      "id": "api_gallery",
+      "label": "api/gallery.js",
       "_origin": "ast",
       "community": 2,
       "community_name": "server.js",
       "file_type": "code",
-      "norm_label": "weeks/index.js",
-      "source_file": "api/weeks/index.js",
+      "norm_label": "api/gallery.js",
+      "source_file": "api/gallery.js",
       "source_location": "L1"
     },
     {
-      "id": "api_weeks_index_crypto",
-      "label": "crypto",
+      "id": "api_gallery_getallgalleryphotos_initdatabase",
+      "label": "{ getAllGalleryPhotos, initDatabase }",
       "_origin": "ast",
       "community": 2,
       "community_name": "server.js",
       "file_type": "code",
-      "norm_label": "crypto",
-      "source_file": "api/weeks/index.js",
+      "norm_label": "{ getallgalleryphotos, initdatabase }",
+      "source_file": "api/gallery.js",
+      "source_location": "L9"
+    },
+    {
+      "id": "public_sample_data_send_test_ingest",
+      "label": "public/sample-data/send-test-ingest.js",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "public/sample-data/send-test-ingest.js",
+      "source_file": "public/sample-data/send-test-ingest.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "public_sample_data_send_test_ingest_fs",
+      "label": "fs",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "fs",
+      "source_file": "public/sample-data/send-test-ingest.js",
+      "source_location": "L12"
+    },
+    {
+      "id": "public_sample_data_send_test_ingest_parsed",
+      "label": "parsed",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "parsed",
+      "source_file": "public/sample-data/send-test-ingest.js",
+      "source_location": "L26"
+    },
+    {
+      "id": "public_sample_data_send_test_ingest_path",
+      "label": "path",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "path",
+      "source_file": "public/sample-data/send-test-ingest.js",
+      "source_location": "L13"
+    },
+    {
+      "id": "public_sample_data_send_test_ingest_payloaddata",
+      "label": "payloadData",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "payloaddata",
+      "source_file": "public/sample-data/send-test-ingest.js",
+      "source_location": "L25"
+    },
+    {
+      "id": "public_sample_data_send_test_ingest_payloadpath",
+      "label": "payloadPath",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "payloadpath",
+      "source_file": "public/sample-data/send-test-ingest.js",
+      "source_location": "L18"
+    },
+    {
+      "id": "sample_data_send_test_ingest",
+      "label": "sample-data/send-test-ingest.js",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "sample-data/send-test-ingest.js",
+      "source_file": "sample-data/send-test-ingest.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "sample_data_send_test_ingest_fs",
+      "label": "fs",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "fs",
+      "source_file": "sample-data/send-test-ingest.js",
+      "source_location": "L12"
+    },
+    {
+      "id": "sample_data_send_test_ingest_parsed",
+      "label": "parsed",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "parsed",
+      "source_file": "sample-data/send-test-ingest.js",
+      "source_location": "L26"
+    },
+    {
+      "id": "sample_data_send_test_ingest_path",
+      "label": "path",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "path",
+      "source_file": "sample-data/send-test-ingest.js",
+      "source_location": "L13"
+    },
+    {
+      "id": "sample_data_send_test_ingest_payloaddata",
+      "label": "payloadData",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "payloaddata",
+      "source_file": "sample-data/send-test-ingest.js",
+      "source_location": "L25"
+    },
+    {
+      "id": "sample_data_send_test_ingest_payloadpath",
+      "label": "payloadPath",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "payloadpath",
+      "source_file": "sample-data/send-test-ingest.js",
+      "source_location": "L18"
+    },
+    {
+      "id": "scripts_verify_performance",
+      "label": "verify-performance.js",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "verify-performance.js",
+      "source_file": "scripts/verify-performance.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "scripts_verify_performance_fs",
+      "label": "fs",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "fs",
+      "source_file": "scripts/verify-performance.js",
+      "source_location": "L7"
+    },
+    {
+      "id": "scripts_verify_performance_http",
+      "label": "http",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "http",
+      "source_file": "scripts/verify-performance.js",
+      "source_location": "L6"
+    },
+    {
+      "id": "scripts_verify_performance_path",
+      "label": "path",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "path",
+      "source_file": "scripts/verify-performance.js",
       "source_location": "L8"
     },
     {
-      "id": "api_weeks_index_getallweeks_initdatabase",
-      "label": "{ getAllWeeks, initDatabase }",
+      "id": "scripts_verify_performance_server",
+      "label": "server",
       "_origin": "ast",
       "community": 2,
       "community_name": "server.js",
       "file_type": "code",
-      "norm_label": "{ getallweeks, initdatabase }",
-      "source_file": "api/weeks/index.js",
-      "source_location": "L9"
+      "norm_label": "server",
+      "source_file": "scripts/verify-performance.js",
+      "source_location": "L13"
     },
     {
       "id": "server",
@@ -2593,6 +2751,17 @@
       "norm_label": "adminhandler",
       "source_file": "server.js",
       "source_location": "L24"
+    },
+    {
+      "id": "server_bookhandler",
+      "label": "bookHandler",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "server.js",
+      "file_type": "code",
+      "norm_label": "bookhandler",
+      "source_file": "server.js",
+      "source_location": "L25"
     },
     {
       "id": "server_crypto",
@@ -2669,7 +2838,7 @@
       "file_type": "code",
       "norm_label": "mime_types",
       "source_file": "server.js",
-      "source_location": "L31"
+      "source_location": "L32"
     },
     {
       "id": "server_path",
@@ -2691,7 +2860,7 @@
       "file_type": "code",
       "norm_label": "public_dir",
       "source_file": "server.js",
-      "source_location": "L28"
+      "source_location": "L29"
     },
     {
       "id": "server_server",
@@ -2702,7 +2871,7 @@
       "file_type": "code",
       "norm_label": "server",
       "source_file": "server.js",
-      "source_location": "L97"
+      "source_location": "L98"
     },
     {
       "id": "server_singleweekhandler",
@@ -2919,6 +3088,95 @@
       "norm_label": "email-worker.js",
       "source_file": "cloudflare/email-worker.js",
       "source_location": "L1"
+    },
+    {
+      "id": "claude_skills_frontend_design_skill",
+      "label": "SKILL.md",
+      "_origin": "ast",
+      "community": 24,
+      "community_name": "Frontend Design",
+      "file_type": "document",
+      "frontmatter": {
+        "name": "frontend-design",
+        "description": "Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don&#x27;t read as templated defaults.",
+        "license": "Complete terms in LICENSE.txt"
+      },
+      "node_kind": "page",
+      "norm_label": "skill.md",
+      "source_file": ".claude/skills/frontend-design/SKILL.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "claude_skills_frontend_design_skill_design_principles",
+      "label": "Design principles",
+      "_origin": "ast",
+      "community": 24,
+      "community_name": "Frontend Design",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "design principles",
+      "source_file": ".claude/skills/frontend-design/SKILL.md",
+      "source_location": "L15"
+    },
+    {
+      "id": "claude_skills_frontend_design_skill_frontend_design",
+      "label": "Frontend Design",
+      "_origin": "ast",
+      "community": 24,
+      "community_name": "Frontend Design",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "frontend design",
+      "source_file": ".claude/skills/frontend-design/SKILL.md",
+      "source_location": "L7"
+    },
+    {
+      "id": "claude_skills_frontend_design_skill_ground_your_designs_in_the_subject_matter",
+      "label": "Ground your designs in the subject matter",
+      "_origin": "ast",
+      "community": 24,
+      "community_name": "Frontend Design",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "ground your designs in the subject matter",
+      "source_file": ".claude/skills/frontend-design/SKILL.md",
+      "source_location": "L11"
+    },
+    {
+      "id": "claude_skills_frontend_design_skill_more_on_writing_in_design",
+      "label": "More on writing in design",
+      "_origin": "ast",
+      "community": 24,
+      "community_name": "Frontend Design",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "more on writing in design",
+      "source_file": ".claude/skills/frontend-design/SKILL.md",
+      "source_location": "L61"
+    },
+    {
+      "id": "claude_skills_frontend_design_skill_process_plan_review_against_the_brief_build_critique",
+      "label": "Process: plan, review against the brief, build, critique",
+      "_origin": "ast",
+      "community": 24,
+      "community_name": "Frontend Design",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "process: plan, review against the brief, build, critique",
+      "source_file": ".claude/skills/frontend-design/SKILL.md",
+      "source_location": "L36"
+    },
+    {
+      "id": "claude_skills_frontend_design_skill_restraint_and_self_critique",
+      "label": "Restraint and self-critique",
+      "_origin": "ast",
+      "community": 24,
+      "community_name": "Frontend Design",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "restraint and self-critique",
+      "source_file": ".claude/skills/frontend-design/SKILL.md",
+      "source_location": "L57"
     },
     {
       "id": "package",
@@ -3305,7 +3563,7 @@
       "node_kind": "heading",
       "norm_label": "1. clone & install dependencies",
       "source_file": "README.md",
-      "source_location": "L184"
+      "source_location": "L186"
     },
     {
       "id": "readme_1_the_input_layer_two_submission_modes",
@@ -3329,7 +3587,7 @@
       "node_kind": "heading",
       "norm_label": "2. configure environment variables",
       "source_file": "README.md",
-      "source_location": "L191"
+      "source_location": "L193"
     },
     {
       "id": "readme_2_scripture_dataset_location_bcbooks_scriptures_json",
@@ -3353,7 +3611,7 @@
       "node_kind": "heading",
       "norm_label": "3. api reference & utilities",
       "source_file": "README.md",
-      "source_location": "L203"
+      "source_location": "L205"
     },
     {
       "id": "readme_3_the_processing_layer_google_apps_script",
@@ -3377,7 +3635,7 @@
       "node_kind": "heading",
       "norm_label": "4. local development & testing",
       "source_file": "README.md",
-      "source_location": "L216"
+      "source_location": "L218"
     },
     {
       "id": "readme_4_the_transport_layer_vercel_api_endpoint",
@@ -3473,7 +3731,7 @@
       "node_kind": "heading",
       "norm_label": "license",
       "source_file": "README.md",
-      "source_location": "L228"
+      "source_location": "L230"
     },
     {
       "id": "readme_quickstart_guide",
@@ -3485,7 +3743,7 @@
       "node_kind": "heading",
       "norm_label": "quickstart guide",
       "source_file": "README.md",
-      "source_location": "L182"
+      "source_location": "L184"
     },
     {
       "id": "readme_repository_structure",
@@ -3497,7 +3755,7 @@
       "node_kind": "heading",
       "norm_label": "repository structure",
       "source_file": "README.md",
-      "source_location": "L142"
+      "source_location": "L144"
     },
     {
       "id": "public_js_gallery",
@@ -3541,7 +3799,7 @@
       "file_type": "code",
       "norm_label": "tilt_classes",
       "source_file": "public/js/gallery.js",
-      "source_location": "L17"
+      "source_location": "L18"
     },
     {
       "id": "google_apps_script_readme",
@@ -3613,7 +3871,7 @@
       "node_kind": "heading",
       "norm_label": "5. scripture dataset location (`bcbooks/scriptures-json`)",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L156"
+      "source_location": "L161"
     },
     {
       "id": "google_apps_script_readme_6_version_3_0_template_composer_quick_send_now_web_app",
@@ -3625,7 +3883,7 @@
       "node_kind": "heading",
       "norm_label": "6. version 3.0: template composer & quick \"send now\" web app",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L172"
+      "source_location": "L177"
     },
     {
       "id": "google_apps_script_readme_7_testing_diagnostic_guide_how_to_verify_the_pipeline",
@@ -3637,7 +3895,7 @@
       "node_kind": "heading",
       "norm_label": "7. testing & diagnostic guide: how to verify the pipeline",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L208"
+      "source_location": "L213"
     },
     {
       "id": "google_apps_script_readme_a_accessing_the_interactive_web_app_gui",
@@ -3649,7 +3907,7 @@
       "node_kind": "heading",
       "norm_label": "a. accessing the interactive web app (gui)",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L176"
+      "source_location": "L181"
     },
     {
       "id": "google_apps_script_readme_a_run_the_comprehensive_diagnostic_cli_tool",
@@ -3661,7 +3919,7 @@
       "node_kind": "heading",
       "norm_label": "a. run the comprehensive diagnostic cli tool",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L210"
+      "source_location": "L215"
     },
     {
       "id": "google_apps_script_readme_b_testing_in_google_apps_script_toolbar_functions",
@@ -3673,7 +3931,7 @@
       "node_kind": "heading",
       "norm_label": "b. testing in google apps script (toolbar functions)",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L226"
+      "source_location": "L231"
     },
     {
       "id": "google_apps_script_readme_b_the_3_preset_modes",
@@ -3685,7 +3943,7 @@
       "node_kind": "heading",
       "norm_label": "b. the 3 preset modes",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L185"
+      "source_location": "L190"
     },
     {
       "id": "google_apps_script_readme_c_1_click_send_now",
@@ -3697,7 +3955,7 @@
       "node_kind": "heading",
       "norm_label": "c. 1-click \"send now\"",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L199"
+      "source_location": "L204"
     },
     {
       "id": "google_apps_script_readme_c_common_reasons_a_test_email_wasn_t_processed",
@@ -3709,7 +3967,7 @@
       "node_kind": "heading",
       "norm_label": "c. common reasons a test email wasn't processed",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L238"
+      "source_location": "L243"
     },
     {
       "id": "google_apps_script_readme_elder_salviejo_dedicated_dummy_receiver_daily_9_00_pm_p_day_broadcast_guide",
@@ -3793,7 +4051,7 @@
       "node_kind": "heading",
       "norm_label": "option b: direct polaroid photo gallery uploads",
       "source_file": "google-apps-script/README.md",
-      "source_location": "L139"
+      "source_location": "L144"
     },
     {
       "id": "google_apps_script_readme_option_c_daily_9_00_pm_trigger",
@@ -3877,42 +4135,6 @@
       "type": "external"
     },
     {
-      "id": "ref_fs",
-      "label": "ref_fs",
-      "_origin": "semantic",
-      "community": 1,
-      "community_name": "extract-metadata.js",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_fs",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "ref_http",
-      "label": "ref_http",
-      "_origin": "semantic",
-      "community": 1,
-      "community_name": "extract-metadata.js",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_http",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "ref_path",
-      "label": "ref_path",
-      "_origin": "semantic",
-      "community": 1,
-      "community_name": "extract-metadata.js",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_path",
-      "source_file": "",
-      "type": "external"
-    },
-    {
       "id": "ref_https",
       "label": "ref_https",
       "_origin": "semantic",
@@ -3933,6 +4155,42 @@
       "external": true,
       "file_type": "concept",
       "norm_label": "ref_crypto",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "ref_fs",
+      "label": "ref_fs",
+      "_origin": "semantic",
+      "community": 2,
+      "community_name": "server.js",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_fs",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "ref_http",
+      "label": "ref_http",
+      "_origin": "semantic",
+      "community": 2,
+      "community_name": "server.js",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_http",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "ref_path",
+      "label": "ref_path",
+      "_origin": "semantic",
+      "community": 2,
+      "community_name": "server.js",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_path",
       "source_file": "",
       "type": "external"
     },
@@ -4139,7 +4397,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L948",
+      "source_location": "L1037",
       "weight": 1.0
     },
     {
@@ -4151,7 +4409,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L949",
+      "source_location": "L1038",
       "weight": 1.0
     },
     {
@@ -4163,7 +4421,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L773",
+      "source_location": "L862",
       "weight": 1.0
     },
     {
@@ -4175,7 +4433,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L774",
+      "source_location": "L863",
       "weight": 1.0
     },
     {
@@ -4187,7 +4445,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L1303",
+      "source_location": "L1392",
       "weight": 1.0
     },
     {
@@ -4199,7 +4457,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L1304",
+      "source_location": "L1393",
       "weight": 1.0
     },
     {
@@ -4211,7 +4469,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L1335",
+      "source_location": "L1424",
       "weight": 1.0
     },
     {
@@ -4223,7 +4481,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L1336",
+      "source_location": "L1425",
       "weight": 1.0
     },
     {
@@ -4235,7 +4493,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L531",
+      "source_location": "L667",
       "weight": 1.0
     },
     {
@@ -4247,7 +4505,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L532",
+      "source_location": "L668",
       "weight": 1.0
     },
     {
@@ -4259,19 +4517,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L551",
-      "weight": 1.0
-    },
-    {
-      "source": "lib_turso_getallgalleryphotos",
-      "target": "lib_turso_readlocaldb",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "lib/turso.js",
-      "source_location": "L552",
+      "source_location": "L678",
       "weight": 1.0
     },
     {
@@ -4283,7 +4529,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L798",
+      "source_location": "L887",
       "weight": 1.0
     },
     {
@@ -4295,24 +4541,12 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L799",
+      "source_location": "L888",
       "weight": 1.0
     },
     {
       "source": "lib_turso_getallweeks",
       "target": "lib_turso_istursoconfigured",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "lib/turso.js",
-      "source_location": "L447",
-      "weight": 1.0
-    },
-    {
-      "source": "lib_turso_getallweeks",
-      "target": "lib_turso_getdbclient",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -4324,6 +4558,18 @@
     },
     {
       "source": "lib_turso_getallweeks",
+      "target": "lib_turso_getdbclient",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/turso.js",
+      "source_location": "L451",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_turso_getallweeks",
       "target": "lib_turso_readlocaldb",
       "relation": "calls",
       "_origin": "ast",
@@ -4331,7 +4577,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L458",
+      "source_location": "L459",
       "weight": 1.0
     },
     {
@@ -4343,7 +4589,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L480",
+      "source_location": "L517",
       "weight": 1.0
     },
     {
@@ -4355,7 +4601,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L870",
+      "source_location": "L959",
       "weight": 1.0
     },
     {
@@ -4367,7 +4613,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L871",
+      "source_location": "L960",
       "weight": 1.0
     },
     {
@@ -4379,19 +4625,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L46",
-      "weight": 1.0
-    },
-    {
-      "source": "lib_turso_getencouragementsforslug",
-      "target": "lib_turso_getdbclient",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "lib/turso.js",
-      "source_location": "L1000",
+      "source_location": "L48",
       "weight": 1.0
     },
     {
@@ -4403,7 +4637,55 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L998",
+      "source_location": "L1087",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_turso_getencouragementsforslug",
+      "target": "lib_turso_getdbclient",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/turso.js",
+      "source_location": "L1089",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_turso_getfullbookweeks",
+      "target": "lib_turso_istursoconfigured",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/turso.js",
+      "source_location": "L565",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_turso_getfullbookweeks",
+      "target": "lib_turso_getdbclient",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/turso.js",
+      "source_location": "L567",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_turso_getfullbookweeks",
+      "target": "lib_turso_readlocaldb",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/turso.js",
+      "source_location": "L575",
       "weight": 1.0
     },
     {
@@ -4415,7 +4697,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L1042",
+      "source_location": "L1131",
       "weight": 1.0
     },
     {
@@ -4427,7 +4709,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L1044",
+      "source_location": "L1133",
       "weight": 1.0
     },
     {
@@ -4439,7 +4721,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L1052",
+      "source_location": "L1141",
       "weight": 1.0
     },
     {
@@ -4451,7 +4733,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L1059",
+      "source_location": "L1148",
       "weight": 1.0
     },
     {
@@ -4463,7 +4745,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L930",
+      "source_location": "L1019",
       "weight": 1.0
     },
     {
@@ -4475,7 +4757,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L717",
+      "source_location": "L801",
       "weight": 1.0
     },
     {
@@ -4487,7 +4769,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L718",
+      "source_location": "L802",
       "weight": 1.0
     },
     {
@@ -4499,7 +4781,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L728",
+      "source_location": "L810",
       "weight": 1.0
     },
     {
@@ -4511,7 +4793,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L172",
+      "source_location": "L174",
       "weight": 1.0
     },
     {
@@ -4523,7 +4805,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L173",
+      "source_location": "L175",
       "weight": 1.0
     },
     {
@@ -4535,7 +4817,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L278",
+      "source_location": "L280",
       "weight": 1.0
     },
     {
@@ -4547,7 +4829,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L279",
+      "source_location": "L281",
       "weight": 1.0
     },
     {
@@ -4559,7 +4841,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L816",
+      "source_location": "L905",
       "weight": 1.0
     },
     {
@@ -4571,7 +4853,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L817",
+      "source_location": "L906",
       "weight": 1.0
     },
     {
@@ -4583,7 +4865,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L898",
+      "source_location": "L987",
       "weight": 1.0
     },
     {
@@ -4595,7 +4877,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L899",
+      "source_location": "L988",
       "weight": 1.0
     },
     {
@@ -4607,7 +4889,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L840",
+      "source_location": "L929",
       "weight": 1.0
     },
     {
@@ -4619,7 +4901,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L841",
+      "source_location": "L930",
       "weight": 1.0
     },
     {
@@ -4631,7 +4913,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L368",
+      "source_location": "L370",
       "weight": 1.0
     },
     {
@@ -4643,7 +4925,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L369",
+      "source_location": "L371",
       "weight": 1.0
     },
     {
@@ -4655,7 +4937,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L386",
+      "source_location": "L388",
       "weight": 1.0
     },
     {
@@ -4667,7 +4949,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L404",
+      "source_location": "L406",
       "weight": 1.0
     },
     {
@@ -4679,7 +4961,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L430",
+      "source_location": "L432",
       "weight": 1.0
     },
     {
@@ -4691,7 +4973,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L296",
+      "source_location": "L298",
       "weight": 1.0
     },
     {
@@ -4703,7 +4985,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L297",
+      "source_location": "L299",
       "weight": 1.0
     },
     {
@@ -4715,7 +4997,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L313",
+      "source_location": "L315",
       "weight": 1.0
     },
     {
@@ -4727,7 +5009,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L330",
+      "source_location": "L332",
       "weight": 1.0
     },
     {
@@ -4739,7 +5021,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L356",
+      "source_location": "L358",
       "weight": 1.0
     },
     {
@@ -4751,7 +5033,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L1091",
+      "source_location": "L1180",
       "weight": 1.0
     },
     {
@@ -4763,7 +5045,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L1092",
+      "source_location": "L1181",
       "weight": 1.0
     },
     {
@@ -4775,7 +5057,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L1123",
+      "source_location": "L1212",
       "weight": 1.0
     },
     {
@@ -4787,7 +5069,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L1221",
+      "source_location": "L1310",
       "weight": 1.0
     },
     {
@@ -4799,7 +5081,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/turso.js",
-      "source_location": "L1222",
+      "source_location": "L1311",
       "weight": 1.0
     },
     {
@@ -4811,24 +5093,12 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L455",
+      "source_location": "L542",
       "weight": 1.0
     },
     {
       "source": "public_js_book_loadcompletebook",
       "target": "public_js_book_escapehtml",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "public/js/book.js",
-      "source_location": "L192",
-      "weight": 1.0
-    },
-    {
-      "source": "public_js_book_loadcompletebook",
-      "target": "public_js_book_chunkweekentries",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -4840,14 +5110,38 @@
     },
     {
       "source": "public_js_book_loadcompletebook",
-      "target": "public_js_book_renderentrycard",
+      "target": "public_js_book_cleanbookdayname",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L278",
+      "source_location": "L292",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_book_loadcompletebook",
+      "target": "public_js_book_cleanbookentrytext",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/book.js",
+      "source_location": "L298",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_book_loadcompletebook",
+      "target": "public_js_book_escapeattr",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/book.js",
+      "source_location": "L428",
       "weight": 1.0
     },
     {
@@ -4859,7 +5153,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L298",
+      "source_location": "L482",
       "weight": 1.0
     },
     {
@@ -4871,7 +5165,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L613",
+      "source_location": "L700",
       "weight": 1.0
     },
     {
@@ -4883,7 +5177,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L632",
+      "source_location": "L719",
       "weight": 1.0
     },
     {
@@ -4895,7 +5189,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L639",
+      "source_location": "L726",
       "weight": 1.0
     },
     {
@@ -4907,7 +5201,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L468",
+      "source_location": "L555",
       "weight": 1.0
     },
     {
@@ -4919,31 +5213,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L469",
-      "weight": 1.0
-    },
-    {
-      "source": "public_js_book_renderentrycard",
-      "target": "public_js_book_escapehtml",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "public/js/book.js",
-      "source_location": "L354",
-      "weight": 1.0
-    },
-    {
-      "source": "public_js_book_renderentrycard",
-      "target": "public_js_book_escapeattr",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "public/js/book.js",
-      "source_location": "L378",
+      "source_location": "L556",
       "weight": 1.0
     },
     {
@@ -4955,7 +5225,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L687",
+      "source_location": "L774",
       "weight": 1.0
     },
     {
@@ -4967,7 +5237,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L697",
+      "source_location": "L784",
       "weight": 1.0
     },
     {
@@ -4979,7 +5249,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L711",
+      "source_location": "L799",
       "weight": 1.0
     },
     {
@@ -5003,7 +5273,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/gallery.js",
-      "source_location": "L109",
+      "source_location": "L110",
       "weight": 1.0
     },
     {
@@ -5015,7 +5285,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/gallery.js",
-      "source_location": "L68",
+      "source_location": "L69",
       "weight": 1.0
     },
     {
@@ -5027,7 +5297,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/gallery.js",
-      "source_location": "L69",
+      "source_location": "L70",
       "weight": 1.0
     },
     {
@@ -5039,7 +5309,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/gallery.js",
-      "source_location": "L164",
+      "source_location": "L165",
       "weight": 1.0
     },
     {
@@ -5051,7 +5321,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/gallery.js",
-      "source_location": "L219",
+      "source_location": "L222",
       "weight": 1.0
     },
     {
@@ -5063,7 +5333,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/gallery.js",
-      "source_location": "L230",
+      "source_location": "L234",
       "weight": 1.0
     },
     {
@@ -5075,7 +5345,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/gallery.js",
-      "source_location": "L156",
+      "source_location": "L157",
       "weight": 1.0
     },
     {
@@ -5087,7 +5357,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/gallery.js",
-      "source_location": "L158",
+      "source_location": "L159",
       "weight": 1.0
     },
     {
@@ -5099,7 +5369,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/gallery.js",
-      "source_location": "L159",
+      "source_location": "L160",
       "weight": 1.0
     },
     {
@@ -5111,7 +5381,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/index.js",
-      "source_location": "L79",
+      "source_location": "L84",
       "weight": 1.0
     },
     {
@@ -5123,7 +5393,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/index.js",
-      "source_location": "L417",
+      "source_location": "L465",
       "weight": 1.0
     },
     {
@@ -5135,7 +5405,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/index.js",
-      "source_location": "L398",
+      "source_location": "L446",
       "weight": 1.0
     },
     {
@@ -5147,7 +5417,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/index.js",
-      "source_location": "L297",
+      "source_location": "L345",
       "weight": 1.0
     },
     {
@@ -5159,7 +5429,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/index.js",
-      "source_location": "L392",
+      "source_location": "L440",
       "weight": 1.0
     },
     {
@@ -5171,7 +5441,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/index.js",
-      "source_location": "L307",
+      "source_location": "L355",
       "weight": 1.0
     },
     {
@@ -5183,7 +5453,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/index.js",
-      "source_location": "L167",
+      "source_location": "L195",
       "weight": 1.0
     },
     {
@@ -5195,7 +5465,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/index.js",
-      "source_location": "L406",
+      "source_location": "L454",
       "weight": 1.0
     },
     {
@@ -5207,7 +5477,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/index.js",
-      "source_location": "L407",
+      "source_location": "L455",
       "weight": 1.0
     },
     {
@@ -5219,7 +5489,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/index.js",
-      "source_location": "L408",
+      "source_location": "L456",
       "weight": 1.0
     },
     {
@@ -5507,7 +5777,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/week.js",
-      "source_location": "L86",
+      "source_location": "L85",
       "weight": 1.0
     },
     {
@@ -5519,7 +5789,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/week.js",
-      "source_location": "L88",
+      "source_location": "L87",
       "weight": 1.0
     },
     {
@@ -5559,18 +5829,6 @@
       "weight": 1.0
     },
     {
-      "source": "public_js_week_loadweek",
-      "target": "public_js_week_showerror",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "public/js/week.js",
-      "source_location": "L57",
-      "weight": 1.0
-    },
-    {
       "source": "public_js_week_renderweek",
       "target": "public_js_week_cleandayname",
       "relation": "calls",
@@ -5579,7 +5837,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/week.js",
-      "source_location": "L132",
+      "source_location": "L115",
       "weight": 1.0
     },
     {
@@ -5591,7 +5849,31 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/week.js",
-      "source_location": "L141",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_week_renderweek",
+      "target": "public_js_week_escapehtml",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/week.js",
+      "source_location": "L188",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_week_renderweek",
+      "target": "public_js_week_escapeattr",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/week.js",
+      "source_location": "L271",
       "weight": 1.0
     },
     {
@@ -5699,7 +5981,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L142",
+      "source_location": "L143",
       "weight": 1.0
     },
     {
@@ -5711,7 +5993,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L148",
+      "source_location": "L149",
       "weight": 1.0
     },
     {
@@ -5723,7 +6005,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L155",
+      "source_location": "L156",
       "weight": 1.0
     },
     {
@@ -5735,7 +6017,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L161",
+      "source_location": "L162",
       "weight": 1.0
     },
     {
@@ -5747,7 +6029,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L166",
+      "source_location": "L167",
       "weight": 1.0
     },
     {
@@ -5759,7 +6041,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L172",
+      "source_location": "L173",
       "weight": 1.0
     },
     {
@@ -5771,7 +6053,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L178",
+      "source_location": "L179",
+      "weight": 1.0
+    },
+    {
+      "source": "server_server",
+      "target": "server_bookhandler",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "server.js",
+      "source_location": "L184",
       "weight": 1.0
     },
     {
@@ -5783,7 +6077,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L183",
+      "source_location": "L189",
       "weight": 1.0
     },
     {
@@ -5795,7 +6089,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L190",
+      "source_location": "L196",
       "weight": 1.0
     },
     {
@@ -5807,7 +6101,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "server.js",
-      "source_location": "L198",
+      "source_location": "L204",
       "weight": 1.0
     },
     {
@@ -5819,7 +6113,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/gallery.js",
-      "source_location": "L296",
+      "source_location": "L301",
       "weight": 1.0
     },
     {
@@ -5831,7 +6125,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/gallery.js",
-      "source_location": "L44",
+      "source_location": "L45",
       "weight": 1.0
     },
     {
@@ -5843,7 +6137,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/index.js",
-      "source_location": "L18",
+      "source_location": "L23",
       "weight": 1.0
     },
     {
@@ -5855,7 +6149,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/index.js",
-      "source_location": "L402",
+      "source_location": "L450",
       "weight": 1.0
     },
     {
@@ -5867,7 +6161,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/index.js",
-      "source_location": "L52",
+      "source_location": "L57",
       "weight": 1.0
     },
     {
@@ -5879,7 +6173,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/index.js",
-      "source_location": "L66",
+      "source_location": "L71",
       "weight": 1.0
     },
     {
@@ -5988,6 +6282,78 @@
       "context": "import",
       "source_file": "api/backup.js",
       "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "api_book",
+      "target": "lib_turso_getfullbookweeks",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "api/book.js",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "api_book",
+      "target": "lib_turso_initdatabase",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "api/book.js",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "api_book",
+      "target": "lib_turso_istursoconfigured",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "api/book.js",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "api_debug",
+      "target": "lib_turso_getallweeks",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "api/debug.js",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "api_debug",
+      "target": "lib_turso_initdatabase",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "api/debug.js",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "api_debug",
+      "target": "lib_turso_istursoconfigured",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "api/debug.js",
+      "source_location": "L9",
       "weight": 1.0
     },
     {
@@ -6347,7 +6713,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "api/weeks/index.js",
-      "source_location": "L9",
+      "source_location": "L8",
       "weight": 1.0
     },
     {
@@ -6359,7 +6725,19 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "api/weeks/index.js",
-      "source_location": "L9",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "api_weeks_index",
+      "target": "lib_turso_istursoconfigured",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "api/weeks/index.js",
+      "source_location": "L8",
       "weight": 1.0
     },
     {
@@ -6432,6 +6810,30 @@
       "context": "import",
       "source_file": "api/backup.js",
       "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "api_book",
+      "target": "lib_turso",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "api/book.js",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "api_debug",
+      "target": "lib_turso",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "api/debug.js",
+      "source_location": "L9",
       "weight": 1.0
     },
     {
@@ -6616,18 +7018,6 @@
     },
     {
       "source": "api_weeks_index",
-      "target": "ref_crypto",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "api/weeks/index.js",
-      "source_location": "L8",
-      "weight": 1.0
-    },
-    {
-      "source": "api_weeks_index",
       "target": "lib_turso",
       "relation": "imports_from",
       "_origin": "ast",
@@ -6635,7 +7025,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "api/weeks/index.js",
-      "source_location": "L9",
+      "source_location": "L8",
       "weight": 1.0
     },
     {
@@ -6708,6 +7098,30 @@
       "context": "import",
       "source_file": "lib/turso.js",
       "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "public_sample_data_send_test_ingest",
+      "target": "ref_fs",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "public/sample-data/send-test-ingest.js",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "public_sample_data_send_test_ingest",
+      "target": "ref_path",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "public/sample-data/send-test-ingest.js",
+      "source_location": "L13",
       "weight": 1.0
     },
     {
@@ -7024,6 +7438,18 @@
     },
     {
       "source": "server",
+      "target": "api_book",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "server.js",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "server",
       "target": "ref_http",
       "relation": "imports_from",
       "_origin": "ast",
@@ -7076,6 +7502,28 @@
       "confidence_score": 1.0,
       "source_file": "api/backup.js",
       "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "api_book",
+      "target": "api_book_getfullbookweeks_initdatabase_istursoconfigured",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "api/book.js",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "api_debug",
+      "target": "api_debug_istursoconfigured_initdatabase_getallweeks",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "api/debug.js",
+      "source_location": "L9",
       "weight": 1.0
     },
     {
@@ -7141,7 +7589,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "api/ingest.js",
-      "source_location": "L182",
+      "source_location": "L183",
       "weight": 1.0
     },
     {
@@ -7234,7 +7682,7 @@
     },
     {
       "source": "api_weeks_index",
-      "target": "api_weeks_index_crypto",
+      "target": "api_weeks_index_getallweeks_initdatabase_istursoconfigured",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -7244,14 +7692,69 @@
       "weight": 1.0
     },
     {
-      "source": "api_weeks_index",
-      "target": "api_weeks_index_getallweeks_initdatabase",
+      "source": "claude_skills_frontend_design_skill",
+      "target": "claude_skills_frontend_design_skill_frontend_design",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "api/weeks/index.js",
-      "source_location": "L9",
+      "source_file": ".claude/skills/frontend-design/SKILL.md",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "claude_skills_frontend_design_skill_frontend_design",
+      "target": "claude_skills_frontend_design_skill_ground_your_designs_in_the_subject_matter",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".claude/skills/frontend-design/SKILL.md",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "claude_skills_frontend_design_skill_frontend_design",
+      "target": "claude_skills_frontend_design_skill_design_principles",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".claude/skills/frontend-design/SKILL.md",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "claude_skills_frontend_design_skill_frontend_design",
+      "target": "claude_skills_frontend_design_skill_process_plan_review_against_the_brief_build_critique",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".claude/skills/frontend-design/SKILL.md",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "claude_skills_frontend_design_skill_frontend_design",
+      "target": "claude_skills_frontend_design_skill_restraint_and_self_critique",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".claude/skills/frontend-design/SKILL.md",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "claude_skills_frontend_design_skill_frontend_design",
+      "target": "claude_skills_frontend_design_skill_more_on_writing_in_design",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".claude/skills/frontend-design/SKILL.md",
+      "source_location": "L61",
       "weight": 1.0
     },
     {
@@ -7504,7 +8007,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L139",
+      "source_location": "L144",
       "weight": 1.0
     },
     {
@@ -7526,7 +8029,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L176",
+      "source_location": "L181",
       "weight": 1.0
     },
     {
@@ -7537,7 +8040,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L185",
+      "source_location": "L190",
       "weight": 1.0
     },
     {
@@ -7548,7 +8051,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L199",
+      "source_location": "L204",
       "weight": 1.0
     },
     {
@@ -7559,7 +8062,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L210",
+      "source_location": "L215",
       "weight": 1.0
     },
     {
@@ -7570,7 +8073,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L226",
+      "source_location": "L231",
       "weight": 1.0
     },
     {
@@ -7581,7 +8084,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L238",
+      "source_location": "L243",
       "weight": 1.0
     },
     {
@@ -7603,7 +8106,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L156",
+      "source_location": "L161",
       "weight": 1.0
     },
     {
@@ -7625,7 +8128,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L172",
+      "source_location": "L177",
       "weight": 1.0
     },
     {
@@ -7636,7 +8139,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "google-apps-script/README.md",
-      "source_location": "L208",
+      "source_location": "L213",
       "weight": 1.0
     },
     {
@@ -7823,7 +8326,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/turso.js",
-      "source_location": "L125",
+      "source_location": "L127",
       "weight": 1.0
     },
     {
@@ -7834,7 +8337,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/turso.js",
-      "source_location": "L1269",
+      "source_location": "L1358",
       "weight": 1.0
     },
     {
@@ -7845,7 +8348,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/turso.js",
-      "source_location": "L136",
+      "source_location": "L138",
       "weight": 1.0
     },
     {
@@ -7856,7 +8359,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/turso.js",
-      "source_location": "L153",
+      "source_location": "L155",
       "weight": 1.0
     },
     {
@@ -7949,13 +8452,24 @@
     },
     {
       "source": "lib_turso",
+      "target": "lib_turso_bookcache",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/turso.js",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_turso",
       "target": "lib_turso_extractmissionaryhighlightsnippet",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/turso.js",
-      "source_location": "L57",
+      "source_location": "L59",
       "weight": 1.0
     },
     {
@@ -7966,7 +8480,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/turso.js",
-      "source_location": "L89",
+      "source_location": "L91",
       "weight": 1.0
     },
     {
@@ -8158,24 +8672,24 @@
     },
     {
       "source": "public_js_book",
-      "target": "public_js_book_renderentrycard",
+      "target": "public_js_book_cleanbookdayname",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L317",
+      "source_location": "L501",
       "weight": 1.0
     },
     {
       "source": "public_js_book",
-      "target": "public_js_book_chunkweekentries",
+      "target": "public_js_book_cleanbookentrytext",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L409",
+      "source_location": "L511",
       "weight": 1.0
     },
     {
@@ -8186,7 +8700,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L444",
+      "source_location": "L531",
       "weight": 1.0
     },
     {
@@ -8197,7 +8711,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L452",
+      "source_location": "L539",
       "weight": 1.0
     },
     {
@@ -8208,7 +8722,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L464",
+      "source_location": "L551",
       "weight": 1.0
     },
     {
@@ -8219,7 +8733,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L555",
+      "source_location": "L642",
       "weight": 1.0
     },
     {
@@ -8230,7 +8744,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L681",
+      "source_location": "L768",
       "weight": 1.0
     },
     {
@@ -8241,7 +8755,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L717",
+      "source_location": "L805",
       "weight": 1.0
     },
     {
@@ -8252,7 +8766,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L775",
+      "source_location": "L863",
       "weight": 1.0
     },
     {
@@ -8263,7 +8777,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L785",
+      "source_location": "L873",
       "weight": 1.0
     },
     {
@@ -8285,7 +8799,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/gallery.js",
-      "source_location": "L117",
+      "source_location": "L118",
       "weight": 1.0
     },
     {
@@ -8296,7 +8810,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/gallery.js",
-      "source_location": "L125",
+      "source_location": "L126",
       "weight": 1.0
     },
     {
@@ -8307,7 +8821,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/gallery.js",
-      "source_location": "L154",
+      "source_location": "L155",
       "weight": 1.0
     },
     {
@@ -8318,7 +8832,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/gallery.js",
-      "source_location": "L162",
+      "source_location": "L163",
       "weight": 1.0
     },
     {
@@ -8329,7 +8843,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/gallery.js",
-      "source_location": "L167",
+      "source_location": "L168",
       "weight": 1.0
     },
     {
@@ -8340,7 +8854,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/gallery.js",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0
     },
     {
@@ -8351,7 +8865,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/gallery.js",
-      "source_location": "L260",
+      "source_location": "L265",
       "weight": 1.0
     },
     {
@@ -8362,7 +8876,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/gallery.js",
-      "source_location": "L281",
+      "source_location": "L286",
       "weight": 1.0
     },
     {
@@ -8373,7 +8887,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/gallery.js",
-      "source_location": "L285",
+      "source_location": "L290",
       "weight": 1.0
     },
     {
@@ -8384,7 +8898,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/gallery.js",
-      "source_location": "L292",
+      "source_location": "L297",
       "weight": 1.0
     },
     {
@@ -8395,7 +8909,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/gallery.js",
-      "source_location": "L300",
+      "source_location": "L305",
       "weight": 1.0
     },
     {
@@ -8406,7 +8920,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/gallery.js",
-      "source_location": "L305",
+      "source_location": "L310",
       "weight": 1.0
     },
     {
@@ -8439,7 +8953,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/index.js",
-      "source_location": "L139",
+      "source_location": "L167",
       "weight": 1.0
     },
     {
@@ -8450,7 +8964,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/index.js",
-      "source_location": "L242",
+      "source_location": "L287",
       "weight": 1.0
     },
     {
@@ -8461,7 +8975,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/index.js",
-      "source_location": "L300",
+      "source_location": "L348",
       "weight": 1.0
     },
     {
@@ -8472,7 +8986,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/index.js",
-      "source_location": "L382",
+      "source_location": "L430",
       "weight": 1.0
     },
     {
@@ -8483,7 +8997,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/index.js",
-      "source_location": "L390",
+      "source_location": "L438",
       "weight": 1.0
     },
     {
@@ -8494,7 +9008,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/index.js",
-      "source_location": "L396",
+      "source_location": "L444",
       "weight": 1.0
     },
     {
@@ -8505,7 +9019,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/index.js",
-      "source_location": "L414",
+      "source_location": "L462",
       "weight": 1.0
     },
     {
@@ -8516,7 +9030,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/index.js",
-      "source_location": "L432",
+      "source_location": "L480",
       "weight": 1.0
     },
     {
@@ -8527,7 +9041,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/index.js",
-      "source_location": "L479",
+      "source_location": "L527",
       "weight": 1.0
     },
     {
@@ -8609,17 +9123,6 @@
     },
     {
       "source": "public_js_week",
-      "target": "public_js_week_cleandayname",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "public/js/week.js",
-      "source_location": "L226",
-      "weight": 1.0
-    },
-    {
-      "source": "public_js_week",
       "target": "public_js_week_getslugfrompath",
       "relation": "contains",
       "_origin": "ast",
@@ -8631,13 +9134,46 @@
     },
     {
       "source": "public_js_week",
+      "target": "public_js_week_escapehtml",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/js/week.js",
+      "source_location": "L310",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_week",
+      "target": "public_js_week_escapeattr",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/js/week.js",
+      "source_location": "L315",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_week",
+      "target": "public_js_week_cleandayname",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/js/week.js",
+      "source_location": "L320",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_week",
       "target": "public_js_week_cleanentrytext",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/week.js",
-      "source_location": "L231",
+      "source_location": "L325",
       "weight": 1.0
     },
     {
@@ -8648,7 +9184,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/week.js",
-      "source_location": "L239",
+      "source_location": "L333",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_week",
+      "target": "public_js_week_handleweeklyimgerror",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/js/week.js",
+      "source_location": "L345",
       "weight": 1.0
     },
     {
@@ -8659,7 +9206,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/week.js",
-      "source_location": "L81",
+      "source_location": "L80",
       "weight": 1.0
     },
     {
@@ -8670,7 +9217,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/week.js",
-      "source_location": "L92",
+      "source_location": "L91",
       "weight": 1.0
     },
     {
@@ -8759,6 +9306,61 @@
       "confidence_score": 1.0,
       "source_file": "public/manifest.json",
       "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "public_sample_data_send_test_ingest",
+      "target": "public_sample_data_send_test_ingest_fs",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/sample-data/send-test-ingest.js",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "public_sample_data_send_test_ingest",
+      "target": "public_sample_data_send_test_ingest_path",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/sample-data/send-test-ingest.js",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "public_sample_data_send_test_ingest",
+      "target": "public_sample_data_send_test_ingest_payloadpath",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/sample-data/send-test-ingest.js",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "public_sample_data_send_test_ingest",
+      "target": "public_sample_data_send_test_ingest_payloaddata",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/sample-data/send-test-ingest.js",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "public_sample_data_send_test_ingest",
+      "target": "public_sample_data_send_test_ingest_parsed",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/sample-data/send-test-ingest.js",
+      "source_location": "L26",
       "weight": 1.0
     },
     {
@@ -8879,7 +9481,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L142",
+      "source_location": "L144",
       "weight": 1.0
     },
     {
@@ -8890,7 +9492,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L182",
+      "source_location": "L184",
       "weight": 1.0
     },
     {
@@ -8901,7 +9503,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L228",
+      "source_location": "L230",
       "weight": 1.0
     },
     {
@@ -8923,7 +9525,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L184",
+      "source_location": "L186",
       "weight": 1.0
     },
     {
@@ -8934,7 +9536,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L191",
+      "source_location": "L193",
       "weight": 1.0
     },
     {
@@ -8945,7 +9547,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L203",
+      "source_location": "L205",
       "weight": 1.0
     },
     {
@@ -8956,7 +9558,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L216",
+      "source_location": "L218",
       "weight": 1.0
     },
     {
@@ -9577,13 +10179,24 @@
     },
     {
       "source": "server",
+      "target": "server_bookhandler",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "server.js",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "server",
       "target": "server_public_dir",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "server.js",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 1.0
     },
     {
@@ -9594,7 +10207,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "server.js",
-      "source_location": "L31",
+      "source_location": "L32",
       "weight": 1.0
     },
     {
@@ -9605,7 +10218,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "server.js",
-      "source_location": "L43",
+      "source_location": "L44",
       "weight": 1.0
     },
     {
@@ -9627,7 +10240,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "server.js",
-      "source_location": "L97",
+      "source_location": "L98",
       "weight": 1.0
     },
     {
@@ -9703,7 +10316,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "public/js/book.js",
-      "source_location": "L795",
+      "source_location": "L883",
       "weight": 1.0
     },
     {
@@ -9835,7 +10448,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1353",
+      "source_location": "L1442",
       "weight": 1.0
     },
     {
@@ -9847,7 +10460,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1354",
+      "source_location": "L1443",
       "weight": 1.0
     },
     {
@@ -9859,7 +10472,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1355",
+      "source_location": "L1444",
       "weight": 1.0
     },
     {
@@ -9871,7 +10484,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1356",
+      "source_location": "L1445",
       "weight": 1.0
     },
     {
@@ -9883,7 +10496,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1357",
+      "source_location": "L1446",
       "weight": 1.0
     },
     {
@@ -9895,7 +10508,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1358",
+      "source_location": "L1447",
       "weight": 1.0
     },
     {
@@ -9907,7 +10520,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1359",
+      "source_location": "L1448",
       "weight": 1.0
     },
     {
@@ -9919,7 +10532,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1360",
+      "source_location": "L1449",
       "weight": 1.0
     },
     {
@@ -9931,7 +10544,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1361",
+      "source_location": "L1450",
       "weight": 1.0
     },
     {
@@ -9943,7 +10556,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1362",
+      "source_location": "L1451",
       "weight": 1.0
     },
     {
@@ -9955,7 +10568,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1363",
+      "source_location": "L1452",
       "weight": 1.0
     },
     {
@@ -9967,7 +10580,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1364",
+      "source_location": "L1453",
       "weight": 1.0
     },
     {
@@ -9979,7 +10592,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1365",
+      "source_location": "L1454",
       "weight": 1.0
     },
     {
@@ -9991,7 +10604,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1366",
+      "source_location": "L1455",
       "weight": 1.0
     },
     {
@@ -10003,7 +10616,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1367",
+      "source_location": "L1456",
       "weight": 1.0
     },
     {
@@ -10015,7 +10628,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1368",
+      "source_location": "L1457",
       "weight": 1.0
     },
     {
@@ -10027,7 +10640,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1369",
+      "source_location": "L1458",
       "weight": 1.0
     },
     {
@@ -10039,7 +10652,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1370",
+      "source_location": "L1459",
       "weight": 1.0
     },
     {
@@ -10051,7 +10664,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1371",
+      "source_location": "L1460",
       "weight": 1.0
     },
     {
@@ -10063,7 +10676,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1372",
+      "source_location": "L1461",
       "weight": 1.0
     },
     {
@@ -10075,7 +10688,19 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/turso.js",
-      "source_location": "L1373",
+      "source_location": "L1462",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_turso",
+      "target": "lib_turso_getfullbookweeks",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "collection",
+      "source_file": "lib/turso.js",
+      "source_location": "L1463",
       "weight": 1.0
     },
     {
@@ -10176,5 +10801,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "a55f7de1ed911f2f82211f2f476935c703aee14a"
+  "built_at_commit": "43e053e2ed5a97655305a0fd50ae4a5f678d9249"
 }
