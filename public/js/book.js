@@ -219,7 +219,8 @@
           </section>
         `;
       } else {
-        const sortedWeeks = [...weeks].sort((a, b) => new Date(a.publishedAt) - new Date(b.publishedAt));
+        const filteredWeeks = (weeks || []).filter(w => !w.slug || !w.slug.startsWith('test-'));
+        const sortedWeeks = [...filteredWeeks].sort((a, b) => new Date(a.publishedAt) - new Date(b.publishedAt));
 
         // 1. Render Table of Contents Items
         if (tocDynamic) {
@@ -282,9 +283,9 @@
 
           const verse = weekDetails.verse;
           const hasVerse = verse && (verse.text || verse.reference);
-          const chapId = `chapter-week-${w.slug || i + 1}`;
+          const chapId = `chapter-week-${weekDetails.slug || i + 1}`;
           const chapNum = String(i + 2).padStart(2, '0');
-          const pageNum = String(runningPageNum++).padStart(2, '0');
+          const photoPageNum = String(runningPageNum++).padStart(2, '0');
 
           const standardDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
           const sevenDays = standardDays.map((stdDay, eIdx) => {
@@ -348,8 +349,9 @@
             }
           });
 
+          // Sheet 1: 7-Photo Scrapbook Bento Grid Sheet (1 Sheet for All 7 Photos)
           chaptersHtml += `
-            <section id="${chapId}" class="book-sheet sheet">
+            <section id="${chapId}" class="book-sheet sheet sheet-photo-page">
               <!-- Masthead -->
               <header class="sheet-masthead">
                 <div class="masthead-title">
@@ -469,7 +471,62 @@
               <!-- Pinned Sheet Footer -->
               <div class="sheet-footer">
                 <span>Elder Salviejo • Philippines Dumaguete Mission</span>
-                <span>Page ${pageNum}</span>
+                <span>Page ${photoPageNum}</span>
+              </div>
+            </section>
+          `;
+
+          // Sheet 2: Dedicated Full-Length Transcription Reading Page
+          const textPageNum = String(runningPageNum++).padStart(2, '0');
+          chaptersHtml += `
+            <section id="${chapId}-transcripts" class="book-sheet sheet-transcripts-page">
+              <!-- Sheet Header -->
+              <div class="sheet-header">
+                <div>
+                  <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">
+                    Chapter ${chapNum} • Full Field Journal Transcriptions
+                  </span>
+                  <h2 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5">
+                    ${escapeHtml(weekDetails.title || `Weekly Letter #${i + 1}`)}
+                  </h2>
+                </div>
+                <div class="font-mono text-xs text-stone-500 text-right">
+                  <span>${escapeHtml(pDayDate)}</span>
+                </div>
+              </div>
+
+              <!-- Sheet Body: Clean Editorial Full Text Readings -->
+              <div class="sheet-content overflow-hidden flex flex-col justify-start py-2">
+                ${hasVerse ? `
+                  <div class="mb-3 p-2.5 bg-stone-50 border-l-2 border-red-800 rounded-r text-stone-700 text-xs">
+                    <p class="font-serif italic text-xs leading-relaxed">“${escapeHtml(verse.text || '')}”</p>
+                    <span class="block mt-1 font-mono text-[9px] uppercase tracking-wider text-red-900 font-semibold">— ${escapeHtml(verse.reference || 'Negros Oriental')}</span>
+                  </div>
+                ` : ''}
+
+                <div class="space-y-2.5 font-sans flex-1">
+                  ${sevenDays.map(entry => `
+                    <div class="border-b border-stone-200 pb-2">
+                      <div class="flex items-center gap-2 mb-0.5">
+                        <span class="font-mono font-bold text-[10px] uppercase tracking-wider text-red-900 bg-stone-100 px-1.5 py-0.5 rounded border border-stone-200">
+                          ${escapeHtml(entry.day.toUpperCase())}
+                        </span>
+                        <span class="font-mono text-[9.5px] text-stone-400">
+                          ${escapeHtml(entry.time || '12:00 PHT')}
+                        </span>
+                      </div>
+                      <p class="text-stone-700 leading-relaxed text-[11.5px] pl-1 font-sans">
+                        ${escapeHtml(entry.text)}
+                      </p>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+
+              <!-- Pinned Sheet Footer -->
+              <div class="sheet-footer">
+                <span>Elder Salviejo • Philippines Dumaguete Mission</span>
+                <span>Page ${textPageNum}</span>
               </div>
             </section>
           `;

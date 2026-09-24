@@ -9,7 +9,8 @@
     "db:init": "node scripts/init-db.js",
     "metadata:extract": "node scripts/extract-metadata.js",
     "test:ingest": "node sample-data/send-test-ingest.js",
-    "test:perf": "node scripts/verify-performance.js"
+    "test:perf": "node scripts/verify-performance.js",
+    "build:pdf": "python3 scripts/build-pdf.py"
   },
   "keywords": [
     "gmail",

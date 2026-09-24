@@ -1,10 +1,4 @@
 {
-  "api/backup.js": {
-    "mtime": 1788969551.4735916,
-    "seen": 1789806287.72534,
-    "ast_hash": "e10fe554a910f976d469c62d79d0a3d1",
-    "semantic_hash": ""
-  },
   "api/encouragements.js": {
     "mtime": 1788969551.4775918,
     "seen": 1789806287.7253444,
@@ -41,18 +35,6 @@
     "ast_hash": "43801696c9d4edf02aceeb048e1bc0a9",
     "semantic_hash": ""
   },
-  "api/weeks/[id].js": {
-    "mtime": 1788969551.4895916,
-    "seen": 1789806287.7253654,
-    "ast_hash": "66ad261f5d6c4ce1d51af3e1740251af",
-    "semantic_hash": ""
-  },
-  "api/weeks/index.js": {
-    "mtime": 1790228681.09688,
-    "seen": 1790228982.0560758,
-    "ast_hash": "bf27f643215d0be2045b3c1deb61ad74",
-    "semantic_hash": ""
-  },
   "google-apps-script/appsscript.json": {
     "mtime": 1788969551.4935918,
     "seen": 1789806287.7253702,
@@ -78,9 +60,9 @@
     "semantic_hash": ""
   },
   "lib/turso.js": {
-    "mtime": 1790228647.2128801,
-    "seen": 1790228982.062035,
-    "ast_hash": "00a4d4765fba41802debaf30692137e2",
+    "mtime": 1790229499.9368799,
+    "seen": 1790229534.2117205,
+    "ast_hash": "3c18af0e077e013923f56e37c381932e",
     "semantic_hash": ""
   },
   "package.json": {
@@ -186,9 +168,9 @@
     "semantic_hash": ""
   },
   "server.js": {
-    "mtime": 1790228752.97688,
-    "seen": 1790228982.0785909,
-    "ast_hash": "ebb1c88ac2076be713a9ee16380a1b2e",
+    "mtime": 1790229310.42488,
+    "seen": 1790229534.2323904,
+    "ast_hash": "3d65e548fcbd86d4e4bd2f4ff0ba823d",
     "semantic_hash": ""
   },
   "tailwind.config.js": {
@@ -222,9 +204,9 @@
     "semantic_hash": ""
   },
   "vercel.json": {
-    "mtime": 1790228776.50488,
-    "seen": 1790228982.082293,
-    "ast_hash": "f2b8ccdeea1fa7b84686f5b3966ce196",
+    "mtime": 1790229280.00088,
+    "seen": 1790229534.23783,
+    "ast_hash": "3636271e212ef5b40190fdd3b5cd33ec",
     "semantic_hash": ""
   },
   "README.md": {
@@ -816,9 +798,9 @@
     "semantic_hash": ""
   },
   "api/admin.js": {
-    "mtime": 1789890153.9048793,
-    "seen": 1790228982.0420578,
-    "ast_hash": "e1fca4b5a22f8423e45019658c6349a3",
+    "mtime": 1790229254.74088,
+    "seen": 1790229534.2005486,
+    "ast_hash": "34e0f651a27b6ca7d6cab713f407fef8",
     "semantic_hash": ""
   },
   "api/tracking/[type].js": {
@@ -843,18 +825,6 @@
     "mtime": 1789834955.760878,
     "seen": 1789834968.0265727,
     "ast_hash": "fad7cf0920a723e8a2333add079a89ff",
-    "semantic_hash": ""
-  },
-  "api/book.js": {
-    "mtime": 1790228689.9168801,
-    "seen": 1790228982.045149,
-    "ast_hash": "21f8ef116387ab3e52d98a406138d8dd",
-    "semantic_hash": ""
-  },
-  "api/debug.js": {
-    "mtime": 1789914505.45288,
-    "seen": 1790228982.045178,
-    "ast_hash": "05602f7e81332918897b71c83acb4dcb",
     "semantic_hash": ""
   },
   "public/sample-data/sample-payload.json": {
@@ -885,6 +855,12 @@
     "mtime": 1789890131.4288795,
     "seen": 1790228982.0834415,
     "ast_hash": "a1e770c7ec3e77fdfa85cc6dab390ffc",
+    "semantic_hash": ""
+  },
+  "api/weeks.js": {
+    "mtime": 1790229232.27288,
+    "seen": 1790229534.2073398,
+    "ast_hash": "9e63ce3010051189857cbe2bc7c37020",
     "semantic_hash": ""
   }
 }

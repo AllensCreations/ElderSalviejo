@@ -22,7 +22,9 @@ dist/
 *.sqlite3
 
 # Local data
-data/
+data/*.tmp
+!data/local-vault.json
+!data/local-gallery.json
 
 # Logs
 *.log

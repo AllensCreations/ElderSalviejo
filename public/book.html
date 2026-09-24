@@ -70,22 +70,42 @@
       border-radius: 4px;
     }
 
-    /* True 8.5x11in Scrapbook Sheet for Weekly Chapters (Reference Implementation) */
+    /* Flat Editorial Album Theme for Book & Print: Clean white background, straight aligned polaroids (Ink-saving) */
     .book-sheet.sheet {
-      background: #fbf7ee !important;
+      background: #ffffff !important;
       padding: 0.32in 0.38in 0.28in 0.38in !important;
       font-family: 'Special Elite', monospace !important;
-      color: #2b2b2b !important;
+      color: #1c1917 !important;
+      border: 1px solid #e7e5e4 !important;
       border-radius: 2px !important;
+    }
+
+    .book-sheet.sheet .polaroid {
+      transform: none !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important;
+      border: 1px solid #e7e5e4 !important;
+    }
+
+    .book-sheet.sheet .tape {
+      display: none !important;
+    }
+
+    .book-sheet.sheet .sheet-masthead {
+      border-bottom: 1.5px solid #1c1917 !important;
+    }
+
+    .book-sheet.sheet .scripture-strip {
+      background: #f5f5f4 !important;
+      border-left: 3px solid #991b1b !important;
     }
 
     .book-sheet.sheet .sheet-footer {
       height: auto !important;
-      border-top: 1px solid #e5e7eb !important;
+      border-top: 1px solid #e7e5e4 !important;
       padding-top: 3px !important;
       margin-top: 5px !important;
       font-size: 8px !important;
-      color: #9ca3af !important;
+      color: #78716c !important;
       letter-spacing: 0.5px !important;
       font-family: 'Special Elite', monospace !important;
     }
@@ -349,7 +369,7 @@
       }
 
       .book-sheet.sheet {
-        background: #fbf7ee !important;
+        background: #ffffff !important;
         padding: 0.32in 0.38in 0.28in 0.38in !important;
         width: 8.5in !important;
         height: 10.98in !important;
@@ -359,17 +379,35 @@
         page-break-inside: avoid !important;
         break-inside: avoid !important;
         overflow: hidden !important;
+        border: none !important;
+      }
+
+      .book-sheet.sheet .polaroid {
+        transform: none !important;
+        box-shadow: none !important;
+        border: 1px solid #e7e5e4 !important;
+      }
+
+      .book-sheet.sheet .tape {
+        display: none !important;
       }
 
       .book-sheet.sheet .sheet-footer {
         height: auto !important;
-        border-top: 1px solid #e5e7eb !important;
+        border-top: 1px solid #e7e5e4 !important;
         padding-top: 3px !important;
         margin-top: 5px !important;
         font-size: 8px !important;
-        color: #9ca3af !important;
+        color: #78716c !important;
         letter-spacing: 0.5px !important;
         font-family: 'Special Elite', monospace !important;
+      }
+
+      .sheet-transcripts-page {
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
       }
 
       #chapter-epilogue {
@@ -641,13 +679,22 @@
           </svg>
           <span class="hidden sm:inline">Book</span>
         </a>
+        <a
+          href="/book.pdf"
+          download="Elder-Salviejo-Dumaguete-Mission-Record.pdf"
+          class="text-xs bg-stone-100 hover:bg-stone-200 text-stone-800 font-mono uppercase tracking-wider px-3 py-1.5 rounded-md border border-stone-300 flex items-center gap-1.5 transition"
+          title="Direct download pre-compiled PDF"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+          <span class="hidden md:inline">Download</span><span>PDF</span>
+        </a>
         <button
           onclick="triggerPrintWithPreload(this)"
           class="text-xs bg-stone-900 hover:bg-stone-800 text-white font-mono uppercase tracking-wider px-3 py-1.5 rounded-md shadow-xs flex items-center gap-1.5 transition cursor-pointer"
           title="Print or Save complete book as PDF (8.5 x 11 in)"
         >
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
-          <span>Print PDF</span>
+          <span>Save PDF</span>
         </button>
       </nav>
 
