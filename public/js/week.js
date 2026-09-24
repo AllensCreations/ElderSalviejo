@@ -96,71 +96,73 @@ function renderWeek(week) {
   if (contentEl) contentEl.classList.remove('hidden');
   if (errorEl) errorEl.classList.add('hidden');
 
-  const titleEl = document.getElementById('weekTitle');
-  if (titleEl) titleEl.innerText = week.title || 'Weekly Missionary Journal';
+  const pubDate = new Date(week.publishedAt || week.createdAt || Date.now());
+  const formattedDate = pubDate.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
 
-  const dateStampEl = document.getElementById('weekDateStamp');
-  if (dateStampEl) {
-    const pubDate = new Date(week.publishedAt || week.createdAt || Date.now());
-    dateStampEl.innerText = pubDate.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  }
-
-  const entries = Array.isArray(week.entries)
+  const rawEntries = Array.isArray(week.entries)
     ? week.entries
     : (typeof week.entries === 'string' ? JSON.parse(week.entries || '[]') : []);
 
-  const countEl = document.getElementById('entryCountBadge');
-  if (countEl) countEl.innerText = `${entries.length} Photo Plates`;
+  // Standard 7-day sequence (Mon-Sun) to ensure complete 7-image sheet layout
+  const standardDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+  const sevenDays = standardDays.map((stdDay, idx) => {
+    const found = rawEntries.find((e, eIdx) => {
+      const clean = cleanDayName(e.day, eIdx).toLowerCase();
+      return clean.includes(stdDay) || (stdDay === 'wednesday' && clean.includes('wed')) || (stdDay === 'thursday' && clean.includes('thu'));
+    }) || rawEntries[idx];
 
-  // Scripture Card
-  const verseRefEl = document.getElementById('verseReference');
-  const verseTextEl = document.getElementById('verseText');
-  if (week.verse && (week.verse.text || week.verse.reference)) {
-    if (verseRefEl) verseRefEl.innerText = week.verse.reference || 'Weekly Scripture Reflection';
-    if (verseTextEl) verseTextEl.innerText = week.verse.text || '';
-  } else {
-    if (verseRefEl) verseRefEl.innerText = 'Doctrine and Covenants 68:6';
-    if (verseTextEl) verseTextEl.innerText = 'Wherefore, be of good cheer, and do not fear, for I the Lord am with you, and will stand by you; and you shall bear record of me, even Jesus Christ, that I am the Son of the living God...';
-  }
-
-  // Build collection for UniversalLightbox
-  window.WEEK_PLATES = entries.map((entry, index) => {
-    const dayClean = cleanDayName(entry.day, index);
-    const timeStamp = entry.archivalStamp || entry.capturedDateTime || (entry.time ? `${dayClean} • ${entry.time} (PHT)` : `${dayClean} • 2026`);
-    return {
-      src: entry.cdnImage || entry.image,
-      title: `${dayClean} Field Plate`,
-      category: 'Weekly Missionary Journal',
-      capturedDate: entry.date,
-      capturedTime: entry.time,
-      archivalStamp: timeStamp,
-      caption: cleanEntryText(entry.text) || 'Weekly missionary reflection from Negros Oriental.',
-      // Store original image dimensions for aspect ratio handling if available
-      width: entry.width || null,
-      height: entry.height || null
-    };
+    const dayName = stdDay.charAt(0).toUpperCase() + stdDay.slice(1);
+    if (found) {
+      return {
+        day: dayName,
+        dayKey: stdDay,
+        text: cleanEntryText(found.text) || `${dayName} field reflections and missionary service in Dumaguete.`,
+        image: found.cdnImage || found.image || null,
+        cdnFallback: found.imageFilename ? `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${found.imageFilename}` : '',
+        legacyCdn: found.imageFilename ? `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${found.imageFilename}` : '',
+        time: found.time || '12:00 PHT',
+        date: found.date || '',
+        archivalStamp: found.archivalStamp || ''
+      };
+    } else {
+      return {
+        day: dayName,
+        dayKey: stdDay,
+        text: `${dayName} companion study and field work.`,
+        image: null,
+        cdnFallback: '',
+        legacyCdn: '',
+        time: '12:00 PHT',
+        date: '',
+        archivalStamp: ''
+      };
+    }
   });
 
-  // Proportional auto-resize for weekly journal images (0% cropping, zero dead space)
-  window.autoAdjustWeeklyJournalImage = function (img) {
-    if (!img || !img.naturalWidth || !img.naturalHeight) return;
-    const ratio = img.naturalWidth / img.naturalHeight;
-    const wrap = img.parentElement;
-    if (!wrap) return;
+  // Scripture Quote & Reference
+  const verse = week.verse || null;
+  const verseRef = (verse && (verse.reference || verse.ref)) || 'Alma 26:12';
+  const verseText = (verse && verse.text) || 'Yea, I know that I am nothing; as to my strength I am weak; therefore I will not boast of myself, but I will boast of my God, for in his strength I can do all things.';
 
-    // Set aspect ratio on wrapper to prevent layout shift
-    wrap.style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`;
-
-    // Constrain width to prevent overflow, height will auto-adjust based on aspect ratio
-    wrap.style.width = '100%';
-    wrap.style.maxWidth = '560px'; // Match the polaroid-card max-width
-    wrap.style.height = 'auto';
-  };
+  // Build collection for UniversalLightbox
+  window.WEEK_PLATES = sevenDays.map((entry) => {
+    return {
+      src: entry.image,
+      fallback: entry.cdnFallback,
+      legacyCdnSrc: entry.legacyCdn,
+      title: `${entry.day} Field Plate`,
+      category: 'Weekly Missionary Journal',
+      capturedDate: entry.date || formattedDate,
+      capturedTime: entry.time,
+      archivalStamp: entry.archivalStamp || `${entry.day} • ${entry.time}`,
+      caption: entry.text
+    };
+  });
 
   window.openWeekPlate = function (idx) {
     if (window.UniversalLightbox && window.WEEK_PLATES) {
@@ -176,108 +178,143 @@ function renderWeek(week) {
     }
   };
 
-  // Render 7-Polaroid Scrapbook Bento Grid (12x12) for weekly journal view
-  const container = document.getElementById('entriesList');
-  if (!container) return;
+  // Render 7-Polaroid Scrapbook Bento Grid (12x12) in true US Letter Sheet
+  contentEl.innerHTML = `
+    <div class="sheet">
+      <!-- Masthead -->
+      <header class="sheet-masthead">
+        <div class="masthead-title">
+          <span>Field Letter &amp; Weekly Journal</span>
+          <h1>${escapeHtml(week.title || 'Weekly Missionary Journal')}</h1>
+        </div>
+        <div class="masthead-meta">
+          <strong>${escapeHtml(formattedDate)}</strong><br>
+          Dumaguete City, Negros Oriental
+        </div>
+      </header>
 
-  // Debug: Log entries count
-  console.log('Rendering week with', entries.length, 'entries');
+      <!-- Scripture Quote -->
+      <div class="scripture-strip">
+        <div class="scripture-quote">
+          “${escapeHtml(verseText)}”
+        </div>
+        <div class="scripture-ref">
+          ${escapeHtml(verseRef)}<br>
+          Dumaguete Mission
+        </div>
+      </div>
 
-  // Create bento grid container
-  container.innerHTML = `
-    <div class="scrapbook-grid">
-      ${entries.map((entry, index) => {
-        const dayClean = cleanDayName(entry.day, index).toLowerCase();
-        const cleanText = cleanEntryText(entry.text);
-        const stampText = entry.archivalStamp || entry.capturedDateTime || (entry.time ? `${dayClean} • ${entry.time} (PHT)` : `${dayClean} • 2026`);
-        // Short excerpt for inside the polaroid caption (max 80 chars)
-        const shortCaption = cleanText ? (cleanText.length > 80 ? cleanText.slice(0, 80).trimEnd() + '…' : cleanText) : stampText;
+      <!-- 7-Polaroid Scrapbook Bento Grid -->
+      <main class="scrapbook-grid">
+        ${sevenDays.map((entry, index) => {
+          const dayLower = entry.dayKey;
+          const shortCaption = entry.text.length > 72 ? entry.text.slice(0, 72).trimEnd() + '…' : entry.text;
 
-        // Determine grid class based on day
-        let gridClass = '';
-        let tiltClass = '';
-        let isSplitLayout = false;
+          let gridClass = '';
+          let tiltClass = '';
+          let isSplitLayout = false;
 
-        switch (dayClean) {
-          case 'monday':
-            gridClass = 'cell-mon';
-            tiltClass = 'tilt-left';
-            break;
-          case 'tuesday':
-            gridClass = 'cell-tue';
-            tiltClass = 'tilt-right';
-            break;
-          case 'wednesday':
-            gridClass = 'cell-wed';
-            tiltClass = 'tilt-subtle';
-            break;
-          case 'thursday':
-            gridClass = 'cell-thu';
-            tiltClass = 'tilt-right';
-            break;
-          case 'friday':
-            gridClass = 'cell-fri';
-            tiltClass = 'tilt-left';
-            break;
-          case 'saturday':
-            gridClass = 'cell-sat';
-            tiltClass = 'tilt-subtle';
-            isSplitLayout = true;
-            break;
-          case 'sunday':
-            gridClass = 'cell-sun';
-            tiltClass = 'tilt-right';
-            isSplitLayout = true;
-            break;
-          default:
-            gridClass = 'col-span-2 row-span-2';
-            tiltClass = 'tilt-subtle';
-        }
+          switch (dayLower) {
+            case 'monday':
+              gridClass = 'cell-mon';
+              tiltClass = 'tilt-left';
+              break;
+            case 'tuesday':
+              gridClass = 'cell-tue';
+              tiltClass = 'tilt-right';
+              break;
+            case 'wednesday':
+              gridClass = 'cell-wed';
+              tiltClass = 'tilt-subtle';
+              break;
+            case 'thursday':
+              gridClass = 'cell-thu';
+              tiltClass = 'tilt-right';
+              break;
+            case 'friday':
+              gridClass = 'cell-fri';
+              tiltClass = 'tilt-left';
+              break;
+            case 'saturday':
+              gridClass = 'cell-sat';
+              tiltClass = 'tilt-subtle';
+              isSplitLayout = true;
+              break;
+            case 'sunday':
+              gridClass = 'cell-sun';
+              tiltClass = 'tilt-right';
+              isSplitLayout = true;
+              break;
+            default:
+              gridClass = 'cell-wed';
+              tiltClass = 'tilt-subtle';
+          }
 
-        return `
-          <article class="polaroid ${gridClass} ${tiltClass}">
-            <div class="tape"></div>
-            <div class="photo-frame">
-              ${(entry.cdnImage || entry.image) ? `
-                <img
-                  src="${entry.cdnImage || entry.image}"
-                  alt="${escapeHtml(dayClean)} missionary photograph"
-                  loading="eager"
-                  decoding="async"
-                  draggable="false"
-                  oncontextmenu="return false;"
-                  class="weekly-journal-image group-hover:scale-105 transition duration-150 block"
-                  onload="autoAdjustWeeklyJournalImage(this)"
-                  onerror="handleWeeklyImgError(this, '${entry.cdnImage || ''}', '${entry.image || ''}')"
-                />
-              ` : `
-                <div class="flex items-center justify-center h-full text-[8px] font-mono text-stone-400">Plate Pending</div>
-              `}
-            </div>
-            <div class="polaroid-chin ${isSplitLayout ? 'flex items-center justify-center' : ''}">
-              ${isSplitLayout ? `
-                <div class="flex-1">
-                  <div class="chin-header">
-                    <strong>${escapeHtml(dayClean.slice(0, 3).toUpperCase())}</strong>
-                    <span>12:00 PHT</span>
+          const hasImg = Boolean(entry.image);
+
+          return `
+            <article
+              class="polaroid ${gridClass} ${tiltClass}"
+              ${hasImg ? `onclick="openWeekPlate(${index})"` : ''}
+              title="${escapeHtml(entry.day)} Reflection (Click to zoom)"
+            >
+              <div class="tape"></div>
+              <div class="photo-frame">
+                ${hasImg ? `
+                  <img
+                    src="${escapeHtml(entry.image)}"
+                    alt="${escapeHtml(entry.day)} missionary photograph"
+                    loading="eager"
+                    decoding="async"
+                    draggable="false"
+                    oncontextmenu="return false;"
+                    onerror="handleWeeklyImgError(this, '${escapeAttr(entry.cdnFallback)}', '${escapeAttr(entry.legacyCdn)}')"
+                  />
+                ` : `
+                  <div class="flex items-center justify-center h-full text-[9px] font-mono text-stone-400">Plate Pending</div>
+                `}
+              </div>
+              <div class="polaroid-chin ${isSplitLayout ? 'flex items-center justify-center' : ''}">
+                ${isSplitLayout ? `
+                  <div class="flex-1">
+                    <div class="chin-header">
+                      <strong>${escapeHtml(entry.day)}</strong>
+                      <span>${escapeHtml(entry.time)}</span>
+                    </div>
                   </div>
-                </div>
-                <div class="flex-1">
-                  <div class="chin-caption">${escapeHtml(shortCaption)}</div>
-                </div>
-              ` : `
-                <div class="chin-header">
-                  <strong>${escapeHtml(dayClean.slice(0, 3).toUpperCase())}</strong>
-                  <span>12:00 PHT</span>
-                </div>
-                <div class="chin-caption">${escapeHtml(shortCaption)}</div>
-              `}
-            </div>
-          </article>
-        `;
-      }).join('')}
+                  <div class="flex-1">
+                    <div class="chin-caption" title="${escapeHtml(entry.text)}">${escapeHtml(shortCaption)}</div>
+                  </div>
+                ` : `
+                  <div class="chin-header">
+                    <strong>${escapeHtml(entry.day)}</strong>
+                    <span>${escapeHtml(entry.time)}</span>
+                  </div>
+                  <div class="chin-caption" title="${escapeHtml(entry.text)}">${escapeHtml(shortCaption)}</div>
+                `}
+              </div>
+            </article>
+          `;
+        }).join('')}
+      </main>
+
+      <!-- Page Footer -->
+      <footer class="sheet-footer">
+        <span>ELDER SALVIEJO • PHILIPPINES DUMAGUETE MISSION</span>
+        <span>FIELD JOURNAL ENTRY</span>
+      </footer>
     </div>
   `;
+}
+
+function escapeHtml(str) {
+  if (!str || typeof str !== 'string') return '';
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}
+
+function escapeAttr(str) {
+  if (!str || typeof str !== 'string') return '';
+  return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#039;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 function cleanDayName(rawDay, index) {

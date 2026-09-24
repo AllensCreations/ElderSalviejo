@@ -22,6 +22,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" media="print" onload="this.media='all'">
   <noscript>
@@ -142,40 +143,8 @@
       </div>
     </div>
 
-    <!-- Diary Content View -->
-    <div id="diaryContent" class="hidden space-y-12">
-
-      <!-- Week Header Archival Card -->
-      <section class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-10 shadow-xs text-center space-y-4">
-        <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-stone-500">
-          <span id="weekDateStamp">Preparation Day Archive</span>
-        </div>
-
-        <h1 id="weekTitle" class="font-serif text-3xl sm:text-4xl font-bold text-stone-900 tracking-tight leading-tight">
-          Weekly Missionary Journal
-        </h1>
-
-        <div class="flex flex-wrap items-center justify-center gap-3 text-xs font-mono text-stone-500 pt-2 border-t border-stone-100">
-          <span class="font-semibold text-stone-900">Elder Salviejo</span>
-          <span>•</span>
-          <span class="text-red-800 font-semibold">Philippines Dumaguete Mission</span>
-          <span>•</span>
-          <span id="entryCountBadge">7 Photo Plates</span>
-        </div>
-      </section>
-
-      <!-- Entries List -->
-      <div id="entriesList" class="space-y-10"></div>
-
-      <!-- Scripture Card -->
-      <section id="weeklyVerseSection" class="scripture-card">
-        <blockquote class="scripture-text">
-          “<span id="verseText"></span>”
-        </blockquote>
-        <span id="verseReference" class="scripture-ref"></span>
-      </section>
-
-    </div>
+    <!-- Diary Content View: 8.5in x 11in Scrapbook Journal Sheet -->
+    <div id="diaryContent" class="hidden flex justify-center py-2 w-full"></div>
 
   </main>
 

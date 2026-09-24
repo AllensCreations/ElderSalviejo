@@ -92,6 +92,29 @@ async function fetchWeeks() {
     const data = await response.json();
     allWeeks = data.weeks || [];
 
+    if (allWeeks.length === 0) {
+      try {
+        const sampleRes = await fetch('/sample-data/sample-payload.json');
+        if (sampleRes.ok) {
+          const sample = await sampleRes.json();
+          allWeeks = [{
+            id: 1,
+            slug: sample.slug,
+            title: sample.title,
+            publishedAt: sample.publishedAt,
+            rawSubject: sample.rawSubject,
+            sender: sample.sender,
+            totalEntries: sample.totalEntries,
+            imageCount: sample.imageCount,
+            verse: sample.verse,
+            previewImage: sample.entries && sample.entries[0] ? (sample.entries[0].cdnImage || sample.entries[0].image) : null,
+            snippet: sample.entries && sample.entries[0] ? sample.entries[0].text : '',
+            entries: sample.entries
+          }];
+        }
+      } catch (_) {}
+    }
+
     try {
       localStorage.setItem('gdv_cached_weeks', JSON.stringify(allWeeks));
     } catch (_) {}
@@ -116,7 +139,7 @@ async function fetchWeeks() {
           totalEntries: sample.totalEntries,
           imageCount: sample.imageCount,
           verse: sample.verse,
-          previewImage: sample.entries && sample.entries[0] ? sample.entries[0].image : null,
+          previewImage: sample.entries && sample.entries[0] ? (sample.entries[0].cdnImage || sample.entries[0].image) : null,
           snippet: sample.entries && sample.entries[0] ? sample.entries[0].text : '',
           entries: sample.entries
         }];
@@ -310,8 +333,11 @@ async function openDocket(index) {
       const res = await fetch(`/api/weeks/${encodeURIComponent(week.slug || week.id)}`);
       if (res.ok) {
         const fullData = await res.json();
-        entries = fullData.entries || [];
+        entries = (fullData.week && fullData.week.entries) || fullData.entries || [];
         week.entries = entries;
+        if (fullData.week && fullData.week.verse) {
+          week.verse = fullData.week.verse;
+        }
       }
     } catch (_) {}
   }

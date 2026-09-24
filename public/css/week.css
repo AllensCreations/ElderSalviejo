@@ -245,20 +245,135 @@ body.week-view {
 }
 
 /* ==========================================================================
-   Bento Grid Layout for Weekly Journal View (Scrapbook Style)
+   True US Letter Scrapbook Sheet (8.5in x 11in)
+   Exact match to the Reference Implementation
    ========================================================================== */
 
-/* 12-Column x 12-Row Bento Grid Container */
+/* Fixed US Letter Canvas (8.5in x 11in) */
+.sheet {
+  width: 8.5in;
+  height: 11in;
+  max-width: 8.5in;
+  background: #fbf7ee;
+  padding: 0.32in 0.38in 0.28in 0.38in;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  position: relative;
+  margin: 0 auto;
+  font-family: 'Special Elite', monospace;
+  color: #2b2b2b;
+  box-sizing: border-box;
+}
+
+@page {
+  size: letter portrait;
+  margin: 0;
+}
+
+@media print {
+  body.week-view {
+    background: none !important;
+    padding: 0 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .sheet {
+    box-shadow: none !important;
+    width: 100% !important;
+    height: 100vh !important;
+    max-width: none !important;
+    padding: 0.32in 0.38in 0.28in 0.38in !important;
+    margin: 0 !important;
+  }
+}
+
+/* Masthead */
+.sheet-masthead {
+  border-bottom: 2px dashed #9ca3af;
+  padding-bottom: 4px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.masthead-title h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 21px;
+  letter-spacing: 0.5px;
+  color: #1f2937;
+  line-height: 1.1;
+  font-weight: 700;
+  margin: 0;
+}
+
+.masthead-title span {
+  font-size: 8.5px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #6b7280;
+  display: block;
+}
+
+.masthead-meta {
+  text-align: right;
+  font-size: 9px;
+  color: #6b7280;
+  line-height: 1.35;
+  font-family: 'Special Elite', monospace;
+}
+
+.masthead-meta strong {
+  color: #111827;
+  font-size: 10px;
+}
+
+/* Scripture Reflection Strip */
+.scripture-strip {
+  background: #efe8db;
+  border-left: 3px solid #78350f;
+  border-radius: 0 3px 3px 0;
+  padding: 4px 8px;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 8.8px;
+  line-height: 1.25;
+}
+
+.scripture-quote {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  color: #374151;
+  max-width: 78%;
+}
+
+.scripture-ref {
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #78350f;
+  text-align: right;
+}
+
+/* 12-Column x 12-Row Bento Grid */
 .scrapbook-grid {
+  flex: 1;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(12, 1fr);
   gap: 7px;
   min-height: 0;
-  width: 100%;
 }
 
-/* Polaroid Frame - matching the HTML reference */
+/* Polaroid Frame */
 .polaroid {
   background: #ffffff;
   border: 1px solid #dfd8cc;
@@ -269,10 +384,16 @@ body.week-view {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
   min-height: 0;
   position: relative;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.polaroid:hover {
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.14);
 }
 
 /* Masking Tape Accent */
-.polaroid .tape {
+.tape {
   position: absolute;
   top: -5px;
   left: 50%;
@@ -286,7 +407,7 @@ body.week-view {
 }
 
 /* Photo Frame inside Polaroid */
-.polaroid .photo-frame {
+.photo-frame {
   flex: 1;
   min-height: 0;
   overflow: hidden;
@@ -295,7 +416,7 @@ body.week-view {
   position: relative;
 }
 
-.polaroid .photo-frame img {
+.photo-frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -303,30 +424,30 @@ body.week-view {
 }
 
 /* Polaroid Bottom Chin with Handwritten Details */
-.polaroid .polaroid-chin {
+.polaroid-chin {
   margin-top: 5px;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
 }
 
-.polaroid .chin-header {
+.chin-header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   font-size: 7.5px;
   color: #6b7280;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Special Elite', monospace;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-.polaroid .chin-header strong {
+.chin-header strong {
   color: #1f2937;
 }
 
-.polaroid .chin-caption {
-  font-family: 'Geist', cursive;
+.chin-caption {
+  font-family: 'Caveat', cursive;
   font-size: 13.5px;
   line-height: 1.1;
   color: #0f172a;
@@ -341,7 +462,7 @@ body.week-view {
 .tilt-right { transform: rotate(0.8deg); }
 .tilt-subtle { transform: rotate(-0.3deg); }
 
-/* Grid Coordinates (Mon-Sun) - Matching HTML Reference */
+/* Grid Coordinates (Mon-Sun) */
 .cell-mon { grid-column: span 6; grid-row: span 4; }
 .cell-tue { grid-column: span 6; grid-row: span 4; }
 
@@ -372,26 +493,71 @@ body.week-view {
   font-size: 13px;
 }
 
-/* Responsive adjustments for smaller screens */
-@media (max-width: 768px) {
+/* Page Footer */
+.sheet-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 8px;
+  color: #9ca3af;
+  margin-top: 5px;
+  padding-top: 3px;
+  border-top: 1px solid #e5e7eb;
+  letter-spacing: 0.5px;
+  font-family: 'Special Elite', monospace;
+}
+
+/* Mobile & Tablet Scaled Layout */
+@media screen and (max-width: 860px) {
+  .sheet {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: 850px;
+    padding: 16px 12px 14px 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
   .scrapbook-grid {
-    gap: 4px;
+    gap: 5px;
+    height: 700px;
   }
-
-  .polaroid .tape {
-    width: 30px;
-    height: 8px;
+  .tape {
+    width: 32px;
+    height: 9px;
   }
-
-  .polaroid .chin-header {
-    font-size: 6px;
-  }
-
-  .polaroid .chin-caption {
+  .chin-caption {
     font-size: 11px;
   }
-
   .cell-sat .chin-caption, .cell-sun .chin-caption {
-    font-size: 11px;
+    font-size: 10.5px;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .scrapbook-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: auto;
+  }
+  .sheet {
+    height: auto;
+    min-height: 0;
+  }
+  .polaroid {
+    transform: none !important;
+  }
+  .cell-sat, .cell-sun {
+    flex-direction: column;
+  }
+  .cell-sat .photo-frame, .cell-sun .photo-frame {
+    width: 100%;
+    height: 200px;
+  }
+  .cell-sat .polaroid-chin, .cell-sun .polaroid-chin {
+    width: 100%;
+    margin-top: 5px;
+  }
+  .photo-frame {
+    height: 220px;
   }
 }

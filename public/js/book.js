@@ -243,165 +243,186 @@
           const hasVerse = verse && (verse.text || verse.reference);
           const chapId = `chapter-week-${w.slug || i + 1}`;
           const chapNum = String(i + 2).padStart(2, '0');
-
           const pageNum = String(runningPageNum++).padStart(2, '0');
 
+          const standardDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+          const sevenDays = standardDays.map((stdDay, eIdx) => {
+            const found = entries.find((e, rawIdx) => {
+              const clean = cleanBookDayName(e.day, rawIdx).toLowerCase();
+              return clean.includes(stdDay) || (stdDay === 'wednesday' && clean.includes('wed')) || (stdDay === 'thursday' && clean.includes('thu'));
+            }) || entries[eIdx];
+
+            const dayName = stdDay.charAt(0).toUpperCase() + stdDay.slice(1);
+            if (found) {
+              const cleanText = cleanBookEntryText(found.text);
+              const hasImg = Boolean(found.image || found.cdnImage);
+              let imgSrc = found.cdnImage || found.image || '';
+              let cdnFallback = '';
+              let legacyCdn = '';
+
+              if (found.imageFilename) {
+                cdnFallback = `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${found.imageFilename}`;
+                legacyCdn = `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${found.imageFilename}`;
+              }
+
+              let plateIdx = -1;
+              if (hasImg) {
+                plateIdx = window.BOOK_WEEKLY_PLATES.length;
+                window.BOOK_WEEKLY_PLATES.push({
+                  src: imgSrc,
+                  fallback: cdnFallback,
+                  legacyCdnSrc: legacyCdn,
+                  title: `${dayName} • Chapter ${chapNum}`,
+                  category: 'Weekly Missionary Journal',
+                  capturedDate: found.date || pDayDate,
+                  capturedTime: found.time || '12:00 PHT',
+                  archivalStamp: `${dayName} • ${found.time || '2026'}`,
+                  caption: cleanText || `${dayName} field reflection from Negros Oriental.`
+                });
+              }
+
+              return {
+                day: dayName,
+                dayKey: stdDay,
+                text: cleanText || `${dayName} missionary service and field work in Dumaguete.`,
+                hasImg,
+                imgSrc,
+                cdnFallback,
+                legacyCdn,
+                plateIdx,
+                time: found.time || '12:00 PHT'
+              };
+            } else {
+              return {
+                day: dayName,
+                dayKey: stdDay,
+                text: `${dayName} companion study and missionary work.`,
+                hasImg: false,
+                imgSrc: '',
+                cdnFallback: '',
+                legacyCdn: '',
+                plateIdx: -1,
+                time: '12:00 PHT'
+              };
+            }
+          });
+
           chaptersHtml += `
-            <section id="${chapId}" class="book-sheet">
-              <!-- Pinned Sheet Header -->
-              <div class="sheet-header">
-                <div>
-                  <span class="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-400">Chapter ${chapNum} • Field Letter & Weekly Journal</span>
-                  <h2 class="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5 truncate max-w-xl">
-                    ${escapeHtml(weekDetails.title || `Weekly Letter #${i + 1}`)}
-                  </h2>
+            <section id="${chapId}" class="book-sheet sheet">
+              <!-- Masthead -->
+              <header class="sheet-masthead">
+                <div class="masthead-title">
+                  <span>Chapter ${chapNum} • Field Letter &amp; Weekly Journal</span>
+                  <h1>${escapeHtml(weekDetails.title || `Weekly Letter #${i + 1}`)}</h1>
                 </div>
-                <div class="font-mono text-xs text-stone-500 text-right shrink-0">
-                  <span class="block text-stone-700 font-medium">${escapeHtml(pDayDate)}</span>
-                  <span class="text-[10px] text-stone-400 font-normal">Dumaguete City, Negros Oriental</span>
+                <div class="masthead-meta">
+                  <strong>${escapeHtml(pDayDate)}</strong><br>
+                  Dumaguete City, Negros Oriental
                 </div>
-              </div>
+              </header>
 
-              <!-- Pinned Sheet Content (1 Week per 8.5x11in Sheet: Top Scripture, Daily Diary Log, Bottom 7-Photo Gallery) -->
-              <div class="sheet-content flex flex-col justify-between overflow-hidden">
-                
-                <!-- 1. Top Scripture Reflection Banner -->
-                ${hasVerse ? `
-                  <div class="avoid-break px-3 py-2 bg-stone-50 border-l-3 border-l-red-800 border border-stone-200 rounded shrink-0 mb-2">
-                    <div class="flex items-center justify-between text-[9px] font-mono uppercase font-bold tracking-wider text-red-800 mb-0.5">
-                      <span>Scripture Reflection • ${escapeHtml(verse.reference || '')}</span>
-                      <span class="text-stone-400 font-normal">Philippines Dumaguete Mission</span>
-                    </div>
-                    <blockquote class="font-serif italic text-stone-800 text-xs sm:text-[12.5px] leading-snug">
-                      “${escapeHtml(verse.text || '')}”
-                    </blockquote>
+              <!-- Scripture Quote -->
+              ${hasVerse ? `
+                <div class="scripture-strip">
+                  <div class="scripture-quote">
+                    “${escapeHtml(verse.text || '')}”
                   </div>
-                ` : ''}
+                  <div class="scripture-ref">
+                    ${escapeHtml(verse.reference || '')}<br>
+                    Dumaguete Mission
+                  </div>
+                </div>
+              ` : ''}
 
-                <!-- 2. Mid: Daily Missionary Diary Logs (Clean 2-Column Ledger) -->
-                <div class="diary-days-grid grid grid-cols-2 gap-x-4 gap-y-2 border border-stone-200 bg-stone-50/50 rounded p-2.5 shrink-0 mb-2.5">
-                  ${entries.slice(0, 7).map((entry, eIdx) => {
-                    const dayClean = cleanBookDayName(entry.day, eIdx);
-                    const cleanText = cleanBookEntryText(entry.text);
-                    const timeStamp = entry.time || (entry.archivalStamp ? entry.archivalStamp.split('•')[1]?.trim() : '') || '12:00 PHT';
-                    return `
-                      <div class="diary-day-entry min-w-0 border-b border-stone-200/60 pb-1.5 last:border-b-0">
-                        <div class="flex items-baseline justify-between gap-1 mb-0.5">
-                          <span class="font-mono text-[10px] font-bold uppercase tracking-wider text-stone-900 flex items-center gap-1 truncate">
-                            <span class="w-1.5 h-1.5 rounded-full bg-red-800 shrink-0"></span>
-                            <span>${escapeHtml(dayClean)}</span>
-                            ${entry.date ? `<span class="text-stone-400 font-normal text-[9px]">(${escapeHtml(entry.date)})</span>` : ''}
-                          </span>
-                          <span class="font-mono text-[8.5px] text-stone-500 uppercase shrink-0">
-                            ${escapeHtml(timeStamp)}
-                          </span>
-                        </div>
-                        <p class="font-sans text-[11px] leading-[1.38] text-stone-700 line-clamp-3">
-                          ${escapeHtml(cleanText || 'Field work and missionary service in Dumaguete.')}
-                        </p>
+              <!-- 7-Polaroid Scrapbook Bento Grid (12x12) -->
+              <div class="scrapbook-grid flex-1">
+                ${sevenDays.map((entry) => {
+                  const dayLower = entry.dayKey;
+                  const shortCaption = entry.text.length > 70 ? entry.text.slice(0, 70).trimEnd() + '…' : entry.text;
+
+                  let gridClass = '';
+                  let tiltClass = '';
+                  let isSplitLayout = false;
+
+                  switch (dayLower) {
+                    case 'monday':
+                      gridClass = 'cell-mon';
+                      tiltClass = 'tilt-left';
+                      break;
+                    case 'tuesday':
+                      gridClass = 'cell-tue';
+                      tiltClass = 'tilt-right';
+                      break;
+                    case 'wednesday':
+                      gridClass = 'cell-wed';
+                      tiltClass = 'tilt-subtle';
+                      break;
+                    case 'thursday':
+                      gridClass = 'cell-thu';
+                      tiltClass = 'tilt-right';
+                      break;
+                    case 'friday':
+                      gridClass = 'cell-fri';
+                      tiltClass = 'tilt-left';
+                      break;
+                    case 'saturday':
+                      gridClass = 'cell-sat';
+                      tiltClass = 'tilt-subtle';
+                      isSplitLayout = true;
+                      break;
+                    case 'sunday':
+                      gridClass = 'cell-sun';
+                      tiltClass = 'tilt-right';
+                      isSplitLayout = true;
+                      break;
+                    default:
+                      gridClass = 'cell-wed';
+                      tiltClass = 'tilt-subtle';
+                  }
+
+                  return `
+                    <article
+                      class="polaroid ${gridClass} ${tiltClass}"
+                      ${entry.hasImg ? `onclick="openWeeklyPlate(${entry.plateIdx})"` : ''}
+                      title="${escapeAttr(entry.day)} Plate (Click to zoom)"
+                    >
+                      <div class="tape"></div>
+                      <div class="photo-frame">
+                        ${entry.hasImg ? `
+                          <img
+                            src="${escapeAttr(entry.imgSrc)}"
+                            alt="${escapeAttr(entry.day)} Plate"
+                            class="w-full h-full object-cover block"
+                            loading="eager"
+                            decoding="async"
+                            onerror="handleBookImgError(this, '${escapeAttr(entry.cdnFallback)}', '${escapeAttr(entry.legacyCdn)}')"
+                          />
+                        ` : `
+                          <div class="flex items-center justify-center h-full text-[8px] font-mono text-stone-400">Plate Pending</div>
+                        `}
                       </div>
-                    `;
-                  }).join('')}
-                </div>
-
-                <!-- 3. Bottom: 7-Photo Bento Grid Layout (Optimized for Zero Empty Space) -->
-                <div class="weekly-photos-section flex-1 min-h-0 flex flex-col justify-end">
-                  <div class="flex items-center justify-between pb-1 border-b border-stone-200 mb-1.5 shrink-0">
-                    <span class="font-mono text-[9px] uppercase font-bold tracking-widest text-stone-500">
-                      Weekly Field Plates • 7-Day Photographic Sequence
-                    </span>
-                    <span class="font-mono text-[9px] text-stone-400">
-                      Authentic Aspect Ratios • Click to Zoom
-                    </span>
-                  </div>
-
-                  <!-- 7 Photos Bento Grid (12x12) -->
-                  <div class="grid grid-cols-12 grid-rows-12 gap-4 h-full">
-                    ${entries.slice(0, 7).map((entry, eIdx) => {
-                      const dayClean = cleanBookDayName(entry.day, eIdx).toLowerCase();
-                      const hasImg = Boolean(entry.image || entry.cdnImage);
-                      let imgSrc = entry.cdnImage || entry.image || '';
-                      let cdnFallback = '';
-                      let legacyCdn = '';
-
-                      if (entry.imageFilename) {
-                        cdnFallback = `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${entry.imageFilename}`;
-                        legacyCdn = `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${entry.imageFilename}`;
-                      }
-
-                      let weeklyPlateIdx = -1;
-                      if (hasImg) {
-                        weeklyPlateIdx = window.BOOK_WEEKLY_PLATES.length;
-                        window.BOOK_WEEKLY_PLATES.push({
-                          src: imgSrc,
-                          fallback: cdnFallback,
-                          legacyCdnSrc: legacyCdn,
-                          title: `${dayClean} • Chapter ${chapNum}`,
-                          category: 'Weekly Missionary Journal',
-                          capturedDate: entry.date || '2026',
-                          capturedTime: entry.time || '12:07 PM',
-                          archivalStamp: `${dayClean} • ${entry.time || '2026'}`,
-                          caption: cleanBookEntryText(entry.text) || 'Weekly field reflection from Negros Oriental.'
-                        });
-                      }
-
-                      // Bento grid area assignments (optimized for zero empty space)
-                      let gridClass = '';
-                      switch (dayClean) {
-                        case 'monday':
-                          gridClass = 'col-span-5 row-span-4';
-                          break;
-                        case 'tuesday':
-                          gridClass = 'col-span-7 row-span-4';
-                          break;
-                        case 'wednesday':
-                          gridClass = 'col-span-4 row-span-5';
-                          break;
-                        case 'thursday':
-                          gridClass = 'col-span-4 row-span-5';
-                          break;
-                        case 'friday':
-                          gridClass = 'col-span-4 row-span-5';
-                          break;
-                        case 'saturday':
-                          gridClass = 'col-span-6 row-span-3';
-                          break;
-                        case 'sunday':
-                          gridClass = 'col-span-6 row-span-3';
-                          break;
-                        default:
-                          gridClass = 'col-span-2 row-span-2'; // fallback
-                      }
-
-                      return `
-                        <div
-                          class="weekly-grid-polaroid group ${gridClass} bg-white border border-stone-200 rounded p-1 shadow-2xs cursor-pointer hover:border-stone-400 transition"
-                          ${hasImg ? `onclick="openWeeklyPlate(${weeklyPlateIdx})"` : ''}
-                          title="${escapeAttr(dayClean)} Plate (Click to zoom)"
-                        >
-                          <div class="weekly-polaroid-img-wrap aspect-[4/3] bg-stone-900 rounded-xs overflow-hidden flex items-center justify-center">
-                            ${hasImg ? `
-                              <img
-                                src="${escapeAttr(imgSrc)}"
-                                alt="${escapeAttr(dayClean)} Plate"
-                                class="w-full h-full object-contain group-hover:scale-105 transition duration-150 block"
-                                loading="eager"
-                                decoding="async"
-                                onerror="handleBookImgError(this, '${escapeAttr(cdnFallback)}', '${escapeAttr(legacyCdn)}')"
-                              />
-                            ` : `
-                              <div class="text-[8px] font-mono text-stone-400 text-center">Plate Pending</div>
-                            `}
+                      <div class="polaroid-chin ${isSplitLayout ? 'flex items-center justify-center' : ''}">
+                        ${isSplitLayout ? `
+                          <div class="flex-1">
+                            <div class="chin-header">
+                              <strong>${escapeHtml(entry.day.slice(0, 3).toUpperCase())}</strong>
+                              <span>${escapeHtml(entry.time)}</span>
+                            </div>
                           </div>
-                          <div class="mt-2 text-center font-mono text-[8px] font-bold text-stone-700 uppercase truncate">
-                            ${escapeHtml(dayClean.slice(0, 3))}
+                          <div class="flex-1">
+                            <div class="chin-caption" title="${escapeAttr(entry.text)}">${escapeHtml(shortCaption)}</div>
                           </div>
-                        </div>
-                      `;
-                    }).join('')}
-                  </div>
-                </div>
-
+                        ` : `
+                          <div class="chin-header">
+                            <strong>${escapeHtml(entry.day.slice(0, 3).toUpperCase())}</strong>
+                            <span>${escapeHtml(entry.time)}</span>
+                          </div>
+                          <div class="chin-caption" title="${escapeAttr(entry.text)}">${escapeHtml(shortCaption)}</div>
+                        `}
+                      </div>
+                    </article>
+                  `;
+                }).join('')}
               </div>
 
               <!-- Pinned Sheet Footer -->
