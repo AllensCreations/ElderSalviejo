@@ -4,18 +4,6 @@
   "graph": {},
   "nodes": [
     {
-      "id": "api_admin_timingsafematch",
-      "label": "timingSafeMatch()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "turso.js",
-      "file_type": "code",
-      "norm_label": "timingsafematch()",
-      "source_file": "api/admin.js",
-      "source_location": "L17"
-    },
-    {
       "id": "api_tracking_type_verifysecret",
       "label": "verifySecret()",
       "_callable": true,
@@ -26,6 +14,42 @@
       "norm_label": "verifysecret()",
       "source_file": "api/tracking/[type].js",
       "source_location": "L19"
+    },
+    {
+      "id": "lib_rate_limiter_checkratelimit",
+      "label": "checkRateLimit()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "checkratelimit()",
+      "source_file": "lib/rate-limiter.js",
+      "source_location": "L27"
+    },
+    {
+      "id": "lib_rate_limiter_getclientip",
+      "label": "getClientIp()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "getclientip()",
+      "source_file": "lib/rate-limiter.js",
+      "source_location": "L19"
+    },
+    {
+      "id": "lib_rate_limiter_ishoneypottriggered",
+      "label": "isHoneypotTriggered()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "ishoneypottriggered()",
+      "source_file": "lib/rate-limiter.js",
+      "source_location": "L50"
     },
     {
       "id": "lib_turso_addencouragement",
@@ -424,78 +448,6 @@
       "source_location": "L80"
     },
     {
-      "id": "api_ingest_generateslug",
-      "label": "generateSlug()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "generateslug()",
-      "source_file": "api/ingest.js",
-      "source_location": "L183"
-    },
-    {
-      "id": "lib_github_vault_autosavetogithub",
-      "label": "autoSaveToGitHub()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "autosavetogithub()",
-      "source_file": "lib/github-vault.js",
-      "source_location": "L31"
-    },
-    {
-      "id": "lib_github_vault_buildmarkdownletter",
-      "label": "buildMarkdownLetter()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "buildmarkdownletter()",
-      "source_file": "lib/github-vault.js",
-      "source_location": "L337"
-    },
-    {
-      "id": "lib_github_vault_fetchexistingjsonfile",
-      "label": "fetchExistingJsonFile()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "fetchexistingjsonfile()",
-      "source_file": "lib/github-vault.js",
-      "source_location": "L318"
-    },
-    {
-      "id": "lib_github_vault_getgithubconfig",
-      "label": "getGitHubConfig()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "getgithubconfig()",
-      "source_file": "lib/github-vault.js",
-      "source_location": "L12"
-    },
-    {
-      "id": "lib_github_vault_purgejsdelivr",
-      "label": "purgeJsdelivr()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "purgejsdelivr()",
-      "source_file": "lib/github-vault.js",
-      "source_location": "L376"
-    },
-    {
       "id": "lib_scriptures_cleanverseinput",
       "label": "cleanVerseInput()",
       "_callable": true,
@@ -568,40 +520,88 @@
       "source_location": "L157"
     },
     {
-      "id": "lib_rate_limiter_checkratelimit",
-      "label": "checkRateLimit()",
+      "id": "api_admin_timingsafematch",
+      "label": "timingSafeMatch()",
       "_callable": true,
       "_origin": "ast",
       "community": 11,
-      "community_name": "encouragements.js",
+      "community_name": "ingest.js",
       "file_type": "code",
-      "norm_label": "checkratelimit()",
-      "source_file": "lib/rate-limiter.js",
-      "source_location": "L27"
+      "norm_label": "timingsafematch()",
+      "source_file": "api/admin.js",
+      "source_location": "L17"
     },
     {
-      "id": "lib_rate_limiter_getclientip",
-      "label": "getClientIp()",
+      "id": "api_ingest_generateslug",
+      "label": "generateSlug()",
       "_callable": true,
       "_origin": "ast",
       "community": 11,
-      "community_name": "encouragements.js",
+      "community_name": "ingest.js",
       "file_type": "code",
-      "norm_label": "getclientip()",
-      "source_file": "lib/rate-limiter.js",
-      "source_location": "L19"
+      "norm_label": "generateslug()",
+      "source_file": "api/ingest.js",
+      "source_location": "L183"
     },
     {
-      "id": "lib_rate_limiter_ishoneypottriggered",
-      "label": "isHoneypotTriggered()",
+      "id": "lib_github_vault_autosavetogithub",
+      "label": "autoSaveToGitHub()",
       "_callable": true,
       "_origin": "ast",
       "community": 11,
-      "community_name": "encouragements.js",
+      "community_name": "ingest.js",
       "file_type": "code",
-      "norm_label": "ishoneypottriggered()",
-      "source_file": "lib/rate-limiter.js",
-      "source_location": "L50"
+      "norm_label": "autosavetogithub()",
+      "source_file": "lib/github-vault.js",
+      "source_location": "L31"
+    },
+    {
+      "id": "lib_github_vault_buildmarkdownletter",
+      "label": "buildMarkdownLetter()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "buildmarkdownletter()",
+      "source_file": "lib/github-vault.js",
+      "source_location": "L337"
+    },
+    {
+      "id": "lib_github_vault_fetchexistingjsonfile",
+      "label": "fetchExistingJsonFile()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "fetchexistingjsonfile()",
+      "source_file": "lib/github-vault.js",
+      "source_location": "L318"
+    },
+    {
+      "id": "lib_github_vault_getgithubconfig",
+      "label": "getGitHubConfig()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "getgithubconfig()",
+      "source_file": "lib/github-vault.js",
+      "source_location": "L12"
+    },
+    {
+      "id": "lib_github_vault_purgejsdelivr",
+      "label": "purgeJsdelivr()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "purgejsdelivr()",
+      "source_file": "lib/github-vault.js",
+      "source_location": "L376"
     },
     {
       "id": "scripts_test_receiver_runtests",
@@ -625,7 +625,7 @@
       "file_type": "code",
       "norm_label": "cleandayname()",
       "source_file": "public/js/week.js",
-      "source_location": "L320"
+      "source_location": "L344"
     },
     {
       "id": "public_js_week_cleanentrytext",
@@ -637,7 +637,7 @@
       "file_type": "code",
       "norm_label": "cleanentrytext()",
       "source_file": "public/js/week.js",
-      "source_location": "L325"
+      "source_location": "L349"
     },
     {
       "id": "public_js_week_escapeattr",
@@ -649,7 +649,7 @@
       "file_type": "code",
       "norm_label": "escapeattr()",
       "source_file": "public/js/week.js",
-      "source_location": "L315"
+      "source_location": "L339"
     },
     {
       "id": "public_js_week_escapehtml",
@@ -661,7 +661,7 @@
       "file_type": "code",
       "norm_label": "escapehtml()",
       "source_file": "public/js/week.js",
-      "source_location": "L310"
+      "source_location": "L334"
     },
     {
       "id": "public_js_week_getslugfrompath",
@@ -685,7 +685,7 @@
       "file_type": "code",
       "norm_label": "handleweeklyimgerror()",
       "source_file": "public/js/week.js",
-      "source_location": "L345"
+      "source_location": "L369"
     },
     {
       "id": "public_js_week_loadsamplepayload",
@@ -712,6 +712,42 @@
       "source_location": "L36"
     },
     {
+      "id": "public_js_week_optimizeweeklyjustifiedrows",
+      "label": "optimizeWeeklyJustifiedRows()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "week.js",
+      "file_type": "code",
+      "norm_label": "optimizeweeklyjustifiedrows()",
+      "source_file": "public/js/week.js",
+      "source_location": "L91"
+    },
+    {
+      "id": "public_js_week_optimizeweeklyjustifiedrows_combinations",
+      "label": "combinations()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "week.js",
+      "file_type": "code",
+      "norm_label": "combinations()",
+      "source_file": "public/js/week.js",
+      "source_location": "L96"
+    },
+    {
+      "id": "public_js_week_optimizeweeklyjustifiedrows_getpartitions",
+      "label": "getPartitions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "week.js",
+      "file_type": "code",
+      "norm_label": "getpartitions()",
+      "source_file": "public/js/week.js",
+      "source_location": "L105"
+    },
+    {
       "id": "public_js_week_renderweek",
       "label": "renderWeek()",
       "_callable": true,
@@ -721,7 +757,7 @@
       "file_type": "code",
       "norm_label": "renderweek()",
       "source_file": "public/js/week.js",
-      "source_location": "L91"
+      "source_location": "L146"
     },
     {
       "id": "public_js_week_setupimageprotection",
@@ -745,7 +781,7 @@
       "file_type": "code",
       "norm_label": "showerror()",
       "source_file": "public/js/week.js",
-      "source_location": "L333"
+      "source_location": "L357"
     },
     {
       "id": "public_js_book_cleanbookdayname",
@@ -753,11 +789,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "js/book.js",
+      "community_name": "book.js",
       "file_type": "code",
       "norm_label": "cleanbookdayname()",
       "source_file": "public/js/book.js",
-      "source_location": "L558"
+      "source_location": "L582"
     },
     {
       "id": "public_js_book_cleanbookentrytext",
@@ -765,11 +801,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "js/book.js",
+      "community_name": "book.js",
       "file_type": "code",
       "norm_label": "cleanbookentrytext()",
       "source_file": "public/js/book.js",
-      "source_location": "L568"
+      "source_location": "L592"
     },
     {
       "id": "public_js_book_escapeattr",
@@ -777,11 +813,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "js/book.js",
+      "community_name": "book.js",
       "file_type": "code",
       "norm_label": "escapeattr()",
       "source_file": "public/js/book.js",
-      "source_location": "L930"
+      "source_location": "L954"
     },
     {
       "id": "public_js_book_escapehtml",
@@ -789,11 +825,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "js/book.js",
+      "community_name": "book.js",
       "file_type": "code",
       "norm_label": "escapehtml()",
       "source_file": "public/js/book.js",
-      "source_location": "L920"
+      "source_location": "L944"
     },
     {
       "id": "public_js_book_getphotoorientation",
@@ -801,11 +837,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "js/book.js",
+      "community_name": "book.js",
       "file_type": "code",
       "norm_label": "getphotoorientation()",
       "source_file": "public/js/book.js",
-      "source_location": "L588"
+      "source_location": "L612"
     },
     {
       "id": "public_js_book_getphotoratio",
@@ -813,11 +849,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "js/book.js",
+      "community_name": "book.js",
       "file_type": "code",
       "norm_label": "getphotoratio()",
       "source_file": "public/js/book.js",
-      "source_location": "L596"
+      "source_location": "L620"
     },
     {
       "id": "public_js_book_loadcompletebook",
@@ -825,11 +861,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "js/book.js",
+      "community_name": "book.js",
       "file_type": "code",
       "norm_label": "loadcompletebook()",
       "source_file": "public/js/book.js",
-      "source_location": "L81"
+      "source_location": "L136"
     },
     {
       "id": "public_js_book_loadgalleryappendix",
@@ -837,11 +873,47 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "js/book.js",
+      "community_name": "book.js",
       "file_type": "code",
       "norm_label": "loadgalleryappendix()",
       "source_file": "public/js/book.js",
-      "source_location": "L699"
+      "source_location": "L723"
+    },
+    {
+      "id": "public_js_book_optimizeweeklyjustifiedrows",
+      "label": "optimizeWeeklyJustifiedRows()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "book.js",
+      "file_type": "code",
+      "norm_label": "optimizeweeklyjustifiedrows()",
+      "source_file": "public/js/book.js",
+      "source_location": "L81"
+    },
+    {
+      "id": "public_js_book_optimizeweeklyjustifiedrows_combinations",
+      "label": "combinations()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "book.js",
+      "file_type": "code",
+      "norm_label": "combinations()",
+      "source_file": "public/js/book.js",
+      "source_location": "L86"
+    },
+    {
+      "id": "public_js_book_optimizeweeklyjustifiedrows_getpartitions",
+      "label": "getPartitions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "book.js",
+      "file_type": "code",
+      "norm_label": "getpartitions()",
+      "source_file": "public/js/book.js",
+      "source_location": "L95"
     },
     {
       "id": "public_js_book_plandynamicorientationsheets",
@@ -849,11 +921,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "js/book.js",
+      "community_name": "book.js",
       "file_type": "code",
       "norm_label": "plandynamicorientationsheets()",
       "source_file": "public/js/book.js",
-      "source_location": "L608"
+      "source_location": "L632"
     },
     {
       "id": "public_js_book_renderarchivalcolophon",
@@ -861,11 +933,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "js/book.js",
+      "community_name": "book.js",
       "file_type": "code",
       "norm_label": "renderarchivalcolophon()",
       "source_file": "public/js/book.js",
-      "source_location": "L862"
+      "source_location": "L886"
     },
     {
       "id": "public_js_book_renderrowphototile",
@@ -873,11 +945,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "js/book.js",
+      "community_name": "book.js",
       "file_type": "code",
       "norm_label": "renderrowphototile()",
       "source_file": "public/js/book.js",
-      "source_location": "L825"
+      "source_location": "L849"
     },
     {
       "id": "public_js_print_helper_preloadallimages",
@@ -1588,48 +1660,37 @@
       "source_location": "L340"
     },
     {
-      "id": "api_admin",
-      "label": "admin.js",
+      "id": "api_encouragements",
+      "label": "encouragements.js",
       "_origin": "ast",
       "community": 0,
       "community_name": "turso.js",
       "file_type": "code",
-      "norm_label": "admin.js",
-      "source_file": "api/admin.js",
+      "norm_label": "encouragements.js",
+      "source_file": "api/encouragements.js",
       "source_location": "L1"
     },
     {
-      "id": "api_admin_autosavetogithub",
-      "label": "{ autoSaveToGitHub }",
+      "id": "api_encouragements_addencouragement_getencouragementsforslug_initdatabase",
+      "label": "{ addEncouragement, getEncouragementsForSlug, initDatabase }",
       "_origin": "ast",
       "community": 0,
       "community_name": "turso.js",
       "file_type": "code",
-      "norm_label": "{ autosavetogithub }",
-      "source_file": "api/admin.js",
-      "source_location": "L15"
+      "norm_label": "{ addencouragement, getencouragementsforslug, initdatabase }",
+      "source_file": "api/encouragements.js",
+      "source_location": "L10"
     },
     {
-      "id": "api_admin_crypto",
-      "label": "crypto",
+      "id": "api_encouragements_checkratelimit_ishoneypottriggered",
+      "label": "{ checkRateLimit, isHoneypotTriggered }",
       "_origin": "ast",
       "community": 0,
       "community_name": "turso.js",
       "file_type": "code",
-      "norm_label": "crypto",
-      "source_file": "api/admin.js",
-      "source_location": "L13"
-    },
-    {
-      "id": "api_admin_istursoconfigured_initdatabase_getallweeks_exportcompletedatabase",
-      "label": "{ isTursoConfigured, initDatabase, getAllWeeks, exportCompleteDatabase }",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "turso.js",
-      "file_type": "code",
-      "norm_label": "{ istursoconfigured, initdatabase, getallweeks, exportcompletedatabase }",
-      "source_file": "api/admin.js",
-      "source_location": "L14"
+      "norm_label": "{ checkratelimit, ishoneypottriggered }",
+      "source_file": "api/encouragements.js",
+      "source_location": "L11"
     },
     {
       "id": "api_search",
@@ -1676,6 +1737,39 @@
       "source_location": "L8"
     },
     {
+      "id": "api_subscribe",
+      "label": "subscribe.js",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "subscribe.js",
+      "source_file": "api/subscribe.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "api_subscribe_addsubscriber_getallsubscribers_initdatabase",
+      "label": "{ addSubscriber, getAllSubscribers, initDatabase }",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "{ addsubscriber, getallsubscribers, initdatabase }",
+      "source_file": "api/subscribe.js",
+      "source_location": "L9"
+    },
+    {
+      "id": "api_subscribe_checkratelimit_ishoneypottriggered",
+      "label": "{ checkRateLimit, isHoneypotTriggered }",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "{ checkratelimit, ishoneypottriggered }",
+      "source_file": "api/subscribe.js",
+      "source_location": "L10"
+    },
+    {
       "id": "api_tracking_type",
       "label": "[type].js",
       "_origin": "ast",
@@ -1718,6 +1812,28 @@
       "norm_label": "{ getallweeks, getweekbyslugorid, getfullbookweeks, initdatabase, istursoconfigured }",
       "source_file": "api/weeks.js",
       "source_location": "L10"
+    },
+    {
+      "id": "lib_rate_limiter",
+      "label": "rate-limiter.js",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "rate-limiter.js",
+      "source_file": "lib/rate-limiter.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "lib_rate_limiter_iprequests",
+      "label": "ipRequests",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "turso.js",
+      "file_type": "code",
+      "norm_label": "iprequests",
+      "source_file": "lib/rate-limiter.js",
+      "source_location": "L7"
     },
     {
       "id": "lib_turso",
@@ -1929,61 +2045,6 @@
       "source_location": "L14"
     },
     {
-      "id": "api_ingest",
-      "label": "ingest.js",
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "ingest.js",
-      "source_file": "api/ingest.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "api_ingest_autosavetogithub",
-      "label": "{ autoSaveToGitHub }",
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "{ autosavetogithub }",
-      "source_file": "api/ingest.js",
-      "source_location": "L11"
-    },
-    {
-      "id": "api_ingest_lookupscripture",
-      "label": "{ lookupScripture }",
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "{ lookupscripture }",
-      "source_file": "api/ingest.js",
-      "source_location": "L10"
-    },
-    {
-      "id": "api_ingest_saveweeklydiary_savegalleryentry_initdatabase_getallsubscribers",
-      "label": "{ saveWeeklyDiary, saveGalleryEntry, initDatabase, getAllSubscribers }",
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "{ saveweeklydiary, savegalleryentry, initdatabase, getallsubscribers }",
-      "source_file": "api/ingest.js",
-      "source_location": "L9"
-    },
-    {
-      "id": "lib_github_vault",
-      "label": "github-vault.js",
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "scriptures.js",
-      "file_type": "code",
-      "norm_label": "github-vault.js",
-      "source_file": "lib/github-vault.js",
-      "source_location": "L1"
-    },
-    {
       "id": "lib_scriptures",
       "label": "scriptures.js",
       "_origin": "ast",
@@ -2061,92 +2122,103 @@
       "source_location": "L25"
     },
     {
-      "id": "api_encouragements",
-      "label": "encouragements.js",
+      "id": "api_admin",
+      "label": "admin.js",
       "_origin": "ast",
       "community": 11,
-      "community_name": "encouragements.js",
+      "community_name": "ingest.js",
       "file_type": "code",
-      "norm_label": "encouragements.js",
-      "source_file": "api/encouragements.js",
+      "norm_label": "admin.js",
+      "source_file": "api/admin.js",
       "source_location": "L1"
     },
     {
-      "id": "api_encouragements_addencouragement_getencouragementsforslug_initdatabase",
-      "label": "{ addEncouragement, getEncouragementsForSlug, initDatabase }",
+      "id": "api_admin_autosavetogithub",
+      "label": "{ autoSaveToGitHub }",
       "_origin": "ast",
       "community": 11,
-      "community_name": "encouragements.js",
+      "community_name": "ingest.js",
       "file_type": "code",
-      "norm_label": "{ addencouragement, getencouragementsforslug, initdatabase }",
-      "source_file": "api/encouragements.js",
-      "source_location": "L10"
+      "norm_label": "{ autosavetogithub }",
+      "source_file": "api/admin.js",
+      "source_location": "L15"
     },
     {
-      "id": "api_encouragements_checkratelimit_ishoneypottriggered",
-      "label": "{ checkRateLimit, isHoneypotTriggered }",
+      "id": "api_admin_crypto",
+      "label": "crypto",
       "_origin": "ast",
       "community": 11,
-      "community_name": "encouragements.js",
+      "community_name": "ingest.js",
       "file_type": "code",
-      "norm_label": "{ checkratelimit, ishoneypottriggered }",
-      "source_file": "api/encouragements.js",
+      "norm_label": "crypto",
+      "source_file": "api/admin.js",
+      "source_location": "L13"
+    },
+    {
+      "id": "api_admin_istursoconfigured_initdatabase_getallweeks_exportcompletedatabase",
+      "label": "{ isTursoConfigured, initDatabase, getAllWeeks, exportCompleteDatabase }",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "{ istursoconfigured, initdatabase, getallweeks, exportcompletedatabase }",
+      "source_file": "api/admin.js",
+      "source_location": "L14"
+    },
+    {
+      "id": "api_ingest",
+      "label": "ingest.js",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "ingest.js",
+      "source_file": "api/ingest.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "api_ingest_autosavetogithub",
+      "label": "{ autoSaveToGitHub }",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ingest.js",
+      "file_type": "code",
+      "norm_label": "{ autosavetogithub }",
+      "source_file": "api/ingest.js",
       "source_location": "L11"
     },
     {
-      "id": "api_subscribe",
-      "label": "subscribe.js",
+      "id": "api_ingest_lookupscripture",
+      "label": "{ lookupScripture }",
       "_origin": "ast",
       "community": 11,
-      "community_name": "encouragements.js",
+      "community_name": "ingest.js",
       "file_type": "code",
-      "norm_label": "subscribe.js",
-      "source_file": "api/subscribe.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "api_subscribe_addsubscriber_getallsubscribers_initdatabase",
-      "label": "{ addSubscriber, getAllSubscribers, initDatabase }",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "encouragements.js",
-      "file_type": "code",
-      "norm_label": "{ addsubscriber, getallsubscribers, initdatabase }",
-      "source_file": "api/subscribe.js",
-      "source_location": "L9"
-    },
-    {
-      "id": "api_subscribe_checkratelimit_ishoneypottriggered",
-      "label": "{ checkRateLimit, isHoneypotTriggered }",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "encouragements.js",
-      "file_type": "code",
-      "norm_label": "{ checkratelimit, ishoneypottriggered }",
-      "source_file": "api/subscribe.js",
+      "norm_label": "{ lookupscripture }",
+      "source_file": "api/ingest.js",
       "source_location": "L10"
     },
     {
-      "id": "lib_rate_limiter",
-      "label": "rate-limiter.js",
+      "id": "api_ingest_saveweeklydiary_savegalleryentry_initdatabase_getallsubscribers",
+      "label": "{ saveWeeklyDiary, saveGalleryEntry, initDatabase, getAllSubscribers }",
       "_origin": "ast",
       "community": 11,
-      "community_name": "encouragements.js",
+      "community_name": "ingest.js",
       "file_type": "code",
-      "norm_label": "rate-limiter.js",
-      "source_file": "lib/rate-limiter.js",
-      "source_location": "L1"
+      "norm_label": "{ saveweeklydiary, savegalleryentry, initdatabase, getallsubscribers }",
+      "source_file": "api/ingest.js",
+      "source_location": "L9"
     },
     {
-      "id": "lib_rate_limiter_iprequests",
-      "label": "ipRequests",
+      "id": "lib_github_vault",
+      "label": "github-vault.js",
       "_origin": "ast",
       "community": 11,
-      "community_name": "encouragements.js",
+      "community_name": "ingest.js",
       "file_type": "code",
-      "norm_label": "iprequests",
-      "source_file": "lib/rate-limiter.js",
-      "source_location": "L7"
+      "norm_label": "github-vault.js",
+      "source_file": "lib/github-vault.js",
+      "source_location": "L1"
     },
     {
       "id": "scripts_test_receiver",
@@ -2285,7 +2357,7 @@
       "label": "book.js",
       "_origin": "ast",
       "community": 15,
-      "community_name": "js/book.js",
+      "community_name": "book.js",
       "file_type": "code",
       "norm_label": "book.js",
       "source_file": "public/js/book.js",
@@ -4153,20 +4225,9 @@
       "type": "external"
     },
     {
-      "id": "ref_zlib",
-      "label": "ref_zlib",
-      "_origin": "semantic",
-      "community": 4,
-      "community_name": "optimize-icons.js",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_zlib",
-      "source_file": "",
-      "type": "external"
-    },
-    {
       "id": "os",
       "label": "os",
+      "_origin": "semantic",
       "community": 25,
       "community_name": "build-pdf.py",
       "external": true,
@@ -4178,6 +4239,7 @@
     {
       "id": "playwright_sync_api",
       "label": "playwright_sync_api",
+      "_origin": "semantic",
       "community": 25,
       "community_name": "build-pdf.py",
       "external": true,
@@ -4189,6 +4251,7 @@
     {
       "id": "shutil",
       "label": "shutil",
+      "_origin": "semantic",
       "community": 25,
       "community_name": "build-pdf.py",
       "external": true,
@@ -4200,6 +4263,7 @@
     {
       "id": "subprocess",
       "label": "subprocess",
+      "_origin": "semantic",
       "community": 25,
       "community_name": "build-pdf.py",
       "external": true,
@@ -4211,6 +4275,7 @@
     {
       "id": "sys",
       "label": "sys",
+      "_origin": "semantic",
       "community": 25,
       "community_name": "build-pdf.py",
       "external": true,
@@ -4222,11 +4287,24 @@
     {
       "id": "time",
       "label": "time",
+      "_origin": "semantic",
       "community": 25,
       "community_name": "build-pdf.py",
       "external": true,
       "file_type": "concept",
       "norm_label": "time",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "ref_zlib",
+      "label": "ref_zlib",
+      "_origin": "semantic",
+      "community": 4,
+      "community_name": "optimize-icons.js",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_zlib",
       "source_file": "",
       "type": "external"
     }
@@ -5105,24 +5183,12 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L599",
+      "source_location": "L623",
       "weight": 1.0
     },
     {
       "source": "public_js_book_loadcompletebook",
       "target": "public_js_book_escapehtml",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "public/js/book.js",
-      "source_location": "L238",
-      "weight": 1.0
-    },
-    {
-      "source": "public_js_book_loadcompletebook",
-      "target": "public_js_book_cleanbookdayname",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -5134,6 +5200,18 @@
     },
     {
       "source": "public_js_book_loadcompletebook",
+      "target": "public_js_book_cleanbookdayname",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/book.js",
+      "source_location": "L348",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_book_loadcompletebook",
       "target": "public_js_book_cleanbookentrytext",
       "relation": "calls",
       "_origin": "ast",
@@ -5141,7 +5219,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L299",
+      "source_location": "L354",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_book_loadcompletebook",
+      "target": "public_js_book_optimizeweeklyjustifiedrows",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/book.js",
+      "source_location": "L412",
       "weight": 1.0
     },
     {
@@ -5153,7 +5243,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L430",
+      "source_location": "L426",
       "weight": 1.0
     },
     {
@@ -5165,7 +5255,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L539",
+      "source_location": "L563",
       "weight": 1.0
     },
     {
@@ -5177,7 +5267,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L757",
+      "source_location": "L781",
       "weight": 1.0
     },
     {
@@ -5189,7 +5279,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L776",
+      "source_location": "L800",
       "weight": 1.0
     },
     {
@@ -5201,7 +5291,43 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L783",
+      "source_location": "L807",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_book_optimizeweeklyjustifiedrows_combinations",
+      "target": "public_js_book_optimizeweeklyjustifiedrows_combinations",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/book.js",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_book_optimizeweeklyjustifiedrows_getpartitions",
+      "target": "public_js_book_optimizeweeklyjustifiedrows_getpartitions",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/book.js",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_book_optimizeweeklyjustifiedrows_getpartitions",
+      "target": "public_js_book_optimizeweeklyjustifiedrows_combinations",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/book.js",
+      "source_location": "L99",
       "weight": 1.0
     },
     {
@@ -5213,7 +5339,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L612",
+      "source_location": "L636",
       "weight": 1.0
     },
     {
@@ -5225,7 +5351,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L613",
+      "source_location": "L637",
       "weight": 1.0
     },
     {
@@ -5237,7 +5363,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L831",
+      "source_location": "L855",
       "weight": 1.0
     },
     {
@@ -5249,7 +5375,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L841",
+      "source_location": "L865",
       "weight": 1.0
     },
     {
@@ -5261,7 +5387,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L856",
+      "source_location": "L880",
       "weight": 1.0
     },
     {
@@ -5841,6 +5967,42 @@
       "weight": 1.0
     },
     {
+      "source": "public_js_week_optimizeweeklyjustifiedrows_combinations",
+      "target": "public_js_week_optimizeweeklyjustifiedrows_combinations",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/week.js",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_week_optimizeweeklyjustifiedrows_getpartitions",
+      "target": "public_js_week_optimizeweeklyjustifiedrows_combinations",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/week.js",
+      "source_location": "L109",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_week_optimizeweeklyjustifiedrows_getpartitions",
+      "target": "public_js_week_optimizeweeklyjustifiedrows_getpartitions",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/week.js",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
       "source": "public_js_week_renderweek",
       "target": "public_js_week_cleandayname",
       "relation": "calls",
@@ -5849,7 +6011,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/week.js",
-      "source_location": "L115",
+      "source_location": "L170",
       "weight": 1.0
     },
     {
@@ -5861,7 +6023,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/week.js",
-      "source_location": "L124",
+      "source_location": "L179",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_week_renderweek",
+      "target": "public_js_week_optimizeweeklyjustifiedrows",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/week.js",
+      "source_location": "L239",
       "weight": 1.0
     },
     {
@@ -5873,7 +6047,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/week.js",
-      "source_location": "L188",
+      "source_location": "L256",
       "weight": 1.0
     },
     {
@@ -5885,7 +6059,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/week.js",
-      "source_location": "L271",
+      "source_location": "L268",
       "weight": 1.0
     },
     {
@@ -6093,6 +6267,18 @@
       "weight": 1.0
     },
     {
+      "source": "public_js_book_optimizeweeklyjustifiedrows",
+      "target": "public_js_book_optimizeweeklyjustifiedrows_getpartitions",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/book.js",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
       "source": "public_js_gallery",
       "target": "public_js_gallery_setupkeyboardandtouch",
       "relation": "contains",
@@ -6222,6 +6408,18 @@
       "context": "call",
       "source_file": "public/js/week.js",
       "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_week_optimizeweeklyjustifiedrows",
+      "target": "public_js_week_optimizeweeklyjustifiedrows_getpartitions",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/week.js",
+      "source_location": "L105",
       "weight": 1.0
     },
     {
@@ -8608,7 +8806,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L558",
+      "source_location": "L582",
       "weight": 1.0
     },
     {
@@ -8619,7 +8817,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L568",
+      "source_location": "L592",
       "weight": 1.0
     },
     {
@@ -8630,7 +8828,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L588",
+      "source_location": "L612",
       "weight": 1.0
     },
     {
@@ -8641,7 +8839,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L596",
+      "source_location": "L620",
       "weight": 1.0
     },
     {
@@ -8652,7 +8850,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L608",
+      "source_location": "L632",
       "weight": 1.0
     },
     {
@@ -8663,7 +8861,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L699",
+      "source_location": "L723",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_book",
+      "target": "public_js_book_optimizeweeklyjustifiedrows",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/js/book.js",
+      "source_location": "L81",
       "weight": 1.0
     },
     {
@@ -8674,7 +8883,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L825",
+      "source_location": "L849",
       "weight": 1.0
     },
     {
@@ -8685,7 +8894,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L862",
+      "source_location": "L886",
       "weight": 1.0
     },
     {
@@ -8696,7 +8905,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L920",
+      "source_location": "L944",
       "weight": 1.0
     },
     {
@@ -8707,7 +8916,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L930",
+      "source_location": "L954",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_book_optimizeweeklyjustifiedrows",
+      "target": "public_js_book_optimizeweeklyjustifiedrows_combinations",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/js/book.js",
+      "source_location": "L86",
       "weight": 1.0
     },
     {
@@ -9053,6 +9273,17 @@
     },
     {
       "source": "public_js_week",
+      "target": "public_js_week_renderweek",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/js/week.js",
+      "source_location": "L146",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_week",
       "target": "public_js_week_getslugfrompath",
       "relation": "contains",
       "_origin": "ast",
@@ -9070,7 +9301,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/week.js",
-      "source_location": "L310",
+      "source_location": "L334",
       "weight": 1.0
     },
     {
@@ -9081,7 +9312,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/week.js",
-      "source_location": "L315",
+      "source_location": "L339",
       "weight": 1.0
     },
     {
@@ -9092,7 +9323,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/week.js",
-      "source_location": "L320",
+      "source_location": "L344",
       "weight": 1.0
     },
     {
@@ -9103,7 +9334,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/week.js",
-      "source_location": "L325",
+      "source_location": "L349",
       "weight": 1.0
     },
     {
@@ -9114,7 +9345,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/week.js",
-      "source_location": "L333",
+      "source_location": "L357",
       "weight": 1.0
     },
     {
@@ -9125,7 +9356,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/week.js",
-      "source_location": "L345",
+      "source_location": "L369",
       "weight": 1.0
     },
     {
@@ -9141,13 +9372,24 @@
     },
     {
       "source": "public_js_week",
-      "target": "public_js_week_renderweek",
+      "target": "public_js_week_optimizeweeklyjustifiedrows",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/week.js",
       "source_location": "L91",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_week_optimizeweeklyjustifiedrows",
+      "target": "public_js_week_optimizeweeklyjustifiedrows_combinations",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/js/week.js",
+      "source_location": "L96",
       "weight": 1.0
     },
     {
@@ -10246,7 +10488,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "public/js/book.js",
-      "source_location": "L940",
+      "source_location": "L964",
       "weight": 1.0
     },
     {
@@ -10731,5 +10973,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "18fa61f653021e4c1812b2da89b616ca2c1cf546"
+  "built_at_commit": "e0d5eed41e6c3a8ad15e43302a4cec6313dd76a4"
 }

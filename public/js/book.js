@@ -78,6 +78,61 @@
     }
   };
 
+  function optimizeWeeklyJustifiedRows(photos) {
+    const splits = [[2, 3, 2], [3, 2, 2], [2, 2, 3]];
+    let best = null;
+    let minVar = Infinity;
+
+    function combinations(arr, k) {
+      if (k === 0) return [[]];
+      if (arr.length === 0) return [];
+      const [head, ...tail] = arr;
+      const withHead = combinations(tail, k - 1).map(c => [head, ...c]);
+      const withoutHead = combinations(tail, k);
+      return [...withHead, ...withoutHead];
+    }
+
+    function getPartitions(items, sizes) {
+      if (sizes.length === 1) return [[items]];
+      const [s, ...rest] = sizes;
+      const res = [];
+      const comb = combinations(items, s);
+      for (const c of comb) {
+        const remaining = items.filter(x => !c.includes(x));
+        const sub = getPartitions(remaining, rest);
+        for (const sPart of sub) {
+          res.push([c, ...sPart]);
+        }
+      }
+      return res;
+    }
+
+    for (const split of splits) {
+      const parts = getPartitions(photos, split);
+      for (const p of parts) {
+        const sums = p.map(row => row.reduce((acc, x) => acc + (x.aspectRatio || 0.75), 0));
+        const mean = sums.reduce((a, b) => a + b, 0) / 3;
+        const variance = sums.reduce((a, b) => a + Math.pow(b - mean, 2), 0);
+        
+        let inversions = 0;
+        const flattened = p.flat();
+        for (let i = 0; i < flattened.length; i++) {
+          for (let j = i + 1; j < flattened.length; j++) {
+            if (photos.indexOf(flattened[i]) > photos.indexOf(flattened[j])) {
+              inversions++;
+            }
+          }
+        }
+        const score = variance + inversions * 0.08;
+        if (score < minVar) {
+          minVar = score;
+          best = p;
+        }
+      }
+    }
+    return best || [photos.slice(0, 2), photos.slice(2, 5), photos.slice(5)];
+  }
+
   async function loadCompleteBook() {
     const container = document.getElementById('bookWeeklyChapters');
     const loadingState = document.getElementById('bookLoadingState');
@@ -323,6 +378,8 @@
                 });
               }
 
+              const aspectRatio = (found && (found.aspectRatio || (found.width && found.height ? found.width / found.height : 0.75))) || 0.75;
+
               return {
                 day: dayName,
                 dayKey: stdDay,
@@ -332,6 +389,7 @@
                 cdnFallback,
                 legacyCdn,
                 plateIdx,
+                aspectRatio,
                 time: found.time || '12:00 PHT'
               };
             } else {
@@ -344,12 +402,64 @@
                 cdnFallback: '',
                 legacyCdn: '',
                 plateIdx: -1,
+                aspectRatio: 0.75,
                 time: '12:00 PHT'
               };
             }
           });
 
-          // Sheet 1: 7-Photo Scrapbook Bento Grid Sheet (1 Sheet for All 7 Photos)
+          // Dynamic Aspect Ratio Optimizer: groups 7 photos into 3 balanced rows (2/3/2 combinations)
+          const justifiedRows = optimizeWeeklyJustifiedRows(sevenDays);
+          const rowSums = justifiedRows.map(r => r.reduce((acc, x) => acc + (x.aspectRatio || 0.75), 0));
+          const rowWeights = rowSums.map(s => (s > 0 ? (1 / s).toFixed(3) : '1'));
+
+          const justifiedRowsHtml = justifiedRows.map((row, rIdx) => {
+            const weight = rowWeights[rIdx];
+            const cardsHtml = row.map((entry) => {
+              const flexVal = (entry.aspectRatio || 0.75).toFixed(3);
+              const shortCaption = entry.text.length > 55 ? entry.text.slice(0, 55).trimEnd() + '…' : entry.text;
+              return `
+                <article
+                  class="polaroid-card"
+                  style="flex: ${flexVal} ${flexVal} 0px;"
+                  ${entry.hasImg ? `onclick="openWeeklyPlate(${entry.plateIdx})"` : ''}
+                  title="${escapeAttr(entry.day)} Plate (Click to zoom)"
+                >
+                  <div class="photo-frame">
+                    ${entry.hasImg ? `
+                      <img
+                        src="${escapeAttr(entry.imgSrc)}"
+                        alt="${escapeAttr(entry.day)} Plate"
+                        class="w-full h-full object-contain block"
+                        loading="eager"
+                        decoding="async"
+                        onerror="handleBookImgError(this, '${escapeAttr(entry.cdnFallback)}', '${escapeAttr(entry.legacyCdn)}')"
+                      />
+                    ` : `
+                      <div class="flex items-center justify-center h-full text-[8px] font-mono text-stone-400">Plate Pending</div>
+                    `}
+                  </div>
+                  <div class="polaroid-chin">
+                    <div class="flex items-baseline gap-1 shrink-0">
+                      <strong class="chin-badge">${entry.day.slice(0, 3).toUpperCase()}</strong>
+                      <span class="chin-time">${escapeHtml(entry.time)}</span>
+                    </div>
+                    <div class="chin-caption" title="${escapeAttr(entry.text)}">
+                      ${escapeHtml(shortCaption)}
+                    </div>
+                  </div>
+                </article>
+              `;
+            }).join('');
+
+            return `
+              <div class="scrapbook-row" style="flex: ${weight} 1 0px;">
+                ${cardsHtml}
+              </div>
+            `;
+          }).join('');
+
+          // Sheet 1: 7-Photo Scrapbook Sheet (1 Sheet for All 7 Photos, Gapless Aspect-Ratio Adaptive)
           chaptersHtml += `
             <section id="${chapId}" class="book-sheet sheet sheet-photo-page">
               <!-- Masthead -->
@@ -377,95 +487,9 @@
                 </div>
               ` : ''}
 
-              <!-- 7-Polaroid Scrapbook Bento Grid (12x12) -->
-              <div class="scrapbook-grid flex-1">
-                ${sevenDays.map((entry) => {
-                  const dayLower = entry.dayKey;
-                  const shortCaption = entry.text.length > 70 ? entry.text.slice(0, 70).trimEnd() + '…' : entry.text;
-
-                  let gridClass = '';
-                  let tiltClass = '';
-                  let isSplitLayout = false;
-
-                  switch (dayLower) {
-                    case 'monday':
-                      gridClass = 'cell-mon';
-                      tiltClass = 'tilt-left';
-                      break;
-                    case 'tuesday':
-                      gridClass = 'cell-tue';
-                      tiltClass = 'tilt-right';
-                      break;
-                    case 'wednesday':
-                      gridClass = 'cell-wed';
-                      tiltClass = 'tilt-subtle';
-                      break;
-                    case 'thursday':
-                      gridClass = 'cell-thu';
-                      tiltClass = 'tilt-right';
-                      break;
-                    case 'friday':
-                      gridClass = 'cell-fri';
-                      tiltClass = 'tilt-left';
-                      break;
-                    case 'saturday':
-                      gridClass = 'cell-sat';
-                      tiltClass = 'tilt-subtle';
-                      isSplitLayout = true;
-                      break;
-                    case 'sunday':
-                      gridClass = 'cell-sun';
-                      tiltClass = 'tilt-right';
-                      isSplitLayout = true;
-                      break;
-                    default:
-                      gridClass = 'cell-wed';
-                      tiltClass = 'tilt-subtle';
-                  }
-
-                  return `
-                    <article
-                      class="polaroid ${gridClass} ${tiltClass}"
-                      ${entry.hasImg ? `onclick="openWeeklyPlate(${entry.plateIdx})"` : ''}
-                      title="${escapeAttr(entry.day)} Plate (Click to zoom)"
-                    >
-                      <div class="tape"></div>
-                      <div class="photo-frame">
-                        ${entry.hasImg ? `
-                          <img
-                            src="${escapeAttr(entry.imgSrc)}"
-                            alt="${escapeAttr(entry.day)} Plate"
-                            class="w-full h-full object-cover block"
-                            loading="eager"
-                            decoding="async"
-                            onerror="handleBookImgError(this, '${escapeAttr(entry.cdnFallback)}', '${escapeAttr(entry.legacyCdn)}')"
-                          />
-                        ` : `
-                          <div class="flex items-center justify-center h-full text-[8px] font-mono text-stone-400">Plate Pending</div>
-                        `}
-                      </div>
-                      <div class="polaroid-chin ${isSplitLayout ? 'flex items-center justify-center' : ''}">
-                        ${isSplitLayout ? `
-                          <div class="flex-1">
-                            <div class="chin-header">
-                              <strong>${escapeHtml(entry.day.slice(0, 3).toUpperCase())}</strong>
-                              <span>${escapeHtml(entry.time)}</span>
-                            </div>
-                          </div>
-                          <div class="flex-1">
-                            <div class="chin-caption" title="${escapeAttr(entry.text)}">${escapeHtml(shortCaption)}</div>
-                          </div>
-                        ` : `
-                          <div class="chin-header">
-                            <strong>${escapeHtml(entry.day.slice(0, 3).toUpperCase())}</strong>
-                            <span>${escapeHtml(entry.time)}</span>
-                          </div>
-                          <div class="chin-caption" title="${escapeAttr(entry.text)}">${escapeHtml(shortCaption)}</div>
-                        `}
-                      </div>
-                    </article>
-                  `;
-                }).join('')}
+              <!-- 7-Polaroid Adaptive Justified Rows (Aspect-Ratio Locked, Zero Open Spaces) -->
+              <div class="scrapbook-adaptive-container">
+                ${justifiedRowsHtml}
               </div>
 
               <!-- Pinned Sheet Footer -->

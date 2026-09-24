@@ -39,11 +39,11 @@ def main():
             page.set_viewport_size({"width": 816, "height": 1056})
 
             print(f"Navigating to {BASE_URL}...")
-            page.goto(BASE_URL, wait_until="networkidle", timeout=30000)
+            page.goto(BASE_URL, wait_until="domcontentloaded", timeout=30000)
 
             # Wait for chapters to render
-            page.wait_for_selector("#bookWeeklyChapters", timeout=15000)
-            page.wait_for_timeout(3000)
+            page.wait_for_selector("#bookWeeklyChapters .polaroid-card", timeout=25000)
+            page.wait_for_timeout(2500)
 
             # Pre-decode all images & fonts
             page.evaluate("""

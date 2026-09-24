@@ -382,7 +382,8 @@
         border: none !important;
       }
 
-      .book-sheet.sheet .polaroid {
+      .book-sheet.sheet .polaroid,
+      .book-sheet.sheet .polaroid-card {
         transform: none !important;
         box-shadow: none !important;
         border: 1px solid #e7e5e4 !important;
@@ -912,86 +913,66 @@
       </div>
 
       <!-- Sheet Body -->
-      <div class="sheet-content space-y-3">
+      <div class="sheet-content flex flex-col gap-3 h-full overflow-hidden">
         
-        <!-- Institutional Credentials Banner -->
-        <div class="p-2.5 bg-stone-900 text-stone-100 rounded-lg text-xs font-mono">
+        <!-- Refined Executive Citation Banner (Compact Header) -->
+        <div class="p-2.5 bg-stone-900 text-stone-100 rounded-lg text-xs font-mono shrink-0">
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
-            <div class="p-1.5 bg-stone-800/90 rounded border border-stone-700/60">
-              <span class="text-[9px] text-stone-400 uppercase tracking-wider block">Assigned Field</span>
-              <span class="text-xs sm:text-sm font-bold text-white mt-0.5 block">Dumaguete Mission</span>
-              <span class="text-[9px] text-stone-400">Negros Oriental</span>
+            <div class="p-1 bg-stone-800/90 rounded border border-stone-700/60">
+              <span class="text-[8.5px] text-stone-400 uppercase tracking-wider block">Assigned Field</span>
+              <span class="text-xs sm:text-sm font-bold text-white block">Dumaguete Mission</span>
             </div>
-            <div class="p-1.5 bg-stone-800/90 rounded border border-stone-700/60">
-              <span class="text-[9px] text-stone-400 uppercase tracking-wider block">Language</span>
-              <span class="text-xs sm:text-sm font-bold text-white mt-0.5 block">Cebuano</span>
-              <span class="text-[9px] text-stone-400">Native Tongue</span>
+            <div class="p-1 bg-stone-800/90 rounded border border-stone-700/60">
+              <span class="text-[8.5px] text-stone-400 uppercase tracking-wider block">Language</span>
+              <span class="text-xs sm:text-sm font-bold text-white block">Cebuano</span>
             </div>
-            <div class="p-1.5 bg-stone-800/90 rounded border border-stone-700/60">
-              <span class="text-[9px] text-stone-400 uppercase tracking-wider block">MTC Entrance</span>
-              <span class="text-xs sm:text-sm font-bold text-red-400 mt-0.5 block">Dec 11, 2026</span>
-              <span class="text-[9px] text-stone-400">Report Date: Friday</span>
+            <div class="p-1 bg-stone-800/90 rounded border border-stone-700/60">
+              <span class="text-[8.5px] text-stone-400 uppercase tracking-wider block">MTC Report Date</span>
+              <span class="text-xs sm:text-sm font-bold text-red-400 block">Dec 11, 2026</span>
             </div>
-            <div class="p-1.5 bg-stone-800/90 rounded border border-stone-700/60">
-              <span class="text-[9px] text-stone-400 uppercase tracking-wider block">Term of Service</span>
-              <span class="text-xs sm:text-sm font-bold text-white mt-0.5 block">24 Months</span>
-              <span class="text-[9px] text-stone-400">Ambassador of Christ</span>
+            <div class="p-1 bg-stone-800/90 rounded border border-stone-700/60">
+              <span class="text-[8.5px] text-stone-400 uppercase tracking-wider block">Term of Service</span>
+              <span class="text-xs sm:text-sm font-bold text-white block">24 Months</span>
             </div>
+          </div>
+          <div class="mt-2 pt-1.5 border-t border-stone-700/60 flex items-center justify-between text-[9.5px] text-stone-300">
+            <span>“You are hereby called to serve as a missionary of The Church of Jesus Christ of Latter-day Saints.”</span>
+            <span class="uppercase tracking-widest text-stone-400 font-semibold shrink-0">— The First Presidency</span>
           </div>
         </div>
 
-        <!-- First Presidency Letterpress Transcript -->
-        <div class="p-3.5 sm:p-4 bg-white border border-stone-200 rounded-lg space-y-2 text-xs sm:text-sm text-stone-700 leading-relaxed font-sans">
-          <div class="text-center pb-1.5 border-b border-stone-100 font-mono text-[10px] uppercase tracking-widest text-stone-500">
-            The Church of Jesus Christ of Latter-day Saints • Salt Lake City, Utah
-          </div>
-          
-          <p class="font-mono text-xs text-stone-600 font-semibold pt-0.5">Dear Elder Salviejo,</p>
-          
-          <p class="call-dropcap">
-            You are hereby called to serve as a missionary of The Church of Jesus Christ of Latter-day Saints. You are assigned to labor in the <strong>Philippines Dumaguete Mission</strong>. You should report to the Missionary Training Center on <strong>Friday, December 11, 2026</strong>. You will prepare to preach the gospel in the <strong>Cebuano</strong> language.
-          </p>
-
-          <p>
-            Your term of service will be for 24 months. You have been recommended as one worthy to represent the Lord as an ambassador of the Savior Jesus Christ. An eternal work awaits you as you share the message of the restored gospel.
-          </p>
-
-          <div class="pt-1.5 border-t border-stone-100 flex items-center justify-between font-mono text-[11px] text-stone-500">
-            <span>Faithfully yours,</span>
-            <span class="uppercase tracking-wider text-stone-900 font-semibold">The First Presidency</span>
-          </div>
-        </div>
-
-        <!-- Call Letter Plate & Mission Map (Side by Side in Authentic Letter Ratio) -->
-        <div class="grid grid-cols-2 gap-3 avoid-break">
-          <div class="bg-stone-50 p-2 rounded-lg border border-stone-200 text-center cursor-pointer group" onclick="openCallDocument(0)" title="Click to inspect Call Letter in ratio-locked zoom lightbox">
-            <div class="aspect-letter max-h-[195px] mx-auto overflow-hidden rounded bg-white border border-stone-200 flex items-center justify-center shadow-xs" style="max-height: 195px;">
+        <!-- Call Letter Plate & Mission Map (Expanded High-Res Side-by-Side Display, 70%+ of Sheet) -->
+        <div class="grid grid-cols-2 gap-3.5 flex-1 min-h-0 items-stretch">
+          <!-- Call Letter Document Plate -->
+          <div class="bg-stone-50/80 p-2.5 rounded-lg border border-stone-200 flex flex-col justify-between overflow-hidden shadow-xs">
+            <div class="flex-1 w-full min-h-0 bg-white rounded border border-stone-200 p-1 flex items-center justify-center overflow-hidden">
               <img
                 src="/assets/images/intro/call-letter.jpg"
                 alt="First Presidency Call Letter"
                 onerror="this.src='https://i.ibb.co/6c2rV65h/letter-2246341-page-0001.jpg'"
-                class="w-full h-full object-contain group-hover:scale-102 transition duration-200"
+                class="w-full h-full object-contain block"
               />
             </div>
-            <p class="font-mono font-medium text-[10px] text-stone-800 mt-1 flex items-center justify-center gap-1">
-              <span>First Presidency Letter Plate</span>
-              <span class="no-print text-stone-400 text-[10px] group-hover:text-stone-900">&rarr;</span>
-            </p>
+            <div class="mt-2 pt-1 border-t border-stone-200/80 text-center font-mono shrink-0">
+              <span class="font-bold text-[10.5px] text-stone-900 block">First Presidency Calling Letter</span>
+              <span class="text-[8.5px] text-stone-500 uppercase tracking-wider block">Salt Lake City, Utah • Ref: 2246341</span>
+            </div>
           </div>
 
-          <div class="bg-stone-50 p-2 rounded-lg border border-stone-200 text-center cursor-pointer group" onclick="openCallDocument(1)" title="Click to inspect Boundaries Map in ratio-locked zoom lightbox">
-            <div class="aspect-letter max-h-[195px] mx-auto overflow-hidden rounded bg-white border border-stone-200 flex items-center justify-center shadow-xs" style="max-height: 195px;">
+          <!-- Mission Boundaries Map Plate -->
+          <div class="bg-stone-50/80 p-2.5 rounded-lg border border-stone-200 flex flex-col justify-between overflow-hidden shadow-xs">
+            <div class="flex-1 w-full min-h-0 bg-white rounded border border-stone-200 p-1 flex items-center justify-center overflow-hidden">
               <img
                 src="/assets/images/intro/call-overview.jpg"
-                alt="Philippines Dumaguete Mission Boundaries"
+                alt="Philippines Dumaguete Mission Boundaries Map"
                 onerror="this.src='https://i.ibb.co/mCqcbT3D/overview-2246341-page-0001.jpg'"
-                class="w-full h-full object-contain group-hover:scale-102 transition duration-200"
+                class="w-full h-full object-contain block"
               />
             </div>
-            <p class="font-mono font-medium text-[10px] text-stone-800 mt-1 flex items-center justify-center gap-1">
-              <span>Dumaguete Boundaries Map</span>
-              <span class="no-print text-stone-400 text-[10px] group-hover:text-stone-900">&rarr;</span>
-            </p>
+            <div class="mt-2 pt-1 border-t border-stone-200/80 text-center font-mono shrink-0">
+              <span class="font-bold text-[10.5px] text-stone-900 block">Philippines Dumaguete Mission Boundaries</span>
+              <span class="text-[8.5px] text-stone-500 uppercase tracking-wider block">Negros Island Area Boundaries &amp; Districts</span>
+            </div>
           </div>
         </div>
 

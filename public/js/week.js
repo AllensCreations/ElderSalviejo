@@ -88,6 +88,61 @@ async function loadSamplePayload(slug) {
   }
 }
 
+function optimizeWeeklyJustifiedRows(photos) {
+  const splits = [[2, 3, 2], [3, 2, 2], [2, 2, 3]];
+  let best = null;
+  let minVar = Infinity;
+
+  function combinations(arr, k) {
+    if (k === 0) return [[]];
+    if (arr.length === 0) return [];
+    const [head, ...tail] = arr;
+    const withHead = combinations(tail, k - 1).map(c => [head, ...c]);
+    const withoutHead = combinations(tail, k);
+    return [...withHead, ...withoutHead];
+  }
+
+  function getPartitions(items, sizes) {
+    if (sizes.length === 1) return [[items]];
+    const [s, ...rest] = sizes;
+    const res = [];
+    const comb = combinations(items, s);
+    for (const c of comb) {
+      const remaining = items.filter(x => !c.includes(x));
+      const sub = getPartitions(remaining, rest);
+      for (const sPart of sub) {
+        res.push([c, ...sPart]);
+      }
+    }
+    return res;
+  }
+
+  for (const split of splits) {
+    const parts = getPartitions(photos, split);
+    for (const p of parts) {
+      const sums = p.map(row => row.reduce((acc, x) => acc + (x.aspectRatio || 0.75), 0));
+      const mean = sums.reduce((a, b) => a + b, 0) / 3;
+      const variance = sums.reduce((a, b) => a + Math.pow(b - mean, 2), 0);
+      
+      let inversions = 0;
+      const flattened = p.flat();
+      for (let i = 0; i < flattened.length; i++) {
+        for (let j = i + 1; j < flattened.length; j++) {
+          if (photos.indexOf(flattened[i]) > photos.indexOf(flattened[j])) {
+            inversions++;
+          }
+        }
+      }
+      const score = variance + inversions * 0.08;
+      if (score < minVar) {
+        minVar = score;
+        best = p;
+      }
+    }
+  }
+  return best || [photos.slice(0, 2), photos.slice(2, 5), photos.slice(5)];
+}
+
 function renderWeek(week) {
   const loadingEl = document.getElementById('loadingState');
   const contentEl = document.getElementById('diaryContent');
@@ -125,6 +180,7 @@ function renderWeek(week) {
         image: found.cdnImage || found.image || null,
         cdnFallback: found.imageFilename ? `https://cdn.jsdelivr.net/gh/AllensCreations/ElderSalviejo@main/vault/gallery/photos/${found.imageFilename}` : '',
         legacyCdn: found.imageFilename ? `https://cdn.jsdelivr.net/gh/AllensCreations/gmail-diary-vault@main/vault/gallery/photos/${found.imageFilename}` : '',
+        aspectRatio: (found && (found.aspectRatio || (found.width && found.height ? found.width / found.height : 0.75))) || 0.75,
         time: found.time || '12:00 PHT',
         date: found.date || '',
         archivalStamp: found.archivalStamp || ''
@@ -137,6 +193,7 @@ function renderWeek(week) {
         image: null,
         cdnFallback: '',
         legacyCdn: '',
+        aspectRatio: 0.75,
         time: '12:00 PHT',
         date: '',
         archivalStamp: ''
@@ -178,7 +235,63 @@ function renderWeek(week) {
     }
   };
 
-  // Render 7-Polaroid Scrapbook Bento Grid (12x12) in true US Letter Sheet
+  // Dynamic Aspect Ratio Optimizer: groups 7 photos into 3 balanced rows (2/3/2 combinations)
+  const justifiedRows = optimizeWeeklyJustifiedRows(sevenDays);
+  const rowSums = justifiedRows.map(r => r.reduce((acc, x) => acc + (x.aspectRatio || 0.75), 0));
+  const rowWeights = rowSums.map(s => (s > 0 ? (1 / s).toFixed(3) : '1'));
+
+  const justifiedRowsHtml = justifiedRows.map((row, rIdx) => {
+    const weight = rowWeights[rIdx];
+    const cardsHtml = row.map((entry) => {
+      const origIndex = sevenDays.indexOf(entry);
+      const flexVal = (entry.aspectRatio || 0.75).toFixed(3);
+      const shortCaption = entry.text.length > 55 ? entry.text.slice(0, 55).trimEnd() + '…' : entry.text;
+      const hasImg = Boolean(entry.image);
+
+      return `
+        <article
+          class="polaroid-card"
+          style="flex: ${flexVal} ${flexVal} 0px;"
+          ${hasImg ? `onclick="openWeekPlate(${origIndex})"` : ''}
+          title="${escapeHtml(entry.day)} Reflection (Click to zoom)"
+        >
+          <div class="photo-frame">
+            ${hasImg ? `
+              <img
+                src="${escapeHtml(entry.image)}"
+                alt="${escapeHtml(entry.day)} missionary photograph"
+                class="w-full h-full object-contain block"
+                loading="eager"
+                decoding="async"
+                draggable="false"
+                oncontextmenu="return false;"
+                onerror="handleWeeklyImgError(this, '${escapeAttr(entry.cdnFallback)}', '${escapeAttr(entry.legacyCdn)}')"
+              />
+            ` : `
+              <div class="flex items-center justify-center h-full text-[9px] font-mono text-stone-400">Plate Pending</div>
+            `}
+          </div>
+          <div class="polaroid-chin">
+            <div class="flex items-baseline gap-1 shrink-0">
+              <strong class="chin-badge">${entry.day.slice(0, 3).toUpperCase()}</strong>
+              <span class="chin-time">${escapeHtml(entry.time)}</span>
+            </div>
+            <div class="chin-caption" title="${escapeHtml(entry.text)}">
+              ${escapeHtml(shortCaption)}
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+
+    return `
+      <div class="scrapbook-row" style="flex: ${weight} 1 0px;">
+        ${cardsHtml}
+      </div>
+    `;
+  }).join('');
+
+  // Render 7-Polaroid Adaptive Justified Rows in true US Letter Sheet
   contentEl.innerHTML = `
     <div class="sheet">
       <!-- Masthead -->
@@ -204,98 +317,9 @@ function renderWeek(week) {
         </div>
       </div>
 
-      <!-- 7-Polaroid Scrapbook Bento Grid -->
-      <main class="scrapbook-grid">
-        ${sevenDays.map((entry, index) => {
-          const dayLower = entry.dayKey;
-          const shortCaption = entry.text.length > 72 ? entry.text.slice(0, 72).trimEnd() + '…' : entry.text;
-
-          let gridClass = '';
-          let tiltClass = '';
-          let isSplitLayout = false;
-
-          switch (dayLower) {
-            case 'monday':
-              gridClass = 'cell-mon';
-              tiltClass = 'tilt-left';
-              break;
-            case 'tuesday':
-              gridClass = 'cell-tue';
-              tiltClass = 'tilt-right';
-              break;
-            case 'wednesday':
-              gridClass = 'cell-wed';
-              tiltClass = 'tilt-subtle';
-              break;
-            case 'thursday':
-              gridClass = 'cell-thu';
-              tiltClass = 'tilt-right';
-              break;
-            case 'friday':
-              gridClass = 'cell-fri';
-              tiltClass = 'tilt-left';
-              break;
-            case 'saturday':
-              gridClass = 'cell-sat';
-              tiltClass = 'tilt-subtle';
-              isSplitLayout = true;
-              break;
-            case 'sunday':
-              gridClass = 'cell-sun';
-              tiltClass = 'tilt-right';
-              isSplitLayout = true;
-              break;
-            default:
-              gridClass = 'cell-wed';
-              tiltClass = 'tilt-subtle';
-          }
-
-          const hasImg = Boolean(entry.image);
-
-          return `
-            <article
-              class="polaroid ${gridClass} ${tiltClass}"
-              ${hasImg ? `onclick="openWeekPlate(${index})"` : ''}
-              title="${escapeHtml(entry.day)} Reflection (Click to zoom)"
-            >
-              <div class="tape"></div>
-              <div class="photo-frame">
-                ${hasImg ? `
-                  <img
-                    src="${escapeHtml(entry.image)}"
-                    alt="${escapeHtml(entry.day)} missionary photograph"
-                    loading="eager"
-                    decoding="async"
-                    draggable="false"
-                    oncontextmenu="return false;"
-                    onerror="handleWeeklyImgError(this, '${escapeAttr(entry.cdnFallback)}', '${escapeAttr(entry.legacyCdn)}')"
-                  />
-                ` : `
-                  <div class="flex items-center justify-center h-full text-[9px] font-mono text-stone-400">Plate Pending</div>
-                `}
-              </div>
-              <div class="polaroid-chin ${isSplitLayout ? 'flex items-center justify-center' : ''}">
-                ${isSplitLayout ? `
-                  <div class="flex-1">
-                    <div class="chin-header">
-                      <strong>${escapeHtml(entry.day)}</strong>
-                      <span>${escapeHtml(entry.time)}</span>
-                    </div>
-                  </div>
-                  <div class="flex-1">
-                    <div class="chin-caption" title="${escapeHtml(entry.text)}">${escapeHtml(shortCaption)}</div>
-                  </div>
-                ` : `
-                  <div class="chin-header">
-                    <strong>${escapeHtml(entry.day)}</strong>
-                    <span>${escapeHtml(entry.time)}</span>
-                  </div>
-                  <div class="chin-caption" title="${escapeHtml(entry.text)}">${escapeHtml(shortCaption)}</div>
-                `}
-              </div>
-            </article>
-          `;
-        }).join('')}
+      <!-- 7-Polaroid Adaptive Justified Rows (Aspect-Ratio Locked, Zero Open Spaces) -->
+      <main class="scrapbook-adaptive-container">
+        ${justifiedRowsHtml}
       </main>
 
       <!-- Page Footer -->
