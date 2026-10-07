@@ -216,7 +216,7 @@ function renderGallery() {
       >
         <div class="polaroid-pin"></div>
         <div class="polaroid-frame polaroid-snug">
-          <!-- Natural aspect ratio — portrait tall, landscape wide, no forced crop -->
+          <!-- Natural aspect ratio: portrait tall, landscape wide, no forced crop -->
           <div class="polaroid-photo-wrap" style="${aspectStyle}">
             <img 
               src="${escapeAttr(imgSrc)}" 

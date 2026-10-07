@@ -10,9 +10,9 @@ module.exports = {
         xs: '480px',
       },
       fontFamily: {
-        serif: ['Playfair Display', 'Georgia', 'serif'],
-        hand: ['Caveat', 'cursive'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        serif: ['Newsreader', 'Georgia', 'serif'],
+        mono: ['IBM Plex Mono', 'monospace'],
+        sans: ['Geist', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
     },
   },

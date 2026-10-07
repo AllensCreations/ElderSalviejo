@@ -4153,6 +4153,18 @@
       "source_location": "L1"
     },
     {
+      "id": "ref_libsql_client_web",
+      "label": "ref_libsql_client_web",
+      "_origin": "semantic",
+      "community": 0,
+      "community_name": "turso.js",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_libsql_client_web",
+      "source_file": "",
+      "type": "external"
+    },
+    {
       "id": "ref_https",
       "label": "ref_https",
       "_origin": "semantic",
@@ -4293,18 +4305,6 @@
       "external": true,
       "file_type": "concept",
       "norm_label": "time",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "ref_libsql_client_web",
-      "label": "ref_libsql_client_web",
-      "_origin": "semantic",
-      "community": 26,
-      "community_name": "ref_libsql_client_web",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_libsql_client_web",
       "source_file": "",
       "type": "external"
     },
@@ -7276,7 +7276,7 @@
     },
     {
       "source": "lib_turso",
-      "target": "ref_libsql_client",
+      "target": "ref_libsql_client_web",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -11008,5 +11008,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "cba17814021104573792ebac7bb66ffd547397c0"
+  "built_at_commit": "ee5c86fe4742c6754392d9beff5fa745412c4f97"
 }

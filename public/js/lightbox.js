@@ -38,7 +38,7 @@
 
     modal = document.createElement('div');
     modal.id = 'universalLightboxModal';
-    modal.className = 'fixed inset-0 z-50 bg-stone-950/95 backdrop-blur-md hidden opacity-0 transition-opacity duration-200 flex flex-col justify-between p-3 sm:p-6 no-print';
+    modal.className = 'fixed inset-0 z-50 bg-stone-950 hidden opacity-0 transition-opacity duration-200 flex flex-col justify-between p-3 sm:p-6 no-print';
     modal.setAttribute('role', 'dialog');
     modal.setAttribute('aria-modal', 'true');
 
@@ -130,7 +130,7 @@
           />
           <div
             id="ulightboxDateStamp"
-            class="absolute bottom-3 right-4 font-mono text-[11px] font-bold text-red-400 bg-stone-950/85 px-2 py-1 rounded border border-red-900/40 tracking-widest uppercase pointer-events-none transition-opacity"
+            class="absolute bottom-3 right-4 font-mono text-[11px] font-bold text-red-400 bg-stone-950 px-2 py-1 rounded border border-red-900/60 tracking-widest uppercase pointer-events-none"
           ></div>
         </div>
 

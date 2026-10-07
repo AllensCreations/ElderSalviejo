@@ -222,9 +222,7 @@ textarea,
   position: sticky;
   top: 0;
   z-index: 40;
-  background-color: rgba(250, 250, 249, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background-color: var(--bg-canvas);
   border-bottom: 1px solid var(--border-archival);
   transition: all 0.2s ease;
 }
@@ -316,7 +314,6 @@ textarea,
   max-width: 100%;
   display: block;
   object-fit: contain;
-  transition: opacity 0.2s ease;
 }
 
 /* Snug Polaroid: Frame hugs the natural dimensions of the photo */
@@ -325,7 +322,7 @@ textarea,
 .polaroid-snug .polaroid-photo-wrap img { width: 100%; height: auto; object-fit: contain; }
 
 
-/* Polaroid pin dot — the red/orange tack */
+/* Polaroid pin dot: the red/orange tack */
 .polaroid-pin {
   position: absolute;
   top: -7px;
@@ -478,9 +475,7 @@ textarea,
   position: absolute;
   bottom: 8px;
   left: 8px;
-  background: rgba(24, 24, 27, 0.85);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: #18181b;
   color: #ffffff;
   font-family: var(--font-mono, monospace);
   font-size: 9.5px;
@@ -499,9 +494,7 @@ textarea,
   position: absolute;
   bottom: 8px;
   right: 8px;
-  background: rgba(24, 24, 27, 0.85);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: #18181b;
   color: #d4d4d8;
   font-family: var(--font-mono, monospace);
   font-size: 9px;
@@ -636,9 +629,7 @@ textarea,
 .docket-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(12, 10, 9, 0.5);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: rgba(12, 10, 9, 0.65);
   z-index: 50;
   opacity: 0;
   pointer-events: none;

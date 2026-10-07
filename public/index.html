@@ -121,10 +121,9 @@
 
           <!-- Mission Description -->
           <div class="flex-1 min-w-0">
-            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-stone-100 border border-stone-200 text-stone-700 text-xs font-mono uppercase tracking-wider mb-2">
-              <svg class="w-3.5 h-3.5 text-stone-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-              <span>Philippines Dumaguete Mission</span>
-            </div>
+            <p class="font-mono text-xs uppercase tracking-wider text-stone-500 mb-1.5">
+              Philippines Dumaguete Mission · Weekly Dispatch Archive
+            </p>
             <h2 class="font-serif text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight leading-tight">
               Weekly Missionary Letters & Documentary Plates
             </h2>
@@ -162,17 +161,10 @@
       <!-- Missionary Journey Milestones & Live MTC Countdown Banner -->
       <div class="mt-6 pt-5 border-t border-stone-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div class="flex items-center gap-3 min-w-0">
-          <div class="w-10 h-10 rounded-lg bg-stone-100 border border-stone-300 flex items-center justify-center text-stone-800 shrink-0">
-            <svg class="w-5 h-5 text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
           <div class="min-w-0">
             <div class="flex items-center gap-2">
-              <span class="text-[10px] font-mono font-bold uppercase tracking-widest px-1.5 py-0.5 rounded bg-stone-200 text-stone-800">
-                Milestone
-              </span>
-              <span id="countdownStatusBadge" class="text-xs font-mono text-stone-500 truncate">Upcoming Milestone</span>
+              <span class="font-mono text-xs uppercase tracking-wider text-stone-500">Mission Milestone ·</span>
+              <span id="countdownStatusBadge" class="text-xs font-mono font-medium text-stone-700 truncate">Upcoming Milestone</span>
             </div>
             <h3 id="countdownTitle" class="font-serif text-sm sm:text-base font-bold text-stone-900 mt-0.5 truncate">
               Missionary Training Center Entrance
@@ -188,16 +180,11 @@
 
     <!-- Subscription Card -->
     <section class="bg-white rounded-xl border border-stone-200 p-5 sm:p-6 mb-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-5">
-      <div class="flex items-center gap-3.5">
-        <div class="w-10 h-10 rounded-lg bg-stone-100 flex items-center justify-center text-stone-700 shrink-0">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-        </div>
-        <div>
-          <h3 class="font-serif font-bold text-stone-900 text-sm sm:text-base">Stay Connected with Elder Salviejo</h3>
-          <p class="text-xs text-stone-500 mt-0.5 max-w-xl">
-            Receive automated notifications on Preparation Days whenever a new weekly journal letter is deposited into the archive.
-          </p>
-        </div>
+      <div class="max-w-xl">
+        <h3 class="font-serif font-bold text-stone-900 text-sm sm:text-base">Subscribe for Weekly P-Day Letters</h3>
+        <p class="text-xs text-stone-600 mt-1 leading-relaxed">
+          Receive field reflections, scripture insights, and photographs every Preparation Day directly in your inbox.
+        </p>
       </div>
 
       <div class="w-full md:w-auto shrink-0">
@@ -253,7 +240,7 @@
 
     <!-- Letter Feed Container -->
     <div id="weeksList" class="space-y-3">
-      <!-- Shape-matched ledger row skeleton cards — shown while weeks load -->
+      <!-- Shape-matched ledger row skeleton cards: shown while weeks load -->
       <div id="vaultSkeleton" class="space-y-3">
         <!-- Skeleton card 1 (tall) -->
         <div class="ledger-row overflow-hidden" style="pointer-events:none">

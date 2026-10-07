@@ -43,7 +43,7 @@ function showPrintGuidanceToast() {
   if (!toast) {
     toast = document.createElement('div');
     toast.id = 'printGuidanceToast';
-    toast.className = 'no-print fixed top-5 left-1/2 -translate-x-1/2 z-50 max-w-md w-[92%] sm:w-auto bg-stone-900/95 text-stone-100 border border-stone-700/80 shadow-2xl rounded-lg px-4 py-3 backdrop-blur-md transition-all duration-300 pointer-events-auto flex items-start gap-3 text-xs';
+    toast.className = 'no-print fixed top-5 left-1/2 -translate-x-1/2 z-50 max-w-md w-[92%] sm:w-auto bg-stone-900 text-stone-100 border border-stone-700 shadow-2xl rounded-lg px-4 py-3 transition-all duration-200 pointer-events-auto flex items-start gap-3 text-xs';
     toast.innerHTML = `
       <div class="p-1 bg-amber-500/20 text-amber-400 rounded shrink-0 mt-0.5">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

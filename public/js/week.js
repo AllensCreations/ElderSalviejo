@@ -53,7 +53,7 @@ async function loadWeek() {
   try {
     const response = await fetch(`/api/weeks/${encodeURIComponent(slug)}`, { cache: 'no-store' });
     if (!response.ok) {
-      // Even on 404, try sample fallback — stale SW cache may have poisoned this URL
+      // Even on 404, try sample fallback: stale SW cache may have poisoned this URL
       console.warn(`API returned ${response.status} for ${slug}, trying fallback`);
       loadSamplePayload(slug);
       return;

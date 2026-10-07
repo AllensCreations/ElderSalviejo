@@ -220,7 +220,7 @@ function renderWeeks(weeks) {
     });
 
     const weekNum = String(weeks.length - index).padStart(2, '0');
-    const titleText = escapeHtml(w.title || `Week ${weekNum} — Dumaguete Field Letter`);
+    const titleText = escapeHtml(w.title || `Week ${weekNum}: Dumaguete Field Letter`);
     const snippetText = escapeHtml(w.snippet || 'Daily field reflections, companion study notes, and polaroid photographs from the Philippine mission.');
     const scriptureRef = w.verse && w.verse.reference ? escapeHtml(w.verse.reference) : null;
     const photoCount = w.imageCount || (Array.isArray(w.entries) ? w.entries.length : 7);
@@ -265,7 +265,7 @@ function renderWeeks(weeks) {
                 src="${w.previewImage}"
                 alt="Week ${weekNum} preview"
                 loading="lazy"
-                class="w-full h-full object-cover min-h-[120px] sm:min-h-[160px] opacity-90 group-hover:opacity-100 transition duration-300"
+                class="w-full h-full object-cover min-h-[120px] sm:min-h-[160px] transition duration-200"
               />
               <!-- Week badge over photo -->
               <span class="absolute top-3 left-3 font-mono text-[10px] font-bold bg-stone-900/80 text-stone-100 px-2 py-0.5 rounded tracking-widest uppercase">
@@ -419,7 +419,7 @@ function renderDocketBody(week, entries) {
         "${escapeHtml(week.verse.text)}"
       </p>
       <span class="block mt-2 font-mono text-xs font-semibold text-red-800 uppercase tracking-wider">
-        — ${escapeHtml(week.verse.reference || 'Daily Scripture Reflection')}
+        · ${escapeHtml(week.verse.reference || 'Daily Scripture Reflection')}
       </span>
     </div>
   ` : '';

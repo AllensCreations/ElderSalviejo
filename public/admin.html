@@ -527,7 +527,7 @@
                     <li>Open your script at <a href="https://script.google.com" target="_blank" style="color: #0284c7; text-decoration: underline;">script.google.com</a>.</li>
                     <li>In the toolbar function dropdown, select <strong><code>runTestSendToMyInbox</code></strong>.</li>
                     <li>Click <strong>Run</strong> (Grant permissions if prompted on first execution).</li>
-                    <li>Check your Gmail inbox — the congratulatory HTML kit arrives instantly!</li>
+                    <li>Check your Gmail inbox: the congratulatory HTML kit arrives instantly!</li>
                   </ol>
                 </div>
 
@@ -703,7 +703,7 @@
             <!-- Logger -->
             <div class="logger-controls">
               <span class="log-label">Live System Log</span>
-              <button onclick="diagLog('', 'separator')">— Separator —</button>
+              <button onclick="diagLog('', 'separator')">Divider</button>
               <button onclick="navigator.clipboard && navigator.clipboard.writeText(document.getElementById('diagLogger').innerText)">Copy Log</button>
             </div>
             <div id="diagLogger"><span class="log-info">Ready. Click any test button or "Run All Tests" to begin.</span>
@@ -857,10 +857,10 @@
           var data = await res.json();
           document.getElementById('subscribersCount').textContent = data.subscribersCount || '0';
         } else {
-          document.getElementById('subscribersCount').textContent = '—';
+          document.getElementById('subscribersCount').textContent = '-';
         }
       } catch (_) {
-        document.getElementById('subscribersCount').textContent = '—';
+        document.getElementById('subscribersCount').textContent = '-';
       }
     }
 
@@ -964,7 +964,7 @@
               diagLog('  → [' + w.id + '] ' + w.slug, 'info');
             });
           } else {
-            diagLog('No weeks returned — check Turso env vars on Vercel', 'warn');
+            diagLog('No weeks returned: check Turso env vars on Vercel', 'warn');
           }
           setBtnState('weeks', (d.count || 0) > 0 ? 'ok' : 'err');
 
@@ -1048,7 +1048,7 @@
               diagLog('  State: ' + (reg.active ? reg.active.state : 'no active worker'), reg.active ? 'ok' : 'warn');
             });
             if (regs.length === 0) {
-              diagLog('No SW registered — pages may not cache offline', 'warn');
+              diagLog('No SW registered: pages may not cache offline', 'warn');
               diagLog('🔧 Fix: Ensure service worker is registered and scope is correct', 'info');
             }
             setBtnState('sw', regs.length > 0 ? 'ok' : 'err');
@@ -1066,7 +1066,7 @@
             for (var i = 0; i < keys.length; i++) {
               var c = await caches.open(keys[i]);
               var ckeys = await c.keys();
-              diagLog('  [' + keys[i] + '] — ' + ckeys.length + ' entries', 'info');
+              diagLog('  [' + keys[i] + ']: ' + ckeys.length + ' entries', 'info');
             }
             setBtnState('cache', 'ok');
           }
@@ -1083,7 +1083,7 @@
             },
             body: JSON.stringify({
               slug: 'diag-test-' + Date.now(),
-              title: '[DIAG] Test Entry — Safe to Ignore',
+              title: '[DIAG] Test Entry (Safe to Ignore)',
               publishedAt: new Date().toISOString(),
               rawSubject: 'DIAG Test',
               sender: 'diag@test.local',
@@ -1096,7 +1096,7 @@
           diagLog('HTTP ' + r.status, r.ok ? 'ok' : 'err');
           if (r.ok && d.success) {
             diagLog('Ingested slug: ' + d.slug, 'ok');
-            diagLog('Note: A test entry was created — you may delete it from your DB', 'warn');
+            diagLog('Note: A test entry was created; you may delete it from your DB', 'warn');
           } else {
             diagLog('Error: ' + (d.error || d.details || JSON.stringify(d)), 'err');
             diagLog('🔧 Fix: Check Turso connection or INGEST_SECRET if auth enabled', 'info');
@@ -1141,7 +1141,7 @@
                 diagLog('  Latest: ' + weeks[0].slug, 'info');
               }
             } catch(e) {
-              diagLog('gdv_cached_weeks: CORRUPT — clearing', 'err');
+              diagLog('gdv_cached_weeks: CORRUPT (clearing)', 'err');
               localStorage.removeItem('gdv_cached_weeks');
             }
           } else {

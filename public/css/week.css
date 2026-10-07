@@ -1,6 +1,6 @@
 /* ==========================================================================
    Elder Salviejo • Weekly Journal View
-   Archival Editorial Edition — redesigned for clarity and typographic strength
+   Archival Editorial Edition: redesigned for clarity and typographic strength
    ========================================================================== */
 
 body.week-view {
@@ -9,7 +9,7 @@ body.week-view {
 }
 
 /* --------------------------------------------------------------------------
-   Journal Sheet — each day's card
+   Journal Sheet: each day's card
    -------------------------------------------------------------------------- */
 .journal-sheet {
   background-color: #ffffff;
@@ -20,7 +20,7 @@ body.week-view {
   position: relative;
 }
 
-/* Subtle paper texture top-edge line */
+/* Clean archival top-edge border */
 .journal-sheet::after {
   content: '';
   position: absolute;
@@ -28,13 +28,13 @@ body.week-view {
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent 5%, var(--border-archival) 20%, var(--border-archival) 80%, transparent 95%);
+  background: var(--border-archival);
   border-radius: 10px 10px 0 0;
-  opacity: 0.5;
+  opacity: 0.8;
 }
 
 /* --------------------------------------------------------------------------
-   Day Divider Rule — "— MONDAY —"
+   Day Divider Rule: MONDAY, TUESDAY, etc.
    -------------------------------------------------------------------------- */
 .day-divider {
   display: flex;
@@ -82,7 +82,7 @@ body.week-view {
 }
 
 /* --------------------------------------------------------------------------
-   Polaroid Card (weekly view) — big photo, text caption below
+   Polaroid Card (weekly view): big photo, text caption below
    -------------------------------------------------------------------------- */
 .polaroid-card {
   position: relative;
@@ -129,7 +129,7 @@ body.week-view {
   user-select: none;
 }
 
-/* Caption area — the thick white polaroid bottom */
+/* Caption area: the thick white polaroid bottom */
 .polaroid-caption {
   padding: 12px 6px 14px;
   text-align: center;

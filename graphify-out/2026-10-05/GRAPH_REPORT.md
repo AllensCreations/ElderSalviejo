@@ -1,17 +1,17 @@
-# Graph Report - ElderSalviejo  (2026-10-05)
+# Graph Report - ElderSalviejo  (2026-09-24)
 
 ## Corpus Check
-- 53 files · ~1,896,459 words
+- 53 files · ~1,896,619 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 12 file(s) not represented in the graph (top: .css 4, (none) 3, .ico 2)
 
 ## Summary
-- 373 nodes · 579 edges · 27 communities (21 shown, 6 thin omitted)
+- 373 nodes · 579 edges · 26 communities (22 shown, 4 thin omitted)
 - Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 41 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `cba17814`
+- Built from commit: `ee5c86fe`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -40,6 +40,7 @@
 - Cloudflare Email Routing & Worker Trigger Guide
 - fetch
 - Frontend Design
+- build-pdf.py
 
 ## God Nodes (most connected - your core abstractions)
 1. `isTursoConfigured()` - 22 edges
@@ -60,17 +61,17 @@
 ## Import Cycles
 - None detected.
 
-## Communities (27 total, 6 thin omitted)
+## Communities (26 total, 4 thin omitted)
 
 ### Community 0 - "turso.js"
 Cohesion: 0.08
-Nodes (51): { addEncouragement, getEncouragementsForSlug, initDatabase }, { checkRateLimit, isHoneypotTriggered }, { searchAllContent, initDatabase }, { getMissionStats, initDatabase }, { addSubscriber, getAllSubscribers, initDatabase }, { checkRateLimit, isHoneypotTriggered }, {
+Nodes (52): { addEncouragement, getEncouragementsForSlug, initDatabase }, { checkRateLimit, isHoneypotTriggered }, { searchAllContent, initDatabase }, { getMissionStats, initDatabase }, { addSubscriber, getAllSubscribers, initDatabase }, { checkRateLimit, isHoneypotTriggered }, {
   isMessageProcessed,
   recordProcessedMessage,
   getBroadcastLogsForWeek,
   recordBroadcastLogs,
   initDatabase
-}, { getAllWeeks, getWeekBySlugOrId, getFullBookWeeks, initDatabase, isTursoConfigured } (+43 more)
+}, { getAllWeeks, getWeekBySlugOrId, getFullBookWeeks, initDatabase, isTursoConfigured } (+44 more)
 
 ### Community 1 - "extract-metadata.js"
 Cohesion: 0.24
@@ -78,7 +79,7 @@ Nodes (10): extractDimensions(), extractExifDateTime(), formatMetadata(), fs, IN
 
 ### Community 2 - "server.js"
 Cohesion: 0.06
-Nodes (35): { getAllGalleryPhotos, initDatabase }, fs, parsed, path, payloadData, payloadPath, fs, parsed (+27 more)
+Nodes (40): { getAllGalleryPhotos, initDatabase }, fs, parsed, path, payloadData, payloadPath, ref_crypto, ref_fs (+32 more)
 
 ### Community 3 - "package.json"
 Cohesion: 0.10
@@ -86,7 +87,7 @@ Nodes (20): author, dependencies, dotenv, @libsql/client, description, keywords,
 
 ### Community 4 - "optimize-icons.js"
 Cohesion: 0.12
-Nodes (15): crc32(), encodePng(), fs, icoBuf, makeChunk(), newIco, origIcoPath, path (+7 more)
+Nodes (16): ref_zlib, crc32(), encodePng(), fs, icoBuf, makeChunk(), newIco, origIcoPath (+8 more)
 
 ### Community 5 - "Data Flow Architecture"
 Cohesion: 0.11
@@ -110,7 +111,7 @@ Nodes (14): applyTransform(), bindEvents(), clampPan(), close(), createOrGetModa
 
 ### Community 10 - "scriptures.js"
 Cohesion: 0.20
-Nodes (12): BOOK_TO_VOLUME, cache, cleanVerseInput(), fetchJson(), findBookKey(), fs, getVolumeData(), https (+4 more)
+Nodes (13): BOOK_TO_VOLUME, cache, cleanVerseInput(), fetchJson(), findBookKey(), fs, getVolumeData(), https (+5 more)
 
 ### Community 11 - "ingest.js"
 Cohesion: 0.17
@@ -152,25 +153,29 @@ Nodes (3): email(), fetch(), scheduled()
 Cohesion: 0.29
 Nodes (6): Design principles, Frontend Design, Ground your designs in the subject matter, More on writing in design, Process: plan, review against the brief, build, critique, Restraint and self-critique
 
+### Community 25 - "build-pdf.py"
+Cohesion: 0.22
+Nodes (7): os, playwright_sync_api, Elder Salviejo • Mission Record PDF Generator Headless high-resolution PDF…, shutil, subprocess, sys, time
+
 ## Knowledge Gaps
-- **151 isolated node(s):** `crypto`, `{ isTursoConfigured, initDatabase, getAllWeeks, exportCompleteDatabase }`, `{ autoSaveToGitHub }`, `{ addEncouragement, getEncouragementsForSlug, initDatabase }`, `{ checkRateLimit, isHoneypotTriggered }` (+146 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 186 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **152 isolated node(s):** `crypto`, `{ isTursoConfigured, initDatabase, getAllWeeks, exportCompleteDatabase }`, `{ autoSaveToGitHub }`, `{ addEncouragement, getEncouragementsForSlug, initDatabase }`, `{ checkRateLimit, isHoneypotTriggered }` (+147 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 187 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `@libsql/client` connect `package.json` to `turso.js`?**
-  _High betweenness centrality (0.048) - this node is a cross-community bridge._
 - **Why does `initDatabase()` connect `turso.js` to `server.js`, `ingest.js`?**
   _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **What connects `crypto`, `{ isTursoConfigured, initDatabase, getAllWeeks, exportCompleteDatabase }`, `{ autoSaveToGitHub }` to the rest of the system?**
-  _151 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _152 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `turso.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.07978142076502732 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07773664727657324 - nodes in this community are weakly interconnected._
 - **Should `server.js` be split into smaller, more focused modules?**
   _Cohesion score 0.06262626262626263 - nodes in this community are weakly interconnected._
 - **Should `package.json` be split into smaller, more focused modules?**
   _Cohesion score 0.09523809523809523 - nodes in this community are weakly interconnected._
 - **Should `optimize-icons.js` be split into smaller, more focused modules?**
   _Cohesion score 0.11695906432748537 - nodes in this community are weakly interconnected._
+- **Should `Data Flow Architecture` be split into smaller, more focused modules?**
+  _Cohesion score 0.1111111111111111 - nodes in this community are weakly interconnected._
