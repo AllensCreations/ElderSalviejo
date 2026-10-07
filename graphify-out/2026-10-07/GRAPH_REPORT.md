@@ -1,17 +1,17 @@
-# Graph Report - ElderSalviejo  (2026-10-07)
+# Graph Report - ElderSalviejo  (2026-10-05)
 
 ## Corpus Check
-- 53 files · ~1,896,571 words
+- 53 files · ~1,896,459 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 12 file(s) not represented in the graph (top: .css 4, (none) 3, .ico 2)
 
 ## Summary
-- 373 nodes · 577 edges · 27 communities (21 shown, 6 thin omitted)
+- 373 nodes · 579 edges · 27 communities (21 shown, 6 thin omitted)
 - Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 41 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ae7a9896`
+- Built from commit: `cba17814`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -49,9 +49,9 @@
 5. `readLocalDb()` - 9 edges
 6. `bindEvents()` - 9 edges
 7. `scripts` - 8 edges
-8. `Step-by-Step Setup in the Dummy Account` - 8 edges
-9. `autoSaveToGitHub()` - 7 edges
-10. `saveWeeklyDiary()` - 7 edges
+8. `renderWeek()` - 8 edges
+9. `Step-by-Step Setup in the Dummy Account` - 8 edges
+10. `autoSaveToGitHub()` - 7 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `main()` --calls--> `initDatabase()`  [EXTRACTED]
@@ -117,7 +117,7 @@ Cohesion: 0.17
 Nodes (11): { autoSaveToGitHub }, crypto, { isTursoConfigured, initDatabase, getAllWeeks, exportCompleteDatabase }, { autoSaveToGitHub }, { lookupScripture }, { saveWeeklyDiary, saveGalleryEntry, initDatabase, getAllSubscribers }, autoSaveToGitHub(), buildMarkdownLetter() (+3 more)
 
 ### Community 13 - "week.js"
-Cohesion: 0.23
+Cohesion: 0.24
 Nodes (12): cleanDayName(), cleanEntryText(), escapeAttr(), escapeHtml(), getSlugFromPath(), loadSamplePayload(), loadWeek(), optimizeWeeklyJustifiedRows() (+4 more)
 
 ### Community 14 - "manifest.json"
@@ -125,7 +125,7 @@ Cohesion: 0.22
 Nodes (8): background_color, description, display, icons, name, short_name, start_url, theme_color
 
 ### Community 15 - "book.js"
-Cohesion: 0.28
+Cohesion: 0.29
 Nodes (14): cleanBookDayName(), cleanBookEntryText(), escapeAttr(), escapeHtml(), getPhotoOrientation(), getPhotoRatio(), loadCompleteBook(), loadGalleryAppendix() (+6 more)
 
 ### Community 16 - "appsscript.json"

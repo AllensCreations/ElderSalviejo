@@ -408,57 +408,74 @@
             }
           });
 
-          // Dynamic Aspect Ratio Optimizer: groups 7 photos into 3 balanced rows (2/3/2 combinations)
-          const justifiedRows = optimizeWeeklyJustifiedRows(sevenDays);
-          const rowSums = justifiedRows.map(r => r.reduce((acc, x) => acc + (x.aspectRatio || 0.75), 0));
-          const rowWeights = rowSums.map(s => (s > 0 ? (1 / s).toFixed(3) : '1'));
-
-          const justifiedRowsHtml = justifiedRows.map((row, rIdx) => {
-            const weight = rowWeights[rIdx];
-            const cardsHtml = row.map((entry) => {
-              const flexVal = (entry.aspectRatio || 0.75).toFixed(3);
-              return `
-                <article
-                  class="polaroid-card"
-                  style="flex: ${flexVal} ${flexVal} 0px;"
-                  ${entry.hasImg ? `onclick="openWeeklyPlate(${entry.plateIdx})"` : ''}
-                  title="${escapeAttr(entry.day)} Reflection (Click to zoom)"
-                >
-                  <div class="photo-frame">
-                    ${entry.hasImg ? `
-                      <img
-                        src="${escapeAttr(entry.imgSrc)}"
-                        alt="${escapeAttr(entry.day)} Plate"
-                        class="w-full h-full object-contain block"
-                        loading="eager"
-                        decoding="async"
-                        onerror="handleBookImgError(this, '${escapeAttr(entry.cdnFallback)}', '${escapeAttr(entry.legacyCdn)}')"
-                      />
-                    ` : `
-                      <div class="flex items-center justify-center h-full text-[8px] font-mono text-stone-400">Plate Pending</div>
-                    `}
-                  </div>
-                  <div class="polaroid-chin flex flex-col gap-0.5 p-1 bg-white border-t border-stone-100">
-                    <div class="flex items-baseline justify-between gap-1 shrink-0">
-                      <div class="flex items-baseline gap-1">
-                        <strong class="chin-badge font-mono text-[8.5px] font-bold text-red-900 uppercase tracking-wide">${entry.day.slice(0, 3).toUpperCase()}</strong>
-                        <span class="chin-time font-mono text-[7px] text-stone-400">${escapeHtml(entry.time)}</span>
-                      </div>
-                    </div>
-                    <p class="font-sans text-[8.5px] sm:text-[9px] text-stone-700 leading-snug line-clamp-3 overflow-hidden text-left" title="${escapeAttr(entry.text)}">
-                      ${escapeHtml(entry.text)}
-                    </p>
-                  </div>
-                </article>
-              `;
-            }).join('');
-
+          // 1:1 Square Photo Grid: 7 Daily Photos + 1 Weekly Scripture Reflection Plate (Flush 4x2 Grid)
+          const dailyCardsHtml = sevenDays.map((entry) => {
+            const shortText = entry.text.length > 70 ? entry.text.slice(0, 70).trimEnd() + '…' : entry.text;
             return `
-              <div class="scrapbook-row" style="flex: ${weight} 1 0px;">
-                ${cardsHtml}
-              </div>
+              <article
+                class="weekly-grid-card"
+                ${entry.hasImg ? `onclick="openWeeklyPlate(${entry.plateIdx})"` : ''}
+                title="${escapeAttr(entry.day)} Reflection (Click to zoom)"
+              >
+                <div class="photo-frame-square">
+                  ${entry.hasImg ? `
+                    <img
+                      src="${escapeAttr(entry.imgSrc)}"
+                      alt="${escapeAttr(entry.day)} Plate"
+                      class="w-full h-full object-cover block"
+                      loading="eager"
+                      decoding="async"
+                      onerror="handleBookImgError(this, '${escapeAttr(entry.cdnFallback)}', '${escapeAttr(entry.legacyCdn)}')"
+                    />
+                  ` : `
+                    <div class="flex items-center justify-center h-full text-[8px] font-mono text-stone-400">Plate Pending</div>
+                  `}
+                </div>
+                <div class="weekly-card-chin">
+                  <div class="flex items-baseline justify-between gap-1 shrink-0">
+                    <strong class="chin-badge font-mono text-[8.5px] font-bold text-red-900 uppercase tracking-wide">${entry.day.slice(0, 3).toUpperCase()}</strong>
+                    <span class="chin-time font-mono text-[7px] text-stone-400">${escapeHtml(entry.time)}</span>
+                  </div>
+                  <p class="font-sans text-[8.5px] sm:text-[9px] text-stone-700 leading-snug line-clamp-3 overflow-hidden text-left" title="${escapeAttr(entry.text)}">
+                    ${escapeHtml(shortText)}
+                  </p>
+                </div>
+              </article>
             `;
           }).join('');
+
+          // 8th Slot: Weekly Scripture Reflection Plate (completes the 4x2 grid seamlessly)
+          const scriptureCardHtml = `
+            <article class="weekly-grid-card weekly-scripture-seal-card">
+              <div class="scripture-seal-frame">
+                <div class="font-mono text-[7.5px] font-bold uppercase tracking-widest text-stone-400">
+                  Weekly Reflection
+                </div>
+                <p class="font-serif italic text-[8.5px] sm:text-[9px] text-stone-800 leading-relaxed line-clamp-4">
+                  “${escapeHtml(verse.text || 'In his strength I can do all things.')}”
+                </p>
+                <div class="font-mono text-[7.5px] text-red-900 font-bold uppercase tracking-wider">
+                  ${escapeHtml(verse.reference || 'Dumaguete Mission')}
+                </div>
+              </div>
+              <div class="weekly-card-chin">
+                <div class="flex items-baseline justify-between gap-1 shrink-0">
+                  <strong class="chin-badge font-mono text-[8.5px] font-bold text-red-900 uppercase tracking-wide">REF</strong>
+                  <span class="chin-time font-mono text-[7px] text-stone-400">P-DAY</span>
+                </div>
+                <p class="font-sans text-[8px] sm:text-[8.5px] text-stone-600 leading-snug line-clamp-2 overflow-hidden text-left">
+                  Weekly spiritual study &amp; testimony from the Dumaguete Mission.
+                </p>
+              </div>
+            </article>
+          `;
+
+          const weekly8GridHtml = `
+            <div class="weekly-8grid-container">
+              ${dailyCardsHtml}
+              ${scriptureCardHtml}
+            </div>
+          `;
 
           // Single Unified Weekly Chapter Sheet (Photos + Full Journal Text Combined on 1 Page)
           chaptersHtml += `
@@ -488,9 +505,9 @@
                 </div>
               ` : ''}
 
-              <!-- 7-Polaroid Adaptive Justified Rows (Unified Photo & Daily Reflections) -->
+              <!-- 8-Slot Square Photo Grid (1:1 Ratio, Flush 4x2 Layout) -->
               <div class="scrapbook-adaptive-container">
-                ${justifiedRowsHtml}
+                ${weekly8GridHtml}
               </div>
 
               <!-- Pinned Sheet Footer -->

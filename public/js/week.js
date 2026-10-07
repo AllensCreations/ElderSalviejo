@@ -235,63 +235,81 @@ function renderWeek(week) {
     }
   };
 
-  // Dynamic Aspect Ratio Optimizer: groups 7 photos into 3 balanced rows (2/3/2 combinations)
-  const justifiedRows = optimizeWeeklyJustifiedRows(sevenDays);
-  const rowSums = justifiedRows.map(r => r.reduce((acc, x) => acc + (x.aspectRatio || 0.75), 0));
-  const rowWeights = rowSums.map(s => (s > 0 ? (1 / s).toFixed(3) : '1'));
-
-  const justifiedRowsHtml = justifiedRows.map((row, rIdx) => {
-    const weight = rowWeights[rIdx];
-    const cardsHtml = row.map((entry) => {
-      const origIndex = sevenDays.indexOf(entry);
-      const flexVal = (entry.aspectRatio || 0.75).toFixed(3);
-      const shortCaption = entry.text.length > 55 ? entry.text.slice(0, 55).trimEnd() + '…' : entry.text;
-      const hasImg = Boolean(entry.image);
-
-      return `
-        <article
-          class="polaroid-card"
-          style="flex: ${flexVal} ${flexVal} 0px;"
-          ${hasImg ? `onclick="openWeekPlate(${origIndex})"` : ''}
-          title="${escapeHtml(entry.day)} Reflection (Click to zoom)"
-        >
-          <div class="photo-frame">
-            ${hasImg ? `
-              <img
-                src="${escapeHtml(entry.image)}"
-                alt="${escapeHtml(entry.day)} missionary photograph"
-                class="w-full h-full object-contain block"
-                loading="eager"
-                decoding="async"
-                draggable="false"
-                oncontextmenu="return false;"
-                onerror="handleWeeklyImgError(this, '${escapeAttr(entry.cdnFallback)}', '${escapeAttr(entry.legacyCdn)}')"
-              />
-            ` : `
-              <div class="flex items-center justify-center h-full text-[9px] font-mono text-stone-400">Plate Pending</div>
-            `}
-          </div>
-          <div class="polaroid-chin">
-            <div class="flex items-baseline gap-1 shrink-0">
-              <strong class="chin-badge">${entry.day.slice(0, 3).toUpperCase()}</strong>
-              <span class="chin-time">${escapeHtml(entry.time)}</span>
-            </div>
-            <div class="chin-caption" title="${escapeHtml(entry.text)}">
-              ${escapeHtml(shortCaption)}
-            </div>
-          </div>
-        </article>
-      `;
-    }).join('');
+  // 1:1 Square Photo Grid: 7 Daily Photos + 1 Weekly Scripture Reflection Plate (Flush 4x2 Grid)
+  const dailyCardsHtml = sevenDays.map((entry) => {
+    const origIndex = sevenDays.indexOf(entry);
+    const shortCaption = entry.text.length > 70 ? entry.text.slice(0, 70).trimEnd() + '…' : entry.text;
+    const hasImg = Boolean(entry.image);
 
     return `
-      <div class="scrapbook-row" style="flex: ${weight} 1 0px;">
-        ${cardsHtml}
-      </div>
+      <article
+        class="weekly-grid-card"
+        ${hasImg ? `onclick="openWeekPlate(${origIndex})"` : ''}
+        title="${escapeHtml(entry.day)} Reflection (Click to zoom)"
+      >
+        <div class="photo-frame-square">
+          ${hasImg ? `
+            <img
+              src="${escapeHtml(entry.image)}"
+              alt="${escapeHtml(entry.day)} missionary photograph"
+              class="w-full h-full object-cover block"
+              loading="eager"
+              decoding="async"
+              draggable="false"
+              oncontextmenu="return false;"
+              onerror="handleWeeklyImgError(this, '${escapeAttr(entry.cdnFallback)}', '${escapeAttr(entry.legacyCdn)}')"
+            />
+          ` : `
+            <div class="flex items-center justify-center h-full text-[9px] font-mono text-stone-400">Plate Pending</div>
+          `}
+        </div>
+        <div class="weekly-card-chin">
+          <div class="flex items-baseline justify-between gap-1 shrink-0">
+            <strong class="chin-badge font-mono text-[9px] font-bold text-red-950 uppercase tracking-wider">${entry.day.slice(0, 3).toUpperCase()}</strong>
+            <span class="chin-time font-mono text-[7.5px] text-stone-400">${escapeHtml(entry.time)}</span>
+          </div>
+          <p class="font-sans text-[8.5px] sm:text-[9.5px] text-stone-700 leading-snug line-clamp-3 overflow-hidden text-left" title="${escapeHtml(entry.text)}">
+            ${escapeHtml(shortCaption)}
+          </p>
+        </div>
+      </article>
     `;
   }).join('');
 
-  // Render 7-Polaroid Adaptive Justified Rows in true US Letter Sheet
+  // 8th Slot: Weekly Scripture Reflection Plate (completes the 4x2 grid seamlessly)
+  const scriptureCardHtml = `
+    <article class="weekly-grid-card weekly-scripture-seal-card">
+      <div class="scripture-seal-frame">
+        <div class="font-mono text-[8px] font-bold uppercase tracking-widest text-stone-400">
+          Weekly Reflection
+        </div>
+        <p class="font-serif italic text-[9.5px] sm:text-[10px] text-stone-800 leading-relaxed line-clamp-4">
+          “${escapeHtml(verseText)}”
+        </p>
+        <div class="font-mono text-[8px] text-red-900 font-bold uppercase tracking-wider">
+          ${escapeHtml(verseRef)}
+        </div>
+      </div>
+      <div class="weekly-card-chin">
+        <div class="flex items-baseline justify-between gap-1 shrink-0">
+          <strong class="chin-badge font-mono text-[9px] font-bold text-red-950 uppercase tracking-wider">REF</strong>
+          <span class="chin-time font-mono text-[7.5px] text-stone-400">P-DAY</span>
+        </div>
+        <p class="font-sans text-[8.5px] sm:text-[9.5px] text-stone-600 leading-snug line-clamp-2 overflow-hidden text-left">
+          Weekly spiritual study &amp; testimony from the Dumaguete Mission.
+        </p>
+      </div>
+    </article>
+  `;
+
+  const weekly8GridHtml = `
+    <div class="weekly-8grid-container">
+      ${dailyCardsHtml}
+      ${scriptureCardHtml}
+    </div>
+  `;
+
+  // Render 8-Plate Square Grid in true US Letter Sheet
   contentEl.innerHTML = `
     <div class="sheet">
       <!-- Masthead -->
@@ -317,9 +335,9 @@ function renderWeek(week) {
         </div>
       </div>
 
-      <!-- 7-Polaroid Adaptive Justified Rows (Aspect-Ratio Locked, Zero Open Spaces) -->
+      <!-- 8-Slot Square Photo Grid (1:1 Ratio, Flush 4x2 Layout) -->
       <main class="scrapbook-adaptive-container">
-        ${justifiedRowsHtml}
+        ${weekly8GridHtml}
       </main>
 
       <!-- Page Footer -->

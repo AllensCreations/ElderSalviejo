@@ -625,7 +625,7 @@
       "file_type": "code",
       "norm_label": "cleandayname()",
       "source_file": "public/js/week.js",
-      "source_location": "L362"
+      "source_location": "L344"
     },
     {
       "id": "public_js_week_cleanentrytext",
@@ -637,7 +637,7 @@
       "file_type": "code",
       "norm_label": "cleanentrytext()",
       "source_file": "public/js/week.js",
-      "source_location": "L367"
+      "source_location": "L349"
     },
     {
       "id": "public_js_week_escapeattr",
@@ -649,7 +649,7 @@
       "file_type": "code",
       "norm_label": "escapeattr()",
       "source_file": "public/js/week.js",
-      "source_location": "L357"
+      "source_location": "L339"
     },
     {
       "id": "public_js_week_escapehtml",
@@ -661,7 +661,7 @@
       "file_type": "code",
       "norm_label": "escapehtml()",
       "source_file": "public/js/week.js",
-      "source_location": "L352"
+      "source_location": "L334"
     },
     {
       "id": "public_js_week_getslugfrompath",
@@ -685,7 +685,7 @@
       "file_type": "code",
       "norm_label": "handleweeklyimgerror()",
       "source_file": "public/js/week.js",
-      "source_location": "L387"
+      "source_location": "L369"
     },
     {
       "id": "public_js_week_loadsamplepayload",
@@ -781,7 +781,7 @@
       "file_type": "code",
       "norm_label": "showerror()",
       "source_file": "public/js/week.js",
-      "source_location": "L375"
+      "source_location": "L357"
     },
     {
       "id": "public_js_book_cleanbookdayname",
@@ -793,7 +793,7 @@
       "file_type": "code",
       "norm_label": "cleanbookdayname()",
       "source_file": "public/js/book.js",
-      "source_location": "L545"
+      "source_location": "L528"
     },
     {
       "id": "public_js_book_cleanbookentrytext",
@@ -805,7 +805,7 @@
       "file_type": "code",
       "norm_label": "cleanbookentrytext()",
       "source_file": "public/js/book.js",
-      "source_location": "L555"
+      "source_location": "L538"
     },
     {
       "id": "public_js_book_escapeattr",
@@ -817,7 +817,7 @@
       "file_type": "code",
       "norm_label": "escapeattr()",
       "source_file": "public/js/book.js",
-      "source_location": "L917"
+      "source_location": "L900"
     },
     {
       "id": "public_js_book_escapehtml",
@@ -829,7 +829,7 @@
       "file_type": "code",
       "norm_label": "escapehtml()",
       "source_file": "public/js/book.js",
-      "source_location": "L907"
+      "source_location": "L890"
     },
     {
       "id": "public_js_book_getphotoorientation",
@@ -841,7 +841,7 @@
       "file_type": "code",
       "norm_label": "getphotoorientation()",
       "source_file": "public/js/book.js",
-      "source_location": "L575"
+      "source_location": "L558"
     },
     {
       "id": "public_js_book_getphotoratio",
@@ -853,7 +853,7 @@
       "file_type": "code",
       "norm_label": "getphotoratio()",
       "source_file": "public/js/book.js",
-      "source_location": "L583"
+      "source_location": "L566"
     },
     {
       "id": "public_js_book_loadcompletebook",
@@ -877,7 +877,7 @@
       "file_type": "code",
       "norm_label": "loadgalleryappendix()",
       "source_file": "public/js/book.js",
-      "source_location": "L686"
+      "source_location": "L669"
     },
     {
       "id": "public_js_book_optimizeweeklyjustifiedrows",
@@ -925,7 +925,7 @@
       "file_type": "code",
       "norm_label": "plandynamicorientationsheets()",
       "source_file": "public/js/book.js",
-      "source_location": "L595"
+      "source_location": "L578"
     },
     {
       "id": "public_js_book_renderarchivalcolophon",
@@ -937,7 +937,7 @@
       "file_type": "code",
       "norm_label": "renderarchivalcolophon()",
       "source_file": "public/js/book.js",
-      "source_location": "L849"
+      "source_location": "L832"
     },
     {
       "id": "public_js_book_renderrowphototile",
@@ -949,7 +949,7 @@
       "file_type": "code",
       "norm_label": "renderrowphototile()",
       "source_file": "public/js/book.js",
-      "source_location": "L812"
+      "source_location": "L795"
     },
     {
       "id": "public_js_print_helper_preloadallimages",
@@ -5195,7 +5195,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L586",
+      "source_location": "L569",
       "weight": 1.0
     },
     {
@@ -5236,6 +5236,18 @@
     },
     {
       "source": "public_js_book_loadcompletebook",
+      "target": "public_js_book_optimizeweeklyjustifiedrows",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/book.js",
+      "source_location": "L412",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_book_loadcompletebook",
       "target": "public_js_book_escapeattr",
       "relation": "calls",
       "_origin": "ast",
@@ -5243,7 +5255,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L418",
+      "source_location": "L425",
       "weight": 1.0
     },
     {
@@ -5255,7 +5267,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L526",
+      "source_location": "L509",
       "weight": 1.0
     },
     {
@@ -5267,7 +5279,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L744",
+      "source_location": "L727",
       "weight": 1.0
     },
     {
@@ -5279,7 +5291,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L763",
+      "source_location": "L746",
       "weight": 1.0
     },
     {
@@ -5291,7 +5303,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L770",
+      "source_location": "L753",
       "weight": 1.0
     },
     {
@@ -5339,7 +5351,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L599",
+      "source_location": "L582",
       "weight": 1.0
     },
     {
@@ -5351,7 +5363,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L600",
+      "source_location": "L583",
       "weight": 1.0
     },
     {
@@ -5363,7 +5375,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L818",
+      "source_location": "L801",
       "weight": 1.0
     },
     {
@@ -5375,7 +5387,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L828",
+      "source_location": "L811",
       "weight": 1.0
     },
     {
@@ -5387,7 +5399,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/book.js",
-      "source_location": "L843",
+      "source_location": "L826",
       "weight": 1.0
     },
     {
@@ -6040,6 +6052,18 @@
     },
     {
       "source": "public_js_week_renderweek",
+      "target": "public_js_week_optimizeweeklyjustifiedrows",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "public/js/week.js",
+      "source_location": "L239",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_week_renderweek",
       "target": "public_js_week_escapehtml",
       "relation": "calls",
       "_origin": "ast",
@@ -6047,7 +6071,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/week.js",
-      "source_location": "L248",
+      "source_location": "L256",
       "weight": 1.0
     },
     {
@@ -6059,7 +6083,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/js/week.js",
-      "source_location": "L260",
+      "source_location": "L268",
       "weight": 1.0
     },
     {
@@ -8806,7 +8830,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L545",
+      "source_location": "L528",
       "weight": 1.0
     },
     {
@@ -8817,7 +8841,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L555",
+      "source_location": "L538",
       "weight": 1.0
     },
     {
@@ -8828,7 +8852,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L575",
+      "source_location": "L558",
       "weight": 1.0
     },
     {
@@ -8839,7 +8863,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L583",
+      "source_location": "L566",
       "weight": 1.0
     },
     {
@@ -8850,7 +8874,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L595",
+      "source_location": "L578",
       "weight": 1.0
     },
     {
@@ -8861,7 +8885,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L686",
+      "source_location": "L669",
+      "weight": 1.0
+    },
+    {
+      "source": "public_js_book",
+      "target": "public_js_book_renderrowphototile",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/js/book.js",
+      "source_location": "L795",
       "weight": 1.0
     },
     {
@@ -8877,24 +8912,13 @@
     },
     {
       "source": "public_js_book",
-      "target": "public_js_book_renderrowphototile",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "public/js/book.js",
-      "source_location": "L812",
-      "weight": 1.0
-    },
-    {
-      "source": "public_js_book",
       "target": "public_js_book_renderarchivalcolophon",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L849",
+      "source_location": "L832",
       "weight": 1.0
     },
     {
@@ -8905,7 +8929,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L907",
+      "source_location": "L890",
       "weight": 1.0
     },
     {
@@ -8916,7 +8940,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/book.js",
-      "source_location": "L917",
+      "source_location": "L900",
       "weight": 1.0
     },
     {
@@ -9312,7 +9336,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/week.js",
-      "source_location": "L352",
+      "source_location": "L334",
       "weight": 1.0
     },
     {
@@ -9323,7 +9347,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/week.js",
-      "source_location": "L357",
+      "source_location": "L339",
       "weight": 1.0
     },
     {
@@ -9334,7 +9358,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/week.js",
-      "source_location": "L362",
+      "source_location": "L344",
       "weight": 1.0
     },
     {
@@ -9345,7 +9369,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/week.js",
-      "source_location": "L367",
+      "source_location": "L349",
       "weight": 1.0
     },
     {
@@ -9356,7 +9380,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/week.js",
-      "source_location": "L375",
+      "source_location": "L357",
       "weight": 1.0
     },
     {
@@ -9367,7 +9391,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/js/week.js",
-      "source_location": "L387",
+      "source_location": "L369",
       "weight": 1.0
     },
     {
@@ -10499,7 +10523,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "public/js/book.js",
-      "source_location": "L927",
+      "source_location": "L910",
       "weight": 1.0
     },
     {
@@ -10984,5 +11008,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "ae7a989621b16407547b83d61290ffa73dfb2c98"
+  "built_at_commit": "cba17814021104573792ebac7bb66ffd547397c0"
 }
